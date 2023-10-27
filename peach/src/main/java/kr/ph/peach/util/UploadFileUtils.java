@@ -27,17 +27,17 @@ public class UploadFileUtils {
 	
 		//한 폴더에 파일이 몰리지 않게 날짜별로 업로드 파일을 관리 
 		//2023/09/01
-		String savedPath = calcPath(uploadPath);//업로드 날짜를 기준으로 년/월/일 폴더가 없으면 생성하고 생성된 경로를 반환
+		//String savedPath = calcPath(uploadPath);//업로드 날짜를 기준으로 년/월/일 폴더가 없으면 생성하고 생성된 경로를 반환
 		
 		//파일을 복사
 		//빈 파일을 생성
-		File target = new File(uploadPath + savedPath, savedFileName);
+		File target = new File(uploadPath, savedFileName);
 		FileCopyUtils.copy(fileData, target);
-		return uploadFileName(savedPath, savedFileName);
+		return uploadFileName(uploadPath, savedFileName);
 	}
 	private static String uploadFileName(String savedPath, String savedFileName) {
-		String fileName = savedPath + File.separator + savedFileName;
-		return fileName.replace(File.separator, "/");
+		String fileName = savedFileName;
+		return fileName;
 	}
 	/***
 	 * uploadPath에 기준 날짜에 맞는 년/월/일 폴더가 없으면 생성하고, 폴더의 경로를 반환하는 메서드 

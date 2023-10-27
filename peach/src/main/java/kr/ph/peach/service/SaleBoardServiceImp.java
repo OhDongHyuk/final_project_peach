@@ -1,21 +1,27 @@
 package kr.ph.peach.service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.dao.SaleBoardDAO;
 import kr.ph.peach.pagination.SaleBoardCriteria;
+import kr.ph.peach.util.UploadFileUtils;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.vo.SaleImageVO;
 import kr.ph.peach.vo.WishVO;
 
 @Service
 public class SaleBoardServiceImp implements SaleBoardService {
+	
+	String uploadPath = "/Users/hojunlee/Documents/GitHub/final_project_peach/peach/src/main/webapp/resources/image";
 	
 	@Autowired
 	SaleBoardDAO saleBoardDao;
@@ -37,9 +43,7 @@ public class SaleBoardServiceImp implements SaleBoardService {
 	}
 
 	@Override
-	public boolean insertBoard(SaleBoardVO saleBoard, MemberVO user) {
-		System.out.println(user);
-		System.out.println(saleBoard);
+	public boolean insertBoard(SaleBoardVO saleBoard, MemberVO user, MultipartFile[] files) {
 		if(user == null) {
 			return false;
 		}
@@ -51,7 +55,35 @@ public class SaleBoardServiceImp implements SaleBoardService {
 		saleBoard.setSb_date(formatedNow);
 		saleBoard.setSb_me_num(user.getMe_num());
 		
-		return saleBoardDao.insertBoard(saleBoard);
+		if(!saleBoardDao.insertBoard(saleBoard)) {
+			return false;
+		}
+		if(files == null || files.length == 0) {
+			return true;
+		}
+		uploadFileAndInsert(files, saleBoard.getSb_num());
+		
+		return true;
+	}
+
+	private void uploadFileAndInsert(MultipartFile[] files, int sb_num) {
+		if(files == null || files.length == 0) {
+			return;
+		}
+		for(MultipartFile file : files) {
+			if(file == null || file.getOriginalFilename().length() == 0) {
+				continue;
+			}
+			try {
+				String si_table = "sale_board";
+				String si_name = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+				SaleImageVO saleImage = new SaleImageVO(si_name, si_table, sb_num);
+				saleBoardDao.insertFile(saleImage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 	@Override
@@ -162,6 +194,15 @@ public class SaleBoardServiceImp implements SaleBoardService {
 			cri = new SaleBoardCriteria();
 		}
 		return saleBoardDao.selectMainSaleBoardList(cri);
+	}
+
+	@Override
+	public List<SaleImageVO> getFileList(Integer sb_num) {
+		if(sb_num == null) {
+			return null;
+		}
+		String si_table = "sale_board";
+		return saleBoardDao.selectFileList(si_table, sb_num);
 	}
 
 }

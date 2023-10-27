@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.pagination.PageMaker;
 import kr.ph.peach.pagination.SaleBoardCriteria;
@@ -23,6 +25,7 @@ import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.vo.SaleImageVO;
 import kr.ph.peach.vo.WishVO;
 
 
@@ -45,7 +48,6 @@ public class SaleBoardController {
 		//페이지네이션에서 최대 페이지 개수 
 		int displayPageNum = 20;
 		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
-		System.out.println(prList);
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("pm", pm);
 		model.addAttribute("prList",prList);
@@ -67,14 +69,15 @@ public class SaleBoardController {
 		return "/saleboard/insert";
 	}
 	@PostMapping("/insert")
-	public String insertPost(Model model, SaleBoardVO saleBoard, HttpSession session) {
+	public String insertPost(Model model, SaleBoardVO saleBoard, HttpSession session, MultipartFile[] files) {
 		Message msg;
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		if(saleBoardService.insertBoard(saleBoard, user)) {
-			msg = new Message("salesboard/list", "게시물이 등록되었습니다.");
+		if(saleBoardService.insertBoard(saleBoard, user, files)) {
+			msg = new Message("saleboard/list", "게시물이 등록되었습니다.");
 		} else {
-			msg = new Message("salesboard/insert", "게시물 등록에 실패했습니다.");
+			msg = new Message("saleboard/insert", "게시물 등록에 실패했습니다.");
 		}
+		//System.out.println(files);
 		model.addAttribute("msg", msg);
 		return "message";
 	}
@@ -92,6 +95,8 @@ public class SaleBoardController {
 	public String detail(Model model, Integer sb_num, HttpSession session) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		SaleBoardVO board = saleBoardService.selectBoard(sb_num);
+		List<SaleImageVO> imageList = saleBoardService.getFileList(sb_num);
+		board.setSaleImageVOList(imageList);
 		board.setSb_me_nickname(saleBoardService.selectMemberNickname(board.getSb_me_num()));
 		board.setSb_sc_name(saleBoardService.selectCategoryName(board.getSb_sc_num()));
 		board.setSb_me_sugar(saleBoardService.selectMemberSugar(board.getSb_me_num()));
