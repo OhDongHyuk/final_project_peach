@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.ph.peach.dao.ProfileDAO">
+	<select id="getProductsById" resultType="kr.ph.peach.vo.SaleBoardVO">
+    	SELECT * FROM sale_board WHERE sb_me_num = #{me_num} 
+    	<if test="state != 0">
+    		and sb_ss_num = #{state}
+    	</if>
+    	ORDER BY sb_date DESC
+    </select>
+	<update id="updateBoardViews" parameterType="kr.ph.peach.vo.SaleBoardVO">
+		UPDATE sale_board
+			SET sb_date = #{sb_date}
+		WHERE sb_num = #{sb_num}
+	</update>
+
+    <select id="getCategoriesByScNum" resultType="kr.ph.peach.vo.SaleCategoryVO">
+     	SELECT sale_category.sc_name, sale_category.sc_num
+		FROM sale_category
+		WHERE sc_num = #{sb_sc_num}
+    </select>
+ 
+</mapper>
