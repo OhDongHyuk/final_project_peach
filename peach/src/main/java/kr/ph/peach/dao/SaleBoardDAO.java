@@ -50,4 +50,10 @@ public interface SaleBoardDAO {
 
 	List<SaleImageVO> selectFileList(@Param("si_table")String si_table, @Param("sb_num")Integer sb_num);
 
+	void deleteAllWish(Integer sb_num);
+
+	SaleImageVO selectFile(Integer num);
+
+	void deleteFile(Integer num);
+
 }

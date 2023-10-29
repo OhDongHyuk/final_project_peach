@@ -154,8 +154,44 @@ public class SaleBoardServiceImp implements SaleBoardService {
 		if(board == null || board.getSb_me_num() != user.getMe_num()) {
 			return false;
 		}
+		List<SaleImageVO> fileList = board.getSaleImageVOList();
+		deleteFile(fileList);
+		saleBoardDao.deleteAllWish(sb_num);
 		saleBoardDao.deleteBoard(sb_num);
 		return true;
+	}
+
+	private void deleteFile(List<SaleImageVO> fileList) {
+		if(fileList == null || fileList.size() == 0){
+			return;
+		}
+		Integer [] nums = new Integer[fileList.size()];
+		for(int i = 0; i < nums.length; i++) {
+			nums[i] = fileList.get(i).getSi_num();
+		}
+		deleteFile(nums);
+		
+	}
+
+	private void deleteFile(Integer[] nums) {
+		if(nums == null || nums.length == 0) {
+			return;
+		}
+		
+		for(Integer num : nums) {
+			if(num == null) {
+				continue;
+			}
+			//첨부파일 정보를 가져옴
+			SaleImageVO fileVo = saleBoardDao.selectFile(num);
+			if(fileVo == null) {
+				continue;
+			}
+			UploadFileUtils.deleteFile(uploadPath, fileVo.getSi_name());
+			//DB에서 제거 
+			saleBoardDao.deleteFile(num);
+		}
+		
 	}
 
 	@Override
