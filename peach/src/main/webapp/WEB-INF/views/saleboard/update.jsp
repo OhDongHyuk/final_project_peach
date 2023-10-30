@@ -68,76 +68,140 @@
 	<h1>판매하기</h1>
 	<div class="insert-container">
 		<div class="wrapper">
-			<input type="file" class="real-upload" accept="image/*" required>
-			<ul class="image-preview">
-				<li class="upload" style="background-image:url('<c:url value='/resources/image/upload.png' />')"></li>
-			</ul>
+				
+				<ul class="image-preview">
+					<li class="upload" style="background-image:url('<c:url value='/resources/image/upload.png' />')"></li>
+					<c:forEach items="${board.saleImageVOList }" var="image">
+					<li class="image-list" id="image${image.si_num}">
+						<img src="<c:url value='/resources/image/${image.si_name}'/>" data-file="${image.si_name}">
+						<button class="close-btn" id="id${image.si_num }" onclick="deleteOriginal(${image.si_num})"type="button" data-num="${image.si_num}"></button>
+					</li>
+					</c:forEach>
+				</ul>
 			<script>
-			    function getImageFiles(e) {
-			      const uploadFiles = [];
-			      const files = e.currentTarget.files;
-			      const imagePreview = document.querySelector('.image-preview');
-			      const docFrag = new DocumentFragment();
-			      
-			      if (list.length >= 4){
-			    	  alert('이미지는 최대 4개까지만 등록 가능합니다.');
-			    	  return
-			      }
 			
-			      // 파일 타입 검사
-			      [...files].forEach(file => {
-			        if (!file.type.match("image/.*")) {
-			          alert('이미지 파일만 업로드가 가능합니다.');
-			          return
-			        }
-			
-			        // 파일 갯수 검사
-			        if ([...files].length < 4) {
-			          uploadFiles.push(file);
-			          const reader = new FileReader();
-			          reader.onload = (e) => {
-			            const preview = createElement(e, file);
-			            imagePreview.appendChild(preview);
-			            preview.children[1].addEventListener('click', () => imagePreview.removeChild(preview));
-			            
-			          };
-			          reader.readAsDataURL(file);
-			        }
-			      });
-			    }
+				let fileNo = 0;
 			
 			    function createElement(e, file) {
+			      
 			      const li = document.createElement('li');
 			      const close = document.createElement('button');
 			      const img = document.createElement('img');
 			      li.setAttribute('class', 'image-list');
+			      li.setAttribute('id', "file" + fileNo)
 			      img.setAttribute('src', e.target.result);
 			      img.setAttribute('data-file', file.name);
 			      close.setAttribute('class', 'close-btn');
 			      close.setAttribute('type', 'button');
-			      
+			      close.setAttribute('onclick', 'deleteFile(' + fileNo + ')');
 			      li.appendChild(img);
 			      li.appendChild(close);
 			      
-			
+			      fileNo++;
+			      
 			      return li;
 			    }
 			
+			    function createFileTag(){
+			    	const fileTag = document.querySelector('#no' + fileNo);
+			    	const fi = document.createElement('input');
+			    	fi.setAttribute('type', 'file');
+			        fi.setAttribute('class', 'real-upload');
+			        fi.setAttribute('accept', 'image/*');
+			        fi.setAttribute('onchange', 'addFile(this);');
+			        fi.setAttribute('id', "no" + (fileNo + 1));
+			        fi.setAttribute('name', 'files');
+			        fileTag.after(fi);
+			    	
+			    }
+			    
 			    const realUpload = document.querySelector('.real-upload');
 			    const upload = document.querySelector('.upload');
 			    const list = document.getElementsByClassName('image-list');
 			    
+			    function clickfunction(){
+			    	const filebutton = document.querySelector('#no' + fileNo);
+			    	filebutton.click();
+			    }
 			    
-			    upload.addEventListener('click', () => realUpload.click());
-			
-			    realUpload.addEventListener('change', getImageFiles);
+			    upload.addEventListener('click', ()=> clickfunction());
 			    
-			    //deleteFile[0].addEventListener('click', () => console.log('abc'));
+			    
+				
+				/* 첨부파일 추가 */
+				function addFile(obj){
+				    var maxFileCnt = 4;   // 첨부파일 최대 개수
+				    var attFileCnt = document.querySelectorAll('.image-list').length;    // 기존 추가된 첨부파일 개수
+				    var remainFileCnt = maxFileCnt - attFileCnt;    // 추가로 첨부가능한 개수
+				    var curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
+				    const imagePreview = document.querySelector('.image-preview');
+				
+				    // 첨부파일 개수 확인
+				    if (curFileCnt > remainFileCnt) {
+				        alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
+				    }
+				
+				    for (var i = 0; i < Math.min(curFileCnt, remainFileCnt); i++) {
+				
+				        const file = obj.files[i];
+				
+				        // 첨부파일 검증
+				        if (validation(file)) {
+				            // 파일 배열에 담기
+				            var reader = new FileReader();
+							reader.onload = (e) => {
+			            		createFileTag();
+			            		const preview = createElement(e, file);
+			           			imagePreview.appendChild(preview);
+			            	};
+			          		reader.readAsDataURL(file);
+				            
+				        } else {
+				            continue;
+				        }
+				    }
+				    // 초기화
+				    //document.querySelector("input[type=file]").value = "";
+				}
+				
+				/* 첨부파일 검증 */
+				function validation(obj){
+				    const fileTypes = ['application/pdf', 'image/gif', 'image/jpeg', 'image/png', 'image/bmp', 'image/tif', 'application/haansofthwp', 'application/x-hwp'];
+				    if (obj.name.length > 100) {
+				        alert("파일명이 100자 이상인 파일은 제외되었습니다.");
+				        return false;
+				    } else if (obj.size > (100 * 1024 * 1024)) {
+				        alert("최대 파일 용량인 100MB를 초과한 파일은 제외되었습니다.");
+				        return false;
+				    } else if (obj.name.lastIndexOf('.') == -1) {
+				        alert("확장자가 없는 파일은 제외되었습니다.");
+				        return false;
+				    } else if (!fileTypes.includes(obj.type)) {
+				        alert("첨부가 불가능한 파일은 제외되었습니다.");
+				        return false;
+				    } else {
+				        return true;
+				    }
+				}
+				
+				/* 첨부파일 삭제 */
+				function deleteFile(num) {
+				    document.querySelector("#file" + num).remove();
+				    document.querySelector("#no" + num).remove();
+				}
+
+				function deleteOriginal(num) {
+					  let si_num = document.querySelector("#id" + num).getAttribute('data-num');
+					  console.log(si_num);
+				      document.getElementById('sb_me_num').insertAdjacentHTML('afterend', '<input type="hidden" name="delFiles" value="'+si_num+'">');
+				      document.querySelector("#image" + num).remove();
+				}
 			  </script>
 		</div>
-	<form action="<c:url value='/saleboard/update'/>" method="post">
+	<form action="<c:url value='/saleboard/update'/>" method="post" enctype="multipart/form-data">
+		<input type="file" class="real-upload" accept="image/*" onchange="addFile(this);" id="no0" name="files">
 		<input type="hidden" name="sb_num" value="${board.sb_num }">
-		<input type="hidden" name="sb_me_num" value="${board.sb_me_num }">
+		<input type="hidden" name="sb_me_num" value="${board.sb_me_num }" id="sb_me_num">
 		<div class="form-group">
 			<label>제목</label>
 			<input type="text" class="form-control" name="sb_name" value="${board.sb_name }">

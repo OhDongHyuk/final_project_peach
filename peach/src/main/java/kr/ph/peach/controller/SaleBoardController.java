@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.pagination.PageMaker;
 import kr.ph.peach.pagination.SaleBoardCriteria;
@@ -23,6 +25,7 @@ import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.vo.SaleImageVO;
 import kr.ph.peach.vo.WishVO;
 
 
@@ -45,7 +48,6 @@ public class SaleBoardController {
 		//페이지네이션에서 최대 페이지 개수 
 		int displayPageNum = 20;
 		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
-		System.out.println(prList);
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("pm", pm);
 		model.addAttribute("prList",prList);
@@ -92,6 +94,8 @@ public class SaleBoardController {
 	public String detail(Model model, Integer sb_num, HttpSession session) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		SaleBoardVO board = saleBoardService.selectBoard(sb_num);
+		List<SaleImageVO> imageList = saleBoardService.getFileList(sb_num);
+		board.setSaleImageVOList(imageList);
 		board.setSb_me_nickname(saleBoardService.selectMemberNickname(board.getSb_me_num()));
 		board.setSb_sc_name(saleBoardService.selectCategoryName(board.getSb_sc_num()));
 		board.setSb_me_sugar(saleBoardService.selectMemberSugar(board.getSb_me_num()));
@@ -116,6 +120,8 @@ public class SaleBoardController {
 		List<SaleCategoryVO> dbCategory = saleBoardService.selectAllCategory();
 		model.addAttribute("dbCategory", dbCategory);
 		SaleBoardVO board = saleBoardService.selectBoard(sb_num);
+		List<SaleImageVO> imageList = saleBoardService.getFileList(sb_num);
+		board.setSaleImageVOList(imageList);
 		board.setSb_sc_name(saleBoardService.selectCategoryName(board.getSb_sc_num()));
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		if(user == null || board == null || user.getMe_num() != board.getSb_me_num()) {
@@ -128,10 +134,10 @@ public class SaleBoardController {
 		return "/saleboard/update";
 	}
 	@PostMapping("/update")
-	public String updatePost(Model model, HttpSession session, SaleBoardVO board) {
+	public String updatePost(Model model, HttpSession session, SaleBoardVO board, MultipartFile[] files,Integer[] delFiles) {
 		Message msg;
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		if(saleBoardService.updateBoard(board, user)) {
+		if(saleBoardService.updateBoard(board, user, files, delFiles)) {
 			msg = new Message("/saleboard/detail?sb_num="+board.getSb_num(), "수정되었습니다.");
 		}else {
 			msg = new Message("/saleboard/update?sb_num="+board.getSb_num(), "수정을 실패하였습니다."); 

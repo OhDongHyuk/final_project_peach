@@ -27,5 +27,4 @@ public class MemberVO {
 		return format.format(me_date);
 	}
 
-
 }

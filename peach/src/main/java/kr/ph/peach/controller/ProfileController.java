@@ -35,7 +35,6 @@ public class ProfileController {
             // 모델에 유저 정보 추가
             model.addAttribute("user", user);
             // 모델에 상품 정보 추가
-            System.out.println("확인용1");
             // 접속한 아이디에 따른 상품정보 불러오기
             List<SaleBoardVO> products = profileService.getProductsById(user.getMe_num(), 0);
             List<SaleBoardVO> salingProducts = profileService.getProductsById(user.getMe_num(), 1);
@@ -50,19 +49,16 @@ public class ProfileController {
 
             for (SaleBoardVO product : products) {
                 int sb_sc_num = product.getSb_sc_num();
-                System.out.println("ssn 확인용" + sb_sc_num);
                 List<SaleCategoryVO> categories = profileService.getProductsByCTNum(sb_sc_num);
                 for (SaleCategoryVO category : categories) {
                     saleCategory.add(category.getSc_name());
                 }
             }
-            System.out.println(saleCategory);
             model.addAttribute("saleCategory", saleCategory);
           
         } else {
         	model.addAttribute("msg", "로그인을 필요로 합니다.");
         	model.addAttribute("url", "member/login");
-        	System.out.println(user);
         	return "/member/message";
         }
         

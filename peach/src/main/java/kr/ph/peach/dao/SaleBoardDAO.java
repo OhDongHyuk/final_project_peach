@@ -8,12 +8,13 @@ import kr.ph.peach.pagination.SaleBoardCriteria;
 import kr.ph.peach.vo.SaleBoardVO;
 
 import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.vo.SaleImageVO;
 import kr.ph.peach.vo.WishVO;
 
 
 public interface SaleBoardDAO {
 
-	boolean insertBoard(@Param("salesBoard")SaleBoardVO salesBoard);
+	boolean insertBoard(@Param("saleBoard")SaleBoardVO saleBoard);
 
 	List<SaleBoardVO> selectSaleBoardList(@Param("cri")SaleBoardCriteria cri);
 	
@@ -44,5 +45,15 @@ public interface SaleBoardDAO {
 	void updateWish(@Param("wi_sb_num")int wi_sb_num, @Param("i")int i);
 
 	List<SaleBoardVO> selectMainSaleBoardList(@Param("cri")SaleBoardCriteria cri);
+
+	void insertFile(@Param("saleImage")SaleImageVO saleImage);
+
+	List<SaleImageVO> selectFileList(@Param("si_table")String si_table, @Param("sb_num")Integer sb_num);
+
+	void deleteAllWish(Integer sb_num);
+
+	SaleImageVO selectFile(Integer num);
+
+	void deleteFile(Integer num);
 
 }

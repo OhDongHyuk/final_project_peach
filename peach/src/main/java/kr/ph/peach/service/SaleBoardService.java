@@ -2,11 +2,14 @@ package kr.ph.peach.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import kr.ph.peach.pagination.SaleBoardCriteria;
 
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.vo.SaleImageVO;
 import kr.ph.peach.vo.WishVO;
 
 
@@ -15,7 +18,7 @@ public interface SaleBoardService {
 	List<SaleBoardVO> getSaleBoardList(SaleBoardCriteria cri);
 	int getTotalCount(SaleBoardCriteria cri);
 
-	boolean insertBoard(SaleBoardVO saleBoard, MemberVO user);
+	boolean insertBoard(SaleBoardVO saleBoard, MemberVO user, MultipartFile[] files);
 
 	List<SaleCategoryVO> selectAllCategory();
 
@@ -29,7 +32,7 @@ public interface SaleBoardService {
 
 	int selectMemberSugar(int sb_me_num);
 
-	boolean updateBoard(SaleBoardVO board, MemberVO user);
+	boolean updateBoard(SaleBoardVO board, MemberVO user, MultipartFile[] files, Integer[] delFiles);
 
 	boolean deleteBoard(Integer sb_num, MemberVO user);
 
@@ -39,6 +42,7 @@ public interface SaleBoardService {
 
 	void deleteWish(WishVO wish);
 	List<SaleBoardVO> getMainSaleBoardList(SaleBoardCriteria cri);
+	List<SaleImageVO> getFileList(Integer sb_num);
 
 	
 }

@@ -33,9 +33,7 @@ public class HomeController {
 		cri.setPerPageNum(8);
 		//현재 페이지에 맞는 게시글을 가져와야함
 		List<SaleBoardVO> list = saleBoardService.getMainSaleBoardList(cri);
-		int totalCount = saleBoardService.getTotalCount(cri);
-	
-		
+		int totalCount = saleBoardService.getTotalCount(cri);			
 		int displayPageNum = 8;
 		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
 		
