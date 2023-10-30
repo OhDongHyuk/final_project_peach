@@ -34,13 +34,11 @@ public class HomeController {
 		//현재 페이지에 맞는 게시글을 가져와야함
 		List<SaleBoardVO> list = saleBoardService.getMainSaleBoardList(cri);
 		int totalCount = saleBoardService.getTotalCount(cri);
-		System.out.println(list);
+	
 		
 		int displayPageNum = 8;
 		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
-		System.out.println(pm);
-		System.out.println(categoryList);
-		System.out.println(prList);
+		
 		model.addAttribute("pm", pm);
 		model.addAttribute("list", list);
 		model.addAttribute("prList", prList);

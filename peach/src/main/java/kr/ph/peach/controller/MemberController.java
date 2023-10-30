@@ -59,7 +59,7 @@ public class MemberController {
 		if(user != null) {
 			msg = new Message("", "로그인에 성공했습니다.");
 			//화면에서 선택/미선택한 자동로그인 여부를 user에 저장해서 인터셉터에게 전달 
-//			user.setAutoLogin(member.isAutoLogin());
+			user.setAutoLogin(member.isAutoLogin());
 		}
 		model.addAttribute("user", user);
 		model.addAttribute("msg", msg);
@@ -73,7 +73,7 @@ public class MemberController {
 		
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
-//		user.setMe_session_limit(null);
+		user.setMe_session_limit(null);
 		memberService.updateMemberSession(user);
 		Message msg = new Message("/", null);
 		if(user != null) {
@@ -83,5 +83,6 @@ public class MemberController {
 		model.addAttribute("msg", msg);
 		return "message";
 	}
+	
 	
 }
