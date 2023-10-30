@@ -21,7 +21,7 @@ import kr.ph.peach.vo.WishVO;
 @Service
 public class SaleBoardServiceImp implements SaleBoardService {
 	
-	String uploadPath = "/Users/hojunlee/Documents/GitHub/final_project_peach/peach/src/main/webapp/resources/image";
+	String uploadPath = "/Users/hojunlee/Documents/workspace-sts-3.9.18.RELEASE/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/peach/resources/image";
 	
 	@Autowired
 	SaleBoardDAO saleBoardDao;

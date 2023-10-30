@@ -6,7 +6,7 @@
 <head>
 	<title>스프링</title>
 	<style>
-		.container {
+		.container1 {
 			color: black;
 			width: 900px;
 			margin: auto;
@@ -201,7 +201,7 @@
 </head>
 <body>
 	<h1>상품상세페이지</h1>
-	<div class="container">
+	<div class="container1">
 		<div class="kind">
 			<div class="kind_slider">
 			    <ul class="slides">
