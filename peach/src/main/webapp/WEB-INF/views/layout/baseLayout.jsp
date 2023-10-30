@@ -16,6 +16,7 @@
   	<style>
 	body{
 	min-width:400px;
+	min-height: 800px;
 	}
 	
 	@media screen and (max-width: 575px) {
