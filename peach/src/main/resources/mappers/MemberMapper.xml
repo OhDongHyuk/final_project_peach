@@ -5,27 +5,27 @@
 <mapper namespace="kr.ph.peach.dao.MemberDAO">
 	<insert id="insertMember">
 		insert into
-			member(me_id, me_pw, me_name, me_acc, me_phone, me_nick)
-			values(#{member.me_id},#{member.me_pw},#{member.me_name},#{member.me_acc},#{member.me_phone},#{member.me_nick})
+		member(me_id, me_pw, me_name, me_acc,
+		me_phone, me_nick)
+		values(#{member.me_id},#{member.me_pw},#{member.me_name},#{member.me_acc},#{member.me_phone},#{member.me_nick})
 	</insert>
 	<select id="selectMember" resultType="MemberVO">
-		select * from member where me_id = #{id}
+		select * from member where
+		me_id = #{id}
 	</select>
 	<update id="updateMemberSession">
 		update
-			member
+		member
 		set
-			me_session_id = #{member.me_session_id},
-			me_session_limit = #{member.me_session_limit}
+		me_session_id = #{user.me_session_id},
+		me_session_limit = #{user.me_session_limit}
 		where
-			me_id = #{member.me_id}
+		me_id = #{user.me_id}
 	</update>
-	<select id="selectMemberBySessionId" resultType="MemberVO">
-		select 
-			* 
-		from
-			member
+	<select id="selectMemberBySession"
+		resultType="kr.ph.peach.vo.MemberVO">
+		select * from member
 		where
-			me_session_id = #{session_id} and me_session_limit >= now();
+		me_session_id = #{session_id} and me_session_limit >= now()
 	</select>
 </mapper>

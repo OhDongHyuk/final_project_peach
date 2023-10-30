@@ -10,5 +10,7 @@ public interface MemberService {
 
 	void updateMemberSession(MemberVO user);
 
+	MemberVO getMemberBySession(String session_id);
+
 	
 }
