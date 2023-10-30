@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,16 +27,14 @@ public class ProfileController {
 	@Autowired
 	ProfileService profileService;
 	
-    @GetMapping("/board/profile")
-    public String showProfilePage(Model model, HttpSession session, Criteria cri, String me_id) {
+    @GetMapping("/board/profile/{me_num}")
+    public String showProfilePage(@PathVariable("me_num") int meNum, Model model, HttpSession session, Criteria cri, String me_id) {
     	MemberVO user = (MemberVO) session.getAttribute("user");
-    	/*
-    	List<MemberVO> fileList = profileService.getMemberList(me_id);
-    	*/
     	
-        if (user != null) {
+        if (user != null && user.getMe_num() == meNum) {
             // 모델에 유저 정보 추가
             model.addAttribute("user", user);
+            
             // 모델에 상품 정보 추가
             System.out.println("확인용1");
             // 접속한 아이디에 따른 상품정보 불러오기
@@ -67,7 +66,7 @@ public class ProfileController {
         	System.out.println(user);
         	return "/member/message";
         }
-        
+        model.addAttribute("meNum", meNum);
         return "/board/profile"; 
     }
     @ResponseBody

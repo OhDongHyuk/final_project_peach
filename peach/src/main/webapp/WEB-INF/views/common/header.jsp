@@ -36,7 +36,8 @@
 							</c:if>
 							<c:if test="${user != NULL }">
 								<li class="inner-item"><a href="<c:url value='/member/logout'/>">로그아웃</a></li>
-								<li class="inner-item"><a href="<c:url value='/board/profile'/>">마이페이지</a></li>
+								<c:set var="profileURL" value="/board/profile/${user.me_num}"/>
+								<li class="inner-item"><a href="<c:url value='${profileURL}'/>">마이페이지</a></li>
 								<li class="inner-item"><a href="<c:url value='/saleboard/insert'/>">제품등록</a></li>
 							</c:if>
 							<c:if test="${user != null && user.me_au == 'admin' }">
