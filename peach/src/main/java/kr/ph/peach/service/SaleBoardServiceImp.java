@@ -131,7 +131,7 @@ public class SaleBoardServiceImp implements SaleBoardService {
 	}
 
 	@Override
-	public boolean updateBoard(SaleBoardVO board, MemberVO user) {
+	public boolean updateBoard(SaleBoardVO board, MemberVO user, MultipartFile[] files, Integer[] delFiles) {
 		if(board == null || user == null) {
 			return false;
 		}
@@ -139,6 +139,9 @@ public class SaleBoardServiceImp implements SaleBoardService {
 			return false;
 		}
 		saleBoardDao.updateBoard(board);
+		
+		uploadFileAndInsert(files, board.getSb_num());
+		deleteFile(delFiles);
 		return true;
 	}
 

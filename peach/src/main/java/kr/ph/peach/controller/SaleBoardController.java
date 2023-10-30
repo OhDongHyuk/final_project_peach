@@ -121,6 +121,8 @@ public class SaleBoardController {
 		List<SaleCategoryVO> dbCategory = saleBoardService.selectAllCategory();
 		model.addAttribute("dbCategory", dbCategory);
 		SaleBoardVO board = saleBoardService.selectBoard(sb_num);
+		List<SaleImageVO> imageList = saleBoardService.getFileList(sb_num);
+		board.setSaleImageVOList(imageList);
 		board.setSb_sc_name(saleBoardService.selectCategoryName(board.getSb_sc_num()));
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		if(user == null || board == null || user.getMe_num() != board.getSb_me_num()) {
@@ -133,10 +135,10 @@ public class SaleBoardController {
 		return "/saleboard/update";
 	}
 	@PostMapping("/update")
-	public String updatePost(Model model, HttpSession session, SaleBoardVO board) {
+	public String updatePost(Model model, HttpSession session, SaleBoardVO board, MultipartFile[] files,Integer[] delFiles) {
 		Message msg;
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		if(saleBoardService.updateBoard(board, user)) {
+		if(saleBoardService.updateBoard(board, user, files, delFiles)) {
 			msg = new Message("/saleboard/detail?sb_num="+board.getSb_num(), "수정되었습니다.");
 		}else {
 			msg = new Message("/saleboard/update?sb_num="+board.getSb_num(), "수정을 실패하였습니다."); 
