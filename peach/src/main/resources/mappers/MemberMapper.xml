@@ -3,6 +3,32 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.ph.peach.dao.MemberDAO">
+	<resultMap type="kr.ph.peach.vo.WishVO" id="WishVO">
+		<id property="wi_num" column="wi_num" />
+		<result property="wi_me_num" column="wi_me_num" />
+		<result property="wi_sb_num" column="wi_sb_num" />
+		<collection property="saleBoardVO" resultMap="SaleBoardVO"/>
+	</resultMap>
+	<resultMap type="kr.ph.peach.vo.SaleBoardVO" id="SaleBoardVO">
+		<id property="sb_num" column="sb_num"/>
+		<result property="sb_name" column="sb_name"/>
+		<result property="sb_price" column="sb_price"/>
+		<result property="sb_info" column="sb_info"/>
+		<result property="sb_date" column="sb_date"/>
+		<result property="sb_wish" column="sb_wish"/>
+		<result property="sb_me_num" column="sb_me_num"/>
+		<result property="sb_ss_num" column="sb_ss_num"/>
+		<result property="sb_sc_num" column="sb_sc_num"/>
+		<collection property="saleImageVOList" ofType="kr.ph.peach.vo.SaleImageVO" column="sb_num" select="selectSaleBoardImageList"/>
+		<collection property="saleCategoryVO" ofType="kr.ph.peach.vo.SaleCategoryVO" column="sb_sc_num" select="saleCategoryProduction"/>
+	</resultMap>
+	
+	
+<!-- 		<collection property="saleBoardVO"
+			ofType="kr.ph.peach.vo.SaleBoardVO" column="wi_sb_num"
+			select="selectsaleBoardWishList" /> -->
+	
+	
 	<insert id="insertMember">
 		insert into
 		member(me_id, me_pw, me_name, me_acc,
@@ -26,6 +52,25 @@
 		resultType="kr.ph.peach.vo.MemberVO">
 		select * from member
 		where
-		me_session_id = #{session_id} and me_session_limit >= now()
+		me_session_id = #{session_id} and
+		me_session_limit >= now()
+	</select>
+	<select id="getsaleBoardWishList" resultMap="WishVO">
+		<!-- select * from wish join sale_board on wi_sb_num = sb_num where wi_me_num = #{me_num.me_num} -->
+		select * from wish join sale_board on wi_sb_num = sb_num where wi_me_num = #{me_num}
+	</select>
+
+	<select id="selectsaleBoardWishList"
+		resultType="kr.ph.peach.vo.SaleBoardVO">
+		select * from wish where wi_sb_num = #{me_num.sb_num}
+
+	</select>
+	
+	<select id="saleCategoryProduction" resultType="kr.ph.peach.vo.SaleCategoryVO">
+		select * from sale_category where sc_num = #{sb_sc_num}
+	</select>
+	
+		<select id="selectSaleBoardImageList" resultType="kr.ph.peach.vo.SaleImageVO">
+		select * from sale_image where si_key = #{sb_num} and si_table = "sale_board"
 	</select>
 </mapper>

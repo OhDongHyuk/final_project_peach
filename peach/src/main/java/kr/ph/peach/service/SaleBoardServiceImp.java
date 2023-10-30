@@ -163,5 +163,8 @@ public class SaleBoardServiceImp implements SaleBoardService {
 		}
 		return saleBoardDao.selectMainSaleBoardList(cri);
 	}
+	
+	
+
 
 }

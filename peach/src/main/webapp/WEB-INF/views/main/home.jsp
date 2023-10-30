@@ -49,15 +49,50 @@
 								<h3>${user.me_nick }님환영합니다.</h3>
 							</div>
 							<div class="navbar-cart">
-								<!-- 찜목록 구현 -->
-								<div class="wishlist">
-									<a href="#"> <i class="lni lni-heart"></i> <span
-										class="total-items">0</span>
+								<div class="cart-items">
+									<a href="javascript:void(0)" class="main-btn"> <i
+										class="lni lni-cart"></i> <span class="total-items">찜목록</span>
 									</a>
+									<!-- Shopping Item -->
+									<div class="shopping-item">
+										<div class="dropdown-cart-header">
+											<span>2 Items</span> <a href="cart.html">View Cart</a>
+										</div>
+										<c:forEach items="${wishList }" var="wish">
+											<ul class="shopping-list">
+												<li><a href="javascript:void(0)" class="remove"
+													title="Remove this item"><i class="lni lni-close"></i></a>
+													<div class="cart-img-head">
+														<a class="cart-img" href="product-details.html"><img
+															src="assets/images/header/cart-items/item1.jpg" alt="#"></a>
+													</div>
+													<div class="content">
+														<h4>
+															<a href="product-details.html">
+																${wish.saleBoardVO.sb_name }</a>
+														</h4>
+														<p class="quantity">
+															<span class="amount">${wish.saleBoardVO.sb_price }</span>
+														</p>
+													</div></li>
+											</ul>
+
+										</c:forEach>
+										<div class="bottom">
+											<div class="total">
+												<span>Total</span> <span class="total-amount">$134.00</span>
+											</div>
+											<div class="button">
+												<a href="checkout.html" class="btn animate">Checkout</a>
+											</div>
+										</div>
+									</div>
+									<!--/ End Shopping Item -->
 								</div>
 							</div>
 						</div>
 					</div>
+
 				</div>
 			</div>
 		</div>
@@ -73,7 +108,8 @@
 							<span class="cat-button"><i class="lni lni-menu"></i>카테고리</span>
 							<ul class="sub-category">
 								<c:forEach items="${categoryList}" var="category">
-									<li><a href="<c:url value='/saleboard/${category.sc_num}'/>">${category.sc_name }</a></li>
+									<li><a
+										href="<c:url value='/saleboard/${category.sc_num}'/>">${category.sc_name }</a></li>
 								</c:forEach>
 							</ul>
 						</div>
@@ -225,46 +261,31 @@
 				<c:forEach items="${prList}" var="pr">
 					<div class="col-lg-3 col-md-6 col-12">
 						<div class="single-product">
-							<div class="product-image">
-							<img class="item" width="100%" height="194" src="<c:url value='/img/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_name :\"\" }'/>">
-								<div class="button">
-									<a href="product-details.html" class="btn"><i
-										class="lni lni-cart"></i> Add to Cart</a>
+							<a href="<c:url value='/saleboard/detail?sb_num=${pr.sb_num}'/>"
+								target="_self">
+								<div class="product-image">
+									<img class="item" width="100%" height="194"
+										src="<c:url value='/img/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_name :\"\" }'/>">
 								</div>
-							</div>
-							<div class="product-info">
-								<span class="category">${pr.sb_sc_num}</span>
-								<h4 class="title">
-									<a href="product-grids.html">${pr.sb_name}</a>
-								</h4>
-								<ul class="review">
-									<li><i class="lni lni-star-filled"></i></li>
-									<li><i class="lni lni-star-filled"></i></li>
-									<li><i class="lni lni-star-filled"></i></li>
-									<li><i class="lni lni-star-filled"></i></li>
-									<li><i class="lni lni-star"></i></li>
-									<li><span>4.0 Review(s)</span></li>
-									<span>/ 좋아요 ${pr.sb_wish} </span>
-								</ul>
-								<div class="item-info">
-								${pr.sb_info}
-								</div>
-								<div>
-								
-								</div>
-								<div class="price">
-								<span>${pr.sb_price}원</span>
-								</div>
-								<%-- 	<span>${saleBoard.sb_num}</span> <span>${saleBoard.sb_name}</span>
+								<div class="product-info">
+									<span class="category">${pr.saleCategoryVO.sc_name}</span>
+									<h4 class="title">${pr.sb_name}</h4>
+									<div class="item-info">${pr.sb_info}</div>
+									<div class="price">
+										<span>${pr.sb_price}원</span>
+									</div>
+									<%-- 	<span>${pr.sb_num}</span> <span>${saleBoard.sb_name}</span>
 									<span>${saleBoard.sb_info}</span> <span>${saleBoard.sb_price}</span>
 									<span>${saleBoard.sb_wish}</span> <span>${saleBoard.sb_me_num}</span>
 									<span>${saleBoard.sb_ss_num}</span> <span>${saleBoard.sb_sc_num}</span>
 									<span>${saleBoard.sb_date}</span> --%>
-							</div>
+								</div>
+							</a>
 						</div>
 
 						<!-- End Single Product -->
 					</div>
+					</a>
 				</c:forEach>
 
 				<!-- End Single Product -->
@@ -326,7 +347,6 @@
 	<script src="resources/js/glightbox.min.js"></script>
 	<script src="resources/js/main.js"></script>
 	<script type="text/javascript">
-		
 		//========= Hero Slider 
 		tns({
 			container : '.hero-slider',

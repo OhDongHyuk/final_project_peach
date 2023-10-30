@@ -80,6 +80,9 @@
 		order by
 			sb_date desc
 		limit #{cri.pageStart}, #{cri.perPageNum}
+		
+		
+		
 	</select>
 	<select id="getTotalCount" resultType="int">
 		select

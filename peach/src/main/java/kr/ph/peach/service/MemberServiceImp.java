@@ -1,5 +1,6 @@
 package kr.ph.peach.service;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 
 import kr.ph.peach.dao.MemberDAO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.WishVO;
 
 @Service
 public class MemberServiceImp implements MemberService {
@@ -94,6 +96,12 @@ public class MemberServiceImp implements MemberService {
 	public MemberVO getMemberBySession(String session_id) {
 		
 		return memberDao.selectMemberBySession(session_id);
+	}
+
+	@Override
+	public List<WishVO> getWishList(int me_num) {
+		
+		return memberDao.getsaleBoardWishList(me_num);
 	}
 
 }
