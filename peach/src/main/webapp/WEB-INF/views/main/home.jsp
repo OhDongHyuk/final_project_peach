@@ -4,8 +4,22 @@
 <!doctype html>
 <html lang="ko">
 <head>
-
 <title>스프링</title>
+<style>
+.price {
+	font-size: 18px;
+	font-weight: bold;
+	margin-top: 4px;
+	line-height: 1.76;
+	letter-spacing: -0.6px;
+}
+
+.price::after {
+	content: "원";
+	font-size: 16px;
+	margin-left: 4px;
+}
+</style>
 </head>
 <body>
 	<header class="header navbar-area">
@@ -51,12 +65,12 @@
 							<div class="navbar-cart">
 								<div class="cart-items">
 									<a href="javascript:void(0)" class="main-btn"> <i
-										class="lni lni-cart"></i> <span class="total-items">찜목록</span>
+										class="lni lni-heart" style="margin-top:10px"></i> <span class="total-items">찜목록</span>
 									</a>
 									<!-- Shopping Item -->
 									<div class="shopping-item">
 										<div class="dropdown-cart-header">
-											<span>2 Items</span> <a href="cart.html">View Cart</a>
+											<span>찜 리스트</span>
 										</div>
 										<c:forEach items="${wishList }" var="wish">
 											<ul class="shopping-list">
@@ -64,11 +78,13 @@
 													title="Remove this item"><i class="lni lni-close"></i></a>
 													<div class="cart-img-head">
 														<a class="cart-img" href="javascript:void(0)"><img
-															src="assets/images/header/cart-items/item1.jpg" alt="#"></a>
+															src="<c:url value='/img/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_name :\"\" }'/>"
+															alt="#"></a>
 													</div>
 													<div class="content">
 														<h4>
-															<a href="<c:url value='/saleboard/detail?sb_num=${wish.saleBoardVO.sb_num}'/>">
+															<a
+																href="<c:url value='/saleboard/detail?sb_num=${wish.saleBoardVO.sb_num}'/>">
 																${wish.saleBoardVO.sb_name }</a>
 														</h4>
 														<p class="quantity">
@@ -118,27 +134,11 @@
 							<div class="collapse navbar-collapse sub-menu-bar"
 								id="navbarSupportedContent">
 								<ul id="nav" class="navbar-nav ms-auto">
-									<li class="nav-item"><a href="index.html" class="active"
+									<li class="nav-item"><a href="<c:url value='/'/>" class="active"
 										aria-label="Toggle navigation">Home</a></li>
-									<li class="nav-item"><a class="dd-menu collapsed"
-										href="javascript:void(0)" data-bs-toggle="collapse"
-										data-bs-target="#submenu-1-2"
-										aria-controls="navbarSupportedContent" aria-expanded="false"
-										aria-label="Toggle navigation">Pages</a>
-										<ul class="sub-menu collapse" id="submenu-1-2">
-											<li class="nav-item"><a href="about-us.html">About
-													Us</a></li>
-											<li class="nav-item"><a href="faq.html">Faq</a></li>
-											<li class="nav-item"><a href="login.html">Login</a></li>
-											<li class="nav-item"><a href="register.html">Register</a></li>
-											<li class="nav-item"><a href="mail-success.html">Mail
-													Success</a></li>
-											<li class="nav-item"><a href="404.html">404 Error</a></li>
-										</ul></li>
-									<li class="nav-item"><a href="contact.html"
-										aria-label="Toggle navigation">Contact Us</a></li>
 								</ul>
 							</div>
+						
 							<!-- navbar collapse -->
 						</nav>
 						<!-- End Navbar -->
@@ -172,7 +172,7 @@
 										<span>Now Only</span> $320.99
 									</h3>
 									<div class="button">
-										<a href="product-grids.html" class="btn">Shop Now</a>
+										<a href="<c:url value='/'/>" class="btn">Shop Now</a>
 									</div>
 								</div>
 							</div>
@@ -191,7 +191,7 @@
 										<span>Combo Only:</span> $590.00
 									</h3>
 									<div class="button">
-										<a href="product-grids.html" class="btn">Shop Now</a>
+										<a href="<c:url value='/'/>" class="btn">Shop Now</a>
 									</div>
 								</div>
 							</div>
@@ -222,7 +222,7 @@
 									<h2>Weekly Sale!</h2>
 									<p>Saving up to 50% off all online store items this week.</p>
 									<div class="button">
-										<a class="btn" href="product-grids.html">Shop Now</a>
+										<a class="btn" href="<c:url value='/'/>">Shop Now</a>
 									</div>
 								</div>
 							</div>
@@ -240,10 +240,8 @@
 			<div class="row">
 				<div class="col-12">
 					<div class="section-title">
-						<h2>Trending Product</h2>
-						<p>There are many variations of passages of Lorem Ipsum
-							available, but the majority have suffered alteration in some
-							form.</p>
+						<h2>오늘의 상품</h2>
+						<p>자세한 내용 / 문구 입력</p>
 					</div>
 				</div>
 			</div>
@@ -263,13 +261,8 @@
 									<h4 class="title">${pr.sb_name}</h4>
 									<div class="item-info">${pr.sb_info}</div>
 									<div class="price">
-										<span>${pr.sb_price}원</span>
+										<span>${pr.get_sb_price(pr.sb_price)} </span>
 									</div>
-									<%-- 	<span>${pr.sb_num}</span> <span>${saleBoard.sb_name}</span>
-									<span>${saleBoard.sb_info}</span> <span>${saleBoard.sb_price}</span>
-									<span>${saleBoard.sb_wish}</span> <span>${saleBoard.sb_me_num}</span>
-									<span>${saleBoard.sb_ss_num}</span> <span>${saleBoard.sb_sc_num}</span>
-									<span>${saleBoard.sb_date}</span> --%>
 								</div>
 							</a>
 						</div>
@@ -285,54 +278,7 @@
 	</section>
 	<!-- End Trending Product Area -->
 
-	<!-- Start Shipping Info -->
-	<section class="shipping-info">
-		<div class="container">
-			<ul>
-				<!-- Free Shipping -->
-				<li>
-					<div class="media-icon">
-						<i class="lni lni-delivery"></i>
-					</div>
-					<div class="media-body">
-						<h5>Free Shipping</h5>
-						<span>On order over $99</span>
-					</div>
-				</li>
-				<!-- Money Return -->
-				<li>
-					<div class="media-icon">
-						<i class="lni lni-support"></i>
-					</div>
-					<div class="media-body">
-						<h5>24/7 Support.</h5>
-						<span>Live Chat Or Call.</span>
-					</div>
-				</li>
-				<!-- Support 24/7 -->
-				<li>
-					<div class="media-icon">
-						<i class="lni lni-credit-cards"></i>
-					</div>
-					<div class="media-body">
-						<h5>Online Payment.</h5>
-						<span>Secure Payment Services.</span>
-					</div>
-				</li>
-				<!-- Safe Payment -->
-				<li>
-					<div class="media-icon">
-						<i class="lni lni-reload"></i>
-					</div>
-					<div class="media-body">
-						<h5>Easy Return.</h5>
-						<span>Hassle Free Shopping.</span>
-					</div>
-				</li>
-			</ul>
-		</div>
-	</section>
-	<!-- End Shipping Info -->
+
 	<script src="resources/js/bootstrap.min.js"></script>
 	<script src="resources/js/tiny-slider.js"></script>
 	<script src="resources/js/glightbox.min.js"></script>
@@ -377,6 +323,29 @@
 				}
 			}
 		});
+		
+		$('.wish').click(function(){
+			let data = {
+				wi_me_num : '${user.me_num}',
+				wi_sb_num : '${board.sb_num}',
+			};
+			ajaxJsonToJson(false, 'post', '/saleboard/wish', data, (data)=>{
+				if(data.isWish == 0){
+					alert('찜을 취소하였습니다.');		
+				}
+				diplayWishBtn(data.isWish);
+				$('.wish-text').text("찜 " + data.board.sb_wish);
+			})
+		})
+		function diplayWishBtn(isWish){
+			
+				$('.wish-type').text("찜취소");
+				$('.wish').removeClass("add");
+				$('.wish').addClass("cancel");
+				$('.wish img').attr("src", "<c:url value='/resources/image/wish-filled.png'/>");
+			
+		}
+		
 	</script>
 
 
