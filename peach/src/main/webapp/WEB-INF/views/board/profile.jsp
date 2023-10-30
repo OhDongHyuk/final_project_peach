@@ -142,21 +142,58 @@
 		<div class="profile-product-list">
 			<img src="<c:url value='/resources/img/3.png'/>" class="example2">
 			<div class="profile-product-detail">
+				
 				<div class="profile-product-detail-text">
 	    			[제품명 : ${products.sb_name}] [카테고리 : ${products.sb_sc_num}]  [게시일 : ${products.sb_date}] 
 	    		</div>
 				<div class="profile-product-detail-btn">
-					<button>끌어올리기</button>
+					<button onclick="dateUp(${products.sb_num})">끌어올리기</button>
 					<button>수정</button>
-					<button>삭제</button>
+					<button onclick="deletePD(${products.sb_num})">삭제</button>
 				</div>
+			
 			</div>
 		</div>
 	</div>
 	</c:forEach>
 </div>	
+
 <script>
+function dateUp(sb_num){
+	$.ajax({
+	    type: 'POST',
+	    url: '<c:url value="/board/dateUp"/>',
+	    data: { sb_num: sb_num },
+	    success: function(data) {
+	    	location.reload();
+	    },
+	    error: function(a) {
+	        alert('끌어올리기 실패');
+	        console.log(a);
+	    }
+	});
 	
+}
+function deletePD(sb_num){
+	var ans = confirm('삭제하시겠습니까?');
+	if (ans) {
+		$.ajax({
+			type: 'POST',
+			url: '<c:url value="/board/delete"/>', // 맞게 URL 수정
+			data: { sb_num: sb_num },
+			success: function (data) {
+				location.reload();
+			},
+			error: function (a) {
+				alert('삭제 실패');
+				console.log(a);
+			}
+		});
+	}
+}
+
+
 </script>
+
 </body>
 </html>

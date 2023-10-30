@@ -1,11 +1,14 @@
 package kr.ph.peach.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.ph.peach.dao.ProfileDAO;
+import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 
@@ -33,14 +36,32 @@ public class ProfileServiceImp implements ProfileService{
 	}
 
 	@Override
-	public void updateProductDate(SaleBoardVO saleBoard) {
-		if(saleBoard == null) {
-			return;
-		}
-		profileDao.updateBoardViews(saleBoard);
-
+	public void dateUp(Integer sb_num) {
+		profileDao.dateUp(sb_num);
 	}
 
+	@Override
+	public boolean deletePD(Integer sb_num) {
+		if(sb_num == null) {
+			return false;
+		}else {
+		
+		//게시글 삭제 
+		profileDao.deleteBoard(sb_num);}
+		return true;
+	}
+
+
+	
+
+	
+
+	/*
+	@Override
+	public List<MemberVO> getMemberList(String me_id) {
+		return profileDao.selectMemberList(me_id);
+	}
+	*/
 	
 	
 }

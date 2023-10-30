@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 
@@ -15,6 +16,12 @@ public interface ProfileDAO {
 
 	public void profileUpdate(@Param("saleBoardVO") SaleBoardVO saleBoardVO);
 
-	void updateBoardViews(@Param("saleBoard") SaleBoardVO saleBoard);
+	void dateUp(Integer sb_num);
 
+	void deleteBoard(Integer sb_num);
+
+	
+	/*
+	List<MemberVO> selectMemberList(String me_id);
+	*/
 }

@@ -1,8 +1,5 @@
 package kr.ph.peach.controller;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.service.ProfileService;
+import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
@@ -28,8 +27,11 @@ public class ProfileController {
 	ProfileService profileService;
 	
     @GetMapping("/board/profile")
-    public String showProfilePage(Model model, HttpSession session, Criteria cri) {
+    public String showProfilePage(Model model, HttpSession session, Criteria cri, String me_id) {
     	MemberVO user = (MemberVO) session.getAttribute("user");
+    	/*
+    	List<MemberVO> fileList = profileService.getMemberList(me_id);
+    	*/
     	
         if (user != null) {
             // 모델에 유저 정보 추가
@@ -68,24 +70,25 @@ public class ProfileController {
         
         return "/board/profile"; 
     }
-    @PostMapping("/board/profile")
-    public String updateDate(@RequestParam("sb_num") Integer sb_num, Model model) {
-    	LocalDate now = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String formattedDate = now.format(formatter);
-        
-        // 문자열을 Date로 변환
-        Date sqlDate = Date.valueOf(formattedDate);
-        
-        // 게시일 업데이트
-        SaleBoardVO saleBoard = new SaleBoardVO();
-        saleBoard.setSb_num(sb_num);
-        //saleBoard.setSb_date(sqlDate);//
-        profileService.updateProductDate(saleBoard);//여기부터 시작 10-26
-       
-        
-        return "redirect:/board/profile"; 
-    }
+    @ResponseBody
+    @PostMapping("/board/dateUp")
+    public String dateUp(@RequestParam("sb_num") Integer sb_num) {
+    	profileService.dateUp(sb_num);
+        return "ok";         
+    }       
+    @ResponseBody
+    @PostMapping("/board/delete")
+	public String deletePD(Integer sb_num, Model model) {
+    	System.out.println("삭제확인1"+sb_num);
+		Message msg;
+		if(profileService.deletePD(sb_num)) {
+			msg = new Message("/board/profile", "게시글을 삭제했습니다.");
+		}else {
+			msg = new Message("/board/profile", "잘못된 접근입니다.");
+		}
+		model.addAttribute(msg);
+		return "Message";
+	}
     
     @GetMapping("/board/profile_management")
     public String showProfileMangementPage(Model model) {
