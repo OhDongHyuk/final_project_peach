@@ -6,7 +6,119 @@
 <head>
 	<title>스프링</title>
 	<style>
-		.container {
+		.modal {
+		  display: none;
+		  position: fixed;
+		  z-index: 1;
+		  left: 0;
+		  top: 0;
+		  width: 100%;
+		  height: 100%;
+		  overflow: auto;
+		  background-color: rgba(0, 0, 0, 0.4);
+		}
+		
+		.modal-content {
+		  background-color: rgb(247, 247, 247);
+		  margin: 15% auto;
+		  border: 1px solid #888;
+		  width: 420px;
+		  height: 506px;
+		}
+		.modal-image {
+		    display: block;
+		    margin: 30px auto;
+		    border-style: none;
+		}
+		.modal-text1{
+			font-size: 20px;
+		    line-height: 1.5;
+		    margin-bottom: 15px;
+		    text-align: center;
+		    font-weight: bold;
+		}
+		.modal-text2{
+			line-height: 1.5;
+		    margin-bottom: 35px;
+		    text-align: center;
+		}
+		
+		.button-container {
+		  display: flex;
+		  flex-direction: column;
+		  margin-top: 35px;
+		  margin-bottom: 20px;
+		}
+		
+		.rectangle-button {
+		  width: 100%;
+		  display: flex;
+		  justify-content: center;
+		  align-items: center;
+		}
+		
+		.red-button button, .pink-button button {
+		  border: none;
+		  padding: 10px 0;
+		  cursor: pointer;
+		  font-size: 16px;
+		  color: white;
+		  font-weight: bold;
+		  width: 280px; /* 버튼 길이 */
+		  height: 38px; /* 버튼 높이 */
+		  transition: background-color 0.3s;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  border-radius: 8px; /* 버튼의 모서리를 부드럽게 설정 */
+		}
+		
+		.red-button button {
+		  background-color: red; /* 빨간색 배경색 */
+		  margin-bottom: 10px;
+		}
+		
+		.pink-button button {
+		  background-color: pink; /* 분홍색 배경색 */
+		}
+		
+		/* 호버 효과 */
+		.red-button button:hover {
+		  opacity: 0.8;
+		}
+		
+		.pink-button button:hover {
+		  opacity: 0.8;
+		}
+		.customer-center-container {
+			padding: 3.5rem 2rem 1.5rem;
+		    font-size: 12px;
+		    line-height: 1.5;
+		    color: rgb(153, 153, 153);
+		}	
+		.customer-center-container p{
+		    width: 100%;
+		    border-top: 1px solid rgb(229, 229, 229);
+		    padding-top: 1rem;
+		    font-size: 12px;
+    	}			
+		.close {
+		  position: absolute;
+		  top: 10px;
+		  right: 10px;
+		  cursor: pointer;
+		  font-size: 24px;
+		}		
+		
+		.close:hover,
+		.close:focus {
+		  color: black;
+		  text-decoration: none;
+		  cursor: pointer;
+		}
+		
+		
+		.container1 {
 			color: black;
 			width: 900px;
 			margin: auto;
@@ -143,7 +255,7 @@
 </head>
 <body>
 	<h1>상품상세페이지</h1>
-	<div class="container">
+	<div class="container1">
 		<div class="image-box">
 			<button class="image-slide-left"></button>
 			<img src="" class="image">
@@ -185,7 +297,35 @@
 					</c:choose>
 					
 					<button type="button" class="chat">대화하기</button>
-					<button type="button" class="pay">피치페이</button>
+					<button id="openModalBtn" type="button" class="pay">피치페이</button>
+					<div id="myModal" class="modal">
+					  <div class="modal-content">
+					    <span class="close">&times;</span>
+					   	<img class="modal-image" width="30" height="34" src="<c:url value='/resources/img/peachmark.png'/>">
+					    <div class="modal-text1">피치마켓에서 중고거래 시작하기</div>
+					    <div class="modal-text2">간편하게 상품을 확인하세요</div>
+					    <div class="button-container">
+					      <div class="rectangle-button red-button">
+					        <button>직거래</button>
+					      </div>
+					      <div class="rectangle-button pink-button">
+					        <button>피치페이거래</button>
+					      </div>
+					    </div>
+					    <div class="customer-center-container">
+					    	<p>
+					    		도움이 필요하면 
+					    		<a href="daed124@naver.com">이메일</a>
+					    		또는 고객센터
+					    		<b>1611-7474</b>
+					    		로 문의 부탁드립니다.
+					    		<br>
+					    		고객센터 운영시간: 09~18시 (점심시간 12~13시, 주말/공휴일 제외)
+					    	</p>
+					    </div>
+					  </div>
+					</div>
+
 				</c:otherwise>
 			</c:choose>
 		</div>
@@ -229,7 +369,28 @@
 				$('.wish img').attr("src", "<c:url value='/resources/image/wish-filled.png'/>");
 			}
 		}
-		
+		// 모달 열기 버튼
+		const openModalBtn = document.getElementById("openModalBtn");
+
+		// 모달 요소
+		const modal = document.getElementById("myModal");
+
+		// 모달 열기 버튼 클릭 시 이벤트
+		openModalBtn.addEventListener("click", function() {
+		  modal.style.display = "block";
+		});
+
+		// 모달 닫기 버튼 또는 바깥 영역 클릭 시 모달 닫기
+		const closeModal = document.querySelector(".close");
+		window.addEventListener("click", function(event) {
+		  if (event.target === modal) {
+		    modal.style.display = "none";
+		  }
+		});
+
+		closeModal.addEventListener("click", function() {
+		  modal.style.display = "none";
+		});
 	</script>
 </body>
 </html>
