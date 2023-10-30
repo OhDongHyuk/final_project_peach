@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+body{
+	
+}
+
+
+.header{
+	width: 100%; 
+	margin: 0 auto;/* 박스 가운데 정렬 */
+	min-height: 200px;
+	background-color: #fff;
+}
+.header-top{
+	position: Sticky ;
+}
+.top-inner{
+	position: block;
+}
+
+.inner-nav{
+	position: absolute;
+    list-style-type: none;
+    display : flex;
+    justify-content : flex-end;
+    padding: 0;
+    font-size: 12px;
+  	top : -10;
+    right : 0px;
+    width: 100%;
+}
+.inner-item+.inner-item{
+	
+	margin-left: 10px
+}
+
+.top-main{
+	position: block;
+}
+
+.top-bottom{
+	position: block;
+}
+
+#container{
+	width : 1280px;
+	margin: 0 auto;/* 박스 가운데 정렬 */
+	maring-top : 300px;
+	background-color: #f1f4f6;
+}
+
