@@ -90,7 +90,16 @@ public class ProfileController {
 		return "Message";
 	}
     @GetMapping("/board/profilePass")
-	public String ProfileMNlogin() {
+	public String ProfileMNlogin(Model model, HttpSession session) {
+    	MemberVO user = (MemberVO) session.getAttribute("user");
+        model.addAttribute("user", user);
+        Message msg;
+    	
+    	  if(user == null) {
+          	msg = new Message("/member/login", "잘못된 접근입니다.");
+          	model.addAttribute("msg", msg);
+      		return "message";
+          }
 		return "/board/profilePass";
 	}
 
@@ -98,8 +107,10 @@ public class ProfileController {
     public String showProfileMNPage(@RequestParam String Ppassword, Model model, HttpSession session) {
         MemberVO user = (MemberVO) session.getAttribute("user");
         model.addAttribute("user", user);
-        System.out.println("입력한 비밀번호: " + Ppassword);
         Message msg;
+
+        System.out.println("입력한 비밀번호: " + Ppassword);
+        
         if (Ppassword == null) {
             return "/board/profilePass";
         }
@@ -121,11 +132,14 @@ public class ProfileController {
 	public String ProfileMN(Model model, HttpSession session) {
     	MemberVO user = (MemberVO) session.getAttribute("user");
     	model.addAttribute("user",user);
+    	Message msg;
+
     	if(user == null) {
-    		
+    		msg = new Message("/member/login", "잘못된 접근입니다.");
+          	model.addAttribute("msg", msg);
+      		return "message";
     	}
-    	
-    	
+    
 		return "/board/profileMN";
 	}
 }
