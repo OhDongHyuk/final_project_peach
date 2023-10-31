@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.ph.peach.pagination.Criteria;
+import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.ProfileService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.MemberVO;
@@ -26,50 +27,51 @@ public class ProfileController {
 	
 	@Autowired
 	ProfileService profileService;
+	@Autowired
+	MemberService memberService;
 	
     @GetMapping("/board/profile/{me_num}")
-    public String showProfilePage(@PathVariable("me_num") int meNum, Model model, HttpSession session, Criteria cri, String me_id) {
+    public String showProfilePage(@PathVariable("me_num") int meNum, Model model, HttpSession session, Criteria cri) {
     	MemberVO user = (MemberVO) session.getAttribute("user");
+    	model.addAttribute("user",user);
+        /*if (user != null) {*/
     	
-        if (user != null && user.getMe_num() == meNum) {
-            // 모델에 유저 정보 추가
-            model.addAttribute("user", user);
+            MemberVO member = memberService.getMemberbyNumber(meNum);
+        
+            List<SaleBoardVO> products = profileService.getProductsById(meNum, 0);
+            List<SaleBoardVO> salingProducts = profileService.getProductsById(meNum, 1);
+            List<SaleBoardVO> tradingProducts = profileService.getProductsById(meNum, 2);
+            List<SaleBoardVO> finishedProducts = profileService.getProductsById(meNum, 3);
             
-            // 모델에 상품 정보 추가
-            System.out.println("확인용1");
-            // 접속한 아이디에 따른 상품정보 불러오기
-            List<SaleBoardVO> products = profileService.getProductsById(user.getMe_num(), 0);
-            List<SaleBoardVO> salingProducts = profileService.getProductsById(user.getMe_num(), 1);
-            List<SaleBoardVO> tradingProducts = profileService.getProductsById(user.getMe_num(), 2);
-            List<SaleBoardVO> finishedProducts = profileService.getProductsById(user.getMe_num(), 3);
             model.addAttribute("products",products);
             model.addAttribute("salingProducts",salingProducts);
             model.addAttribute("tradingProducts",tradingProducts);
             model.addAttribute("finishedProducts",finishedProducts);
-            
+            model.addAttribute("member",member);
             List<String> saleCategory = new ArrayList<>();
 
             for (SaleBoardVO product : products) {
                 int sb_sc_num = product.getSb_sc_num();
-                System.out.println("ssn 확인용" + sb_sc_num);
                 List<SaleCategoryVO> categories = profileService.getProductsByCTNum(sb_sc_num);
                 for (SaleCategoryVO category : categories) {
                     saleCategory.add(category.getSc_name());
                 }
             }
-            System.out.println(saleCategory);
             model.addAttribute("saleCategory", saleCategory);
           
-        } else {
+       /* } else {
         	model.addAttribute("msg", "로그인을 필요로 합니다.");
         	model.addAttribute("url", "member/login");
         	System.out.println(user);
         	return "/member/message";
-        }
-        model.addAttribute("meNum", meNum);
-        return "/board/profile"; 
-    }
-    @ResponseBody
+        }*/
+            /*
+	        model.addAttribute("meNum", meNum);
+	        */
+	        return "/board/profile"; 
+	    }
+
+	@ResponseBody
     @PostMapping("/board/dateUp")
     public String dateUp(@RequestParam("sb_num") Integer sb_num) {
     	profileService.dateUp(sb_num);
@@ -78,7 +80,6 @@ public class ProfileController {
     @ResponseBody
     @PostMapping("/board/delete")
 	public String deletePD(Integer sb_num, Model model) {
-    	System.out.println("삭제확인1"+sb_num);
 		Message msg;
 		if(profileService.deletePD(sb_num)) {
 			msg = new Message("/board/profile", "게시글을 삭제했습니다.");
@@ -89,16 +90,21 @@ public class ProfileController {
 		return "Message";
 	}
     
-    @GetMapping("/board/profile_management")
-    public String showProfileMangementPage(Model model) {
-        return "/board/profile_management"; 
+    @GetMapping("/board/profile_management/{me_num}")
+    public String showProfileMangementPage(@PathVariable("me_num") int meNum, Model model, HttpSession session) {
+        MemberVO user = (MemberVO) session.getAttribute("user");
+        
+        if (user != null && user.getMe_num() == meNum) {
+            model.addAttribute("user", user);
+            model.addAttribute("meNum", meNum);
+            System.out.println("프로필관리 페이지 확인");
+            return "/board/profile_management";  
+        } else {
+            model.addAttribute("msg", "로그인을 필요로 합니다.");
+            model.addAttribute("url", "member/login");
+            return "/member/message";
+        }
     }
-    
-    @PostMapping("/board/profile_management")
-	public String insertPost(Model model, MemberVO user, HttpSession session) {
-    	
-		return "/board/profile_management";
-	}
 }
 
 

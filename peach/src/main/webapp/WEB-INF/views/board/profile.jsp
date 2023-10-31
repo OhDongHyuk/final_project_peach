@@ -106,22 +106,26 @@
 </style>
 <body>
 <div class="all-profile">
+	<c:if test="${user.me_num == member.me_num }">
 	<div class="pp-box">
 		<div class="pp-balance">피치페이 잔액 : </div>
 		<button>피치페이 충전</button>
 		<button>피치페이 출금</button>
 	</div>
+	  </c:if>
 	<br/>
 	<div class="profile-container">
 	 <div class="profile-imgbox">
 	  <img src="<c:url value='/resources/img/3.png'/>" class="example">
-	  <div class="profile-name"><P>${user.me_id}</P></div>
-	  <button class="btn-profile" type="button" onclick="location.href='/peach/board/profile_management'">내 프로필 관리</button>
+	  <div class="profile-name"><P>${member.me_id}</P></div>
+	  <c:if test="${user.me_num == member.me_num }">
+	  <button class="btn-profile_management" onclick="ProfileManagement(${user.me_num})">내 프로필 관리</button>
+	  </c:if>
 	 </div>
 	 	<div class="profile-outDTbox">
 			 <div class="profile-Detail">
 			 	<div class="profile-namebox">
-			 		<div class="profile-name"><P>${user.me_id}</P></div>
+			 		<div class="profile-name"><P>${member.me_id}</P></div>
 			 	</div>
 			 	<br/>
 			 	<div style="display:inline;">
@@ -146,12 +150,13 @@
 				<div class="profile-product-detail-text">
 	    			[제품명 : ${products.sb_name}] [카테고리 : ${products.sb_sc_num}]  [게시일 : ${products.sb_date}] 
 	    		</div>
+	    		<c:if test="${user.me_num == member.me_num }">
 				<div class="profile-product-detail-btn">
 					<button onclick="dateUp(${products.sb_num})">끌어올리기</button>
 					<button>수정</button>
 					<button onclick="deletePD(${products.sb_num})">삭제</button>
 				</div>
-			
+				</c:if>
 			</div>
 		</div>
 	</div>
@@ -191,7 +196,11 @@ function deletePD(sb_num){
 		});
 	}
 }
-
+function ProfileManagement(me_num) {
+	alert("프로필관리 페이지 함수 발생")
+    var profileManagementURL = '/board/profile_management/' + me_num;
+    location.href = profileManagementURL;
+}
 
 </script>
 

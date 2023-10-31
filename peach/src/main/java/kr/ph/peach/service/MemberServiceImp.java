@@ -1,5 +1,6 @@
 package kr.ph.peach.service;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 
 import kr.ph.peach.dao.MemberDAO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.SaleCategoryVO;
 
 @Service
 public class MemberServiceImp implements MemberService {
@@ -87,6 +89,12 @@ public class MemberServiceImp implements MemberService {
 		}
 //		memberDao.updateMemberSession(user);
 		
+	}
+
+	@Override
+	public MemberVO getMemberbyNumber(int meNum) {
+		MemberVO member = memberDao.getMemberbyNumber(meNum);
+		return member;
 	}
 
 }
