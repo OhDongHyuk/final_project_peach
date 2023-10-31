@@ -33,9 +33,8 @@ public class ProfileController {
 	
     @GetMapping("/board/profile/{me_num}")
     public String showProfilePage(@PathVariable("me_num") int meNum, Model model, HttpSession session, Criteria cri) {
-    	MemberVO user = (MemberVO) session.getAttribute("user");
-    	model.addAttribute("user",user);
-        /*if (user != null) {*/
+	    	MemberVO user = (MemberVO) session.getAttribute("user");
+	    	model.addAttribute("user",user);
     	
             MemberVO member = memberService.getMemberbyNumber(meNum);
         
@@ -94,14 +93,13 @@ public class ProfileController {
 	public String ProfileMNlogin() {
 		return "/board/profilePass";
 	}
-   
+
     @PostMapping("/board/profilePass")
     public String showProfileMNPage(@RequestParam String Ppassword, Model model, HttpSession session) {
         MemberVO user = (MemberVO) session.getAttribute("user");
         model.addAttribute("user", user);
-        
         System.out.println("입력한 비밀번호: " + Ppassword);
-        
+        Message msg;
         if (Ppassword == null) {
             return "/board/profilePass";
         }
@@ -109,16 +107,25 @@ public class ProfileController {
         String userPassword = user.getMe_pw();
         
         if (Ppassword.equals(userPassword)) {
-            return "/board/profileMN";
-        } else {
         	
-            return "/board/profilePass";
+        	return "/board/profileMN";
+        } else {
+        	msg = new Message("/board/profilePass", "비밀번호 불일치.");
+        	model.addAttribute("msg", msg);
+    		return "message";
         }
+
     }
    
     @GetMapping("/board/profileMN")
-	public String ProfileMN() {
-		
+	public String ProfileMN(Model model, HttpSession session) {
+    	MemberVO user = (MemberVO) session.getAttribute("user");
+    	model.addAttribute("user",user);
+    	if(user == null) {
+    		
+    	}
+    	
+    	
 		return "/board/profileMN";
 	}
 }
