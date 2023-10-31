@@ -103,6 +103,10 @@
 		width: 630px;
 		
 	}
+	li{
+   		list-style:none;
+  	}
+	
 </style>
 <body>
 <div class="all-profile">
@@ -118,8 +122,8 @@
 	 <div class="profile-imgbox">
 	  <img src="<c:url value='/resources/img/3.png'/>" class="example">
 	  <div class="profile-name"><P>${member.me_id}</P></div>
-	  <c:if test="${user.me_num == member.me_num }">
-	  <button class="btn-profile_management" onclick="ProfileManagement(${user.me_num})">내 프로필 관리</button>
+	  <c:if test="${user.me_num == member.me_num}">
+		<li class="inner-item"><a href="<c:url value='/board/profilePass'/>">내 프로필 관리</a></li>
 	  </c:if>
 	 </div>
 	 	<div class="profile-outDTbox">
@@ -196,11 +200,7 @@ function deletePD(sb_num){
 		});
 	}
 }
-function ProfileManagement(me_num) {
-	alert("프로필관리 페이지 함수 발생")
-    var profileManagementURL = '/board/profile_management/' + me_num;
-    location.href = profileManagementURL;
-}
+
 
 </script>
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -89,22 +90,37 @@ public class ProfileController {
 		model.addAttribute(msg);
 		return "Message";
 	}
-    
-    @GetMapping("/board/profile_management/{me_num}")
-    public String showProfileMangementPage(@PathVariable("me_num") int meNum, Model model, HttpSession session) {
+    @GetMapping("/board/profilePass")
+	public String ProfileMNlogin() {
+		return "/board/profilePass";
+	}
+   
+    @PostMapping("/board/profilePass")
+    public String showProfileMNPage(@RequestParam String Ppassword, Model model, HttpSession session) {
         MemberVO user = (MemberVO) session.getAttribute("user");
+        model.addAttribute("user", user);
         
-        if (user != null && user.getMe_num() == meNum) {
-            model.addAttribute("user", user);
-            model.addAttribute("meNum", meNum);
-            System.out.println("프로필관리 페이지 확인");
-            return "/board/profile_management";  
+        System.out.println("입력한 비밀번호: " + Ppassword);
+        
+        if (Ppassword == null) {
+            return "/board/profilePass";
+        }
+        
+        String userPassword = user.getMe_pw();
+        
+        if (Ppassword.equals(userPassword)) {
+            return "/board/profileMN";
         } else {
-            model.addAttribute("msg", "로그인을 필요로 합니다.");
-            model.addAttribute("url", "member/login");
-            return "/member/message";
+        	
+            return "/board/profilePass";
         }
     }
+   
+    @GetMapping("/board/profileMN")
+	public String ProfileMN() {
+		
+		return "/board/profileMN";
+	}
 }
 
 

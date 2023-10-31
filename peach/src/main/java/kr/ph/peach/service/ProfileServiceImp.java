@@ -48,8 +48,9 @@ public class ProfileServiceImp implements ProfileService{
 		return true;
 	}
 
-
 	
+
+}	
 
 	
 
@@ -59,10 +60,6 @@ public class ProfileServiceImp implements ProfileService{
 		return profileDao.selectMemberList(me_id);
 	}
 	*/
-	
-	
-}
-	
 	
 	
 	
