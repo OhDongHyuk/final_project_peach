@@ -72,7 +72,6 @@ public class SaleBoardController {
 	public String insertPost(Model model, SaleBoardVO saleBoard, HttpSession session, MultipartFile[] files) {
 		Message msg;
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		System.out.println(saleBoard);
 		if(saleBoardService.insertBoard(saleBoard, user, files)) {
 			msg = new Message("saleboard/" + saleBoard.getSb_sc_num(), "게시물이 등록되었습니다.");
 		} else {

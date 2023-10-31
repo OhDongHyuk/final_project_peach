@@ -24,9 +24,9 @@ public class SaleBoardVO {
 		this.sb_sc_num = sb_sc_num;
 	}
 	
-	public String get_sb_price(int sb_price) {
+	public String get_sb_price() {
 		DecimalFormat decFormat = new DecimalFormat("###,###");
-		return decFormat.format(sb_price);
+		return decFormat.format(this.sb_price);
 	}
 
 

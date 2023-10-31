@@ -317,9 +317,16 @@
 		<div class="kind">
 			<div class="kind_slider">
 			    <ul class="slides">
-			        <c:forEach items="${board.saleImageVOList}" var="saleImage">
-		       			 <li><img src="<c:url value='/resources/image/${saleImage.si_name }'/>"/></li>
-		      		</c:forEach>
+			    <c:choose>
+					<c:when test="${board.saleImageVOList.size() != 0 }">			    
+			        	<c:forEach items="${board.saleImageVOList}" var="saleImage">
+		       				 <li><img src="<c:url value='/resources/image/${saleImage.si_name }'/>"/></li>
+		      			</c:forEach>
+		      		</c:when>
+		      		<c:otherwise>
+		      			<li><img src="<c:url value='/resources/image/NoMainImage.png'/>"/></li>
+		      		</c:otherwise>
+		      	</c:choose>
 			    </ul>
 			</div>
 		    <ul class="slide_pagination"></ul>
@@ -363,7 +370,7 @@
 						</c:otherwise>
 					</c:choose>
 					
-					<button type="button" class="chat">대화하기</button>
+					<button type="button" onClick="location.href='<c:url value='/chat/chat?sb_num=${board.sb_num}'/>'" class="chat">대화하기</button>
 					<button id="openModalBtn" type="button" class="pay">피치페이</button>
 					<div id="myModal" class="modal">
 					  <div class="modal-content">
