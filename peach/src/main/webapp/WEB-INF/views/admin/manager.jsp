@@ -14,6 +14,44 @@
 .box-main {
 	border: 3px solid black;
 }
+
+#popupBtn {
+	width: 100%;
+	height: 100%;
+	background-color: white;
+	border: none;
+}
+
+#modalWrap {
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	padding-top: 100px; /* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+	display: none;
+}
+
+#modalBody {
+	width: 500px;
+	height: 300px;
+	padding: 30px 30px;
+	margin: 0 auto;
+	border: 1px solid #777;
+	background-color: #fff;
+	margin: 100px;
+}
+
+#closeBtn {
+	float: right;
+	font-weight: bold;
+	color: #777;
+	font-size: 25px;
+	cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -58,8 +96,8 @@
 			</div>
 		</div>
 	</header>
-	
-	
+
+
 
 	<section class="hero-area">
 		<div class="container admin">
@@ -99,8 +137,22 @@
 								<td>${mbList.statementVO.st_name}</td>
 								<td>${mbList.cityVO.ci_large}</td>
 								<td>${mbList.bankVO.bk_name}</td>
-								<td><button
-										onclick="window.open('링크url','창 이름',width=,heigh=,location=no,status=no,scrollbars=yes')">수정하기</button></td>
+								<td><div id="btnWrap">
+										<button typ="button" id="popupBtn">수정하기</button>
+									</div>
+									<div id="modalWrap">
+										<div id="modalBody">
+											<span id="closeBtn"></span>
+											<form action="<c:url value='/admin/manager'/>" method="post">
+												<select class="form-control" name="me_st_num">
+													<c:forEach items="${typeList}" var="type">
+														<option value="${type.st_num }">${type.st_name }</option>
+													</c:forEach>
+												</select>
+												<button>완료</button>
+											</form>
+										</div>
+									</div></td>
 							</tr>
 						</tbody>
 					</c:forEach>
@@ -109,22 +161,24 @@
 		</div>
 	</section>
 
+	<script type="text/javascript">
+		const btn = document.getElementById('popupBtn');
+		const modal = document.getElementById('modalWrap');
+		const closeBtn = document.getElementById('closeBtn');
 
+		btn.onclick = function() {
+			modal.style.display = 'block';
+		}
+		closeBtn.onclick = function() {
+			modal.style.display = 'none';
+		}
 
-
-
-	<!-- <div class="container admin box-main">
-		<nav class="admin-nav">
-			<ul>
-				<li><h2>1. 회원관리</h2></li>
-				<li>2. 카테고리 추가 제거</li>
-				<li>3. 신고기능관리</li>
-			</ul>
-		</nav>
-		<div class="admin-content">
-		내용확인
-		</div>
-	</div> -->
+		window.onclick = function(event) {
+			if (event.target == modal) {
+				modal.style.display = "none";
+			}
+		}
+	</script>
 
 </body>
 </html>

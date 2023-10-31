@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import kr.ph.peach.pagination.MemberCriteria;
 import kr.ph.peach.pagination.SaleBoardCriteria;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.StatementVO;
 import kr.ph.peach.vo.WishVO;
 
 public interface MemberDAO {
@@ -26,5 +27,7 @@ public interface MemberDAO {
 	List<MemberVO> getMemberList(@Param("cri")MemberCriteria cri);
 
 	int getTotalCount(@Param("cri")MemberCriteria cri);
+
+	List<StatementVO> selectMemberTypeList();
 
 }

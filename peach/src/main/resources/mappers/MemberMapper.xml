@@ -105,9 +105,8 @@
 		select * from sale_image where si_key = #{sb_num} and
 		si_table = "sale_board"
 	</select>
-	<!-- <select id="getMemberList" resultType="kr.ph.peach.vo.MemberVO">
-		select * from member
-	</select> -->
+	<!-- <select id="getMemberList" resultType="kr.ph.peach.vo.MemberVO"> select 
+		* from member </select> -->
 	<select id="getMemberList" resultMap="MemberVO">
 		select * from member
 	</select>
@@ -125,17 +124,22 @@
 		ci_num
 	</select>
 
-	<select id="selectCityList"
-		resultType="kr.ph.peach.vo.CityVO">
-		select * from city where ci_num = #{me_ci_num}
+	<select id="selectCityList" resultType="kr.ph.peach.vo.CityVO">
+		select * from city where
+		ci_num = #{me_ci_num}
 	</select>
 	<select id="selectStatementList"
 		resultType="kr.ph.peach.vo.StatementVO">
 		select * from statement where st_num = #{me_st_num}
 	</select>
-	<select id="selectBankList"
-		resultType="kr.ph.peach.vo.BankVO">
-		select * from bank where bk_name = #{me_bk_name}
+	<select id="selectBankList" resultType="kr.ph.peach.vo.BankVO">
+		select * from bank where
+		bk_name = #{me_bk_name}
+	</select>
+
+	<select id="selectMemberTypeList"
+		resultType="kr.ph.peach.vo.StatementVO">
+		select * from statement
 	</select>
 
 
