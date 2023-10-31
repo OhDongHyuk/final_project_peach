@@ -6,9 +6,10 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import kr.ph.peach.dao.MemberDAO;
+import kr.ph.peach.pagination.MemberCriteria;
+import kr.ph.peach.pagination.SaleBoardCriteria;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.WishVO;
 
@@ -102,6 +103,22 @@ public class MemberServiceImp implements MemberService {
 	public List<WishVO> getWishList(int me_num) {
 		
 		return memberDao.getsaleBoardWishList(me_num);
+	}
+
+	@Override
+	public List<MemberVO> getMemberList(MemberCriteria cri) {
+		if(cri == null) {
+			cri = new MemberCriteria();
+		}
+		return memberDao.getMemberList(cri);
+	}
+
+	@Override
+	public int getTotalCount(MemberCriteria cri) {
+		if(cri == null) {
+			cri = new MemberCriteria();
+		}
+		return memberDao.getTotalCount(cri);
 	}
 
 }

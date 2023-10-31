@@ -58,53 +58,15 @@
 			</div>
 		</div>
 	</header>
-	
-	
+
 
 	<section class="hero-area">
 		<div class="container admin">
 			<div class="row">
-				<h2>회원관리</h2>
-				<table class="table">
-					<thead style="height: 50px">
-						<tr>
-							<th>회원 번호</th>
-							<th>ID</th>
-							<th>이름</th>
-							<th>전화번호</th>
-							<th>닉네임</th>
-							<th>포인트</th>
-							<th>권한</th>
-							<th>가입날짜</th>
-							<th>당도</th>
-							<th>계정상태</th>
-							<th>지역(대분류)</th>
-							<th>은행</th>
-							<th>수정</th>
+				<div class="col-lg-8 col-12 custom-padding-right">
+					<h1>관리자페이지 메인</h1>
+				</div>
 
-						</tr>
-					</thead>
-					<c:forEach items="${mbList}" var="mbList">
-						<tbody>
-							<tr>
-								<td>${mbList.me_num}</td>
-								<td>${mbList.me_id}</td>
-								<td>${mbList.me_name}</td>
-								<td>${mbList.me_phone}</td>
-								<td>${mbList.me_nick}</td>
-								<td>${mbList.me_point}</td>
-								<td>${mbList.me_au}</td>
-								<td>${mbList.me_date}</td>
-								<td>${mbList.me_sugar}</td>
-								<td>${mbList.statementVO.st_name}</td>
-								<td>${mbList.cityVO.ci_large}</td>
-								<td>${mbList.bankVO.bk_name}</td>
-								<td><button
-										onclick="window.open('링크url','창 이름',width=,heigh=,location=no,status=no,scrollbars=yes')">수정하기</button></td>
-							</tr>
-						</tbody>
-					</c:forEach>
-				</table>
 			</div>
 		</div>
 	</section>
