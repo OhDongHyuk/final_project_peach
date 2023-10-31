@@ -121,4 +121,12 @@ public class MemberServiceImp implements MemberService {
 		return memberDao.getTotalCount(cri);
 	}
 
+	
+
+	@Override
+	public boolean updateState(int me_num, int me_st_num) {
+		
+		return memberDao.updateState(me_num, me_st_num);
+	}
+
 }

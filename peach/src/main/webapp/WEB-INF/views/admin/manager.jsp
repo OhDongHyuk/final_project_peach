@@ -15,14 +15,14 @@
 	border: 3px solid black;
 }
 
-#popupBtn {
+.popupBtn {
 	width: 100%;
 	height: 100%;
 	background-color: white;
 	border: none;
 }
 
-#modalWrap {
+.modalWrap {
 	position: fixed; /* Stay in place */
 	z-index: 1; /* Sit on top */
 	padding-top: 100px; /* Location of the box */
@@ -35,7 +35,7 @@
 	display: none;
 }
 
-#modalBody {
+.modalBody {
 	width: 500px;
 	height: 300px;
 	padding: 30px 30px;
@@ -45,7 +45,7 @@
 	margin: 100px;
 }
 
-#closeBtn {
+.closeBtn {
 	float: right;
 	font-weight: bold;
 	color: #777;
@@ -137,16 +137,17 @@
 								<td>${mbList.statementVO.st_name}</td>
 								<td>${mbList.cityVO.ci_large}</td>
 								<td>${mbList.bankVO.bk_name}</td>
-								<td><div id="btnWrap">
-										<button typ="button" id="popupBtn">수정하기</button>
+								<td><div class="btnWrap">
+										<button type="button" class="popupBtn">수정하기</button>
 									</div>
-									<div id="modalWrap">
-										<div id="modalBody">
-											<span id="closeBtn"></span>
+									<div class="modalWrap">
+										<div class="modalBody">
+											<span class="closeBtn"></span>
 											<form action="<c:url value='/admin/manager'/>" method="post">
+												<input type="hidden" name="me_num" value="${mbList.me_num}">
 												<select class="form-control" name="me_st_num">
-													<c:forEach items="${typeList}" var="type">
-														<option value="${type.st_num }">${type.st_name }</option>
+													<c:forEach items="${StateTypeList}" var="List">
+														<option value="${List.st_num }">${List.st_name }</option>
 													</c:forEach>
 												</select>
 												<button>완료</button>
@@ -160,24 +161,39 @@
 			</div>
 		</div>
 	</section>
+	<button class="button--open">Open Modal</button>
+	<div class="modal--bg hidden">
+		<div class="modal">
+			<p class="modal__text">Modal</p>
+			<button class="button--close">X</button>
+		</div>
+	</div>
+
+
+
 
 	<script type="text/javascript">
-		const btn = document.getElementById('popupBtn');
-		const modal = document.getElementById('modalWrap');
-		const closeBtn = document.getElementById('closeBtn');
-
-		btn.onclick = function() {
-			modal.style.display = 'block';
+	$('.popupBtn').click(function(){
+		$(this).parent().next().show();	
+	})
+	$('.closeBtn').click(function() {
+		$(this).parents('.modalWrap').hide();
+	})
+	/* $(window).click(function(){
+		a = e;
+		b = $(this)
+		console.log(e.target == $(this))
+		if(e.target == this){
+			$('.closeBtn').click() 	
 		}
-		closeBtn.onclick = function() {
-			modal.style.display = 'none';
-		}
-
-		window.onclick = function(event) {
+	})	 */
+		/* window.onclick = function(event) {
 			if (event.target == modal) {
 				modal.style.display = "none";
 			}
-		}
+		} */
+	let a;
+	let b;
 	</script>
 
 </body>

@@ -141,9 +141,9 @@
 		resultType="kr.ph.peach.vo.StatementVO">
 		select * from statement
 	</select>
-
-
-
+	<update id="updateState">
+		update member set me_st_num = #{me_st_num} where me_num = #{me_num} 
+	</update>
 
 
 </mapper>
