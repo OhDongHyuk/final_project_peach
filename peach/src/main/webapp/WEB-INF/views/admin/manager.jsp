@@ -161,14 +161,6 @@
 			</div>
 		</div>
 	</section>
-	<button class="button--open">Open Modal</button>
-	<div class="modal--bg hidden">
-		<div class="modal">
-			<p class="modal__text">Modal</p>
-			<button class="button--close">X</button>
-		</div>
-	</div>
-
 
 
 
@@ -179,21 +171,12 @@
 	$('.closeBtn').click(function() {
 		$(this).parents('.modalWrap').hide();
 	})
-	/* $(window).click(function(){
-		a = e;
-		b = $(this)
-		console.log(e.target == $(this))
+	$('.modalWrap').click(function(e){
 		if(e.target == this){
-			$('.closeBtn').click() 	
+			$(this).hide() 	
 		}
-	})	 */
-		/* window.onclick = function(event) {
-			if (event.target == modal) {
-				modal.style.display = "none";
-			}
-		} */
-	let a;
-	let b;
+	})
+		
 	</script>
 
 </body>
