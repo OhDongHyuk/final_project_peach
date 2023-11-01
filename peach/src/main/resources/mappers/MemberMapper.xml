@@ -109,23 +109,34 @@
 		* from member </select> -->
 	<select id="getMemberList" resultMap="MemberVO">
 		select * from member
+		where 1 = 1 
+		<if test='cri.authority != "0"'>
+			and me_au = #{cri.authority}
+		</if>
 		<choose>
-			<when test='cri.type.equals("0")'>
-				where (me_num like concat('%', #{cri.search}, '%')
+			<when test='cri.type == "0"'>
+				and (me_num like concat('%', #{cri.search}, '%')
 				or
-				me_name like concat('%', #{cri.me_name}, '%')
+				me_name like concat('%', #{cri.search}, '%')
 				or
-				me_nick like concat('%', #{cri.me_nick}, '%')
+				me_nick like
+				concat('%', #{cri.search}, '%')
 				or
-				me_au like concat('%', #{cri.me_au}, '%'))
+				me_au like concat('%',
+				#{cri.search}, '%'))
 			</when>
 			<otherwise>
-				where ${cri.type} like concat('%', #{cri.search}, '%')
+				and ${cri.type} like concat('%', #{cri.search}, '%')
 			</otherwise>
 		</choose>
-		<if test="cri.me_num != 0">
+		<!-- <choose> <when test='cri.me_au.equals("0")'> and me_num = #{cri.me_num} 
+			and me_au = #{cri.search} </when> </choose> -->
+		<!-- <if test="cri.me_au.equals('0')">
+			and me_au = #{cri.me_au}
+		</if> -->
+		<!-- <if test="cri.me_au != 0">
 			and me_num = #{cri.me_num}
-		</if>
+		</if> -->
 		limit
 		#{cri.pageStart}, #{cri.perPageNum}
 	</select>

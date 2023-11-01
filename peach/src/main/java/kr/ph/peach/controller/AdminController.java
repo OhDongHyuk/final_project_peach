@@ -54,9 +54,8 @@ public class AdminController {
 		
 		int displayPageNum = 8;
 		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
-		
-		System.out.println(mbList);
-		System.out.println(StateTypeList);
+	
+		System.out.println(cri);
 		model.addAttribute("pm", pm);
 		model.addAttribute("mbList", mbList);
 		model.addAttribute("StateTypeList", StateTypeList);

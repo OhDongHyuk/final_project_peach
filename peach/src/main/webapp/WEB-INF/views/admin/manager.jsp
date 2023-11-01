@@ -175,12 +175,16 @@
 				<div class="admin-search">
 					<form action="" method="get" class="admin-search-bar">
 						<div class="form-group">
-							<select class="form-control" name="me_au">
-								<option value="0">전체</option>
+							<select class="form-control" name="authority">
+								<option value="0"
+									<c:if test="${pm.cri.authority == '0' }">selected</c:if>
+									>전체</option>
 								<option value="admin"
-									<c:if test="${pm.cri.search == 'admin' }">selected</c:if>>관리자</option>
+									<c:if test="${pm.cri.authority == 'admin' }">selected</c:if>
+									>관리자</option>
 								<option value="user"
-									<c:if test="${pm.cri.search == 'user' }">selected</c:if>>회원</option>
+									<c:if test="${pm.cri.authority == 'user' }">selected</c:if>
+									>회원</option>
 							</select>
 						</div>
 						<div class="input-group mb-3">
@@ -247,10 +251,16 @@
 			}
 		})
 
-		$('[name=me_au]').change(function() {
-			let me_au = $(this).val();
-			location.href = '<c:url value="/admin/manager?me_au=0&type=me_au&search="/>' + me_au /* '&search=admin' */ ;
-		});
+	/* 	 $('[name=me_au]')
+				.change(
+						function() {
+							let me_au = $(this).val();
+							/* if (me_au = 0) {
+								location.href = '<c:url value="/admin/manager"/>'
+							} */
+							location.href = '<c:url value="/admin/manager?me_au="/>'
+									+ me_au +'&search=' + me_au;
+						});  */
 	</script>
 
 </body>

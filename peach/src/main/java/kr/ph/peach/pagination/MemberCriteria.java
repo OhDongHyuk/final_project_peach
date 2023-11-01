@@ -4,10 +4,12 @@ import lombok.Data;
 
 @Data
 public class MemberCriteria extends Criteria{
-	int me_st_num;
-	int me_ci_num;
-	int me_num;
-	String me_au;
-	String me_name;
-	String me_nick;
+	//type엔 어떤 방법으로 검색할지
+	//search엔 회원 아이디
+	String authority; //어떤 권한을 조회할지
+	
+	public MemberCriteria() {
+		authority = "0";
+	}
+	
 }
