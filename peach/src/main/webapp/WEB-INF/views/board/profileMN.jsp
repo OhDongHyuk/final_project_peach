@@ -59,6 +59,14 @@
 	    right: 0.5rem;
 	    border: none;
     }
+    .form-group-e{
+    	width : 400px;
+    	margin-left: 30.5%;
+    }
+    .qwe{
+    	margin-left: 38%;
+    	font-weight: bold;
+    }
 </style>
 <body>
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
@@ -69,7 +77,10 @@
 
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-	<h1>마이페이지 관리</h1>
+	<br>
+	<br>
+	<h1 class="qwe">마이페이지 관리</h1>
+	<br>
 	<div class="insert-container">
 		<div class="wrapper">
 				
@@ -195,25 +206,41 @@
 		</div>
 	<form action="<c:url value='/board/profileMN'/>" method="post" enctype="multipart/form-data">
 		<input type="file" class="real-upload" accept="image/*" onchange="addFile(this);" id="no0" name="files">
-		<div class="form-group">
+		<div class="form-group-e">
+			<br>
 			<label>닉네임</label>
-			<input type="text" class="form-control" name="sb_name">
+			<input type="text" class="form-control" name="me_id" value="${123}" placeholder="변경할 닉네임을 입력하세요.">
 		</div>
-		<div class="form-group">
-			<label>카테고리</label>
-			<select name="sb_sc_num" class="custom-select">
-				<option selected>카테고리 선택</option>
-			    <c:forEach items="${dbCategory}" var="dbCategory">
-			    	<option value="${dbCategory.sc_num}">${dbCategory.sc_name}</option>
+		<div class="form-group-e">
+			<label>비밀번호</label>
+			<input type="text" class="form-control" name="me_pw" placeholder="변경할 비밀번호를 입력하세요.">
+		</div>
+		<div class="form-group-e">
+			<label>거래가능 지역</label>
+			<br>
+			<div>
+			<select name="me_ci_num" class="custom-select">
+				<option selected>시</option>
+			    <c:forEach items="${cityCategory}" var="cityCategory">
+			    	<option value="${cityCategory.ci_num}">${cityCategory.ci_large}</option>
 			    </c:forEach>
 			</select>
+			<select name="me_ci_num" class="custom-select">
+				<option selected>구</option>
+			    <c:forEach items="${cityCategory}" var="cityCategory">
+			    	<option value="${cityCategory.ci_num}">${cityCategory.ci_medium}</option>
+			    </c:forEach>
+			</select>
+			<select name="me_ci_num" class="custom-select">
+				<option selected>동</option>
+			    <c:forEach items="${cityCategory}" var="cityCategory">
+			    	<option value="${cityCategory.ci_num}">${cityCategory.ci_small}</option>
+			    </c:forEach>
+			</select>
+			<br>
 		</div>
 		<div class="form-group">
-			<label>가격</label>
-			<input type="text" class="form-control" name="sb_price" placeholder="숫자만 입력하세요.">
-		</div>
-		<div class="form-group">
-			<label>설명</label>
+			<label>소개글</label>
 			<textarea id="summernote" name="sb_info" class="form-control" rows="10"></textarea>
 		</div>
 		<button class="btn btn-outline-success col-12">등록</button>
@@ -221,7 +248,7 @@
 	</div>
 	<script>
       $('#summernote').summernote({
-        placeholder: '물품에 대한 자세한 설명을 작성하여주세요.',
+        placeholder: '소개글 내용.',
         tabsize: 2,
         height: 300
       });

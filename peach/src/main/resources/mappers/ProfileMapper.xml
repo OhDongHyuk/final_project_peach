@@ -23,7 +23,9 @@
     <delete id="deleteBoard">
     	delete from sale_board where sb_num = #{sb_num};
     </delete>
-  
+  	<select id="selectAllCategory" resultType="kr.ph.peach.vo.CityVO">
+  		select * from city
+  	</select>
     <!--  
  	<select id="selectBoard" resultType="kr.ph.peach.vo.MemberVO">
 		select 

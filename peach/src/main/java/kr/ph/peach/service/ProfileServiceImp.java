@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.ph.peach.dao.ProfileDAO;
+import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
@@ -46,6 +47,12 @@ public class ProfileServiceImp implements ProfileService{
 		//게시글 삭제 
 		profileDao.deleteBoard(sb_num);}
 		return true;
+	}
+
+	@Override
+	public List<CityVO> selectAllCategory() {
+		
+		return profileDao.selectAllCategory();
 	}
 
 	

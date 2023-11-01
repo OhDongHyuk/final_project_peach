@@ -7,7 +7,13 @@
 <meta charset="EUC-KR">
 <style>
 
-
+	.row{
+		text-align: center;
+		margin-left: 25%;
+	}
+	.qwe{
+		font-weight: bold;
+	}
 </style>
 	<title>프로필 관리 접속시, 비밀번호 요구</title>
 </head>
@@ -16,10 +22,18 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-8 col-12 custom-padding-right">
+						<br>
+						<br>
+						<br>
+						<h1 class="qwe">비밀번호 확인</h1>
+						<br>
+						<br>
+						<br>
 						<form action="<c:url value='/board/profilePass'/>" method="post">
 							<div class="form-group">
 								<h3>아이디 : ${user.me_id}</h3>
 							</div>
+							<br>
 							<label for="Ppassword">비밀번호:</label>
     						<input type="password" id="Ppassword" name="Ppassword">
     						<input type="submit" value="로그인">

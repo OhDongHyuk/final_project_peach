@@ -2,6 +2,7 @@ package kr.ph.peach.service;
 
 import java.util.List;
 
+import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
@@ -15,6 +16,8 @@ public interface ProfileService {
 	void dateUp(Integer sb_num);
 
 	boolean deletePD(Integer sb_num);
+
+	List<CityVO> selectAllCategory();
 
 	
 

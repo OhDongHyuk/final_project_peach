@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
@@ -19,6 +20,8 @@ public interface ProfileDAO {
 	void dateUp(Integer sb_num);
 
 	void deleteBoard(Integer sb_num);
+
+	List<CityVO> selectAllCategory();
 
 	
 	/*

@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.ProfileService;
 import kr.ph.peach.util.Message;
+import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
@@ -125,16 +127,18 @@ public class ProfileController {
         String userPassword = user.getMe_pw();
         
         if (Ppassword.equals(userPassword)) {
-        	
-        	return "/board/profileMN";
+        	msg = new Message("/board/profileMN", "비밀번호 확인되었습니다");
+        	model.addAttribute("msg", msg);
+        	return "message";
         } else {
-        	msg = new Message("/board/profilePass", "비밀번호 불일치.");
+        	msg = new Message("/board/profilePass", "비밀번호 불일치");
         	model.addAttribute("msg", msg);
     		return "message";
         }
 
     }
-   
+    //수정전
+    /*
     @GetMapping("/board/profileMN")
 	public String ProfileMN(Model model, HttpSession session) {
     	MemberVO user = (MemberVO) session.getAttribute("user");
@@ -149,6 +153,39 @@ public class ProfileController {
     
 		return "/board/profileMN";
 	}
+	*/
+    //Ppassword 요구 추가 필요
+    @GetMapping("/board/profileMN")
+	public String insert(Model model, HttpSession session, SaleBoardVO saleBoard) {
+		List<CityVO> cityCategory = profileService.selectAllCategory();
+		model.addAttribute("cityCategory", cityCategory);
+
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		Message msg;
+		if(user == null) {
+    		msg = new Message("/member/login", "잘못된 접근입니다.");
+          	model.addAttribute("msg", msg);
+      		return "message";
+    	}
+		
+		return "/board/profileMN";
+	}
+ 
+	/*
+	@PostMapping("/board/profileMN")
+	public String insertPost(Model model, SaleBoardVO saleBoard, HttpSession session, MultipartFile[] files) {
+		Message msg;
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(ProfileService.insertBoard(saleBoard, user, files)) {
+			msg = new Message("/board/profile" + saleBoard.getSb_sc_num(), "게시물이 등록되었습니다.");
+		} else {
+			msg = new Message("/board/profileMN", "게시물 등록에 실패했습니다.");
+		}
+		//System.out.println(files);
+		model.addAttribute("msg", msg);
+		return "message";
+	}
+    */
 }
 
 
