@@ -5,10 +5,12 @@
 <html>
 <head>
 <meta charset="utf-8">
+
 <title>Insert title here</title>
 <style>
 .admin {
 	min-height: 800px;
+	min-width: 1200px;
 }
 
 .box-main {
@@ -51,6 +53,17 @@
 	color: #777;
 	font-size: 25px;
 	cursor: pointer;
+}
+
+.admin-search {
+	margin: auto;
+	width: 500px;
+	margin-top: 10px;
+}
+
+.justify-content-center {
+	display: flex;
+	margin-top: -5px;
 }
 </style>
 </head>
@@ -158,25 +171,86 @@
 						</tbody>
 					</c:forEach>
 				</table>
+
+				<div class="admin-search">
+					<form action="" method="get" class="admin-search-bar">
+						<div class="form-group">
+							<select class="form-control" name="me_au">
+								<option value="0">전체</option>
+								<option value="admin"
+									<c:if test="${pm.cri.search == 'admin' }">selected</c:if>>관리자</option>
+								<option value="user"
+									<c:if test="${pm.cri.search == 'user' }">selected</c:if>>회원</option>
+							</select>
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<select class="form-control" name="type">
+									<option value="0"
+										<c:if test="${pm.cri.type == '0' }">selected</c:if>>전체</option>
+									<option value="me_num"
+										<c:if test="${pm.cri.type == 'me_num' }">selected</c:if>>회원번호</option>
+									<option value="me_name"
+										<c:if test="${pm.cri.type == 'me_name' }">selected</c:if>>이름</option>
+									<option value="me_nick"
+										<c:if test="${pm.cri.type == 'me_nick' }">selected</c:if>>닉네임</option>
+									<option value="me_au"
+										<c:if test="${pm.cri.type == 'me_au' }">selected</c:if>>권한</option>
+									<option value="bo_contents"
+										<c:if test="${pm.cri.type == 'bo_contents' }">selected</c:if>>내용</option>
+
+								</select>
+							</div>
+							<input type="text" class="form-control" name="search"
+								value="${pm.cri.search}">
+							<button class="btn btn-outline-success">검색</button>
+						</div>
+					</form>
+				</div>
+				<ul class="pagination justify-content-center">
+					<c:if test="${pm.prev}">
+						<li class="page-item"><a class="page-link"
+							href="<c:url value='/admin/manager${pm.cri.getUrl(pm.startPage-1)}'/>">이전</a>
+						</li>
+					</c:if>
+
+					<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="i">
+						<li
+							class="page-item <c:if test='${pm.cri.page == i}'>active</c:if>">
+							<a class="page-link"
+							href="<c:url value='/admin/manager${pm.cri.getUrl(i)}'/>">${i}</a>
+						</li>
+					</c:forEach>
+					<c:if test="${pm.next}">
+						<li class="page-item"><a class="page-link"
+							href="<c:url value='/admin/manager${pm.cri.getUrl(pm.endPage+1)}'/>">다음</a>
+						</li>
+					</c:if>
+				</ul>
 			</div>
+
 		</div>
 	</section>
 
 
 
 	<script type="text/javascript">
-	$('.popupBtn').click(function(){
-		$(this).parent().next().show();	
-	})
-	$('.closeBtn').click(function() {
-		$(this).parents('.modalWrap').hide();
-	})
-	$('.modalWrap').click(function(e){
-		if(e.target == this){
-			$(this).hide() 	
-		}
-	})
-		
+		$('.popupBtn').click(function() {
+			$(this).parent().next().show();
+		})
+		$('.closeBtn').click(function() {
+			$(this).parents('.modalWrap').hide();
+		})
+		$('.modalWrap').click(function(e) {
+			if (e.target == this) {
+				$(this).hide()
+			}
+		})
+
+		$('[name=me_au]').change(function() {
+			let me_au = $(this).val();
+			location.href = '<c:url value="/admin/manager?me_au=0&type=me_au&search="/>' + me_au /* '&search=admin' */ ;
+		});
 	</script>
 
 </body>

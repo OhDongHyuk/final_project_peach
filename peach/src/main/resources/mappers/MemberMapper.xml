@@ -109,6 +109,25 @@
 		* from member </select> -->
 	<select id="getMemberList" resultMap="MemberVO">
 		select * from member
+		<choose>
+			<when test='cri.type.equals("0")'>
+				where (me_num like concat('%', #{cri.search}, '%')
+				or
+				me_name like concat('%', #{cri.me_name}, '%')
+				or
+				me_nick like concat('%', #{cri.me_nick}, '%')
+				or
+				me_au like concat('%', #{cri.me_au}, '%'))
+			</when>
+			<otherwise>
+				where ${cri.type} like concat('%', #{cri.search}, '%')
+			</otherwise>
+		</choose>
+		<if test="cri.me_num != 0">
+			and me_num = #{cri.me_num}
+		</if>
+		limit
+		#{cri.pageStart}, #{cri.perPageNum}
 	</select>
 	<select id="getTotalCount" resultType="int">
 		select
@@ -142,7 +161,8 @@
 		select * from statement
 	</select>
 	<update id="updateState">
-		update member set me_st_num = #{me_st_num} where me_num = #{me_num} 
+		update member set me_st_num = #{me_st_num} where
+		me_num = #{me_num}
 	</update>
 
 
