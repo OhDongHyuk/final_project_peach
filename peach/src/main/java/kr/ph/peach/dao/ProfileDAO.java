@@ -23,6 +23,10 @@ public interface ProfileDAO {
 
 	List<CityVO> selectAllCategory();
 
+	List<CityVO> selectLargeCategory();
+
+	List<CityVO> selectMediumCategory();
+
 	
 	/*
 	List<MemberVO> selectMemberList(String me_id);

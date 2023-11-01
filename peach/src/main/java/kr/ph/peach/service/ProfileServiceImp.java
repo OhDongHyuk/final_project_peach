@@ -55,6 +55,18 @@ public class ProfileServiceImp implements ProfileService{
 		return profileDao.selectAllCategory();
 	}
 
+	@Override
+	public List<CityVO> selectLargeCategory() {
+		
+		return profileDao.selectLargeCategory();
+	}
+
+	@Override
+	public List<CityVO> selectMediumCategory() {
+		
+		return profileDao.selectMediumCategory();
+	}
+
 	
 
 }	

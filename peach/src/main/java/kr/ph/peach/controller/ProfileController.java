@@ -154,13 +154,24 @@ public class ProfileController {
 		return "/board/profileMN";
 	}
 	*/
-    //Ppassword 요구 추가 필요
+   
     @GetMapping("/board/profileMN")
-	public String insert(Model model, HttpSession session, SaleBoardVO saleBoard) {
+	public String profileMNInsert(Model model, HttpSession session, SaleBoardVO saleBoard) {
+    	MemberVO user = (MemberVO) session.getAttribute("user");
+    	model.addAttribute("user",user);
+    	
 		List<CityVO> cityCategory = profileService.selectAllCategory();
 		model.addAttribute("cityCategory", cityCategory);
+		
+		List<CityVO> largeCategory = profileService.selectLargeCategory();
+		model.addAttribute("largeCategory", largeCategory);
+		
+		//에이젝스로 값을 받아와서 mediumCategory 재작성
+		
+		
+		List<CityVO> mediumCategory = profileService.selectMediumCategory();
+		model.addAttribute("mediumCategory", mediumCategory);
 
-		MemberVO user = (MemberVO)session.getAttribute("user");
 		Message msg;
 		if(user == null) {
     		msg = new Message("/member/login", "잘못된 접근입니다.");
@@ -170,8 +181,21 @@ public class ProfileController {
 		
 		return "/board/profileMN";
 	}
- 
+    //ajax를 받을 곳
+    /*
+    @ResponseBody
+    @GetMapping("/board/get")
+    public String getCategory(Model model, HttpSession session) {
+    	
+    	
+		return ;
+	}
+    */
+    
+    
+    
 	/*
+	@ResponseBody
 	@PostMapping("/board/profileMN")
 	public String insertPost(Model model, SaleBoardVO saleBoard, HttpSession session, MultipartFile[] files) {
 		Message msg;

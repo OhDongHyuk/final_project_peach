@@ -19,6 +19,10 @@ public interface ProfileService {
 
 	List<CityVO> selectAllCategory();
 
+	List<CityVO> selectLargeCategory();
+
+	List<CityVO> selectMediumCategory();
+
 	
 
 

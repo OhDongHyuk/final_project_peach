@@ -67,6 +67,12 @@
     	margin-left: 38%;
     	font-weight: bold;
     }
+    #moption{
+    	display : none;
+    }
+    #soption{
+    	display : none;
+    }
 </style>
 <body>
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
@@ -80,6 +86,7 @@
 	<br>
 	<br>
 	<h1 class="qwe">마이페이지 관리</h1>
+
 	<br>
 	<div class="insert-container">
 		<div class="wrapper">
@@ -209,7 +216,7 @@
 		<div class="form-group-e">
 			<br>
 			<label>닉네임</label>
-			<input type="text" class="form-control" name="me_id" value="${123}" placeholder="변경할 닉네임을 입력하세요.">
+			<input type="text" class="form-control" name="me_id" value="${user.me_id}" placeholder="변경할 닉네임을 입력하세요.">
 		</div>
 		<div class="form-group-e">
 			<label>비밀번호</label>
@@ -218,20 +225,21 @@
 		<div class="form-group-e">
 			<label>거래가능 지역</label>
 			<br>
-			<div>
-			<select name="me_ci_num" class="custom-select">
+			<select name="me_ci_num" class="custom-select" onchange="largeChange()">
 				<option selected>시</option>
-			    <c:forEach items="${cityCategory}" var="cityCategory">
-			    	<option value="${cityCategory.ci_num}">${cityCategory.ci_large}</option>
+			    <c:forEach items="${largeCategory}" var="largeCategory">
+			    	<option value="${largeCategory.ci_large}">${largeCategory.ci_large}</option>
 			    </c:forEach>
 			</select>
-			<select name="me_ci_num" class="custom-select">
+			<c:if test="${mediumCategory != null}">
+			<select name="me_ci_num" class="custom-select" id="moption" onchange="mediumChange()">
 				<option selected>구</option>
-			    <c:forEach items="${cityCategory}" var="cityCategory">
-			    	<option value="${cityCategory.ci_num}">${cityCategory.ci_medium}</option>
+			    <c:forEach items="${mediumCategory}" var="mediumCategory">
+			    	<option value="${mediumCategory.ci_medium}">${mediumCategory.ci_medium}</option>
 			    </c:forEach>
 			</select>
-			<select name="me_ci_num" class="custom-select">
+			</c:if>
+			<select name="me_ci_num" class="custom-select" id="soption">
 				<option selected>동</option>
 			    <c:forEach items="${cityCategory}" var="cityCategory">
 			    	<option value="${cityCategory.ci_num}">${cityCategory.ci_small}</option>
@@ -252,6 +260,21 @@
         tabsize: 2,
         height: 300
       });
+      
+      function largeChange () {
+    	  var moption = document.getElementById("moption");
+    	  moption.style.display = "block";
+    	  
+    	  
+      }
+      
+      
+      function mediumChange() {
+    	  var soption = document.getElementById("soption");
+    	  soption.style.display = "block";
+    	  
+    	  
+	}
     </script>
 </body>
 </html>

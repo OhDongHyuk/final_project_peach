@@ -26,6 +26,14 @@
   	<select id="selectAllCategory" resultType="kr.ph.peach.vo.CityVO">
   		select * from city
   	</select>
+  	<select id="selectLargeCategory" resultType="kr.ph.peach.vo.CityVO">
+  		select DISTINCT ci_large from city
+  	</select>
+  	<select id="selectMediumCategory" resultType="kr.ph.peach.vo.CityVO">
+  		select DISTINCT ci_medium from city
+  	</select>
+
+  	
     <!--  
  	<select id="selectBoard" resultType="kr.ph.peach.vo.MemberVO">
 		select 
