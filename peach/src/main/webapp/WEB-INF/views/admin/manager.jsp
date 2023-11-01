@@ -251,16 +251,7 @@
 			}
 		})
 
-	/* 	 $('[name=me_au]')
-				.change(
-						function() {
-							let me_au = $(this).val();
-							/* if (me_au = 0) {
-								location.href = '<c:url value="/admin/manager"/>'
-							} */
-							location.href = '<c:url value="/admin/manager?me_au="/>'
-									+ me_au +'&search=' + me_au;
-						});  */
+	
 	</script>
 
 </body>
