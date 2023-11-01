@@ -48,6 +48,13 @@ public class ProfileController {
             model.addAttribute("tradingProducts",tradingProducts);
             model.addAttribute("finishedProducts",finishedProducts);
             model.addAttribute("member",member);
+            
+            List<SaleBoardVO> salingAndTradingProducts = new ArrayList<>();
+            salingAndTradingProducts.addAll(salingProducts);
+            salingAndTradingProducts.addAll(tradingProducts);
+            
+            model.addAttribute("salingAndTradingProducts", salingAndTradingProducts);
+            
             List<String> saleCategory = new ArrayList<>();
 
             for (SaleBoardVO product : products) {

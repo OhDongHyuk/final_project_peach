@@ -4,7 +4,8 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="EUC-KR">
+	<title>마이페이지 관리</title>
+</head>
 <style>
 	.insert-container {
 		width: 1100px;
@@ -21,8 +22,11 @@
     img {
       width: 200px;
       height: 200px;
+		
     }
-
+	close {
+	
+	}
     .real-upload {
       display: none;
     }
@@ -38,6 +42,7 @@
       height: 200px;
       display: flex;
       gap: 20px;
+      margin-left: 40%;
     }
     .close-btn {
     	width: 1.5rem;
@@ -67,80 +72,148 @@
 	<h1>마이페이지 관리</h1>
 	<div class="insert-container">
 		<div class="wrapper">
-			<input type="file" class="real-upload" accept="image/*" required>
-			<ul class="image-preview">
-				<li class="upload" style="background-image:url('<c:url value='/resources/image/upload.png' />')"></li>
-			</ul>
+				
+				<ul class="image-preview">
+					<li class="upload" style="background-image:url('<c:url value='/resources/image/upload.png' />')"></li>
+				</ul>
 			<script>
-			    function getImageFiles(e) {
-			      const uploadFiles = [];
-			      const files = e.currentTarget.files;
-			      const imagePreview = document.querySelector('.image-preview');
-			      const docFrag = new DocumentFragment();
-			      
-			      if (list.length >= 1){
-			    	  alert('프로필 이미지는 1개만 등록 가능합니다.');
-			    	  return
-			      }
-			
-			      // 파일 타입 검사
-			      [...files].forEach(file => {
-			        if (!file.type.match("image/.*")) {
-			          alert('이미지 파일만 업로드가 가능합니다.');
-			          return
-			        }
-			
-			        // 파일 갯수 검사
-			        if ([...files].length < 2) {
-			          uploadFiles.push(file);
-			          const reader = new FileReader();
-			          reader.onload = (e) => {
-			            const preview = createElement(e, file);
-			            imagePreview.appendChild(preview);
-			            preview.children[1].addEventListener('click', () => imagePreview.removeChild(preview));
-			            
-			          };
-			          reader.readAsDataURL(file);
-			        }
-			      });
-			    }
+					
+				let fileNo = 0;
 			
 			    function createElement(e, file) {
+			      
 			      const li = document.createElement('li');
 			      const close = document.createElement('button');
 			      const img = document.createElement('img');
 			      li.setAttribute('class', 'image-list');
+			      li.setAttribute('id', "file" + fileNo)
 			      img.setAttribute('src', e.target.result);
 			      img.setAttribute('data-file', file.name);
 			      close.setAttribute('class', 'close-btn');
 			      close.setAttribute('type', 'button');
+			      close.setAttribute('onclick', 'deleteFile('+fileNo+')')
+
 			      
 			      li.appendChild(img);
 			      li.appendChild(close);
 			      
-			
+			      fileNo++;
+			      
 			      return li;
 			    }
 			
+			    function createFileTag(){
+			    	const fileTag = document.querySelector('#no' + fileNo);
+			    	const fi = document.createElement('input');
+			    	fi.setAttribute('type', 'file');
+			        fi.setAttribute('class', 'real-upload');
+			        fi.setAttribute('accept', 'image/*');
+			        fi.setAttribute('onchange', 'addFile(this);');
+			        fi.setAttribute('id', "no" + (fileNo + 1));
+			        fi.setAttribute('name', 'files');
+			        fileTag.after(fi);
+			    	
+			    }
+
 			    const realUpload = document.querySelector('.real-upload');
 			    const upload = document.querySelector('.upload');
-			    const list = document.getElementsByClassName('image-list');
+			    
+			    function clickfunction(){
+			    	const filebutton = document.querySelector('#no' + fileNo);
+			    	filebutton.click();
+			    }
+			    
+			    upload.addEventListener('click', ()=> clickfunction());
 			    
 			    
-			    upload.addEventListener('click', () => realUpload.click());
-			
-			    realUpload.addEventListener('change', getImageFiles);
 			    
-			    //deleteFile[0].addEventListener('click', () => console.log('abc'));
+				
+				/* 첨부파일 추가 */
+				function addFile(obj){
+				    var maxFileCnt = 1;   // 첨부파일 최대 개수
+				    var attFileCnt = document.querySelectorAll('.image-list').length;    // 기존 추가된 첨부파일 개수
+				    var remainFileCnt = maxFileCnt - attFileCnt;    // 추가로 첨부가능한 개수
+				    var curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
+				    const imagePreview = document.querySelector('.image-preview');
+				
+				    // 첨부파일 개수 확인
+				    if (curFileCnt > remainFileCnt) {
+				        alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
+				    }
+				
+				    for (var i = 0; i < Math.min(curFileCnt, remainFileCnt); i++) {
+				
+				        const file = obj.files[i];
+				
+				        // 첨부파일 검증
+				        if (validation(file)) {
+				            // 파일 배열에 담기
+				            var reader = new FileReader();
+							reader.onload = (e) => {
+			            		createFileTag();
+			            		const preview = createElement(e, file);
+			           			imagePreview.appendChild(preview);
+			           			upload.style.display = "none";
+			            	};
+			          		reader.readAsDataURL(file);
+				            
+				        } else {
+				            continue;
+				        }
+				    }
+				    // 초기화
+				    //document.querySelector("input[type=file]").value = "";
+				}
+				
+				/* 첨부파일 검증 */
+				function validation(obj){
+				    const fileTypes = ['application/pdf', 'image/gif', 'image/jpeg', 'image/png', 'image/bmp', 'image/tif', 'application/haansofthwp', 'application/x-hwp'];
+				    if (obj.name.length > 100) {
+				        alert("파일명이 100자 이상인 파일은 제외되었습니다.");
+				        return false;
+				    } else if (obj.size > (100 * 1024 * 1024)) {
+				        alert("최대 파일 용량인 100MB를 초과한 파일은 제외되었습니다.");
+				        return false;
+				    } else if (obj.name.lastIndexOf('.') == -1) {
+				        alert("확장자가 없는 파일은 제외되었습니다.");
+				        return false;
+				    } else if (!fileTypes.includes(obj.type)) {
+				        alert("첨부가 불가능한 파일은 제외되었습니다.");
+				        return false;
+				    } else {
+				        return true;
+				    }
+				}
+				
+				/* 첨부파일 삭제 */
+				function deleteFile(num) {
+				    document.querySelector("#file" + num).remove();
+				    document.querySelector("#no" + num).remove();
+				    upload.style.display = "block";
+				}
 			  </script>
 		</div>
-	<form action="<c:url value='/profileMN/insert'/>" method="post">
+	<form action="<c:url value='/board/profileMN'/>" method="post" enctype="multipart/form-data">
+		<input type="file" class="real-upload" accept="image/*" onchange="addFile(this);" id="no0" name="files">
 		<div class="form-group">
 			<label>닉네임</label>
 			<input type="text" class="form-control" name="sb_name">
 		</div>
 		<div class="form-group">
-			<label>소개글</label>
+			<label>카테고리</label>
+			<select name="sb_sc_num" class="custom-select">
+				<option selected>카테고리 선택</option>
+			    <c:forEach items="${dbCategory}" var="dbCategory">
+			    	<option value="${dbCategory.sc_num}">${dbCategory.sc_name}</option>
+			    </c:forEach>
+			</select>
+		</div>
+		<div class="form-group">
+			<label>가격</label>
+			<input type="text" class="form-control" name="sb_price" placeholder="숫자만 입력하세요.">
+		</div>
+		<div class="form-group">
+			<label>설명</label>
 			<textarea id="summernote" name="sb_info" class="form-control" rows="10"></textarea>
 		</div>
 		<button class="btn btn-outline-success col-12">등록</button>
@@ -148,7 +221,7 @@
 	</div>
 	<script>
       $('#summernote').summernote({
-        placeholder: '소개글 작성.',
+        placeholder: '물품에 대한 자세한 설명을 작성하여주세요.',
         tabsize: 2,
         height: 300
       });
