@@ -17,6 +17,7 @@ import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.SaleBoardService;
 import kr.ph.peach.service.SaleCategoryService;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.StatementVO;
 
 @Controller
@@ -76,11 +77,23 @@ public class AdminController {
 		
 	}
 
-	@GetMapping("/category")
-	public String category() {
+	@GetMapping("/salecategory")
+	public String saleBoardCategory(Model model) {
+		
+		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
+		System.out.println(categoryList);
+		model.addAttribute("categoryList", categoryList);
 
-		return "/admin/category";
+		return "/admin/salecategory";
 	}
+
+	
+	@GetMapping("/comunitycategory")
+	public String comunityCategory() {
+
+		return "/admin/comunitycategory";
+	}
+	
 
 	@GetMapping("/report")
 	public String report() {

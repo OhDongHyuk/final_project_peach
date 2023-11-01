@@ -20,7 +20,7 @@
 	<section class="hero-area">
 		<div class="container admin">
 			<div class="row">
-				<h1>게시판 타입 관리</h1>
+				<h1>물품 카테고리 관리</h1>
 				<div class="input-group mb-3 mt-3">
 					<div class="input-group-prepend">
 						<select class="form-control" id="authority">
@@ -35,23 +35,23 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>게시판 타입 번호</th>
-							<th>게시판명</th>
-							<th>권한</th>
+							<th>카테고리 번호</th>
+							<th>카테고리 이름</th>
+							<th>자격</th>
 							<th>기능</th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${list}" var="bt">
+						<c:forEach items="${categoryList}" var="sc">
 							<tr>
-								<td>${bt.bt_num}<input type="hidden" name="bt_num"
-									value="${bt.bt_num}"></td>
-								<td><input type="text" value="${bt.bt_title}"
-									class="form-control" name="bt_title"></td>
+								<td>${sc.sc_num}<input type="hidden" name="bt_num"
+									value="${sc.sc_num}"></td>
+								<td><input type="text" value="${sc.sc_name}"
+									class="form-control" name="sc_name"></td>
 								<td><select class="form-control" name="type">
-										<option value="USER"
+										<option value="user"
 											<c:if test="${bt.baList.size() == 2}">selected</c:if>>회원이상</option>
-										<option value="ADMIN"
+										<option value="admin"
 											<c:if test="${bt.baList.size() == 1}">selected</c:if>>관리자</option>
 								</select></td>
 								<td>

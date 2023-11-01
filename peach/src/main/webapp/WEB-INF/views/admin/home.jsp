@@ -17,7 +17,7 @@
 </style>
 </head>
 <body>
-	<section class="hero-area">
+		<section class="hero-area">
 		<div class="container admin">
 			<div class="row">
 				<div class="col-lg-8 col-12 custom-padding-right">
