@@ -7,13 +7,15 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.ph.peach.pagination.PageMaker;
 import kr.ph.peach.pagination.SaleBoardCriteria;
+import kr.ph.peach.service.CategoryService;
 import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.SaleBoardService;
-import kr.ph.peach.service.CategoryService;
+import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
@@ -32,7 +34,6 @@ public class HomeController {
 	MemberService memberSerivce;
 
 	@RequestMapping(value = "/")
-
 	public String home(Model model, HttpSession session, SaleBoardCriteria cri) {
 		List<SaleBoardVO> prList = saleBoardService.getSaleBoardList(cri);
 		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
@@ -58,5 +59,18 @@ public class HomeController {
 
 		return "/main/home";
 	}
+	
+	@GetMapping("/main/message")
+	public String message(Model model, HttpSession session, Message msg) {
+		//MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+
+		Message message = (Message) session.getAttribute("msg");
+		
+		model.addAttribute("message", message);
+		
+		return "message";
+	}
+	
+	
 
 }
