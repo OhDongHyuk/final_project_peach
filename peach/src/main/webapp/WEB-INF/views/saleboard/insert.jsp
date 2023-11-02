@@ -73,7 +73,7 @@
 					<li class="upload" style="background-image:url('<c:url value='/resources/image/upload.png' />')"></li>
 				</ul>
 			<script>
-			
+					
 				let fileNo = 0;
 			
 			    function createElement(e, file) {
@@ -87,9 +87,11 @@
 			      img.setAttribute('data-file', file.name);
 			      close.setAttribute('class', 'close-btn');
 			      close.setAttribute('type', 'button');
+			      close.setAttribute('onclick', 'deleteFile('+fileNo+')')
 
 			      
 			      li.appendChild(img);
+			      li.appendChild(close);
 			      
 			      fileNo++;
 			      
@@ -118,6 +120,7 @@
 			    }
 			    
 			    upload.addEventListener('click', ()=> clickfunction());
+			    
 			    
 			    
 				
@@ -181,7 +184,6 @@
 				function deleteFile(num) {
 				    document.querySelector("#file" + num).remove();
 				    document.querySelector("#no" + num).remove();
-				    filesArr[num].is_delete = true;
 				}
 			  </script>
 		</div>

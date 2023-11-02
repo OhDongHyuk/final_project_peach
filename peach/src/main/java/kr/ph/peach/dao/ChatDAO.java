@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import kr.ph.peach.vo.ChatVO;
-import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.MessageVO;
 
 public interface ChatDAO {

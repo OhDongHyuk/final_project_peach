@@ -350,7 +350,7 @@
 		<div class="content-box">
 			<p class="title">${board.sb_name}</p>
 			<p class="category-date">${board.sb_sc_name} | ${board.sb_date}</p>
-			<p class="price">${board.get_sb_price(board.sb_price)}</p>
+			<p class="price">${board.get_sb_price()}</p>
 			<p class="content">${board.sb_info}</p>
 			<p class="wish-text">찜 ${board.sb_wish}</p>
 		</div>

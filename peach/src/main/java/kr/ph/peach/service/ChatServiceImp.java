@@ -1,26 +1,15 @@
 package kr.ph.peach.service;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.dao.ChatDAO;
-import kr.ph.peach.dao.SaleBoardDAO;
-import kr.ph.peach.pagination.SaleBoardCriteria;
-import kr.ph.peach.util.UploadFileUtils;
 import kr.ph.peach.vo.ChatVO;
-import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.MessageVO;
-import kr.ph.peach.vo.SaleBoardVO;
-import kr.ph.peach.vo.SaleCategoryVO;
-import kr.ph.peach.vo.SaleImageVO;
-import kr.ph.peach.vo.WishVO;
-
 @Service
 public class ChatServiceImp implements ChatService {
 

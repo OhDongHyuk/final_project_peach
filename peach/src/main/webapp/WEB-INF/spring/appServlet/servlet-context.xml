@@ -59,5 +59,6 @@
 	    <beans:constructor-arg value="D://uploadfiles"/>
 	    <!-- <beans:constructor-arg value="D://uploadfiles"/> -->
 	</beans:bean>
+	<context:component-scan base-package="kr.ph.peach" />
 	
 </beans:beans>

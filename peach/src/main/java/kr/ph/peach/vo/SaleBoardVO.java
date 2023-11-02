@@ -1,8 +1,6 @@
 package kr.ph.peach.vo;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import lombok.Data;

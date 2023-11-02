@@ -2,16 +2,9 @@ package kr.ph.peach.service;
 
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import kr.ph.peach.pagination.SaleBoardCriteria;
 import kr.ph.peach.vo.ChatVO;
-import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.MessageVO;
-import kr.ph.peach.vo.SaleBoardVO;
-import kr.ph.peach.vo.SaleCategoryVO;
-import kr.ph.peach.vo.SaleImageVO;
-import kr.ph.peach.vo.WishVO;
+
 
 
 public interface ChatService {

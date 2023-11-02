@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import kr.ph.peach.dao.MemberDAO;
 import kr.ph.peach.vo.MemberVO;

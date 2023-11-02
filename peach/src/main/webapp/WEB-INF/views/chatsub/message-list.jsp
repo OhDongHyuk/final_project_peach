@@ -13,10 +13,14 @@
 						</c:otherwise>
 					</c:choose>
 				</div>
+				<a href="<c:url value='/saleboard/detail?sb_num=${board.sb_num}' />" class="product-price-and-title">
 				<div class="product-price-and-title">
-					<div class="product-price">${board.get_sb_price()}</div>
 					<div class="product-title">${board.sb_name}</div>
+					<div class="product-price">${board.get_sb_price()}</div>
+					<span class="tooltip-text">게시글로 이동</span>
 				</div>
+				</a>
+				<button id="openModalBtn" type="button" class="pay">피치페이</button>
 			</div>
 			<div class="message-box">
 			<c:forEach items="${messageList }" var="message" varStatus="status">
