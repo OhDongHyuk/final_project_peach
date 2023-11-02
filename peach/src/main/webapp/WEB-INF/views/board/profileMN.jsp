@@ -225,25 +225,21 @@
 		<div class="form-group-e">
 			<label>거래가능 지역</label>
 			<br>
-			<select name="me_ci_num" class="custom-select" onchange="largeChange()">
+			<select name="large" class="custom-select" onchange="largeChange()">
 				<option selected>시</option>
 			    <c:forEach items="${largeCategory}" var="largeCategory">
 			    	<option value="${largeCategory.ci_large}">${largeCategory.ci_large}</option>
 			    </c:forEach>
 			</select>
 			<c:if test="${mediumCategory != null}">
-			<select name="me_ci_num" class="custom-select" id="moption" onchange="mediumChange()">
+			<select name="medium" class="custom-select" id="moption" onchange="mediumChange()">
 				<option selected>구</option>
-			    <c:forEach items="${mediumCategory}" var="mediumCategory">
-			    	<option value="${mediumCategory.ci_medium}">${mediumCategory.ci_medium}</option>
-			    </c:forEach>
+			    	<option value="0"></option>
 			</select>
 			</c:if>
-			<select name="me_ci_num" class="custom-select" id="soption">
+			<select name="small" class="custom-select" id="soption">
 				<option selected>동</option>
-			    <c:forEach items="${cityCategory}" var="cityCategory">
-			    	<option value="${cityCategory.ci_num}">${cityCategory.ci_small}</option>
-			    </c:forEach>
+			    	<option value=""></option>
 			</select>
 			<br>
 		</div>
@@ -261,20 +257,58 @@
         height: 300
       });
       
-      function largeChange () {
+      function largeChange () {primary
     	  var moption = document.getElementById("moption");
     	  moption.style.display = "block";
     	  
+    	  $.ajax({
+    		  async : false,
+    		  url : '<c:url value="/board/medium"/>',
+    		  type : 'post',
+    		  data : {large : largeName},
+    		  success : function (data){
+    			  for(medium of data) {
+    				  str += `<option>\${medium.ci_medium}`
+    			  }
+    			  $('[name=medium]').html(str);
+    			  $('[name=me_ci_num]').html('<option value="0">구.</option>');
+    		  },
+    		  error : funtion(a,b,c){
+    			  console.log(a);
+    			  console.log(b);
+    			  console.log(c);
+    		  }
+    	  })
     	  
       }
-      
-      
-      function mediumChange() {
-    	  var soption = document.getElementById("soption");
-    	  soption.style.display = "block";
-    	  
-    	  
-	}
+      $('[name=medium]').change(function(){
+			let mediumName = $(this).val();
+			//medium태그에 넣을 option태그
+			let str = '<option value="0">읍/면/동을 선택하세요.</option>';
+			//시도를 선택하세요를 선택하면
+			if(mediumName == 0){
+				$('[name=me_ci_num]').html(str);
+				return;
+			}
+			$.ajax({
+				async : false,
+				url : '<c:url value="/member/small"/>', 
+				type : 'post', 
+				data : {medium : mediumName}, 
+				success : function (data){
+					for(small of data){
+						console.log(data)
+						str += `<option value="\${small.ci_num}">\${small.ci_small}</option>`
+					}
+					$('[name=me_ci_num]').html(str);
+				}, 
+				error : function(a,b,c){
+					console.log(a);
+					console.log(b);
+					console.log(c);
+				}
+			});
+		})
     </script>
 </body>
 </html>
