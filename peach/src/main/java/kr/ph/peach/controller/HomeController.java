@@ -60,6 +60,10 @@ public class HomeController {
 		return "/main/home";
 	}
 	
+	
+	/*
+	 * 권한이 관리자가 아닌 회원이 /admin/* 으로 접근할시 경고메세지가 나오도록 출력
+	 * */
 	@GetMapping("/main/message")
 	public String message(Model model, HttpSession session, Message msg) {
 		//MemberVO user = (MemberVO)request.getSession().getAttribute("user");
