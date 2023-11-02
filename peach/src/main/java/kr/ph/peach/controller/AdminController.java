@@ -179,4 +179,14 @@ public class AdminController {
 
 		return "/admin/report";
 	}
+	
+	
+	
+	
+	
+	@GetMapping("/tradereport")
+	public String tradeReport() {
+
+		return "/admin/tradereport";
+	}
 }

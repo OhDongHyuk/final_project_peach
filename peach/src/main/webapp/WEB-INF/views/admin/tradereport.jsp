@@ -72,7 +72,7 @@
 	<section class="hero-area">
 		<div class="container admin">
 			<div class="row">
-				<h2>신고관리</h2>
+				<h2>거래신고관리</h2>
 				<table class="table">
 					<thead style="height: 50px">
 						<tr>

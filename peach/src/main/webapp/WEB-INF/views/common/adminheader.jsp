@@ -24,7 +24,7 @@
 									href="<c:url value='/admin/manager'/>"
 									aria-label="Toggle navigation">회원관리</a></li>
 								<li class="nav-item"><a class="dd-menu collapsed"
-									href="javascript:void(0)" data-bs-toggle="collapse"
+									href="<c:url value='/admin/salecategory'/>" data-bs-toggle="collapse"
 									data-bs-target="#submenu-1-2"
 									aria-controls="navbarSupportedContent" aria-expanded="false"
 									aria-label="Toggle navigation">카테고리관리</a>
@@ -32,11 +32,19 @@
 										<li class="nav-item"><a
 											href="<c:url value='/admin/salecategory'/>">물품카테고리 관리 </a></li>
 										<li class="nav-item"><a
-											href="<c:url value='/admin/communitycategory'/>">커뮤니티카테고리 관리</a></li>
+											href="<c:url value='/admin/communitycategory'/>">커뮤니티카테고리
+												관리</a></li>
 									</ul></li>
 								<li class="nav-item"><a class="dd-menu collapsed"
 									href="<c:url value='/admin/report'/>"
-									aria-label="Toggle navigation">신고게시판관리</a></li>
+									aria-label="Toggle navigation">신고게시판관리</a>
+								<ul class="sub-menu collapse" id="submenu-1-2">
+										<li class="nav-item"><a
+											href="<c:url value='/admin/report'/>">물품카테고리 관리 </a></li>
+										<li class="nav-item"><a
+											href="<c:url value='/admin/tradereport'/>">커뮤니티카테고리
+												관리</a></li>
+									</ul></li>
 							</ul>
 						</div>
 
