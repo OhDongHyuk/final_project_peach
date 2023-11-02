@@ -13,7 +13,7 @@ import kr.ph.peach.pagination.PageMaker;
 import kr.ph.peach.pagination.SaleBoardCriteria;
 import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.SaleBoardService;
-import kr.ph.peach.service.SaleCategoryService;
+import kr.ph.peach.service.CategoryService;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
@@ -23,7 +23,7 @@ import kr.ph.peach.vo.WishVO;
 public class HomeController {
 
 	@Autowired
-	SaleCategoryService saleCategoryService;
+	CategoryService saleCategoryService;
 
 	@Autowired
 	SaleBoardService saleBoardService;

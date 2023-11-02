@@ -32,7 +32,7 @@
 										<li class="nav-item"><a
 											href="<c:url value='/admin/salecategory'/>">물품카테고리 관리 </a></li>
 										<li class="nav-item"><a
-											href="<c:url value='/admin/comunitycategory'/>">커뮤니티카테고리 관리</a></li>
+											href="<c:url value='/admin/communitycategory'/>">커뮤니티카테고리 관리</a></li>
 									</ul></li>
 								<li class="nav-item"><a class="dd-menu collapsed"
 									href="<c:url value='/admin/report'/>"

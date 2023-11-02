@@ -17,8 +17,9 @@
       	<put-attribute name="adminheader" value="/WEB-INF/views/common/adminheader.jsp" />
       	<put-attribute name="body" value="/WEB-INF/views/admin/{1}.jsp" />
     </definition>
-   <definition name="/*/*" extends=".root">      
-      <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+   <definition name="/*/*" extends=".root">
+   		<put-attribute name="mainheader" value="/WEB-INF/views/common/mainheader.jsp" />      
+    	<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
     </definition>
     
 </tiles-definitions>

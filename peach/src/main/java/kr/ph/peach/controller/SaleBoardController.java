@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.ph.peach.pagination.PageMaker;
 import kr.ph.peach.pagination.SaleBoardCriteria;
 import kr.ph.peach.service.SaleBoardService;
-import kr.ph.peach.service.SaleCategoryService;
+import kr.ph.peach.service.CategoryService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
@@ -35,7 +35,7 @@ public class SaleBoardController {
 	SaleBoardService saleBoardService;
 	
 	@Autowired
-	SaleCategoryService saleCategoryService;
+	CategoryService saleCategoryService;
 	
 	@GetMapping("/{sc_num}")
 	public String productsList(@PathVariable("sc_num") int categoryId, Model model, HttpSession session, SaleBoardCriteria cri) {

@@ -85,7 +85,7 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public void updateMemberSession(MemberVO user) {
 		
-		if(user == null || user.getMe_id() == null) {
+		if(user == null) {
 			return;
 		}
 		
