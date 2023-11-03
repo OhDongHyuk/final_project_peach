@@ -14,18 +14,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.pagination.PageMaker;
 import kr.ph.peach.pagination.SaleBoardCriteria;
 import kr.ph.peach.service.SaleBoardService;
+import kr.ph.peach.service.TradingRequestService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.SaleImageVO;
+import kr.ph.peach.vo.TradingRequestVO;
 import kr.ph.peach.vo.WishVO;
 
 
@@ -35,6 +36,9 @@ public class SaleBoardController {
 	
 	@Autowired
 	SaleBoardService saleBoardService;
+	
+	@Autowired
+	TradingRequestService tradingRequestService;
 	
 	@GetMapping("/{sc_num}")
 	public String productsList(@PathVariable("sc_num") int categoryId, Model model, HttpSession session, SaleBoardCriteria cri) {
@@ -72,7 +76,6 @@ public class SaleBoardController {
 	public String insertPost(Model model, SaleBoardVO saleBoard, HttpSession session, MultipartFile[] files) {
 		Message msg;
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		System.out.println(saleBoard);
 		if(saleBoardService.insertBoard(saleBoard, user, files)) {
 			msg = new Message("saleboard/" + saleBoard.getSb_sc_num(), "게시물이 등록되었습니다.");
 		} else {
@@ -82,16 +85,7 @@ public class SaleBoardController {
 		model.addAttribute("msg", msg);
 		return "message";
 	}
-	
-	@GetMapping("/list")
-	public String list(Model model) {
-		List<SaleBoardVO> dbBoardList = saleBoardService.selectAllBoard();
-		for(SaleBoardVO tmp : dbBoardList) {
-			dbBoardList.get(dbBoardList.indexOf(tmp)).setSb_me_nickname(saleBoardService.selectMemberNickname(tmp.getSb_me_num()));
-		}
-		model.addAttribute("dbBoardList", dbBoardList);
-		return "/saleboard/list";
-	}
+
 	@GetMapping("/detail")
 	public String detail(Model model, Integer sb_num, HttpSession session) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
@@ -135,6 +129,7 @@ public class SaleBoardController {
 		
 		return "/saleboard/update";
 	}
+	
 	@PostMapping("/update")
 	public String updatePost(Model model, HttpSession session, SaleBoardVO board, MultipartFile[] files,Integer[] delFiles) {
 		Message msg;
@@ -180,4 +175,24 @@ public class SaleBoardController {
 		map.put("board", board);
 		return map;
 	}
+	
+	@ResponseBody
+	@PostMapping("/detail")
+	public Map<String, Object> tradePost(@RequestBody TradingRequestVO tradingRequest, HttpSession session) {
+	    Map<String, Object> map = new HashMap<>();
+        boolean trade = tradingRequestService.tradePost(tradingRequest.getTq_sb_num(), tradingRequest.getTq_me_num());
+        System.out.println(trade);
+        if (trade) {
+	        map.put("status", "success");
+	        map.put("message", "직거래를 요청하였습니다.");
+	    } else {
+	        map.put("status", "error");
+	        map.put("message", "이미 직거래를 신청한 물품입니다.");
+	    }
+
+	    System.out.println(map);
+	    return map;
+	}
+
+
 }

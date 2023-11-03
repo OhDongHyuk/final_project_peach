@@ -102,8 +102,7 @@
 	<select id="selectSaleBoardImageList" resultType="kr.ph.peach.vo.SaleImageVO">
 		select * from sale_image where si_key = #{sb_num} and si_table = "sale_board"
 	</select>
-		<select id="selectMainSaleBoardList"
-		resultMap="SaleBoardVO">
+	<select id="selectMainSaleBoardList" resultMap="SaleBoardVO">
 		select * from sale_board order by sb_num desc
 		limit #{cri.pageStart},
 		#{cri.perPageNum}
