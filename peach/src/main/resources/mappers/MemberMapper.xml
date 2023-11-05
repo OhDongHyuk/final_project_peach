@@ -36,4 +36,5 @@
 		where
 			me_num = #{meNum}
 	</select>
+
 </mapper>

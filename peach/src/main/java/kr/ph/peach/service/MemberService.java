@@ -1,5 +1,8 @@
 package kr.ph.peach.service;
 
+import java.util.List;
+
+import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
 
 public interface MemberService {
@@ -12,5 +15,5 @@ public interface MemberService {
 
 	MemberVO getMemberbyNumber(int meNum);
 
-	
+
 }

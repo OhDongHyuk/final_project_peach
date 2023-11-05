@@ -20,4 +20,9 @@ public class MemberVO {
 		return format.format(me_date);
 	}
 
+	public MemberVO(int me_num, String me_id) {
+		this.me_num = me_num;
+		this.me_id = me_id;
+	}
 }
+

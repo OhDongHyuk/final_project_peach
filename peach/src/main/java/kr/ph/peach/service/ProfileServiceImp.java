@@ -1,15 +1,20 @@
 package kr.ph.peach.service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.dao.ProfileDAO;
+import kr.ph.peach.util.UploadFileUtils;
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.ProfileImageVO;
+import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 
@@ -50,23 +55,74 @@ public class ProfileServiceImp implements ProfileService{
 	}
 
 	@Override
-	public List<CityVO> selectAllCategory() {
-		
-		return profileDao.selectAllCategory();
+	public List<CityVO> getMediumCity(String large) {
+		return profileDao.selectMediumCity(large);
 	}
 
 	@Override
-	public List<CityVO> selectLargeCategory() {
-		
-		return profileDao.selectLargeCategory();
+	public List<CityVO> getSmall(String medium) {
+		return profileDao.selectSmallCity(medium);
 	}
 
 	@Override
-	public List<CityVO> selectMediumCategory() {
-		
-		return profileDao.selectMediumCategory();
+	public List<CityVO> getLargeCity() {
+		return profileDao.selectLargeCity();
 	}
 
+	@Override
+	public boolean updateProfile(MemberVO user, MultipartFile[] files) {
+		if(user == null) {
+			return false;
+		}
+		profileDao.updateUserId(user);
+		profileDao.updateUserPw(user);
+		
+		if(files == null || files.length == 0) {
+			return true;
+		}
+		
+		//uploadFileAndInsert(files, user.getMe_num());
+		
+		return true;
+	}
+	/*
+	private void uploadFileAndInsert(MultipartFile[] files, int me_num) {
+		if(files == null || files.length == 0) {
+			return;
+		}
+		for(MultipartFile file : files) {
+			if(file == null || file.getOriginalFilename().length() == 0) {
+				continue;
+			}
+			int pi_num2 = 2;
+			try {
+				int pi_num = pi_num2;
+				String pi_name = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+				ProfileImageVO saleImage = new ProfileImageVO(pi_num, pi_name, me_num);
+				profileDao.insertFile(saleImage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	*/
+
+	@Override
+	public void updateCity(MemberVO user, int me_ci_num) {
+		profileDao.updateCity(user, me_ci_num);
+	}
+
+	@Override
+	public void updateText(MemberVO user, String pf_text) {
+		profileDao.updateText(user, pf_text);
+	}
+
+	@Override
+	public ProfileVO getPfText(MemberVO user) {
+		
+		return profileDao.selectPfText(user);
+	}
 	
 
 }	

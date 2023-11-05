@@ -22,6 +22,7 @@ import kr.ph.peach.service.ProfileService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 
@@ -68,15 +69,9 @@ public class ProfileController {
             }
             model.addAttribute("saleCategory", saleCategory);
           
-       /* } else {
-        	model.addAttribute("msg", "로그인을 필요로 합니다.");
-        	model.addAttribute("url", "member/login");
-        	System.out.println(user);
-        	return "/member/message";
-        }*/
-            /*
-	        model.addAttribute("meNum", meNum);
-	        */
+            ProfileVO profile = profileService.getPfText(user);
+            model.addAttribute("profile", profile);
+            
 	        return "/board/profile"; 
 	    }
 
@@ -160,17 +155,8 @@ public class ProfileController {
     	MemberVO user = (MemberVO) session.getAttribute("user");
     	model.addAttribute("user",user);
     	
-		List<CityVO> cityCategory = profileService.selectAllCategory();
-		model.addAttribute("cityCategory", cityCategory);
-		
-		List<CityVO> largeCategory = profileService.selectLargeCategory();
-		model.addAttribute("largeCategory", largeCategory);
-		
-		//에이젝스로 값을 받아와서 mediumCategory 재작성
-		
-		
-		List<CityVO> mediumCategory = profileService.selectMediumCategory();
-		model.addAttribute("mediumCategory", mediumCategory);
+    	List<CityVO> list = profileService.getLargeCity();
+    	model.addAttribute("large", list);
 
 		Message msg;
 		if(user == null) {
@@ -181,35 +167,49 @@ public class ProfileController {
 		
 		return "/board/profileMN";
 	}
-    //ajax를 받을 곳
-    /*
-    @ResponseBody
-    @GetMapping("/board/get")
-    public String getCategory(Model model, HttpSession session) {
-    	
-    	
-		return ;
-	}
-    */
-    
-    
-    
-	/*
-	@ResponseBody
 	@PostMapping("/board/profileMN")
-	public String insertPost(Model model, SaleBoardVO saleBoard, HttpSession session, MultipartFile[] files) {
+	public String insertPost(Model model, HttpSession session, MultipartFile[] files, @RequestParam("me_id") String me_id, 
+			@RequestParam("me_pw") String me_pw, @RequestParam("me_ci_num")int me_ci_num, @RequestParam("pf_text")String pf_text) {
 		Message msg;
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		if(ProfileService.insertBoard(saleBoard, user, files)) {
-			msg = new Message("/board/profile" + saleBoard.getSb_sc_num(), "게시물이 등록되었습니다.");
-		} else {
-			msg = new Message("/board/profileMN", "게시물 등록에 실패했습니다.");
+		
+		profileService.updateCity(user, me_ci_num);		
+
+		user.setMe_id(me_id);
+		user.setMe_pw(me_pw);
+		
+		System.out.println(pf_text);
+		
+		if(pf_text != null) {
+			profileService.updateText(user, pf_text);
 		}
-		//System.out.println(files);
+		
+		if(profileService.updateProfile(user, files)) {
+			msg = new Message("/board/profileMN", "개인 프로필 정보 수정 성공.");
+		} else {
+			msg = new Message("/board/profileMN", "개인 프로필 정보 수정 실패.");
+		}
 		model.addAttribute("msg", msg);
 		return "message";
 	}
-    */
+	
+	@ResponseBody
+	@PostMapping("/board/medium")
+	public List<CityVO> medium(@RequestParam("large") String large){
+		
+		List<CityVO> res= profileService.getMediumCity(large);
+		
+		return res;
+	}
+	@ResponseBody
+	@PostMapping("/board/small")
+	public List<CityVO> small(@RequestParam("medium") String medium){
+		
+		List<CityVO> res= profileService.getSmall(medium);
+		
+		return res;
+	}
+	
 }
 
 

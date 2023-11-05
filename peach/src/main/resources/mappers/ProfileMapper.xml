@@ -32,8 +32,33 @@
   	<select id="selectMediumCategory" resultType="kr.ph.peach.vo.CityVO">
   		select DISTINCT ci_medium from city
   	</select>
+	<select id="selectMediumCity" resultType="CityVO">
+		SELECT distinct ci_medium FROM city where ci_large = #{large}
+	</select>
+	<select id="selectSmallCity" resultType="CityVO">
+		SELECT * FROM city where ci_medium = #{medium}
+	</select>
+  	<select id="selectLargeCity" resultType="CityVO">
+		SELECT distinct ci_large FROM city
+	</select>
+	<update id="updateUserId" parameterType="kr.ph.peach.vo.MemberVO">
+		UPDATE member SET me_id = #{me_id} WHERE me_num = #{me_num}
+	</update>
 
-  	
+	<update id="updateUserPw" parameterType="kr.ph.peach.vo.MemberVO">
+		UPDATE member SET me_pw = #{me_pw} WHERE me_num = #{me_num}
+	</update>
+	<update id="updateCity" parameterType="kr.ph.peach.vo.MemberVO">
+		UPDATE member SET me_ci_num = #{me_ci_num} WHERE me_num = #{user.me_num}
+	</update>
+	<update id="updateText" parameterType="kr.ph.peach.vo.ProfileVO">
+		UPDATE profile SET pf_text = #{pf_text} WHERE pf_me_num = #{user.me_num}
+	</update>
+	<select id="selectPfText" resultType="kr.ph.peach.vo.ProfileVO">
+  		select * from profile where pf_me_num = #{me_num}
+  	</select>
+	
+
     <!--  
  	<select id="selectBoard" resultType="kr.ph.peach.vo.MemberVO">
 		select 

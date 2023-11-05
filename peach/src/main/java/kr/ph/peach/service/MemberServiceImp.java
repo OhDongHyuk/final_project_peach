@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import kr.ph.peach.dao.MemberDAO;
+import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 
@@ -96,5 +97,6 @@ public class MemberServiceImp implements MemberService {
 		MemberVO member = memberDao.getMemberbyNumber(meNum);
 		return member;
 	}
+
 
 }

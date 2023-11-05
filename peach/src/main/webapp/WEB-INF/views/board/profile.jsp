@@ -120,6 +120,10 @@
 	.sellbox{
 		margin-left: 30%;
 	}
+	.pftext{
+		font-size: 30px;
+	}
+	
 </style>
 <body>
 <div class="all-profile">
@@ -150,8 +154,9 @@
 			 	</div>
 			 	<br/>
 			 	<form action="<c:url value='/board/profile'/>" method="post" enctype="multipart/form-data">
+			 		<br>
 			 		<div class="form-group">
-						<h1>소개글</h1>
+			 			<p class="pftext">${profile.pf_text}</p>
 					</div>
 			 	</form>
 			 </div>

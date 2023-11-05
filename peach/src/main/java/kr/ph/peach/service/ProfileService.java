@@ -2,8 +2,11 @@ package kr.ph.peach.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 
@@ -17,13 +20,19 @@ public interface ProfileService {
 
 	boolean deletePD(Integer sb_num);
 
-	List<CityVO> selectAllCategory();
-
-	List<CityVO> selectLargeCategory();
-
-	List<CityVO> selectMediumCategory();
-
+	List<CityVO> getLargeCity();
 	
+	List<CityVO> getMediumCity(String large);
+
+	List<CityVO> getSmall(String medium);
+
+	boolean updateProfile(MemberVO user, MultipartFile[] files);
+
+	void updateCity(MemberVO user, int me_ci_num);
+
+	void updateText(MemberVO user, String pf_text);
+
+	ProfileVO getPfText(MemberVO user);
 
 
 

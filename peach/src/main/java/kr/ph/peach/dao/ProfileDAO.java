@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 
@@ -21,11 +22,21 @@ public interface ProfileDAO {
 
 	void deleteBoard(Integer sb_num);
 
-	List<CityVO> selectAllCategory();
+	List<CityVO> selectMediumCity(String large);
 
-	List<CityVO> selectLargeCategory();
+	List<CityVO> selectSmallCity(String medium);
 
-	List<CityVO> selectMediumCategory();
+	List<CityVO> selectLargeCity();
+
+	void updateUserId(MemberVO user);
+
+	void updateUserPw(MemberVO user);
+
+	void updateCity(@Param("user")MemberVO user,@Param("me_ci_num") int me_ci_num);
+
+	void updateText(@Param("user")MemberVO user,@Param("pf_text") String pf_text);
+
+	ProfileVO selectPfText(MemberVO user);
 
 	
 	/*

@@ -67,12 +67,7 @@
     	margin-left: 38%;
     	font-weight: bold;
     }
-    #moption{
-    	display : none;
-    }
-    #soption{
-    	display : none;
-    }
+
 </style>
 <body>
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
@@ -211,7 +206,8 @@
 				}
 			  </script>
 		</div>
-	<form action="<c:url value='/board/profileMN'/>" method="post" enctype="multipart/form-data">
+		<!-- enctype="multipart/form-data" -->
+	<form action="<c:url value='/board/profileMN'/>" method="post">
 		<input type="file" class="real-upload" accept="image/*" onchange="addFile(this);" id="no0" name="files">
 		<div class="form-group-e">
 			<br>
@@ -220,71 +216,90 @@
 		</div>
 		<div class="form-group-e">
 			<label>비밀번호</label>
-			<input type="text" class="form-control" name="me_pw" placeholder="변경할 비밀번호를 입력하세요.">
+			<input type="password" class="form-control" name="me_pw" value="${user.me_pw}" placeholder="변경할 비밀번호를 입력하세요.">
 		</div>
+		<br>
 		<div class="form-group-e">
-			<label>거래가능 지역</label>
+			<label>[거래가능 지역]</label>
 			<br>
-			<select name="large" class="custom-select" onchange="largeChange()">
-				<option selected>시</option>
-			    <c:forEach items="${largeCategory}" var="largeCategory">
-			    	<option value="${largeCategory.ci_large}">${largeCategory.ci_large}</option>
-			    </c:forEach>
-			</select>
-			<c:if test="${mediumCategory != null}">
-			<select name="medium" class="custom-select" id="moption" onchange="mediumChange()">
-				<option selected>구</option>
-			    	<option value="0"></option>
-			</select>
-			</c:if>
-			<select name="small" class="custom-select" id="soption">
-				<option selected>동</option>
-			    	<option value=""></option>
-			</select>
+			<div class="form-group">
+				<label>시/도</label>
+				<select name="large" class="form-control">
+					<option value="0">시/도 선택</option>
+					<c:forEach items="${large}" var="name">
+						<option>${name.ci_large}</option>	
+					</c:forEach>
+				</select>
+			</div>
+			<div class="medium-box">
+				<label>시/군/구</label>
+				<select name="medium" class="form-control">
+					<option value="0">시/군/구 선택</option>
+				</select>
+			</div>
+			<div class="small-box">
+				<label>읍/면/동</label>
+				<select name="me_ci_num" class="form-control">
+					<option value="">읍/면/동 선택</option>
+				</select>
+			</div>
 			<br>
 		</div>
 		<div class="form-group">
 			<label>소개글</label>
-			<textarea id="summernote" name="sb_info" class="form-control" rows="10"></textarea>
+			<textarea id="summernote" name="pf_text" class="form-control" rows="10"></textarea>
 		</div>
 		<button class="btn btn-outline-success col-12">등록</button>
 	</form>
 	</div>
 	<script>
+	$(document).ready(function () {
+        $(".medium-box").hide();
+        $(".small-box").hide();
+    });
+	
       $('#summernote').summernote({
         placeholder: '소개글 내용.',
         tabsize: 2,
         height: 300
       });
       
-      function largeChange () {primary
-    	  var moption = document.getElementById("moption");
-    	  moption.style.display = "block";
-    	  
-    	  $.ajax({
-    		  async : false,
-    		  url : '<c:url value="/board/medium"/>',
-    		  type : 'post',
-    		  data : {large : largeName},
-    		  success : function (data){
-    			  for(medium of data) {
-    				  str += `<option>\${medium.ci_medium}`
-    			  }
-    			  $('[name=medium]').html(str);
-    			  $('[name=me_ci_num]').html('<option value="0">구.</option>');
-    		  },
-    		  error : funtion(a,b,c){
-    			  console.log(a);
-    			  console.log(b);
-    			  console.log(c);
-    		  }
-    	  })
-    	  
-      }
-      $('[name=medium]').change(function(){
+      $('[name=large]').change(function(){
+    	    $(".medium-box").show();
+			let largeName = $(this).val();
+			//medium태그에 넣을 option태그
+			let str = '<option value="0">시/군/구 선택</option>';
+			//시도를 선택하세요를 선택하면
+			if(largeName == 0){
+				$('[name=medium]').html(str);
+				$('[name=me_ci_num]').html('<option value="0">읍/면/동 선택</option>');
+				return;
+			}
+			$.ajax({
+				async : false,
+				url : '<c:url value="/board/medium"/>', 
+				type : 'post', 
+				data : {large : largeName}, 
+				success : function (data){
+					for(medium of data){
+						str += `<option>\${medium.ci_medium}</option>`
+					}
+					$('[name=medium]').html(str);
+					$('[name=me_ci_num]').html('<option value="0">읍/면/동 선택</option>');
+				}, 
+				error : function(a,b,c){
+					console.log(a);
+					console.log(b);
+					console.log(c);
+				}
+			});
+		})
+		
+		$('[name=medium]').change(function(){
+			 $(".small-box").show();
 			let mediumName = $(this).val();
 			//medium태그에 넣을 option태그
-			let str = '<option value="0">읍/면/동을 선택하세요.</option>';
+			let str = '<option value="0">읍/면/동 선택</option>';
 			//시도를 선택하세요를 선택하면
 			if(mediumName == 0){
 				$('[name=me_ci_num]').html(str);
@@ -292,7 +307,7 @@
 			}
 			$.ajax({
 				async : false,
-				url : '<c:url value="/member/small"/>', 
+				url : '<c:url value="/board/small"/>', 
 				type : 'post', 
 				data : {medium : mediumName}, 
 				success : function (data){
