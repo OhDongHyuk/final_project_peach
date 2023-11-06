@@ -122,6 +122,7 @@
 			color: black;
 			width: 900px;
 			margin: auto;
+			margin-top: 50px;
 			
 		}
 		.image-box {
@@ -169,12 +170,52 @@
 			width: 100%;
 		}
 		.profile-box {
-			height: 42px;
 			margin-top: 12px;
 			margin-bottom: 12px;
 			display: flex;
 			justify-content: space-between;
 			border-bottom: 1px solid #e9ecef;
+		}
+		.prifle-pic img {
+		    max-width: 50px;
+		    border-radius: 50%;
+		    margin-right: 10px;
+		}
+		.profile-left {
+			display: flex;
+			margin-bottom: 10px;
+			justify-content: center;
+			
+		}
+		.profile-right {
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+		}
+		.profile-name-sweetness{
+			display: block;
+		}
+		.profile-name {
+			font-size: 16px;
+			font-weight: 700;
+		}
+		.profile-sweetness-text {
+			font-size: 13px;
+		}
+		.profile-sweetness {
+			font-size: 13px;
+		}
+		.report-post {
+			background-color: #ff5733; /* Choose your desired background color */
+			color: white;
+			border: none;
+			padding: 10px 20px; /* Adjust padding as needed */
+			font-size: 14px;
+			cursor: pointer;
+			border-radius: 5px; /* Rounded corners for the button */
+		}
+		.report-post:hover {
+			background-color: #ff4500; /* Change the background color on hover */
 		}
 		.content-box {
 			padding: 20px 0;
@@ -309,10 +350,102 @@
 		  /* 현재 슬라이드 색상은 투명도 없이 */
 		  color: black;
 		}
+		
+		/*신고모달*/
+		.custom-modal {
+		  display: none;
+		  position: fixed;
+		  z-index: 1;
+		  left: 0;
+		  top: 0;
+		  width: 100%;
+		  height: 100%;
+		  overflow: auto;
+		  background-color: rgba(0, 0, 0, 0.4);
+		}
+		
+		.custom-modal .modal-content {
+		  background-color: rgb(247, 247, 247);
+		  margin: 15% auto;
+		  border: 1px solid #888;
+		  width: 420px;
+		  padding: 20px;
+		  text-align: center;
+		  border-radius: 8px;
+		  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+		}
+		
+		.custom-modal .modal-header h2 {
+		  font-size: 24px;
+		  font-weight: bold;
+		}
+		
+		.custom-modal .modal-body {
+		  margin-top: 20px;
+		}
+		
+		.custom-modal .report-reason {
+		  width: 100%;
+		  padding: 10px;
+		  border: 1px solid #ccc;
+		  border-radius: 4px;
+		  resize: none;
+		  height: 200px;
+		}
+		
+		.custom-modal .report-button,
+		.custom-modal .cancel-button {
+		  padding: 10px 20px;
+		  font-size: 16px;
+		  cursor: pointer;
+		  border: none;
+		  border-radius: 5px;
+		  margin-right: 10px;
+		}
+		
+		.custom-modal .report-button {
+		  background-color: #ff5733;
+		  color: white;
+		}
+		
+		.custom-modal .report-button:hover {
+		  background-color: #ff4500;
+		}
+		
+		.custom-modal .cancel-button {
+		  background-color: #ccc;
+		  color: #333;
+		}
+		
+		.custom-modal .cancel-button:hover {
+		  background-color: #999;
+		}
+		
+		.custom-modal .close {
+		  position: absolute;
+		  top: 10px;
+		  right: 10px;
+		  cursor: pointer;
+		  font-size: 24px;
+		}
+		
+		.custom-modal .close:hover,
+		.custom-modal .close:focus {
+		  color: black;
+		  text-decoration: none;
+		  cursor: pointer;
+		}
+		.report-text-area {
+			text-align: left;
+			margin-top: 20px;
+		}
+		.maxtext {
+			color: grey;
+			font-size: 13px;
+		}
 	</style>
 </head>
 <body>
-	<h1>상품상세페이지</h1>
 	<div class="container1">
 		<div class="kind">
 			<div class="kind_slider">
@@ -337,15 +470,22 @@
 		</div>
 		<div class="profile-box">
 			<div class="profile-left">
-				<img src="" class="profile-thumnail">
-				<div class="profile-name">${board.sb_me_nickname}</div>
-			</div>
-			<div class="profile-right">
-				<div class="profile-right-box">
+				<div class="prifle-pic">
+					<img src="<c:url value='/resources/image/NoMainImage.png'/>">
+				</div>
+				<div class="profile-name-sweetness">
+					<div class="profile-name">${board.sb_me_nickname}</div>
 					<span class="profile-sweetness-text">당도</span>
-					<span class="profile-sweetness">${board.sb_me_sugar}</span>
+					<span class="profile-sweetness">${board.sb_me_sugar}</span>				
 				</div>
 			</div>
+			<c:if test="${user.me_num != board.sb_me_num }">
+			<div class="profile-right">
+				<div class="profile-right-box">
+					<button type="button" class="report-post" id="openReportModalBtn">게시물 신고하기</button>
+				</div>
+			</div>
+			</c:if>
 		</div>
 		<div class="content-box">
 			<p class="title">${board.sb_name}</p>
@@ -399,7 +539,26 @@
 					    </div>
 					  </div>
 					</div>
-
+					<div id="reportPostModal" class="custom-modal">
+						  <div class="modal-content">
+						    <span class="close">&times;</span>
+						    <div class="modal-header">
+						      <h2>신고하기</h2>
+						    </div>
+						    <div class="modal-body">
+						      <p>신고 내용을 작성해주세요.</p>
+						      <p>최대한 자세하게 기재해주셔야 원활한 신고 처리가 가능합니다.</p>
+						      <div class="report-text-area">
+							      <p class="maxtext">* 최대 500자 제한</p>
+							      <textarea id="reportReason" class="report-reason" placeholder="신고 이유를 입력하세요" maxlength="500"></textarea>						      
+						      </div>
+						    </div>
+						    <div class="modal-footer">
+						      <button class="report-button" onclick="reportPost()">신고</button>
+						      <button class="cancel-button" onclick="closeReportModal()">취소</button>
+						    </div>
+						  </div>
+						</div>
 				</c:otherwise>
 			</c:choose>
 		</div>
@@ -505,7 +664,14 @@
 
 		// 모달 열기 버튼 클릭 시 이벤트
 		openModalBtn.addEventListener("click", function() {
-		  modal.style.display = "block";
+			if('${user.me_id}' == '') {
+				//alert('로그인한 회원만 이용이 가능합니다.');
+				if(confirm('로그인하시겠습니까?')){
+					location.href = '<c:url value="/member/login"/>'
+				}
+				return;
+			}
+		 	modal.style.display = "block";
 		});
 
 		// 모달 닫기 버튼 또는 바깥 영역 클릭 시 모달 닫기
@@ -519,6 +685,74 @@
 		closeModal.addEventListener("click", function() {
 		  modal.style.display = "none";
 		});
+		
+		// 신고 모달
+		const reportPostModal = document.getElementById("reportPostModal");
+		const openReportModalBtn = document.getElementById("openReportModalBtn");
+		const closeReportModalBtn = document.querySelector(".custom-modal .close");
+		
+		openReportModalBtn.addEventListener("click", function () {
+			if('${user.me_id}' == '') {
+				//alert('로그인한 회원만 이용이 가능합니다.');
+				if(confirm('로그인하시겠습니까?')){
+					location.href = '<c:url value="/member/login"/>'
+				}
+				return;
+			}
+		  	reportPostModal.style.display = "block";
+		});
+		
+		closeReportModalBtn.addEventListener("click", function () {
+		  reportPostModal.style.display = "none";
+		});		
+
+		window.addEventListener("click", function (event) {
+		  if (event.target === reportPostModal) {
+		    reportPostModal.style.display = "none";
+		  }
+		});
+		
+		function reportPost() {
+			
+			if('${user.me_num}' == '${board.sb_me_num}'){
+				alert("본인의 게시물은 신고가 불가합니다.");
+				return;
+			}
+			
+			const reportReason = document.getElementById("reportReason").value;
+
+		  	if (reportReason.trim() === "") {
+		   		alert("신고 이유를 입력하세요.");
+		   		return;
+			}
+		  	
+			let data = {
+				key : '${board.sb_num}',
+				info : reportReason,
+				table : 'sale_board'
+			};
+			ajaxJsonToJson(
+					  false,
+					  'post',
+					  'report',
+					  data,
+					  (data) => {
+					    alert("게시물을 신고했습니다.\n신고 사유: " + reportReason);
+					    console.log(data.msg);
+					    document.getElementById("reportReason").value = '';
+					    closeReportModal(); // Close the modal after reporting
+					  },
+					    () => {
+					    	
+					    	console.log("실패");
+					    }
+					);
+			}
+			
+		// Function to close the modal
+		function closeReportModal() {
+		  reportPostModal.style.display = "none";
+		}
 	</script>
 </body>
 </html>
