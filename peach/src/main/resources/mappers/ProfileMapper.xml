@@ -63,7 +63,26 @@
 	<update id="updateText2" parameterType="kr.ph.peach.vo.ProfileVO">
 		UPDATE profile SET pf_text = #{pf_text} WHERE pf_me_num = #{user.me_num}
 	</update>
-	
+	<select id="selectPfNum" resultType="kr.ph.peach.vo.ProfileVO">
+		select pf_num from profile where pf_me_num = #{me_num}
+	</select>
+	<insert id="insertprofileFile">
+		insert into profile_image(pi_name,pi_pf_num) values(#{profileImage.pi_name},#{profileImage.pf_num})
+	</insert>
+	<select id="selectProfile" resultType="kr.ph.peach.vo.ProfileVO">
+		select * from profile where pf_me_num = #{me_num}
+	</select>
+	<select id="selectImg" resultType="kr.ph.peach.vo.ProfileImageVO">
+		select * from profile_image where pi_pf_num = #{pf_num}
+	</select>
+	<select id="selectIMG2" resultType="kr.ph.peach.vo.ProfileImageVO">
+		select pi_num from profile_image where pi_name = #{pi_name}
+	</select>
+	<delete id="deleteIMG">
+		delete from profile_image where pi_pf_num = #{pf_num}
+	</delete>
+
+
     <!--  
  	<select id="selectBoard" resultType="kr.ph.peach.vo.MemberVO">
 		select 

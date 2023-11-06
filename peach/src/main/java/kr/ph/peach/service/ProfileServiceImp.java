@@ -24,7 +24,7 @@ public class ProfileServiceImp implements ProfileService{
 	@Autowired
 	private ProfileDAO profileDao;
 	
-	String uploadPath = "D:\\uploadfiles";
+	String uploadPath = "C:\\finalImg\\img";
 
 	@Override
 	public List<SaleBoardVO> getProductsById(int me_num, int state) {
@@ -70,7 +70,7 @@ public class ProfileServiceImp implements ProfileService{
 	}
 
 	@Override
-	public boolean updateProfile(MemberVO user, MultipartFile[] files) {
+	public boolean updateProfile(MemberVO user, MultipartFile[] files, MultipartFile Original) {
 		if(user == null) {
 			return false;
 		}
@@ -81,32 +81,43 @@ public class ProfileServiceImp implements ProfileService{
 			return true;
 		}
 		
-		//uploadFileAndInsert(files, user.getMe_num());
+		uploadFileAndInsert(files, user.getMe_num(), Original);
 		
 		return true;
 	}
-	/*
-	private void uploadFileAndInsert(MultipartFile[] files, int me_num) {
+	
+	private void uploadFileAndInsert(MultipartFile[] files, int me_num, MultipartFile Original) {
 		if(files == null || files.length == 0) {
 			return;
 		}
+		ProfileVO pf_num2 = profileDao.selectProfile(me_num);
+		System.out.println(pf_num2);
+		ProfileImageVO pfIMG = profileDao.selectImg(pf_num2.getPf_num());
+		System.out.println(pfIMG);
+		if(pfIMG != null && Original == null) {
+			profileDao.deleteIMG(pfIMG.getPi_pf_num());
+		}
+		
+		
+		int pf_num = pf_num2.getPf_num();
+		System.out.println("pf_num "+pf_num);
+		
 		for(MultipartFile file : files) {
 			if(file == null || file.getOriginalFilename().length() == 0) {
 				continue;
 			}
-			int pi_num2 = 2;
 			try {
-				int pi_num = pi_num2;
 				String pi_name = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
-				ProfileImageVO profileImage = new ProfileImageVO(pi_num, pi_name, me_num);
-				profileDao.insertFile(profileImage);
+				System.out.println("pi_name"+pi_name);
+				ProfileImageVO profileImage = new ProfileImageVO(pi_name,pf_num);
+				profileDao.insertprofileFile(profileImage);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		
 	}
-	*/
+	
 
 	@Override
 	public void updateCity(MemberVO user, int me_ci_num) {
@@ -132,6 +143,27 @@ public class ProfileServiceImp implements ProfileService{
 	@Override
 	public void updateText2(MemberVO user, List<ProfileVO> pfList) {
 		profileDao.updateText2(user, pfList);
+	}
+
+	@Override
+	public ProfileVO selectProfile(int me_num) {
+		if(me_num == 0) {
+			return null;
+		}
+		return profileDao.selectProfile(me_num);
+	}
+
+	@Override
+	public ProfileImageVO selectImg(int pf_num) {
+		if(pf_num == 0) {
+			return null;
+		}
+		return profileDao.selectImg(pf_num);
+	}
+
+	@Override
+	public int selectIMG2(String pi_num) {
+		return profileDao.selectIMG2(pi_num);
 	}
 	
 

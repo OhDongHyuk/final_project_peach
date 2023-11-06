@@ -3,9 +3,11 @@ package kr.ph.peach.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
@@ -41,6 +43,18 @@ public interface ProfileDAO {
 	List<ProfileVO> getPF(MemberVO user);
 
 	void updateText2(@Param("user") MemberVO user,@Param("pf_text") List<ProfileVO> pfList);
+
+	List<ProfileVO> selectPfNum(int me_num);
+
+	void insertprofileFile(@Param("profileImage") ProfileImageVO profileImage);
+
+	ProfileVO selectProfile(int me_num);
+
+	ProfileImageVO selectImg(int pf_num);
+
+	int selectIMG2(String pi_name);
+
+	void deleteIMG(int pf_num);
 
 	
 	/*

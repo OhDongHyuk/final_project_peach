@@ -29,7 +29,7 @@
 						<br>
 						<br>
 						<br>
-						<form action="<c:url value='/board/profilePass'/>" method="post">
+						<form action="<c:url value='/board/profilePass?pi_num=${pi_num}'/>" method="post">
 							<div class="form-group">
 								<h3>아이디 : ${user.me_id}</h3>
 							</div>

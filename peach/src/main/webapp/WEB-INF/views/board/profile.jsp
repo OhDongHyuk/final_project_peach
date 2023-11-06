@@ -137,10 +137,15 @@
 	<br/>
 	<div class="profile-container">
 	 <div class="profile-imgbox">
-	  <img src="<c:url value='/resources/img/3.png'/>" class="example">
+	 <c:if test="${proImg == null}">
+	  	<img src="<c:url value='/resources/img/3.png'/>" class="example">
+	  </c:if>
+	  <c:if test="${proImg != null}">
+	  	<img src="<c:url value='/img/${proImg.pi_name}'/>" class="example">
+	  </c:if>
 	  <div class="profile-name"><P>${member.me_id}</P></div>
 	  <c:if test="${user.me_num == member.me_num}">
-		<li class="inner-item"><a href="<c:url value='/board/profilePass'/>">내 프로필 관리</a></li>
+		<li class="inner-item"><a href="<c:url value='/board/profilePass?pi_num=${proImg.pi_name}'/>">내 프로필 관리</a></li>
 	  </c:if>
 	 </div>
 	 	<div class="profile-outDTbox">

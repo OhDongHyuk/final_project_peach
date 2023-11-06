@@ -85,13 +85,21 @@
 	<br>
 	<div class="insert-container">
 		<div class="wrapper">
-				
 				<ul class="image-preview">
-					<li class="upload" style="background-image:url('<c:url value='/resources/image/upload.png' />')"></li>
+				<c:if test="${pi_num == ''}">
+				<li class="upload" style="background-image:url('<c:url value='/resources/image/upload.png' />')"></li>
+				</c:if>
+					<c:if test="${pi_num != ''}">
+						<li class="upload" style="background-image:url('<c:url value='/resources/image/upload.png' />'); display: none;"></li>
+						<li class="image-list" id="file0">
+							<img alt="" src="<c:url value='/img/${pi_num}' />" >
+							<button class="close-btn" type="button" onclick="deleteOriginal(0)"></button>
+						</li>
+					</c:if>
 				</ul>
 			<script>
 					
-				let fileNo = 0;
+				let fileNo = 1;
 			
 			    function createElement(e, file) {
 			      
@@ -204,11 +212,20 @@
 				    document.querySelector("#no" + num).remove();
 				    upload.style.display = "block";
 				}
+				
+				function deleteOriginal(num) {
+				    document.querySelector("#file" + num).remove();
+				    document.querySelector("#no" + num).remove();
+				    upload.style.display = "block";
+				}
+				
+
 			  </script>
 		</div>
 		<!-- enctype="multipart/form-data" -->
-	<form action="<c:url value='/board/profileMN'/>" method="post">
-		<input type="file" class="real-upload" accept="image/*" onchange="addFile(this);" id="no0" name="files">
+	<form action="<c:url value='/board/profileMN'/>" method="post" enctype="multipart/form-data" >
+		<input type="file" class="real-upload" accept="image/*" onchange="addFile(this);" id="no0" name="Original">
+		<input type="file" class="real-upload" accept="image/*" onchange="addFile(this);" id="no1" name="files">
 		<div class="form-group-e">
 			<br>
 			<label>닉네임</label>
@@ -221,6 +238,7 @@
 		<br>
 		<div class="form-group-e">
 			<label>[거래가능 지역]</label>
+			
 			<br>
 			<div class="form-group">
 				<label>시/도</label>
@@ -243,7 +261,7 @@
 					<option value=0>읍/면/동 선택</option>
 				</select>
 			</div>
-			<br>
+			<p>*읍/면/동까지 선택하지 않으면 수정되지 않습니다.</p>
 		</div>
 		<div class="form-group">
 			<label>소개글</label>

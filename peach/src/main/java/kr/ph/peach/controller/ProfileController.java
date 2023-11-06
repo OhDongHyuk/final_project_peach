@@ -22,6 +22,7 @@ import kr.ph.peach.service.ProfileService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
@@ -72,6 +73,13 @@ public class ProfileController {
             ProfileVO profile = profileService.getPfText(user);
             model.addAttribute("profile", profile);
             
+          //유저 넘버로 프로파일(VO) 가져오기
+    		ProfileVO profile2 = profileService.selectProfile(meNum);
+    		
+    		//프로파일 넘버로 프로파일 이미지 가져오기
+    		ProfileImageVO proImg = profileService.selectImg(profile2.getPf_num());
+    		model.addAttribute("proImg", proImg);
+            
 	        return "/board/profile"; 
 	    }
 
@@ -94,9 +102,12 @@ public class ProfileController {
 		return "Message";
 	}
     @GetMapping("/board/profilePass")
-	public String ProfileMNlogin(Model model, HttpSession session) {
+	public String ProfileMNlogin(Model model, HttpSession session, String pi_num) {
+    	System.out.println("Pass1"+pi_num);
+    	
     	MemberVO user = (MemberVO) session.getAttribute("user");
         model.addAttribute("user", user);
+        model.addAttribute("pi_num", pi_num);
         Message msg;
     	
     	  if(user == null) {
@@ -108,8 +119,10 @@ public class ProfileController {
 	}
 
     @PostMapping("/board/profilePass")
-    public String showProfileMNPage(@RequestParam String Ppassword, Model model, HttpSession session) {
-        MemberVO user = (MemberVO) session.getAttribute("user");
+    public String showProfileMNPage(@RequestParam String Ppassword, Model model, HttpSession session, String pi_num) {
+    	System.out.println("Pass2"+pi_num);
+    	
+    	MemberVO user = (MemberVO) session.getAttribute("user");
         model.addAttribute("user", user);
         Message msg;
 
@@ -122,7 +135,7 @@ public class ProfileController {
         String userPassword = user.getMe_pw();
         
         if (Ppassword.equals(userPassword)) {
-        	msg = new Message("/board/profileMN", "비밀번호 확인되었습니다");
+        	msg = new Message("/board/profileMN?pi_num="+pi_num, "비밀번호 확인되었습니다");
         	model.addAttribute("msg", msg);
         	return "message";
         } else {
@@ -134,9 +147,13 @@ public class ProfileController {
     }
  
     @GetMapping("/board/profileMN")
-	public String profileMNInsert(Model model, HttpSession session, SaleBoardVO saleBoard) {
+	public String profileMNInsert(Model model, HttpSession session, SaleBoardVO saleBoard, String pi_num) {
+    	System.out.println("MN"+pi_num);
+    	
     	MemberVO user = (MemberVO) session.getAttribute("user");
     	model.addAttribute("user",user);
+    	
+    	model.addAttribute("pi_num", pi_num);
     	
     	List<CityVO> list = profileService.getLargeCity();
     	model.addAttribute("large", list);
@@ -148,11 +165,12 @@ public class ProfileController {
           	model.addAttribute("msg", msg);
       		return "message";
     	}
+	
 		
 		return "/board/profileMN";
 	}
 	@PostMapping("/board/profileMN")
-	public String insertPost(Model model, HttpSession session, MultipartFile[] files, @RequestParam("me_id") String me_id, 
+	public String insertPost(Model model, HttpSession session, MultipartFile[] files, MultipartFile Original,@RequestParam("me_id") String me_id, 
 			@RequestParam("me_pw") String me_pw, @RequestParam("me_ci_num")int me_ci_num, @RequestParam("pf_text")String pf_text) {
 		Message msg;
 		MemberVO user = (MemberVO)session.getAttribute("user");
@@ -172,9 +190,9 @@ public class ProfileController {
 		if(!pf_text.equals("")) {
 			profileService.updateText(user, pf_text);
 		}
-		
-		if(profileService.updateProfile(user, files)) {
-			msg = new Message("/board/profileMN", "개인 프로필 정보 수정 성공.");
+		System.out.println("@@@@@@@"+Original);
+		if(profileService.updateProfile(user, files, Original)) {
+			msg = new Message("/board/profile/"+user.getMe_num(), "개인 프로필 정보 수정 성공.");
 		} else {
 			msg = new Message("/board/profileMN", "개인 프로필 정보 수정 실패.");
 		}
