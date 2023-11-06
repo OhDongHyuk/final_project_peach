@@ -21,7 +21,7 @@
 									${chat.ch_sb_name }
 								</div>
 								<div class="chat-content-date">
-									${chat.ch_last_date }
+									${chat.get_last_date()}
 								</div>
 							</div>	
 						</div>
@@ -46,7 +46,7 @@
 									${chat.ch_sb_name }
 								</div>
 								<div class="chat-content-date">
-									${chat.ch_last_date }
+									${chat.get_last_date()}
 								</div>
 							</div>
 						</div>

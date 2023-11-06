@@ -33,5 +33,11 @@ public interface ChatDAO {
 
 	ChatVO selectChatByChNum(int ch_num);
 
+	void deleteMessages(int ch_num);
+
+	void deleteChat(int ch_num);
+
+	ChatVO selectChatBySbNum(Integer sb_num);
+
 
 }

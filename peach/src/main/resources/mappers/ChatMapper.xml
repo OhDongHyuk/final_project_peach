@@ -47,4 +47,13 @@
 			where 
 				ms_ch_num = #{ch_num} and ms_me_num != #{me_num}
 	</update>
+	<delete id="deleteMessages">
+		delete from message where ms_ch_num = #{ch_num}
+	</delete>
+	<delete id="deleteChat">
+		delete from chat where ch_num = #{ch_num}
+	</delete>
+	<select id="selectChatBySbNum" resultType="kr.ph.peach.vo.ChatVO">
+		select * from chat where ch_sb_num = #{sb_num}
+	</select>
 </mapper>

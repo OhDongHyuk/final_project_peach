@@ -630,7 +630,7 @@ textarea {
 					error : function() {
 						alert('에러')
 					}
-				})
+				});
 			}
 			
 		}

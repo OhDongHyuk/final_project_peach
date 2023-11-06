@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.ph.peach.dao.ChatDAO;
 import kr.ph.peach.dao.SaleBoardDAO;
 import kr.ph.peach.pagination.SaleBoardCriteria;
 import kr.ph.peach.util.UploadFileUtils;
+import kr.ph.peach.vo.ChatVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
@@ -26,6 +28,9 @@ public class SaleBoardServiceImp implements SaleBoardService {
 	
 	@Autowired
 	SaleBoardDAO saleBoardDao;
+	
+	@Autowired
+	ChatDAO chatDao;
 
 	@Override
 	public List<SaleBoardVO> getSaleBoardList(SaleBoardCriteria cri) {
@@ -155,6 +160,11 @@ public class SaleBoardServiceImp implements SaleBoardService {
 			return false;
 		}
 		SaleBoardVO board = saleBoardDao.selectBoard(sb_num);
+		ChatVO chat = chatDao.selectChatBySbNum(sb_num);
+		if(chat != null) {
+			chatDao.deleteMessages(chat.getCh_num());
+			chatDao.deleteChat(chat.getCh_num());
+		}
 		if(board == null || board.getSb_me_num() != user.getMe_num()) {
 			return false;
 		}
