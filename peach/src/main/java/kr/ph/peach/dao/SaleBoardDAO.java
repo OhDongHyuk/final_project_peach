@@ -19,7 +19,7 @@ public interface SaleBoardDAO {
 	
 	List<SaleCategoryVO> selectAllCategory();
 
-	List<SaleBoardVO> selectAllBoard();
+	List<SaleBoardVO> selectAllBoard(@Param("cri")SaleBoardCriteria cri);
 
 	String selectMemberNickname(int sb_me_num);
 

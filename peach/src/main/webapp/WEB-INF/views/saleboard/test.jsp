@@ -10,7 +10,7 @@
 	<div class="wrapper">
 		<div class="containerboard">
 			<%-- forEach를 통해 판매상품 리스트를 컨트롤러에서 가져와서 출력 --%>
-			<c:forEach items="${dbBoardList}" var="pr">
+			<c:forEach items="${prList}" var="pr">
 				<div class="item">
 					<%-- a태그를 통해 해당 상품 번호의 상세정보로 경로 전달 --%>
 					<a href="<c:url value='/saleboard/detail?sb_num=${pr.sb_num}' />" class="item-holder">

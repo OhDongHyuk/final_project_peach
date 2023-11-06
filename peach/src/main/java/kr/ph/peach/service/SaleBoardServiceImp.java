@@ -61,9 +61,9 @@ public class SaleBoardServiceImp implements SaleBoardService {
 	}
 
 	@Override
-	public List<SaleBoardVO> selectAllBoard() {
+	public List<SaleBoardVO> selectAllBoard(SaleBoardCriteria cri) {
 		
-		return saleBoardDao.selectAllBoard();
+		return saleBoardDao.selectAllBoard(cri);
 	}
 
 	@Override

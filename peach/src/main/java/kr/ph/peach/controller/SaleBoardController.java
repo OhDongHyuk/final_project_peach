@@ -96,11 +96,20 @@ public class SaleBoardController {
 	}
 	
 	@GetMapping("/list")
-	public String list(Model model) {
-		List<SaleBoardVO> dbBoardList = saleBoardService.selectAllBoard();
+	public String list(Model model,SaleBoardCriteria cri, HttpSession session) {
+		List<SaleBoardVO> dbBoardList = saleBoardService.selectAllBoard(cri);
+		
 		for(SaleBoardVO tmp : dbBoardList) {
 			dbBoardList.get(dbBoardList.indexOf(tmp)).setSb_me_nickname(saleBoardService.selectMemberNickname(tmp.getSb_me_num()));
 		}
+
+		
+		int totalCount = saleBoardService.getTotalCount(cri);
+		int displayPageNum = 24;
+		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
+
+		model.addAttribute("pm", pm);
+		
 		model.addAttribute("dbBoardList", dbBoardList);
 		return "/saleboard/list";
 	}
@@ -185,5 +194,11 @@ public class SaleBoardController {
 		map.put("isWish", isWish);
 		map.put("board", board);
 		return map;
+	}
+	
+	@GetMapping("/test")
+	public String test() {
+		
+		return "/saleboard/test";
 	}
 }

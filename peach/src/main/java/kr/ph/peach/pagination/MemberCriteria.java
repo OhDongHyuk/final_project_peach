@@ -8,8 +8,14 @@ public class MemberCriteria extends Criteria{
 	//search엔 회원 아이디
 	String authority; //어떤 권한을 조회할지
 	
+	
 	public MemberCriteria() {
 		authority = "0";
+	
 	}
+	
+	
+	
+	
 	
 }

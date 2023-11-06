@@ -19,7 +19,7 @@ public interface SaleBoardService {
 
 	List<SaleCategoryVO> selectAllCategory();
 
-	List<SaleBoardVO> selectAllBoard();
+	List<SaleBoardVO> selectAllBoard(SaleBoardCriteria cri);
 
 	String selectMemberNickname(int sb_me_num);
 
