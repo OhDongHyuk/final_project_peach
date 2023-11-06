@@ -41,10 +41,6 @@
 						<div class="sc-hRmvpr BYrtj">${pm.cri.search}</div>
 						에 대한 검색결과가 없습니다.
 					</div>
-					<div class="sc-ecaExY cCRWsh">
-						- 단어의 철자가 정확한지 확인해 보세요<br>- 보다 일반적인 검색어로 다시 검색해 보세요<br>-
-						검색어의 띄어쓰기를 다르게 해보세요<br>- 유해/금지어가 아닌지 확인해주세요
-					</div>
 				</div>
 			</c:if>
 		</div>
@@ -82,7 +78,6 @@
 ::before, ::after {
 	box-sizing: border-box;
 }
-
 
 .wrapper {
 	max-width: 1035px; /* 최대 너비를 1035px로 고정 */
@@ -219,42 +214,43 @@ a {
 	background-color: #F16461;
 	color: #fff;
 }
+
 .krWbln {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    -webkit-box-align: center;
-    align-items: center;
-    padding: 4rem 0px 8rem;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	-webkit-box-align: center;
+	align-items: center;
+	padding: 4rem 0px 8rem;
 }
 
 .iKwFSh {
-    width: 500px;
-    font-weight: 600;
-    border-bottom: 1px solid rgb(238, 238, 238);
-    display: flex;
-    flex-direction: column;
-    -webkit-box-align: center;
-    align-items: center;
-    padding-bottom: 35px;
+	width: 500px;
+	font-weight: 600;
+	border-bottom: 1px solid rgb(238, 238, 238);
+	display: flex;
+	flex-direction: column;
+	-webkit-box-align: center;
+	align-items: center;
+	padding-bottom: 35px;
 }
 
 .iKwFSh {
-    width: 500px;
-    font-weight: 600;
-    border-bottom: 1px solid rgb(238, 238, 238);
-    display: flex;
-    flex-direction: column;
-    -webkit-box-align: center;
-    align-items: center;
-    padding-bottom: 35px;
+	width: 500px;
+	font-weight: 600;
+	border-bottom: 1px solid rgb(238, 238, 238);
+	display: flex;
+	flex-direction: column;
+	-webkit-box-align: center;
+	align-items: center;
+	padding-bottom: 35px;
 }
 
 .BYrtj {
-    font-size: 52px;
-    color: black;
-    margin-bottom: 20px;
-    font-weight: bold;
+	font-size: 52px;
+	color: black;
+	margin-bottom: 20px;
+	font-weight: bold;
 }
 </style>
 </html>
