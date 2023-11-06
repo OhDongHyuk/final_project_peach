@@ -213,7 +213,8 @@
 		</c:forEach>
 	</div>	
 </div>	
-
+<br>
+<br>
 <script>
 function dateUp(sb_num){
 	$.ajax({

@@ -98,8 +98,8 @@ public class ProfileServiceImp implements ProfileService{
 			try {
 				int pi_num = pi_num2;
 				String pi_name = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
-				ProfileImageVO saleImage = new ProfileImageVO(pi_num, pi_name, me_num);
-				profileDao.insertFile(saleImage);
+				ProfileImageVO profileImage = new ProfileImageVO(pi_num, pi_name, me_num);
+				profileDao.insertFile(profileImage);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -122,6 +122,16 @@ public class ProfileServiceImp implements ProfileService{
 	public ProfileVO getPfText(MemberVO user) {
 		
 		return profileDao.selectPfText(user);
+	}
+
+	@Override
+	public List<ProfileVO> getPF(MemberVO user) {
+		return profileDao.getPF(user);
+	}
+
+	@Override
+	public void updateText2(MemberVO user, List<ProfileVO> pfList) {
+		profileDao.updateText2(user, pfList);
 	}
 	
 

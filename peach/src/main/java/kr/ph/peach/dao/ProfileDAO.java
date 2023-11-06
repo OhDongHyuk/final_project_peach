@@ -38,6 +38,10 @@ public interface ProfileDAO {
 
 	ProfileVO selectPfText(MemberVO user);
 
+	List<ProfileVO> getPF(MemberVO user);
+
+	void updateText2(@Param("user") MemberVO user,@Param("pf_text") List<ProfileVO> pfList);
+
 	
 	/*
 	List<MemberVO> selectMemberList(String me_id);

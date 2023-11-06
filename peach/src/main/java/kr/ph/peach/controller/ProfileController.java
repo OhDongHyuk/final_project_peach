@@ -132,24 +132,7 @@ public class ProfileController {
         }
 
     }
-    //수정전
-    /*
-    @GetMapping("/board/profileMN")
-	public String ProfileMN(Model model, HttpSession session) {
-    	MemberVO user = (MemberVO) session.getAttribute("user");
-    	model.addAttribute("user",user);
-    	Message msg;
-
-    	if(user == null) {
-    		msg = new Message("/member/login", "잘못된 접근입니다.");
-          	model.addAttribute("msg", msg);
-      		return "message";
-    	}
-    
-		return "/board/profileMN";
-	}
-	*/
-   
+ 
     @GetMapping("/board/profileMN")
 	public String profileMNInsert(Model model, HttpSession session, SaleBoardVO saleBoard) {
     	MemberVO user = (MemberVO) session.getAttribute("user");
@@ -157,6 +140,7 @@ public class ProfileController {
     	
     	List<CityVO> list = profileService.getLargeCity();
     	model.addAttribute("large", list);
+    	
 
 		Message msg;
 		if(user == null) {
@@ -173,14 +157,19 @@ public class ProfileController {
 		Message msg;
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		
+		if(me_ci_num != 0) {
 		profileService.updateCity(user, me_ci_num);		
-
+		}
+		
 		user.setMe_id(me_id);
 		user.setMe_pw(me_pw);
 		
 		System.out.println(pf_text);
 		
-		if(pf_text != null) {
+		List<ProfileVO> pfList = profileService.getPF(user);	
+    	model.addAttribute("pfList", pfList);
+		
+		if(!pf_text.equals("")) {
 			profileService.updateText(user, pf_text);
 		}
 		

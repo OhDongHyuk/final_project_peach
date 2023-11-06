@@ -57,8 +57,13 @@
 	<select id="selectPfText" resultType="kr.ph.peach.vo.ProfileVO">
   		select * from profile where pf_me_num = #{me_num}
   	</select>
+	<select id="getPF" resultType="kr.ph.peach.vo.ProfileVO">
+  		select * from profile where pf_me_num = #{me_num}
+  	</select>
+	<update id="updateText2" parameterType="kr.ph.peach.vo.ProfileVO">
+		UPDATE profile SET pf_text = #{pf_text} WHERE pf_me_num = #{user.me_num}
+	</update>
 	
-
     <!--  
  	<select id="selectBoard" resultType="kr.ph.peach.vo.MemberVO">
 		select 

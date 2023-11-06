@@ -240,7 +240,7 @@
 			<div class="small-box">
 				<label>읍/면/동</label>
 				<select name="me_ci_num" class="form-control">
-					<option value="">읍/면/동 선택</option>
+					<option value=0>읍/면/동 선택</option>
 				</select>
 			</div>
 			<br>

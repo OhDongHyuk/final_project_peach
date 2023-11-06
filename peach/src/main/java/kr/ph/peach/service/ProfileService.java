@@ -34,6 +34,10 @@ public interface ProfileService {
 
 	ProfileVO getPfText(MemberVO user);
 
+	List<ProfileVO> getPF(MemberVO user);
+
+	void updateText2(MemberVO user, List<ProfileVO> pfList);
+
 
 
 	/*
