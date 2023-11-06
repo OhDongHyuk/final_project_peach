@@ -216,6 +216,11 @@ public class ProfileController {
 		
 		return res;
 	}
+	@GetMapping("/board/community")
+	public String Community(Model model, HttpSession session) {
+		
+		return "/board/community";
+	}
 	
 }
 
