@@ -3,6 +3,8 @@ package kr.ph.peach.vo;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +21,7 @@ public class MemberVO {
 	
 	private boolean autoLogin;
 	
+	@JsonIgnore
 	public String getme_date_str() {
 		if(me_date == null) {
 			return "";

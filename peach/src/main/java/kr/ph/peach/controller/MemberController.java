@@ -103,7 +103,7 @@ public class MemberController {
 		
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
-//		user.setMe_session_limit(null);
+		user.setMe_session_limit(null);
 		memberService.updateMemberSession(user);
 		Message msg = new Message("/", null);
 		if(user != null) {

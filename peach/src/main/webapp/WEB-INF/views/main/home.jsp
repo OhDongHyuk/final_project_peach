@@ -8,7 +8,7 @@
 <title>스프링</title>
 </head>
 <body>
-	<header class="header navbar-area">
+	<header class="header navbar-area a">
 		<!-- 헤더 미드 -->
 		<!-- Start Header Middle -->
 		<div class="header-middle">
@@ -367,7 +367,11 @@
 			}
 		});
 	</script>
-
-
 </body>
+	<style>
+		.header.navbar-area.a{
+		z-index: 98;
+	}	
+	</style>
+
 </html>

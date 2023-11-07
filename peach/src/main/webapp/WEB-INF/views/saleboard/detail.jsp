@@ -511,7 +511,7 @@
 					</c:choose>
 					
 					<button type="button" onClick="location.href='<c:url value='/chat/chat?sb_num=${board.sb_num}'/>'" class="chat">대화하기</button>
-					<button id="openModalBtn" type="button" class="pay">피치페이</button>
+					<button id="openModalBtn" type="button" class="pay">거래신청</button>
 					<div id="myModal" class="modal">
 					  <div class="modal-content">
 					    <span class="close">&times;</span>
@@ -520,7 +520,7 @@
 					    <div class="modal-text2">간편하게 상품을 확인하세요</div>
 					    <div class="button-container">
 					      <div class="rectangle-button red-button">
-					        <button>직거래</button>
+					      	<button type="button" onclick="tradePost()" class="trade">직거래</button>
 					      </div>
 					      <div class="rectangle-button pink-button">
 					        <button>피치페이거래</button>
@@ -686,6 +686,35 @@
 		  modal.style.display = "none";
 		});
 		
+		function tradePost() {
+		    var tq_sb_num = '${board.sb_num}'; // SaleBoardVO의 sb_num 값 가져오기
+		    var tq_me_num = '${user.me_num}';
+		    console.log({
+	        	tq_sb_num: tq_sb_num,
+	        	tq_me_num: tq_me_num,
+	        })
+		    fetch('/peach/saleboard/detail?sb_num=' + ${board.sb_num}, {
+		        method: 'POST',
+		        headers: {
+		            'Content-Type': 'application/json'
+		        },
+		        body: JSON.stringify({
+		        	tq_sb_num: tq_sb_num,
+		        	tq_me_num: tq_me_num
+		        })
+		    })
+		    .then(response => {
+		    	return response.json();	
+		    }).then(json => {
+		    	alert(json.message)
+		    })
+		    .catch(error => {
+		        console.error("로그인이 필요합니다:", error);
+		        alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+		        window.location.href = '/peach/member/login';
+		    });
+		}
+		
 		// 신고 모달
 		const reportPostModal = document.getElementById("reportPostModal");
 		const openReportModalBtn = document.getElementById("openReportModalBtn");
@@ -748,7 +777,7 @@
 					    }
 					);
 			}
-			
+								
 		// Function to close the modal
 		function closeReportModal() {
 		  reportPostModal.style.display = "none";
