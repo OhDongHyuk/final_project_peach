@@ -4,17 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import kr.ph.peach.vo.SaleBoardVO;
-import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.pagination.CriteriaProfile;
+import kr.ph.peach.vo.ProfileVO;
 
-public interface ProfileDAO {
-
-	List<SaleBoardVO> getProductsById(@Param("me_num") int me_num, @Param("state")int state);
-
-	List<SaleCategoryVO> getCategoriesByScNum(@Param("sb_sc_num") int sb_sc_num);
-
-	public void profileUpdate(@Param("saleBoardVO") SaleBoardVO saleBoardVO);
-
-	void updateBoardViews(@Param("saleBoard") SaleBoardVO saleBoard);
+public interface ProfileDao {
 
 }

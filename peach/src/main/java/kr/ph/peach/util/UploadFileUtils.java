@@ -27,20 +27,51 @@ public class UploadFileUtils {
 	
 		//한 폴더에 파일이 몰리지 않게 날짜별로 업로드 파일을 관리 
 		//2023/09/01
-		//String savedPath = calcPath(uploadPath);//업로드 날짜를 기준으로 년/월/일 폴더가 없으면 생성하고 생성된 경로를 반환
+		String savedPath = calcPath(uploadPath);//업로드 날짜를 기준으로 년/월/일 폴더가 없으면 생성하고 생성된 경로를 반환
 		
 		//파일을 복사
 		//빈 파일을 생성
-		File target = new File(uploadPath, savedFileName);
+		File target = new File(uploadPath + savedPath, savedFileName);
 		FileCopyUtils.copy(fileData, target);
-		return uploadFileName(uploadPath, savedFileName);
+		return uploadFileName(savedPath, savedFileName);
 	}
 	private static String uploadFileName(String savedPath, String savedFileName) {
-		String fileName = savedFileName;
-		return fileName;
+		String fileName = savedPath + File.separator + savedFileName;
+		return fileName.replace(File.separator, "/");
 	}
-	public static void deleteFile(String uploadPath, String si_name) {
-		File file = new File(uploadPath, si_name);
+	/***
+	 * uploadPath에 기준 날짜에 맞는 년/월/일 폴더가 없으면 생성하고, 폴더의 경로를 반환하는 메서드 
+	 * @param uploadPath 년/월/일 폴더를 만들 부모 폴더
+	 * @return 기준 날짜의 년/월/일 폴더 경로
+	 */
+	private static String calcPath(String uploadPath) {
+		Calendar cal = Calendar.getInstance();
+		// \\2023
+		String yearPath = File.separator + cal.get(Calendar.YEAR);
+		// \\2023\\09
+		String monthPath = yearPath + File.separator + new DecimalFormat("00").format(cal.get(Calendar.MONTH)+1);
+		// \\2023\\09\\01
+		String datePath = monthPath + File.separator + new DecimalFormat("00").format(cal.get(Calendar.DATE)); 
+		
+		//폴더를 생성
+		makeDir(uploadPath, yearPath, monthPath, datePath);
+		
+		return datePath;
+	}
+	private static void makeDir(String uploadPath, String... paths) {
+		//datePath가 이미 존재하면 이미 폴더가 있는 경우이므로 폴더를 더 만들 필요가 없음
+		if(new File(uploadPath + paths[paths.length-1]).exists()) {
+			return;
+		}
+		for(String path : paths) {
+			File dir = new File(uploadPath + path);
+			if(!dir.exists()) {
+				dir.mkdir();
+			}
+		}
+	}
+	public static void deleteFile(String uploadPath, String fi_name) {
+		File file = new File(uploadPath+fi_name);
 		if(file.exists()) {
 			file.delete();
 		}
