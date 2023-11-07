@@ -12,20 +12,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.service.MemberService;
+
 import kr.ph.peach.service.ProfileService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
+ 
 import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
+
 
 @Controller
 public class ProfileController {
@@ -35,6 +39,7 @@ public class ProfileController {
 	@Autowired
 	MemberService memberService;
 	
+
     @GetMapping("/board/profile/{me_num}")
     public String showProfilePage(@PathVariable("me_num") int meNum, Model model, HttpSession session, Criteria cri) {
 	    	MemberVO user = (MemberVO) session.getAttribute("user");
@@ -46,7 +51,7 @@ public class ProfileController {
             List<SaleBoardVO> salingProducts = profileService.getProductsById(meNum, 1);
             List<SaleBoardVO> tradingProducts = profileService.getProductsById(meNum, 2);
             List<SaleBoardVO> finishedProducts = profileService.getProductsById(meNum, 3);
-            
+
             model.addAttribute("products",products);
             model.addAttribute("salingProducts",salingProducts);
             model.addAttribute("tradingProducts",tradingProducts);
@@ -59,6 +64,7 @@ public class ProfileController {
             
             model.addAttribute("salingAndTradingProducts", salingAndTradingProducts);
             
+
             List<String> saleCategory = new ArrayList<>();
 
             for (SaleBoardVO product : products) {
@@ -223,6 +229,7 @@ public class ProfileController {
 	}
 	
 }
+
 
 
 

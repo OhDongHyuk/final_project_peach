@@ -34,7 +34,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		}
 		
 		request.getSession().setAttribute("user", user);
-
+//		
 //		if(user != null ) {
 //			HttpSession session = request.getSession();
 //			session.setAttribute("user", user);
@@ -58,9 +58,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 //				memberService.updateMemberSession(user);
 //			}
 		}
-
 	}
-
 
 
 

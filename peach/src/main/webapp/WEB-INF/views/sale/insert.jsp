@@ -7,12 +7,6 @@
 	<title>스프링</title>
 </head>
 <style>
-	.insert-container {
-		width: 1100px;
-		margin: auto;
-		margin-top: 20px;
-		margin-bottom: 20px;
-	}
 	
  	li {
       list-style: none;
@@ -66,21 +60,22 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 	<h1>판매하기</h1>
-	<div class="insert-container">
+	<form action="<c:url value=''/>" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="bo_ori_num" value="${bo_ori_num}">
 		<div class="wrapper">
 			<input type="file" class="real-upload" accept="image/*" required>
 			<ul class="image-preview">
 				<li class="upload" style="background-image:url('<c:url value='/resources/image/upload.png' />')"></li>
 			</ul>
-			<script>
+		<script>
 			    function getImageFiles(e) {
 			      const uploadFiles = [];
 			      const files = e.currentTarget.files;
 			      const imagePreview = document.querySelector('.image-preview');
 			      const docFrag = new DocumentFragment();
 			      
-			      if (list.length >= 4){
-			    	  alert('이미지는 최대 4개까지만 등록 가능합니다.');
+			      if (list.length >= 6){
+			    	  alert('이미지는 최대 5개까지만 등록 가능합니다.');
 			    	  return
 			      }
 			
@@ -110,7 +105,6 @@
 			      const li = document.createElement('li');
 			      const close = document.createElement('button');
 			      const img = document.createElement('img');
-			      li.setAttribute('class', 'image-list');
 			      img.setAttribute('src', e.target.result);
 			      img.setAttribute('data-file', file.name);
 			      close.setAttribute('class', 'close-btn');
@@ -125,7 +119,7 @@
 			
 			    const realUpload = document.querySelector('.real-upload');
 			    const upload = document.querySelector('.upload');
-			    const list = document.getElementsByClassName('image-list');
+			    const list = document.getElementsByTagName('li');
 			    
 			    
 			    upload.addEventListener('click', () => realUpload.click());
@@ -135,35 +129,21 @@
 			    //deleteFile[0].addEventListener('click', () => console.log('abc'));
 			  </script>
 		</div>
-	<form action="<c:url value='/saleboard/update'/>" method="post">
-		<input type="hidden" name="sb_num" value="${board.sb_num }">
-		<input type="hidden" name="sb_me_num" value="${board.sb_me_num }">
 		<div class="form-group">
 			<label>제목</label>
-			<input type="text" class="form-control" name="sb_name" value="${board.sb_name }">
-		</div>
-		<div class="form-group">
-			<label>카테고리</label>
-			<select name="sb_sc_num" class="custom-select">
-				<option selected value="${board.sb_sc_num }">${board.sb_sc_name}</option>
-			    <c:forEach items="${dbCategory}" var="dbCategory">
-			    	<c:if test="${dbCategory.sc_num != board.sb_sc_num}">
-			    		<option value="${dbCategory.sc_num}">${dbCategory.sc_name}</option>
-			    	</c:if>
-			    </c:forEach>
-			</select>
+			<input type="text" class="form-control" name="bo_title">
 		</div>
 		<div class="form-group">
 			<label>가격</label>
-			<input type="text" class="form-control" name="sb_price" placeholder="숫자만 입력하세요." value="${board.sb_price }">
+			<input type="text" class="form-control" name="bo_price" placeholder="숫자만 입력하세요.">
 		</div>
 		<div class="form-group">
 			<label>설명</label>
-			<textarea id="summernote" name="sb_info" class="form-control" rows="10">${board.sb_info}</textarea>
+			<textarea id="summernote" name="bo_contents" class="form-control" rows="10"></textarea>
 		</div>
+		
 		<button class="btn btn-outline-success col-12">등록</button>
 	</form>
-	</div>
 	<script>
       $('#summernote').summernote({
         placeholder: '물품에 대한 자세한 설명을 작성하여주세요.',

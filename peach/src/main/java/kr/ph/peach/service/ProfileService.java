@@ -2,6 +2,7 @@ package kr.ph.peach.service;
 
 import java.util.List;
 
+
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.vo.CityVO;
@@ -50,6 +51,7 @@ public interface ProfileService {
 	/*
 	List<MemberVO> getMemberList(String me_id);
 	*/
+
 
 	
 }
