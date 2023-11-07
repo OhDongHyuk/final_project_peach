@@ -35,5 +35,7 @@ public interface MemberDAO {
 	
 	MemberVO selectMemberByAcc(@Param("acc")String me_acc);
 
+	MemberVO getMemberbyNumber(@Param("meNum")int meNum);
+
 }
 

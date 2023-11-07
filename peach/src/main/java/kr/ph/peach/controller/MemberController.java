@@ -1,7 +1,5 @@
 package kr.ph.peach.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -11,13 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.ph.peach.service.MemberService;
 import kr.ph.peach.util.Message;
-import kr.ph.peach.vo.BankVO;
-import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
 
 @Controller
@@ -25,28 +19,23 @@ import kr.ph.peach.vo.MemberVO;
 public class MemberController {
 	
 	@Autowired
-
 	private MemberService memberService;
 
 	@GetMapping("/signup")
 	public String signup(Model model) {
-		//시도를 가져오라고 요청
-		List<CityVO> list = memberService.getLargeCity();
+		
 		model.addAttribute("title", "회원가입");
-		model.addAttribute("large", list);
-		List<BankVO> bankList = memberService.getBank();
-		model.addAttribute("bankList", bankList);
 		return "/member/signup";
 	}
 	
-	@PostMapping("/signup")
+@PostMapping("/signup")
 	public String signupPost(MemberVO member,Model model) {
-		System.out.println(member);
+		
 		//서비스에게 회원가입 시켜야 함 => 회원정보를 주면서 => 가입여부를 알려달라고 함
 		boolean res = memberService.signup(member);
 		if(res) {
 			model.addAttribute("msg", "회원가입 성공!");
-			model.addAttribute("url", "member/login");
+			model.addAttribute("url", "");
 		}else {
 			model.addAttribute("msg", "회원가입 실패!");
 			model.addAttribute("url", "member/signup");
@@ -65,15 +54,11 @@ public class MemberController {
 		Message msg = new Message("/member/login", "로그인에 실패했습니다.");
 		//DB에서 로그인 정보를 이용하여 가져온 회원정보. 자동로그인 여부가 없음
 		MemberVO user = memberService.login(member);
-		System.out.println(user);
 		if(user != null) {
 			msg = new Message("", "로그인에 성공했습니다.");
 			//화면에서 선택/미선택한 자동로그인 여부를 user에 저장해서 인터셉터에게 전달 
-//			user.setAutoLogin(member.isAutoLogin());
+			user.setAutoLogin(member.isAutoLogin());
 		}
-		System.out.println(model);
-		System.out.println(member);
-		System.out.println(user);
 		model.addAttribute("user", user);
 		model.addAttribute("msg", msg);
 		return "message";
@@ -86,7 +71,7 @@ public class MemberController {
 		
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
-//		user.setMe_session_limit(null);
+		user.setMe_session_limit(null);
 		memberService.updateMemberSession(user);
 		Message msg = new Message("/", null);
 		if(user != null) {
@@ -95,45 +80,7 @@ public class MemberController {
 		}
 		model.addAttribute("msg", msg);
 		return "message";
-
 	}
-	
-	@ResponseBody
-	@PostMapping("/id/check")
-	public boolean idCheck(@RequestParam("id") String id){
-		System.out.println(id);
-		boolean res= memberService.checkId(id);
-		System.out.println(res);
-		return res;
-	}
-	
-	@ResponseBody
-	@PostMapping("/nick/check")
-	public boolean nickCheck(@RequestParam("nick") String nick){
-		System.out.println(nick);
-		boolean res= memberService.checkNick(nick);
-		System.out.println(res);
-		return res;
-	}
-	
-	@ResponseBody
-	@PostMapping("/medium")
-	public List<CityVO> medium(@RequestParam("large") String large){
-		
-		List<CityVO> res= memberService.getMediumCity(large);
-		
-		return res;
-	}
-	
-	@ResponseBody
-	@PostMapping("/small")
-	public List<CityVO> small(@RequestParam("medium") String medium){
-		
-		List<CityVO> res= memberService.getSmall(medium);
-		
-		return res;
-	}
-	
 	
 	
 }

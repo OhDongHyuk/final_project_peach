@@ -31,4 +31,6 @@ public interface MemberService {
 	
 	List<BankVO> getBank();
 
+	MemberVO getMemberbyNumber(int meNum);
+
 }
