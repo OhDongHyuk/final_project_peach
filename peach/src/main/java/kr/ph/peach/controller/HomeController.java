@@ -77,19 +77,4 @@ public class HomeController {
 		return "/main/home";
 	}
 
-	/*
-	 * @GetMapping("/search") public String detail(Model model, SaleBoardCriteria
-	 * cri, HttpSession session) { List<SaleBoardVO> dbBoardList =
-	 * saleBoardService.selectAllBoard();
-	 * 
-	 * cri.setPerPageNum(8); int totalCount = saleBoardService.getTotalCount(cri);
-	 * int displayPageNum = 24; PageMaker pm = new PageMaker(displayPageNum, cri,
-	 * totalCount);
-	 * 
-	 * model.addAttribute("pm", pm); model.addAttribute("dbBoardList", dbBoardList);
-	 * 
-	 * return "/main/home";
-	 * 
-	 * }
-	 */
 }
