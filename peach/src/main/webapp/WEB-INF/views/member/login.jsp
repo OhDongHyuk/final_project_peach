@@ -45,4 +45,3 @@
 	<a href="<c:url value='/member/pw_find'/>" class="btn btn-warning btn-user btn-block">비밀번호찾기 찾기</a>
 </body>
 </html>
-

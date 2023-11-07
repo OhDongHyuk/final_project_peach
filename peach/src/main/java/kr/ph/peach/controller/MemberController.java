@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.ph.peach.service.MemberService;
+import kr.ph.peach.service.ProfileService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.BankVO;
 import kr.ph.peach.vo.CityVO;
@@ -26,8 +27,10 @@ import kr.ph.peach.vo.MemberVO;
 public class MemberController {
 	
 	@Autowired
-
 	private MemberService memberService;
+	
+	@Autowired
+	private ProfileService profileService;
 
 	@GetMapping("/signup")
 	public String signup(Model model) {
@@ -68,6 +71,7 @@ public class MemberController {
 			model.addAttribute("msg", "회원가입 실패!");
 			model.addAttribute("url", "member/signup");
 		}
+		profileService.addProfileNum(member.getMe_num());
 		return "/main/message";
 	}
 
@@ -82,15 +86,11 @@ public class MemberController {
 		Message msg = new Message("/member/login", "로그인에 실패했습니다.");
 		//DB에서 로그인 정보를 이용하여 가져온 회원정보. 자동로그인 여부가 없음
 		MemberVO user = memberService.login(member);
-		System.out.println(user);
 		if(user != null) {
 			msg = new Message("", "로그인에 성공했습니다.");
 			//화면에서 선택/미선택한 자동로그인 여부를 user에 저장해서 인터셉터에게 전달 
-//			user.setAutoLogin(member.isAutoLogin());
+			user.setAutoLogin(member.isAutoLogin());
 		}
-		System.out.println(model);
-		System.out.println(member);
-		System.out.println(user);
 		model.addAttribute("user", user);
 		model.addAttribute("msg", msg);
 		return "message";
@@ -103,7 +103,7 @@ public class MemberController {
 		
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
-//		user.setMe_session_limit(null);
+		user.setMe_session_limit(null);
 		memberService.updateMemberSession(user);
 		Message msg = new Message("/", null);
 		if(user != null) {
@@ -112,7 +112,6 @@ public class MemberController {
 		}
 		model.addAttribute("msg", msg);
 		return "message";
-
 	}
 	
 	@ResponseBody
@@ -212,5 +211,6 @@ public class MemberController {
 	    
 	    return "/member/pw_find";
 	}
+	
 	
 }

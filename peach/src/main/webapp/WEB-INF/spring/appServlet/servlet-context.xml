@@ -14,8 +14,9 @@
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
-	<resources mapping="/img/**" location="file:///D:/finalImg/img/" />
-
+	<resources mapping="/resources/image/**" location="file:///C:/Users/user1/Documents/workspace-sts-3.9.1/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/peach/resources/image/" />
+	<resources mapping="/img/**" location="file:///C:/finalImg/img/" />
+	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
@@ -36,25 +37,38 @@
 	        </beans:list>
 	    </beans:property>
 	</beans:bean>
-	<beans:bean id="uploadPath" class="java.lang.String">
-	    <beans:constructor-arg value="D:/finalImg/uploadfiles"/>
-	</beans:bean>
+	
 	<!-- 이미지 업로드 전용 경로 -->
 	<beans:bean id="uploadImgPath" class="java.lang.String">
 	    <beans:constructor-arg value="D:/finalImg/img"/>
 	</beans:bean>
-
 	
 	<beans:bean id="loginInterceptor" class="kr.ph.peach.interceptor.LoginInterceptor"></beans:bean>
+	<beans:bean id="autoLoginInterceptor" class="kr.ph.peach.interceptor.AutoLoginInterceptor"></beans:bean>
+	<beans:bean id="adminInterceptor" class="kr.ph.peach.interceptor.AdminInterceptor"></beans:bean>
 	
 	<interceptors>
 		<interceptor>
 			<mapping path="/member/login"/>
 			<beans:ref bean="loginInterceptor" />
 		</interceptor>
-		
+		<interceptor>
+			<mapping path="/**"/>
+			<beans:ref bean="autoLoginInterceptor" />
+		</interceptor>
+		<interceptor>
+			<mapping path="/admin/*"/>
+			<beans:ref bean="adminInterceptor" />
+		</interceptor>
 	</interceptors>
-	
-	
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="10485760"/>
+	</beans:bean>
+
+	<beans:bean id="uploadPath" class="java.lang.String">
+	    <beans:constructor-arg value="D://uploadfiles"/>
+	    <!-- <beans:constructor-arg value="D://uploadfiles"/> -->
+	</beans:bean>
+	<context:component-scan base-package="kr.ph.peach" />
 	
 </beans:beans>

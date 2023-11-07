@@ -6,17 +6,17 @@
 <head>
 	<style>
 	.messages {
-	    color: red;
-	}
-	
-	
-	label.error {
-	    color: red;
-	}
-	
-	.messages.error {
-	    color: red;
-	}
+    color: red; /* 실패 메시지의 텍스트 색상을 빨간색으로 설정 */
+}
+
+/* 메시지가 표시되는 위치 및 스타일 지정 */
+label.error {
+    color: red; /* 실패 메시지의 텍스트 색상을 빨간색으로 설정 */
+}
+
+.messages.error {
+    color: red; /* 실패 메시지의 텍스트 색상을 빨간색으로 설정 */
+}
 	</style>
 	<title>Home</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -247,7 +247,7 @@
 		            },
 		            me_acc: {
 		                required : "필수로입력하세요.",
-		                regex : "10~20자 입력해주세요. -제외한 숫자만 입력하세요."
+		                regex : "-제외한 숫자만 입력하세요."
 		            },
 		            me_phone: {
 		                required : "필수로입력하세요",
@@ -346,57 +346,6 @@
 				}
 			});
 		})
-		
-		$('[name=me_phone]').focusout(function(){
-		    let phone = $(this).val().trim(); // 입력란의 값을 가져옴
-		
-		    if(phone == ''){
-		        alert('핸드폰 번호를 입력하세요.');
-		        return;
-		    }
-		
-		    $.ajax({
-		        url: '<c:url value="/member/phone"/>',
-		        type: 'POST',
-		        data: { phone: phone},
-		        success: function(data){
-		            if(!data){
-		                alert('이미 사용 중인 핸드폰 번호입니다.');
-		            }
-		        },
-		        error : function(a,b,c){
-					console.log(a);
-					console.log(b);
-					console.log(c);
-				}
-		    });
-		});
-		
-		$('[name=me_acc]').focusout(function(){
-		    let acc = $(this).val().trim(); // 입력란의 값을 가져옴
-		
-		    if(acc == ''){
-		        alert('계좌 번호를 입력하세요.');
-		        return;
-		    }
-		
-		    $.ajax({
-		        url: '<c:url value="/member/acc"/>',
-		        type: 'POST',
-		        data: { acc: acc},
-		        success: function(data){
-		            if(!data){
-		                alert('이미 사용 중인 계좌 번호입니다.');
-		            }
-		        },
-		        error : function(a,b,c){
-					console.log(a);
-					console.log(b);
-					console.log(c);
-				}
-		    });
-		});
-		
 		
 	</script>
 </body>
