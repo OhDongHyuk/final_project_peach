@@ -14,6 +14,7 @@ public class SaleBoardVO {
 	private String sb_date;
 	private SaleCategoryVO saleCategoryVO;
 	private List<SaleImageVO> saleImageVOList;
+	private MemberVO memberVO;
 	
 	public SaleBoardVO(String sb_name, int sb_price, String sb_info, int sb_sc_num) {
 		this.sb_name = sb_name;
