@@ -2,6 +2,7 @@ package kr.ph.peach.service;
 
 import java.util.List;
 
+import kr.ph.peach.vo.AuthVO;
 import kr.ph.peach.vo.BankVO;
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
@@ -35,4 +36,5 @@ public interface MemberService {
 	MemberVO memberIdFind(MemberVO member);
 
 	boolean sendPw(String me_id, String me_name);
+	
 }

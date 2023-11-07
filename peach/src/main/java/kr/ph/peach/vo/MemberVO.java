@@ -25,6 +25,8 @@ public class MemberVO {
 	private String me_session_id;
 	private Date me_session_limit;
 	
+	 
+	
 	public String getme_date_str() {
 		if(me_date == null) {
 			return "";

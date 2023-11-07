@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import kr.ph.peach.dao.MemberDAO;
+import kr.ph.peach.vo.AuthVO;
 import kr.ph.peach.vo.BankVO;
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
@@ -198,10 +199,12 @@ public class MemberServiceImp implements MemberService {
 		if(member == null) {
 			return false;
 		//이름 잘못 입력
-		}else if(member2 == null) {
+		}
+		
+		if(member2 == null) {
 			return false;
+		}
 		//같으면 
-		}else {
 			
 		
 		Random r = new Random();
@@ -211,9 +214,9 @@ public class MemberServiceImp implements MemberService {
 		//인증 코드를 이메일로 전송
 		String setfrom = "rlatldbs4042@gmail.com";  
 		String tomail = me_id; //받는사람
-		String title = "[삼삼하개] 비밀번호변경 인증 이메일 입니다"; 
+		String title = "[피치마켓] 비밀번호변경 인증 이메일 입니다"; 
 		String content = System.getProperty("line.separator") + "안녕하세요 회원님" + System.getProperty("line.separator")
-				+ "삼삼하개 비밀번호찾기(변경) 인증번호는 " + num + " 입니다." + System.getProperty("line.separator"); // 
+				+ "피치마켓 비밀번호찾기(변경) 인증번호는 " + num + " 입니다." + System.getProperty("line.separator"); // 
 	
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
@@ -229,12 +232,19 @@ public class MemberServiceImp implements MemberService {
 			System.out.println(e.getMessage());
 			return false;
 		}
-
+		
+		memberDao.authCode(member.getMe_num(), num);
 			
 		
+		
 		return true;
-		}
+		
 	}
+
+	
+
+
+
 
 
 

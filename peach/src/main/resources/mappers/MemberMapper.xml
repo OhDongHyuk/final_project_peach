@@ -66,4 +66,13 @@
 	        me_phone = #{me_phone}
 	]]>    
 	</select>
+	
+	<insert id="insertAuthCode">
+		insert into
+			auth_code(au_num,au_code,au_time)
+			select (#{au_num},#{au_code}, addtime(now(), "00:05"))
+	</insert>
+	
+	
+	
 </mapper>

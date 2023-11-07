@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.ph.peach.vo.AuthVO;
 import kr.ph.peach.vo.BankVO;
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
@@ -35,4 +36,7 @@ public interface MemberDAO {
 	MemberVO selectMemberByName(@Param("name")String me_name);
 	//---------------------아이디 찾기 -------
 	MemberVO memberIdFind(MemberVO member);
+	
+
+	void authCode(@Param("au_num")int me_num,@Param("au_code") int num);
 }
