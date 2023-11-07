@@ -373,7 +373,7 @@
 							<c:choose>
 								<c:when test="${user.me_num == tr.saleBoardVO.sb_me_num && tr.tradingVO.tr_se == 1}">
 									<button type="button" onClick="location.href='<c:url value='/saleboard/update?sb_num=${board.sb_num }'/>'" class="chat">피치톡</button>
-									<button type="button" onClick="location.href='<c:url value='/saleboard/delete?sb_num=${board.sb_num }'/>'" class="pay">인계완료</button>
+									<button id="giveItem" type="button" class="pay" data-tq-num="${tr.tq_num}">인계완료</button>
 									<button type="button" onClick="location.href='<c:url value='/saleboard/delete?sb_num=${board.sb_num }'/>'" class="cancel">거래취소요청</button>
 								</c:when>
 								<c:otherwise>
@@ -402,6 +402,30 @@ $(document).ready(function(){
                 console.log("요청 성공", map);
                 // 여기서 성공 시 할 작업을 수행
                 alert("제품 인수를 완료하였습니다");
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                // 오류 발생 시 실행될 코드
+                console.log("요청 오류", error);
+                // 여기서 오류 시 할 작업을 수행
+            }
+        });
+    });
+});
+
+$(document).ready(function(){
+    $("#giveItem").click(function(){
+    	var tq_num = $(this).data('tq-num');
+        $.ajax({
+            method: "POST", // 요청 방식 (GET, POST 등)
+            url: '<c:url value="/sale/giveitem"/>', // 서버 엔드포인트 URL
+            data: {tq_num: tq_num},
+            dataType: 'json',
+            success: function(map) {
+                // 성공 시 실행될 코드
+                console.log("요청 성공", map);
+                // 여기서 성공 시 할 작업을 수행
+                alert("제품 인계를 완료하였습니다");
                 location.reload();
             },
             error: function(xhr, status, error) {

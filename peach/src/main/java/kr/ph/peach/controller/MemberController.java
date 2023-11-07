@@ -33,7 +33,7 @@ public class MemberController {
 	@Autowired
 
 	private ProfileService profileService;
-
+	
 	@GetMapping("/signup")
 	public String signup(Model model) {
 		//시도를 가져오라고 요청

@@ -1,7 +1,5 @@
 package kr.ph.peach.vo;
 
-import java.util.List;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

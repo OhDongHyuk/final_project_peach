@@ -43,7 +43,7 @@
 		SELECT distinct ci_large FROM city
 	</select>
 	<update id="updateUserId" parameterType="kr.ph.peach.vo.MemberVO">
-		UPDATE member SET me_id = #{me_id} WHERE me_num = #{me_num}
+		UPDATE member SET me_nick = #{me_nick} WHERE me_num = #{me_num}
 	</update>
 
 	<update id="updateUserPw" parameterType="kr.ph.peach.vo.MemberVO">
@@ -67,7 +67,7 @@
 	<select id="selectPfNum" resultType="kr.ph.peach.vo.ProfileVO">
 		select pf_num from profile where pf_me_num = #{me_num}
 	</select>
-	<insert id="insertprofileFile">
+	<insert id="insertProfileFile">
 		insert into profile_image(pi_name,pi_pf_num) values(#{profileImage.pi_name},#{profileImage.pf_num})
 	</insert>
 	<select id="selectProfile" resultType="kr.ph.peach.vo.ProfileVO">
@@ -82,7 +82,7 @@
 	<delete id="deleteIMG">
 		delete from profile_image where pi_pf_num = #{pf_num}
 	</delete>
-	<insert id="addProfileNum">
+	<insert id="addProfileNum" useGeneratedKeys="true" keyProperty="profile.pf_num">
 		insert into profile(pf_me_num) values(#{member.me_num})
 	</insert>
 

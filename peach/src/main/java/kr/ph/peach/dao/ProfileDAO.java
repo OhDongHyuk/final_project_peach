@@ -47,7 +47,7 @@ public interface ProfileDAO {
 
 	List<ProfileVO> selectPfNum(int me_num);
 
-	void insertprofileFile(@Param("profileImage") ProfileImageVO profileImage);
+	void insertProfileFile(@Param("profileImage") ProfileImageVO profileImage);
 
 	ProfileVO selectProfile(int me_num);
 

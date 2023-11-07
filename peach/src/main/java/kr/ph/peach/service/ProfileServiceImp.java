@@ -112,7 +112,7 @@ public class ProfileServiceImp implements ProfileService{
 				String pi_name = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
 				System.out.println("pi_name"+pi_name);
 				ProfileImageVO profileImage = new ProfileImageVO(pi_name,pf_num);
-				profileDao.insertprofileFile(profileImage);
+				profileDao.insertProfileFile(profileImage);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

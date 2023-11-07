@@ -5,26 +5,23 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.service.MemberService;
-
 import kr.ph.peach.service.ProfileService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
- 
 import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
@@ -38,7 +35,8 @@ public class ProfileController {
 	ProfileService profileService;
 	@Autowired
 	MemberService memberService;
-	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/board/profile/{me_num}")
     public String showProfilePage(@PathVariable("me_num") int meNum, Model model, HttpSession session, Criteria cri) {
@@ -140,7 +138,7 @@ public class ProfileController {
         
         String userPassword = user.getMe_pw();
         
-        if (Ppassword.equals(userPassword)) {
+        if (passwordEncoder.matches(Ppassword,userPassword)) {
         	msg = new Message("/board/profileMN?pi_num="+pi_num, "비밀번호 확인되었습니다");
         	model.addAttribute("msg", msg);
         	return "message";
@@ -176,7 +174,7 @@ public class ProfileController {
 		return "/board/profileMN";
 	}
 	@PostMapping("/board/profileMN")
-	public String insertPost(Model model, HttpSession session, MultipartFile[] files, MultipartFile Original,@RequestParam("me_id") String me_id, 
+	public String insertPost(Model model, HttpSession session, MultipartFile[] files, MultipartFile Original,@RequestParam("me_nick") String me_nick, 
 			@RequestParam("me_pw") String me_pw, @RequestParam("me_ci_num")int me_ci_num, @RequestParam("pf_text")String pf_text) {
 		Message msg;
 		MemberVO user = (MemberVO)session.getAttribute("user");
@@ -185,7 +183,7 @@ public class ProfileController {
 		profileService.updateCity(user, me_ci_num);		
 		}
 		
-		user.setMe_id(me_id);
+		user.setMe_nick(me_nick);
 		user.setMe_pw(me_pw);
 		
 		System.out.println(pf_text);

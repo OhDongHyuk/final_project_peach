@@ -141,7 +141,7 @@
 	  	<img src="<c:url value='/resources/img/3.png'/>" class="example">
 	  </c:if>
 	  <c:if test="${proImg != null}">
-	  	<img src="<c:url value='/img/${proImg.pi_name}'/>" class="example">
+	  	<img src="<c:url value='${proImg.pi_name}'/>" class="example">
 	  </c:if>
 	  <div class="profile-name"><P>${member.me_id}</P></div>
 	  <c:if test="${user.me_num == member.me_num}">

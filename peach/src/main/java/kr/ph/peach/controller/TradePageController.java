@@ -39,9 +39,18 @@ public class TradePageController {
     }
 	@ResponseBody
 	@PostMapping("/sale/undertake")
-	public Map<String,Object> rejectPost(@RequestParam("tq_num") int tq_num) {
+	public Map<String,Object> underTake(@RequestParam("tq_num") int tq_num) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		tradingRequestService.changeTradingCuState(tq_num);
+		System.out.println(tq_num);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("/sale/giveitem")
+	public Map<String,Object> giveItem(@RequestParam("tq_num") int tq_num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		tradingRequestService.changeTradingSeState(tq_num);
 		System.out.println(tq_num);
 		return map;
 	}

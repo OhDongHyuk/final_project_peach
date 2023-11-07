@@ -13,8 +13,6 @@
 		margin-top: 20px;
 		margin-bottom: 20px;
 	}
-	
- 	li {
       list-style: none;
       position: relative;
     }
@@ -223,7 +221,7 @@
 		<div class="form-group-e">
 			<br>
 			<label>닉네임</label>
-			<input type="text" class="form-control" name="me_id" value="${user.me_id}" placeholder="변경할 닉네임을 입력하세요.">
+			<input type="text" class="form-control" name="me_nick" value="${user.me_nick}" placeholder="변경할 닉네임을 입력하세요.">
 		</div>
 		<div class="form-group-e">
 			<label>비밀번호</label>
