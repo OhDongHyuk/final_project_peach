@@ -1,8 +1,6 @@
 package kr.ph.peach.vo;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import lombok.Data;
@@ -31,9 +29,9 @@ public class SaleBoardVO {
 		this.sb_sc_num = sb_sc_num;
 	}
 	
-	public String get_sb_price(int sb_price) {
+	public String get_sb_price() {
 		DecimalFormat decFormat = new DecimalFormat("###,###");
-		return decFormat.format(sb_price);
+		return decFormat.format(this.sb_price);
 	}
 	
 	public String get_sb_date(Date sb_date) {		
