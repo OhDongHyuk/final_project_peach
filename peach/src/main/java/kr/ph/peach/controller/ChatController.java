@@ -40,7 +40,7 @@ public class ChatController {
 			model.addAttribute("msg", msg);
 			return "message";
 		}
-		if(user.getMe_num() == saleBoard.getSb_me_num()) {
+		if(saleBoard != null && user.getMe_num() == saleBoard.getSb_me_num()) {
 			msg = new Message("/saleboard/detail?sb_num="+sb_num, "잘못된 접근입니다.");
 			model.addAttribute("msg", msg);
 			return "message";

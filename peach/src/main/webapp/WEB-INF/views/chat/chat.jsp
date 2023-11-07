@@ -347,15 +347,15 @@ textarea {
 				eventSource.addEventListener('newMessage', function(event) {
 					//ch_num = $('.active').attr('chNum');
 					if(ch_num == event.data){
-						MessageContentList(event.data);		
+						MessageContentList();		
 					}
 					MessageList();
 				});
 				
 				eventSource.addEventListener('read', function(event) {
 					if(ch_num == event.data){
-						ch_num = event.data;
-						MessageContentList(event.data);
+						//ch_num = event.data;
+						MessageContentList();
 					}
 				});
 	
