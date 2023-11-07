@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
+
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -14,58 +15,7 @@
 		<result property="sb_ss_num" column="sb_ss_num"/>
 		<result property="sb_sc_num" column="sb_sc_num"/>
 		<collection property="saleImageVOList" ofType="kr.ph.peach.vo.SaleImageVO" column="sb_num" select="selectSaleBoardImageList"/>
-		<collection property="saleCategoryVO" ofType="kr.ph.peach.vo.SaleCategoryVO" column="sb_sc_num" select="saleCategoryProduction"/>
 	</resultMap>
-	<insert id="insertBoard">
-		insert into sale_board(sb_name, sb_price, sb_info, sb_date, sb_me_num, sb_sc_num) values(#{salesBoard.sb_name}, #{salesBoard.sb_price}, #{salesBoard.sb_info}, #{salesBoard.sb_date}, #{salesBoard.sb_me_num}, #{salesBoard.sb_sc_num})
-	</insert>
-	<select id="selectAllCategory" resultType="kr.ph.peach.vo.SaleCategoryVO">
-		select * from sale_category
-	</select>
-	<select id="selectAllBoard" resultType="kr.ph.peach.vo.SaleBoardVO">
-		select * from sale_board order by sb_date desc
-	</select>
-	<select id="selectMemberNickname" resultType="String">
-		select me_nick from member where me_num = #{sb_me_num}
-	</select>
-	<select id="selectBoard" resultType="kr.ph.peach.vo.SaleBoardVO">
-		select * from sale_board where sb_num = #{sb_num}
-	</select>
-	<select id="selectCategoryName" resultType="String">
-		select sc_name from sale_category where sc_num = #{sb_sc_num}
-	</select>
-	<select id="selectMemberSugar" resultType="int">
-		select me_sugar from member where me_num = #{sb_me_num}
-	</select>
-	<update id="updateBoard">
-		update sale_board 
-		set 
-			sb_name = #{board.sb_name},
-			sb_sc_num = #{board.sb_sc_num},
-			sb_price = #{board.sb_price},
-			sb_info = #{board.sb_info}
-		where
-			sb_num = #{board.sb_num}
-	</update>
-	<delete id="deleteBoard">
-		delete from sale_board where sb_num = #{sb_num}
-	</delete>
-	<insert id="insertWish">
-		insert into wish(wi_me_num, wi_sb_num) values(#{wish.wi_me_num}, #{wish.wi_sb_num})
-	</insert>
-	<select id="selectWish" resultType="kr.ph.peach.vo.WishVO">
-		select * from wish where wi_me_num = #{wi_me_num} and wi_sb_num = #{wi_sb_num}
-	</select>
-	<delete id="deleteWish">
-		delete from wish where wi_me_num = #{wish.wi_me_num} and wi_sb_num = #{wish.wi_sb_num}
-	</delete>
-	<update id="updateWish">
-		update sale_board
-		set
-			sb_wish = sb_wish + #{i}
-		where
-			sb_num = #{wi_sb_num}
-	</update>
 	<select id="selectSaleBoardList" resultMap="SaleBoardVO">
 		select
 			*
@@ -73,10 +23,7 @@
 			sale_board
 		where
 			sb_ss_num = 1
-			<if test="cri.sc_num != 0">
-			and 
-				sb_sc_num = #{cri.sc_num}
-			</if>
+			and sb_sc_num = #{cri.sc_num}
 		order by
 			sb_date desc
 		limit #{cri.pageStart}, #{cri.perPageNum}
@@ -99,18 +46,5 @@
 	<select id="selectSaleBoardImageList" resultType="kr.ph.peach.vo.SaleImageVO">
 		select * from sale_image where si_key = #{sb_num} and si_table = "sale_board"
 	</select>
-		<select id="selectMainSaleBoardList"
-		resultMap="SaleBoardVO">
-		select * from sale_board order by sb_num desc
-		limit #{cri.pageStart},
-		#{cri.perPageNum}
-	</select>
-	<select id="selectSaleBoardCount" resultType="int">
-		select count(*) from
-		sale_board
-	</select>
-	<select id="saleCategoryProduction" resultType="kr.ph.peach.vo.SaleCategoryVO">
-		select * from sale_category where sc_num = #{sb_sc_num}
-	</select>
-	
 </mapper>
+

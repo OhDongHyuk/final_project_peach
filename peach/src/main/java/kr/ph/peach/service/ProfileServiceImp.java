@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.dao.ProfileDAO;
+
 import kr.ph.peach.util.UploadFileUtils;
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
@@ -23,6 +24,7 @@ public class ProfileServiceImp implements ProfileService{
 	
 	@Autowired
 	private ProfileDAO profileDao;
+
 	
 	String uploadPath = "C:\\finalImg\\img";
 
