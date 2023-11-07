@@ -8,9 +8,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import kr.ph.peach.dao.MemberDAO;
+
 import kr.ph.peach.vo.BankVO;
+
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.SaleCategoryVO;
 
 @Service
 public class MemberServiceImp implements MemberService {
@@ -155,8 +158,12 @@ public class MemberServiceImp implements MemberService {
 	}
 
 
+	@Override
+	public MemberVO getMemberbyNumber(int meNum) {
+		MemberVO member = memberDao.getMemberbyNumber(meNum);
+		return member;
+	}
 
-	
-	
 
 }
+

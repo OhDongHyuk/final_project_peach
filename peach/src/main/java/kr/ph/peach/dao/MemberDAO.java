@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+
 import kr.ph.peach.vo.BankVO;
+
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
 
@@ -17,6 +19,7 @@ public interface MemberDAO {
 	void updateMemberSession(@Param("member")MemberVO user);
 
 	MemberVO selectMemberBySessionId(@Param("session_id")String sId);
+
 
 	List<CityVO> selectLargeCity();
 
@@ -33,3 +36,4 @@ public interface MemberDAO {
 	MemberVO selectMemberByAcc(@Param("acc")String me_acc);
 
 }
+

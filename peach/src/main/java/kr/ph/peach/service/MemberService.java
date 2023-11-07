@@ -2,7 +2,9 @@ package kr.ph.peach.service;
 
 import java.util.List;
 
+
 import kr.ph.peach.vo.BankVO;
+
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
 
@@ -24,7 +26,9 @@ public interface MemberService {
 
 	List<CityVO> getMediumCity(String large);
 
+
 	List<CityVO> getSmall(String medium);
 	
 	List<BankVO> getBank();
+
 }
