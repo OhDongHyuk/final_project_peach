@@ -1,6 +1,8 @@
 package kr.ph.peach.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,13 +11,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.pagination.PageMaker;
 import kr.ph.peach.pagination.SaleBoardCriteria;
+import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.SaleBoardService;
+import kr.ph.peach.service.SaleCategoryService;
 import kr.ph.peach.service.TradingRequestService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.MemberVO;
@@ -27,10 +33,17 @@ import kr.ph.peach.vo.WishVO;
 
 
 @Controller
+@RequestMapping("/saleboard")
 public class SaleBoardController {
 	
 	@Autowired
+	MemberService memberSerivce;
+
+	@Autowired
 	SaleBoardService saleBoardService;
+	
+	@Autowired
+	SaleCategoryService saleCategoryService;
 	
 	@Autowired
 	TradingRequestService tradingRequestService;
@@ -38,21 +51,39 @@ public class SaleBoardController {
 	@GetMapping("/{sc_num}")
 	public String productsList(@PathVariable("sc_num") int categoryId, Model model, HttpSession session, SaleBoardCriteria cri) {
 		List<SaleBoardVO> prList = saleBoardService.getSaleBoardList(cri);
+		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
+		MemberVO user = (MemberVO) session.getAttribute("user");
+		if (user != null) {
+			List<WishVO> wishList = memberSerivce.getWishList(user.getMe_num());
+			model.addAttribute("wishList", wishList);
+		}
+		for(SaleBoardVO tmp : prList) {
+			prList.get(prList.indexOf(tmp)).setSb_me_nickname(saleBoardService.selectMemberNickname(tmp.getSb_me_num()));
+		}
 		cri.setSc_num(categoryId);
 		//전체 게시글 수 
 		int totalCount = saleBoardService.getTotalCount(cri);
 		//페이지네이션에서 최대 페이지 개수 
 		int displayPageNum = 20;
 		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
-		
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("pm", pm);
 		model.addAttribute("prList",prList);
-		return "/sale/saleBoard";
+		model.addAttribute("categoryList", categoryList);
+		return "/saleboard/saleBoard";
 	}
 	
-	@RequestMapping("/sale/insert")
-	public String insert(Model model) {
+	@GetMapping("/insert")
+	public String insert(Model model, HttpSession session, SaleBoardVO saleBoard) {
+		List<SaleCategoryVO> dbCategory = saleBoardService.selectAllCategory();
+		model.addAttribute("dbCategory", dbCategory);
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		Message msg;
+		if(user == null) {
+			msg = new Message("saleboard/" + saleBoard.getSb_sc_num(), "로그인이 필요합니다.");
+			model.addAttribute("msg", msg);
+			return "message";
+		}
 		
 		return "/saleboard/insert";
 	}
@@ -69,7 +100,25 @@ public class SaleBoardController {
 		model.addAttribute("msg", msg);
 		return "message";
 	}
+	
+	@GetMapping("/list")
+	public String list(Model model, SaleBoardCriteria cri, HttpSession session) {
+		List<SaleBoardVO> dbBoardList = saleBoardService.selectAllBoard2(cri);
+		
+		for(SaleBoardVO tmp : dbBoardList) {
+			dbBoardList.get(dbBoardList.indexOf(tmp)).setSb_me_nickname(saleBoardService.selectMemberNickname(tmp.getSb_me_num()));
+		}
 
+		
+		int totalCount = saleBoardService.getTotalCount(cri);
+		int displayPageNum = 24;
+		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
+
+		model.addAttribute("pm", pm);
+		
+		model.addAttribute("dbBoardList", dbBoardList);
+		return "/saleboard/list";
+	}
 	@GetMapping("/detail")
 	public String detail(Model model, Integer sb_num, HttpSession session) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
@@ -113,7 +162,6 @@ public class SaleBoardController {
 		
 		return "/saleboard/update";
 	}
-	
 	@PostMapping("/update")
 	public String updatePost(Model model, HttpSession session, SaleBoardVO board, MultipartFile[] files,Integer[] delFiles) {
 		Message msg;
@@ -177,8 +225,4 @@ public class SaleBoardController {
 	    System.out.println(map);
 	    return map;
 	}
-
-
 }
-
-

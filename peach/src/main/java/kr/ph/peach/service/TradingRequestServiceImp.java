@@ -73,6 +73,12 @@ public class TradingRequestServiceImp implements TradingRequestService{
 		
 	}
 
+	@Override
+	public void changeTradingSeState(int tq_num) {
+		tradingRequestDao.changeTradingSeState(tq_num);
+		
+	}
+
 
 
 	

@@ -29,5 +29,7 @@ public interface TradingRequestDAO {
 
 	void changeTradingCuState(@Param("tq_num")int tq_num);
 
+	void changeTradingSeState(@Param("tq_num")int tq_num);
+
 
 }

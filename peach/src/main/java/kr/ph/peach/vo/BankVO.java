@@ -4,5 +4,6 @@ import lombok.Data;
 
 @Data
 public class BankVO {
-	String bk_name;
+
+	private String bk_name;
 }
