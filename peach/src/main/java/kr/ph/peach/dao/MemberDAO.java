@@ -31,5 +31,8 @@ public interface MemberDAO {
 	MemberVO selectMemberByPhoneNum(@Param("phone")String me_phone);
 	
 	MemberVO selectMemberByAcc(@Param("acc")String me_acc);
-
+	
+	MemberVO selectMemberByName(@Param("name")String me_name);
+	//---------------------아이디 찾기 -------
+	MemberVO memberIdFind(MemberVO member);
 }

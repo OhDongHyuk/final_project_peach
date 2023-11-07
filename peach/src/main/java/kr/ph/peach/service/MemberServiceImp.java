@@ -1,9 +1,14 @@
 package kr.ph.peach.service;
 
 import java.util.List;
+import java.util.Random;
 import java.util.regex.Pattern;
 
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +25,9 @@ public class MemberServiceImp implements MemberService {
 	
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	@Override
 	public boolean signup(MemberVO member) {
@@ -77,9 +85,11 @@ public class MemberServiceImp implements MemberService {
 	
 	@Override
 	public MemberVO login(MemberVO member) {
+		
 		if(!checkIdRegex(member.getMe_id()) || !checkPwRegex(member.getMe_pw())) {
 			return null;
 		}
+		
 		//아이디와 일치하는 회원 정보를 가져옴
 		MemberVO user = memberDao.selectMember(member.getMe_id());
 		
@@ -87,11 +97,13 @@ public class MemberServiceImp implements MemberService {
 		if(user != null && passwordEncoder.matches(member.getMe_pw(), user.getMe_pw())) {
 			return user;
 		}
+		
 		return null;
 	}
+
 	private boolean checkIdRegex(String id) {
 		//아이디는 영문,숫자,@._-로 이루어지고 8~20자 
-		String regexId = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([\\-.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$/i";
+		String regexId = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([\\-.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$";
 		
 		if(id == null) {
 			return false;
@@ -138,7 +150,6 @@ public class MemberServiceImp implements MemberService {
 
 	@Override
 	public List<CityVO> getSmall(String medium) {
-		// TODO Auto-generated method stub
 		return memberDao.selectSmallCity(medium);
 	}
 	
@@ -152,6 +163,77 @@ public class MemberServiceImp implements MemberService {
 	public boolean checkNick(String nick) {
 		return memberDao.selectMemberByNickName(nick) == null;
 		
+	}
+
+
+
+	@Override
+	public MemberVO selectMemberByPhoneNum(String phone) {
+		// TODO Auto-generated method stub
+		return memberDao.selectMemberByPhoneNum(phone) ;
+	}
+
+
+
+	@Override
+	public MemberVO selectMemberByAcc(String acc) {
+		// TODO Auto-generated method stub
+		return memberDao.selectMemberByAcc(acc);
+	}
+
+
+	//-------------아이디 찾기------------
+	@Override
+	public MemberVO memberIdFind(MemberVO member) {
+		return memberDao.memberIdFind(member);
+	}
+
+
+
+	@Override
+	public boolean sendPw(String me_id, String me_name) {
+		MemberVO member = memberDao.selectMember(me_id);
+		MemberVO member2 = memberDao.selectMemberByName(me_name);
+		//아이디(email)를 잘못 입력 
+		if(member == null) {
+			return false;
+		//이름 잘못 입력
+		}else if(member2 == null) {
+			return false;
+		//같으면 
+		}else {
+			
+		
+		Random r = new Random();
+		int num = r.nextInt(999999); // 랜덤난수설정
+		
+		
+		//인증 코드를 이메일로 전송
+		String setfrom = "rlatldbs4042@gmail.com";  
+		String tomail = me_id; //받는사람
+		String title = "[삼삼하개] 비밀번호변경 인증 이메일 입니다"; 
+		String content = System.getProperty("line.separator") + "안녕하세요 회원님" + System.getProperty("line.separator")
+				+ "삼삼하개 비밀번호찾기(변경) 인증번호는 " + num + " 입니다." + System.getProperty("line.separator"); // 
+	
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "utf-8");
+	
+			messageHelper.setFrom(setfrom); 
+			messageHelper.setTo(tomail); 
+			messageHelper.setSubject(title);
+			messageHelper.setText(content); 
+	
+			mailSender.send(message);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+
+			
+		
+		return true;
+		}
 	}
 
 

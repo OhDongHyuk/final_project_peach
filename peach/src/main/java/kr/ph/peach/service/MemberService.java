@@ -27,4 +27,12 @@ public interface MemberService {
 	List<CityVO> getSmall(String medium);
 	
 	List<BankVO> getBank();
+
+	MemberVO selectMemberByPhoneNum(String me_phone);
+
+	MemberVO selectMemberByAcc(String me_acc);
+	//---------------아이디 찾기-----------------
+	MemberVO memberIdFind(MemberVO member);
+
+	boolean sendPw(String me_id, String me_name);
 }

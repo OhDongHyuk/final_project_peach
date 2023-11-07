@@ -1,5 +1,6 @@
 package kr.ph.peach.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +43,22 @@ public class MemberController {
 	@PostMapping("/signup")
 	public String signupPost(MemberVO member,Model model) {
 		System.out.println(member);
+		
+		MemberVO dbMemberByPhone = memberService.selectMemberByPhoneNum(member.getMe_phone());
+        if (dbMemberByPhone != null) {
+            model.addAttribute("msg", "핸드폰 번호가 이미 존재합니다.");
+            model.addAttribute("url", "/member/signup");
+            return "main/message";
+        }
+
+       
+        MemberVO dbMemberByAcc = memberService.selectMemberByAcc(member.getMe_acc());
+        if (dbMemberByAcc != null) {
+            model.addAttribute("msg", "계좌 번호가 이미 존재합니다.");
+            model.addAttribute("url", "/member/signup");
+            return "main/message";
+        }
+		
 		//서비스에게 회원가입 시켜야 함 => 회원정보를 주면서 => 가입여부를 알려달라고 함
 		boolean res = memberService.signup(member);
 		if(res) {
@@ -108,6 +125,20 @@ public class MemberController {
 	}
 	
 	@ResponseBody
+	@PostMapping("/phone")
+	public boolean phone(@RequestParam("phone") String phone){
+		MemberVO dbMemberByPhone = memberService.selectMemberByPhoneNum(phone);
+        return dbMemberByPhone == null;
+	}
+	
+	@ResponseBody
+	@PostMapping("/acc")
+	public boolean acc(@RequestParam("acc") String acc){
+		MemberVO dbMemberByAcc = memberService.selectMemberByAcc(acc);
+        return dbMemberByAcc == null;
+	}
+	
+	@ResponseBody
 	@PostMapping("/nick/check")
 	public boolean nickCheck(@RequestParam("nick") String nick){
 		System.out.println(nick);
@@ -134,6 +165,52 @@ public class MemberController {
 		return res;
 	}
 	
+	//----------------------아이디 찾기---------------------------------
+	@GetMapping("/find_id")
+	public String find_id(HttpServletRequest request, Model model,
+	        MemberVO member) {
+	    
+	    
+	    return "/member/find_id";
+	}
 	
+	@RequestMapping(value = "/find_result_id")
+	public String find_result_id(HttpServletRequest request, Model model,  MemberVO member) {
+	 
+	 
+	try {
+	    
+	    MemberVO memberFind = memberService.memberIdFind(member);
+	    
+	    model.addAttribute("member", memberFind);
+	 
+	} catch (Exception e) {
+	    System.out.println(e.toString());
+	    model.addAttribute("msg", "오류가 발생되었습니다.");
+	}
+	 
+	return "/member/find_result_id";
+	}
+	
+	//---------------------------비번 찾기--------------------------------
+	
+	@RequestMapping(value = "/pw_auth.me")
+	public String pw_auth(Model model,String me_id, String me_name) throws IOException {
+
+		Message msg = new Message("/", "비밀번호를 이메일로 전송했습니다.");
+		if(!memberService.sendPw(me_id,me_name)) {
+			msg = new Message("/member/pw_find", "정보를 잘못입력했습니다.");
+		}
+		
+		model.addAttribute("msg", msg);
+		return "message";
+		
+	}
+	@GetMapping("/pw_find")
+	public String pw_find() {
+	    
+	    
+	    return "/member/pw_find";
+	}
 	
 }
