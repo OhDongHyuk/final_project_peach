@@ -167,6 +167,12 @@ public class ProfileServiceImp implements ProfileService{
 	public int selectIMG2(String pi_num) {
 		return profileDao.selectIMG2(pi_num);
 	}
+
+	@Override
+	public void addProfileNum(int me_num) {
+		profileDao.addProfileNum(me_num);
+		
+	}
 	
 
 }	

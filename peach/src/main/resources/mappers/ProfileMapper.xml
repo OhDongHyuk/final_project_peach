@@ -82,7 +82,9 @@
 	<delete id="deleteIMG">
 		delete from profile_image where pi_pf_num = #{pf_num}
 	</delete>
-
+	<insert id="addProfileNum">
+		insert into profile(pf_me_num) values(#{member.me_num})
+	</insert>
 
     <!--  
  	<select id="selectBoard" resultType="kr.ph.peach.vo.MemberVO">

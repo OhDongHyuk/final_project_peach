@@ -46,6 +46,8 @@ public interface ProfileService {
 
 	int selectIMG2(String pi_num);
 
+	void addProfileNum(int me_num);
+
 
 
 	/*

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.ph.peach.service.MemberService;
+import kr.ph.peach.service.ProfileService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.BankVO;
 import kr.ph.peach.vo.CityVO;
@@ -28,6 +29,10 @@ public class MemberController {
 	@Autowired
 
 	private MemberService memberService;
+	
+	@Autowired
+
+	private ProfileService profileService;
 
 	@GetMapping("/signup")
 	public String signup(Model model) {
@@ -68,6 +73,7 @@ public class MemberController {
 			model.addAttribute("msg", "회원가입 실패!");
 			model.addAttribute("url", "member/signup");
 		}
+		profileService.addProfileNum(member.getMe_num());
 		return "/main/message";
 	}
 

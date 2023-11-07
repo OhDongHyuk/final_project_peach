@@ -7,7 +7,7 @@
 <meta charset="EUC-KR">
 <style>
 
-	.row{
+	.row1{
 		text-align: center;
 		margin-left: 25%;
 	}
@@ -19,8 +19,8 @@
 </head>
 <body>
 	<div class="imsi-box">
-			<div class="container">
-				<div class="row">
+			<div class="container1">
+				<div class="row1">
 					<div class="col-lg-8 col-12 custom-padding-right">
 						<br>
 						<br>

@@ -51,7 +51,7 @@
 			ofType="kr.ph.peach.vo.BankVO" column="me_bk_name"
 			select="selectBankList" />
 	</resultMap>
-	<insert id="insertMember">
+	<insert id="insertMember" useGeneratedKeys="true" keyProperty="member.me_num">
 		insert into
 			member(me_id, me_pw, me_name, me_acc, me_phone, me_nick, me_ci_num, me_bk_name)
 			values(#{member.me_id},#{member.me_pw},#{member.me_name},#{member.me_acc},#{member.me_phone},#{member.me_nick},#{member.me_ci_num},#{member.me_bk_name})

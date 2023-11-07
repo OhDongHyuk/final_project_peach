@@ -57,6 +57,8 @@ public interface ProfileDAO {
 
 	void deleteIMG(int pf_num);
 
+	void addProfileNum(int me_num);
+
 	
 	/*
 	List<MemberVO> selectMemberList(String me_id);
