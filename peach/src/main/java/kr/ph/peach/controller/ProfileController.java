@@ -103,7 +103,6 @@ public class ProfileController {
 	}
     @GetMapping("/board/profilePass")
 	public String ProfileMNlogin(Model model, HttpSession session, String pi_num) {
-    	System.out.println("Pass1"+pi_num);
     	
     	MemberVO user = (MemberVO) session.getAttribute("user");
         model.addAttribute("user", user);
@@ -125,8 +124,6 @@ public class ProfileController {
     	MemberVO user = (MemberVO) session.getAttribute("user");
         model.addAttribute("user", user);
         Message msg;
-
-        System.out.println("입력한 비밀번호: " + Ppassword);
         
         if (Ppassword == null) {
             return "/board/profilePass";
@@ -148,8 +145,7 @@ public class ProfileController {
  
     @GetMapping("/board/profileMN")
 	public String profileMNInsert(Model model, HttpSession session, SaleBoardVO saleBoard, String pi_num) {
-    	System.out.println("MN"+pi_num);
-    	
+ 
     	MemberVO user = (MemberVO) session.getAttribute("user");
     	model.addAttribute("user",user);
     	

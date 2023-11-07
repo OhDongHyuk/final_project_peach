@@ -91,16 +91,13 @@ public class ProfileServiceImp implements ProfileService{
 			return;
 		}
 		ProfileVO pf_num2 = profileDao.selectProfile(me_num);
-		System.out.println(pf_num2);
 		ProfileImageVO pfIMG = profileDao.selectImg(pf_num2.getPf_num());
-		System.out.println(pfIMG);
 		if(pfIMG != null && Original == null) {
 			profileDao.deleteIMG(pfIMG.getPi_pf_num());
 		}
 		
 		
 		int pf_num = pf_num2.getPf_num();
-		System.out.println("pf_num "+pf_num);
 		
 		for(MultipartFile file : files) {
 			if(file == null || file.getOriginalFilename().length() == 0) {
@@ -108,7 +105,6 @@ public class ProfileServiceImp implements ProfileService{
 			}
 			try {
 				String pi_name = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
-				System.out.println("pi_name"+pi_name);
 				ProfileImageVO profileImage = new ProfileImageVO(pi_name,pf_num);
 				profileDao.insertprofileFile(profileImage);
 			} catch (IOException e) {
