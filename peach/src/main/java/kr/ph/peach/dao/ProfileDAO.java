@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import kr.ph.peach.pagination.CriteriaProfile;
 import kr.ph.peach.vo.ProfileVO;
 
-public interface ProfileDao {
-
+public interface ProfileDAO
+{
+	
 }
