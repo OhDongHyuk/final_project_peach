@@ -18,7 +18,7 @@
 						<ul class="useful-links">
 							<li><a href="<c:url value='/'/>">Home</a></li>
 							<li><a href="<c:url value='/'/>">중고 거래</a></li>
-							<li><a href="<c:url value='/'/>">피치 게시판</a></li>
+							<li><a href="<c:url value='/board/community'/>">피치 게시판</a></li>
 						</ul>
 					</div>
 				</div>
