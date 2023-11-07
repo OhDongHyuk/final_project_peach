@@ -27,13 +27,11 @@ import kr.ph.peach.vo.MemberVO;
 public class MemberController {
 	
 	@Autowired
-
 	private MemberService memberService;
 	
 	@Autowired
-
 	private ProfileService profileService;
-	
+
 	@GetMapping("/signup")
 	public String signup(Model model) {
 		//시도를 가져오라고 요청
@@ -88,15 +86,11 @@ public class MemberController {
 		Message msg = new Message("/member/login", "로그인에 실패했습니다.");
 		//DB에서 로그인 정보를 이용하여 가져온 회원정보. 자동로그인 여부가 없음
 		MemberVO user = memberService.login(member);
-		System.out.println(user);
 		if(user != null) {
 			msg = new Message("", "로그인에 성공했습니다.");
 			//화면에서 선택/미선택한 자동로그인 여부를 user에 저장해서 인터셉터에게 전달 
 			user.setAutoLogin(member.isAutoLogin());
 		}
-		System.out.println(model);
-		System.out.println(member);
-		System.out.println(user);
 		model.addAttribute("user", user);
 		model.addAttribute("msg", msg);
 		return "message";
@@ -118,7 +112,6 @@ public class MemberController {
 		}
 		model.addAttribute("msg", msg);
 		return "message";
-
 	}
 	
 	@ResponseBody
@@ -218,5 +211,6 @@ public class MemberController {
 	    
 	    return "/member/pw_find";
 	}
+	
 	
 }

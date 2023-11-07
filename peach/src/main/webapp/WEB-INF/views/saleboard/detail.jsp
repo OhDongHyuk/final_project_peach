@@ -777,7 +777,7 @@
 					    }
 					);
 			}
-								
+			
 		// Function to close the modal
 		function closeReportModal() {
 		  reportPostModal.style.display = "none";

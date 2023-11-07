@@ -238,6 +238,7 @@ body, html {
 	flex-grow: 1;
     padding: 10px 15px;
     margin-left: 10px;
+    margin-top: 10px;
     border: none;
     background-color: #f1f1f1;
     border-radius: 20px;
@@ -344,9 +345,8 @@ textarea {
 				//메시지가 새로 들어왔을때 메시지리스트를 새로고침하며
 				//사용자가 보고 있는 채팅방 번호(ch_num)와 메시지를 보낸 사람이 전달한 채팅방 번호가 같을때만 채팅 내역을 새로고침
 				eventSource.addEventListener('newMessage', function(event) {
-					ch_num = $('.active').attr('chNum');
+					//ch_num = $('.active').attr('chNum');
 					if(ch_num == event.data){
-						ch_num = event.data;
 						MessageContentList(event.data);		
 					}
 					MessageList();
@@ -450,7 +450,7 @@ textarea {
 						$('.chat-room'+ch_num).addClass('active');
 						
 						
-						MessageContentList();
+						//MessageContentList();
 						
 						// 메세지 내용을 불러오는 함수 호출
 						
@@ -556,7 +556,7 @@ textarea {
 							}
 						})
 						
-						MessageContentList();
+						//MessageContentList();
 						
 						MessageList();
 						

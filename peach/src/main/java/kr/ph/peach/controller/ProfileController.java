@@ -227,10 +227,3 @@ public class ProfileController {
 	}
 	
 }
-
-
-
-
-
-
-

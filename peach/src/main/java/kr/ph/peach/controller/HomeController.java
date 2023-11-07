@@ -37,6 +37,7 @@ public class HomeController {
 	TradingRequestService tradingRequestService;
 	
 	@RequestMapping(value = "/")
+
 	public String home(Model model, HttpSession session, SaleBoardCriteria cri) {
 		List<SaleBoardVO> prList = saleBoardService.getSaleBoardList(cri);
 		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();

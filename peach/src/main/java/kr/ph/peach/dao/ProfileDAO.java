@@ -3,8 +3,6 @@ package kr.ph.peach.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.multipart.MultipartFile;
-
 
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
@@ -20,6 +18,8 @@ public interface ProfileDAO {
 	List<SaleCategoryVO> getCategoriesByScNum(@Param("sb_sc_num") int sb_sc_num);
 
 	public void profileUpdate(@Param("saleBoardVO") SaleBoardVO saleBoardVO);
+
+	void updateBoardViews(@Param("saleBoard") SaleBoardVO saleBoard);
 
 	void dateUp(Integer sb_num);
 
@@ -58,10 +58,5 @@ public interface ProfileDAO {
 	void deleteIMG(int pf_num);
 
 	void addProfileNum(int me_num);
-
 	
-	/*
-	List<MemberVO> selectMemberList(String me_id);
-	*/
 }
-

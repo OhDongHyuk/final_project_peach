@@ -103,6 +103,12 @@ public class SaleBoardServiceImp implements SaleBoardService {
 		
 		return saleBoardDao.selectAllBoard();
 	}
+	
+	@Override
+	public List<SaleBoardVO> selectAllBoard2(SaleBoardCriteria cri) {
+		
+		return saleBoardDao.selectAllBoard2(cri);
+	}
 
 	@Override
 	public String selectMemberNickname(int sb_me_num) {

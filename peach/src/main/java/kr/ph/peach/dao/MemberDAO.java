@@ -4,11 +4,12 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-
+import kr.ph.peach.pagination.MemberCriteria;
 import kr.ph.peach.vo.BankVO;
-
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.StatementVO;
+import kr.ph.peach.vo.WishVO;
 
 public interface MemberDAO {
 
@@ -16,10 +17,9 @@ public interface MemberDAO {
 
 	MemberVO selectMember(@Param("id")String id);
 
-	void updateMemberSession(@Param("member")MemberVO user);
-
+	void updateMemberSession(@Param("user")MemberVO user);
+	
 	MemberVO selectMemberBySessionId(@Param("session_id")String sId);
-
 
 	List<CityVO> selectLargeCity();
 
@@ -42,6 +42,15 @@ public interface MemberDAO {
 	MemberVO memberIdFind(MemberVO member);
 
 	MemberVO selectMemberBySession(@Param("session_id")String session_id);
+	
+	List<WishVO> getsaleBoardWishList(@Param("me_num")int me_num);
 
+	List<MemberVO> getMemberList(@Param("cri")MemberCriteria cri);
+
+	int getTotalCount(@Param("cri")MemberCriteria cri);
+
+	List<StatementVO> selectMemberTypeList();
+
+	boolean updateState(@Param("me_num")int me_num, @Param("me_st_num")int me_st_num);
+	
 }
-

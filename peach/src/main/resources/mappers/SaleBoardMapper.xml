@@ -25,6 +25,29 @@
 	<select id="selectAllBoard" resultType="kr.ph.peach.vo.SaleBoardVO">
 		select * from sale_board order by sb_date desc
 	</select>
+	<select id="selectAllBoard2"
+		resultMap="SaleBoardVO">
+		select * from sale_board 
+		where 1 = 1
+		<choose>
+			<when test='cri.type == "0"'>
+				and (sb_num like concat('%', #{cri.search}, '%')
+				or
+				sb_name like concat('%', #{cri.search}, '%')
+				or
+				sb_info like
+				concat('%', #{cri.search}, '%'))
+			</when>
+			<otherwise>
+				and ${cri.type} like concat('%', #{cri.search}, '%')
+			</otherwise>
+		</choose>
+		
+		
+		order by sb_date desc
+		limit
+		#{cri.pageStart}, #{cri.perPageNum}
+	</select>
 	<select id="selectMemberNickname" resultType="String">
 		select me_nick from member where me_num = #{sb_me_num}
 	</select>
@@ -128,4 +151,3 @@
 		delete from sale_image where si_num = #{num}
 	</delete>
 </mapper>
-

@@ -16,6 +16,7 @@
   	<style>
 	body{
 	min-width:400px;
+	min-height: 800px;
 	}
 	
 	@media screen and (max-width: 575px) {
@@ -49,6 +50,7 @@
 </head>
 <body>
     <tiles:insertAttribute name="header"/>
+    <tiles:insertAttribute name="mainheader"/>
     <tiles:insertAttribute name="body" />
     <tiles:insertAttribute name="footer" />
 </body>

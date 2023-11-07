@@ -13,22 +13,24 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import kr.ph.peach.dao.MemberDAO;
+import kr.ph.peach.pagination.MemberCriteria;
 import kr.ph.peach.vo.BankVO;
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.WishVO;
 
 @Service
 public class MemberServiceImp implements MemberService {
-	
+
 	@Autowired
-	MemberDAO memberDao;
-	
+	private MemberDAO memberDao;
+
 	@Autowired
-	BCryptPasswordEncoder passwordEncoder;
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private JavaMailSender mailSender;
-	
+
 	@Override
 	public boolean signup(MemberVO member) {
 		if (member == null) {
@@ -56,8 +58,8 @@ public class MemberServiceImp implements MemberService {
 		// 아이디, 비번 null 체크 + 유효성 검사
 		// 아이디는 이메일 형식
 		String idRegex = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([\\-.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$";
-		// 비번은 영문,숫자,!@#$%로 이루어지고 6~15자
-		String pwRegex = "^[a-zA-Z0-9!@#$%]{6,15}$";
+		//비번은 영문,숫자,특수문자로 이루어지고 8~20자 
+		String pwRegex = "^[a-zA-Z0-9!@#$%^&*()_+|~]{8,20}$";
 
 		// 아이디가 유효성에 맞지 않으면
 		if (!Pattern.matches(idRegex, member.getMe_id())) {
@@ -76,13 +78,6 @@ public class MemberServiceImp implements MemberService {
 		return memberDao.insertMember(member);
 	}
 
-	
-		
-	@Override
-	public boolean checkId(String id) {
-		return memberDao.selectMember(id) == null;
-	}
-	
 	@Override
 	public MemberVO login(MemberVO member) {
 		
@@ -92,8 +87,9 @@ public class MemberServiceImp implements MemberService {
 		
 		//아이디와 일치하는 회원 정보를 가져옴
 		MemberVO user = memberDao.selectMember(member.getMe_id());
-		
+		System.out.println(user);
 		//아이디와 일치하는 회원 정보가 있고, 비번이 일치하면 
+		System.out.println("로그인테스트"+passwordEncoder.matches(member.getMe_pw(), user.getMe_pw()));
 		if(user != null && passwordEncoder.matches(member.getMe_pw(), user.getMe_pw())) {
 			return user;
 		}
@@ -101,34 +97,64 @@ public class MemberServiceImp implements MemberService {
 		return null;
 	}
 
-	private boolean checkIdRegex(String id) {
-		//아이디는 영문,숫자,@._-로 이루어지고 8~20자 
-		String regexId = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([\\-.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$";
-		
-		if(id == null) {
-			return false;
-		}
-		return Pattern.matches(regexId, id);
-	}
-	private boolean checkPwRegex(String pw) {
-		
-		//비번은 영문,숫자,특수문자로 이루어지고 8~20자 
-		String regexPw = "^[a-zA-Z0-9!@#$%^&*()_+|~]{8,20}$";
-		if(pw == null) {
-			return false;
-		}
-		return Pattern.matches(regexPw, pw);
-	}
-	
 	@Override
 	public void updateMemberSession(MemberVO user) {
-		if(user == null) {
+		
+		if(user == null || user.getMe_id() == null) {
 			return;
 		}
+		
 		memberDao.updateMemberSession(user);
 		
 	}
+
+	@Override
+	public MemberVO getMemberBySession(String session_id) {
+		
+		return memberDao.selectMemberBySession(session_id);
+	}
 	
+	@Override
+	public List<WishVO> getWishList(int me_num) {
+		
+		return memberDao.getsaleBoardWishList(me_num);
+	}
+
+	@Override
+	public List<MemberVO> getMemberList(MemberCriteria cri) {
+		if(cri == null) {
+			cri = new MemberCriteria();
+		}
+		return memberDao.getMemberList(cri);
+	}
+
+	@Override
+	public int getTotalCount(MemberCriteria cri) {
+		if(cri == null) {
+			cri = new MemberCriteria();
+		}
+		return memberDao.getTotalCount(cri);
+	}
+
+	
+
+	@Override
+	public boolean updateState(int me_num, int me_st_num) {
+		
+		return memberDao.updateState(me_num, me_st_num);
+	}
+
+	@Override
+	public boolean checkId(String id) {
+		return memberDao.selectMember(id) == null;
+	}
+
+	@Override
+	public boolean checkNick(String nick) {
+		return memberDao.selectMemberByNickName(nick) == null;
+		
+	}
+
 	@Override
 	public MemberVO getMemberBySessionId(String sId) {
 		return memberDao.selectMemberBySessionId(sId);
@@ -159,18 +185,10 @@ public class MemberServiceImp implements MemberService {
 	}
 
 	@Override
-	public MemberVO getMemberBySession(String session_id) {
-		
-		return memberDao.selectMemberBySession(session_id);
+	public MemberVO getMemberByNumber(int meNum) {
+		MemberVO member = memberDao.getMemberByNumber(meNum);
+		return member;
 	}
-	
-	@Override
-	public boolean checkNick(String nick) {
-		return memberDao.selectMemberByNickName(nick) == null;
-		
-	}
-
-
 
 	@Override
 	public MemberVO selectMemberByPhoneNum(String phone) {
@@ -239,16 +257,23 @@ public class MemberServiceImp implements MemberService {
 		}
 	}
 
-	@Override
-	public MemberVO getMemberByNumber(int meNum) {
-		MemberVO member = memberDao.getMemberByNumber(meNum);
-		return member;
+	private boolean checkIdRegex(String id) {
+		//아이디는 영문,숫자,@._-로 이루어지고 8~20자 
+		String regexId = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([\\-.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$";
+		
+		if(id == null) {
+			return false;
+		}
+		return Pattern.matches(regexId, id);
 	}
-
-
-
+	private boolean checkPwRegex(String pw) {
+		
+		//비번은 영문,숫자,특수문자로 이루어지고 8~20자 
+		String regexPw = "^[a-zA-Z0-9!@#$%^&*()_+|~]{8,20}$";
+		if(pw == null) {
+			return false;
+		}
+		return Pattern.matches(regexPw, pw);
+	}
 	
-	
-
 }
-

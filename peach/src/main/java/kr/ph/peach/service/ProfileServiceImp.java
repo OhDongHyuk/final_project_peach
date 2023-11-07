@@ -1,8 +1,6 @@
 package kr.ph.peach.service;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.dao.ProfileDAO;
-
 import kr.ph.peach.util.UploadFileUtils;
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
@@ -24,10 +21,9 @@ public class ProfileServiceImp implements ProfileService{
 	
 	@Autowired
 	private ProfileDAO profileDao;
-
 	
 	String uploadPath = "C:\\finalImg\\img";
-
+	
 	@Override
 	public List<SaleBoardVO> getProductsById(int me_num, int state) {
 		 List<SaleBoardVO> products = profileDao.getProductsById(me_num, state);
@@ -39,7 +35,7 @@ public class ProfileServiceImp implements ProfileService{
 		 List<SaleCategoryVO> category = profileDao.getCategoriesByScNum(sb_sc_num);
 		    return category;
 	}
-
+	
 	@Override
 	public void dateUp(Integer sb_num) {
 		profileDao.dateUp(sb_num);
@@ -173,18 +169,20 @@ public class ProfileServiceImp implements ProfileService{
 		profileDao.addProfileNum(me_num);
 		
 	}
-	
 
-}	
-
-	
-
-	/*
 	@Override
-	public List<MemberVO> getMemberList(String me_id) {
-		return profileDao.selectMemberList(me_id);
+	public void updateProductDate(SaleBoardVO saleBoard) {
+		if(saleBoard == null) {
+			return;
+		}
+		profileDao.updateBoardViews(saleBoard);
+
 	}
-	*/
+
+	
+	
+}
+	
 	
 	
 	
