@@ -73,7 +73,7 @@
 							<span class="cat-button"><i class="lni lni-menu"></i>카테고리</span>
 							<ul class="sub-category">
 								<c:forEach items="${categoryList}" var="category">
-									<li><a href="<c:url value='/sale/${category.sc_num}'/>">${category.sc_name }</a></li>
+									<li><a href="<c:url value='/saleboard/${category.sc_num}'/>">${category.sc_name }</a></li>
 								</c:forEach>
 							</ul>
 						</div>
@@ -222,20 +222,20 @@
 			</div>
 			<div class="row">
 				<!-- Start Single Product -->
-				<c:forEach items="${list }" var="saleBoard">
+				<c:forEach items="${prList}" var="pr">
 					<div class="col-lg-3 col-md-6 col-12">
 						<div class="single-product">
 							<div class="product-image">
-								<img src="resources/img/slider-bg2.jpg" alt="#">
+							<img class="item" width="100%" height="194" src="<c:url value='/img/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_name :\"\" }'/>">
 								<div class="button">
 									<a href="product-details.html" class="btn"><i
 										class="lni lni-cart"></i> Add to Cart</a>
 								</div>
 							</div>
 							<div class="product-info">
-								<span class="category">${saleBoard.sb_sc_num}</span>
+								<span class="category">${pr.sb_sc_num}</span>
 								<h4 class="title">
-									<a href="product-grids.html">${saleBoard.sb_name}</a>
+									<a href="product-grids.html">${pr.sb_name}</a>
 								</h4>
 								<ul class="review">
 									<li><i class="lni lni-star-filled"></i></li>
@@ -244,16 +244,16 @@
 									<li><i class="lni lni-star-filled"></i></li>
 									<li><i class="lni lni-star"></i></li>
 									<li><span>4.0 Review(s)</span></li>
-									<span>/ 좋아요 ${saleBoard.sb_wish} </span>
+									<span>/ 좋아요 ${pr.sb_wish} </span>
 								</ul>
 								<div class="item-info">
-								${saleBoard.sb_info}
+								${pr.sb_info}
 								</div>
 								<div>
 								
 								</div>
 								<div class="price">
-								<span>${saleBoard.sb_price}원</span>
+								<span>${pr.sb_price}원</span>
 								</div>
 								<%-- 	<span>${saleBoard.sb_num}</span> <span>${saleBoard.sb_name}</span>
 									<span>${saleBoard.sb_info}</span> <span>${saleBoard.sb_price}</span>
@@ -321,8 +321,12 @@
 		</div>
 	</section>
 	<!-- End Shipping Info -->
-
+	<script src="resources/js/bootstrap.min.js"></script>
+	<script src="resources/js/tiny-slider.js"></script>
+	<script src="resources/js/glightbox.min.js"></script>
+	<script src="resources/js/main.js"></script>
 	<script type="text/javascript">
+		
 		//========= Hero Slider 
 		tns({
 			container : '.hero-slider',

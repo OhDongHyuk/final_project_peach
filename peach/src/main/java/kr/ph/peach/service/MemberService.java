@@ -20,6 +20,8 @@ public interface MemberService {
 
 	void updateMemberSession(MemberVO user);
 	
+	MemberVO getMemberBySession(String session_id);
+	
 	MemberVO getMemberBySessionId(String value);
 
 	List<CityVO> getLargeCity();
@@ -31,6 +33,14 @@ public interface MemberService {
 	
 	List<BankVO> getBank();
 
-	MemberVO getMemberbyNumber(int meNum);
+	MemberVO getMemberByNumber(int meNum);
+	
+	MemberVO selectMemberByPhoneNum(String me_phone);
+
+	MemberVO selectMemberByAcc(String me_acc);
+	//---------------아이디 찾기-----------------
+	MemberVO memberIdFind(MemberVO member);
+
+	boolean sendPw(String me_id, String me_name);
 
 }

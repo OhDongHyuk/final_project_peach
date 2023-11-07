@@ -45,7 +45,7 @@ public class ProfileController {
 	    	MemberVO user = (MemberVO) session.getAttribute("user");
 	    	model.addAttribute("user",user);
     	
-            MemberVO member = memberService.getMemberbyNumber(meNum);
+            MemberVO member = memberService.getMemberByNumber(meNum);
         
             List<SaleBoardVO> products = profileService.getProductsById(meNum, 0);
             List<SaleBoardVO> salingProducts = profileService.getProductsById(meNum, 1);

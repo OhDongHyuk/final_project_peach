@@ -46,6 +46,7 @@ public class SaleBoardController {
 		int totalCount = saleBoardService.getTotalCount(cri);
 		//페이지네이션에서 최대 페이지 개수 
 		int displayPageNum = 20;
+		System.out.println(prList);
 		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("pm", pm);

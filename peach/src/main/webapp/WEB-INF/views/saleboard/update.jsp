@@ -64,9 +64,15 @@
 				
 				<ul class="image-preview">
 					<li class="upload" style="background-image:url('<c:url value='/resources/image/upload.png' />')"></li>
+					<c:forEach items="${board.saleImageVOList }" var="image">
+					<li class="image-list" id="image${image.si_num}">
+						<img src="<c:url value='/resources/image/${image.si_name}'/>" data-file="${image.si_name}">
+						<button class="close-btn" id="id${image.si_num }" onclick="deleteOriginal(${image.si_num})"type="button" data-num="${image.si_num}"></button>
+					</li>
+					</c:forEach>
 				</ul>
 			<script>
-					
+			
 				let fileNo = 0;
 			
 			    function createElement(e, file) {
@@ -80,9 +86,7 @@
 			      img.setAttribute('data-file', file.name);
 			      close.setAttribute('class', 'close-btn');
 			      close.setAttribute('type', 'button');
-			      close.setAttribute('onclick', 'deleteFile('+fileNo+')')
-
-			      
+			      close.setAttribute('onclick', 'deleteFile(' + fileNo + ')');
 			      li.appendChild(img);
 			      li.appendChild(close);
 			      
@@ -103,9 +107,10 @@
 			        fileTag.after(fi);
 			    	
 			    }
-
+			    
 			    const realUpload = document.querySelector('.real-upload');
 			    const upload = document.querySelector('.upload');
+			    const list = document.getElementsByClassName('image-list');
 			    
 			    function clickfunction(){
 			    	const filebutton = document.querySelector('#no' + fileNo);
@@ -113,7 +118,6 @@
 			    }
 			    
 			    upload.addEventListener('click', ()=> clickfunction());
-			    
 			    
 			    
 				
@@ -178,30 +182,40 @@
 				    document.querySelector("#file" + num).remove();
 				    document.querySelector("#no" + num).remove();
 				}
+
+				function deleteOriginal(num) {
+					  let si_num = document.querySelector("#id" + num).getAttribute('data-num');
+				      document.getElementById('sb_me_num').insertAdjacentHTML('afterend', '<input type="hidden" name="delFiles" value="'+si_num+'">');
+				      document.querySelector("#image" + num).remove();
+				}
 			  </script>
 		</div>
-	<form action="<c:url value='/saleboard/insert'/>" method="post" enctype="multipart/form-data">
+	<form action="<c:url value='/saleboard/update'/>" method="post" enctype="multipart/form-data">
 		<input type="file" class="real-upload" accept="image/*" onchange="addFile(this);" id="no0" name="files">
+		<input type="hidden" name="sb_num" value="${board.sb_num }">
+		<input type="hidden" name="sb_me_num" value="${board.sb_me_num }" id="sb_me_num">
 		<div class="form-group">
 			<label>제목</label>
-			<input type="text" class="form-control" name="sb_name">
+			<input type="text" class="form-control" name="sb_name" value="${board.sb_name }">
 		</div>
 		<div class="form-group">
 			<label>카테고리</label>
 			<select name="sb_sc_num" class="custom-select">
-				<option selected>카테고리 선택</option>
+				<option selected value="${board.sb_sc_num }">${board.sb_sc_name}</option>
 			    <c:forEach items="${dbCategory}" var="dbCategory">
-			    	<option value="${dbCategory.sc_num}">${dbCategory.sc_name}</option>
+			    	<c:if test="${dbCategory.sc_num != board.sb_sc_num}">
+			    		<option value="${dbCategory.sc_num}">${dbCategory.sc_name}</option>
+			    	</c:if>
 			    </c:forEach>
 			</select>
 		</div>
 		<div class="form-group">
 			<label>가격</label>
-			<input type="text" class="form-control" name="sb_price" placeholder="숫자만 입력하세요.">
+			<input type="text" class="form-control" name="sb_price" placeholder="숫자만 입력하세요." value="${board.sb_price }">
 		</div>
 		<div class="form-group">
 			<label>설명</label>
-			<textarea id="summernote" name="sb_info" class="form-control" rows="10"></textarea>
+			<textarea id="summernote" name="sb_info" class="form-control" rows="10">${board.sb_info}</textarea>
 		</div>
 		<button class="btn btn-outline-success col-12">등록</button>
 	</form>

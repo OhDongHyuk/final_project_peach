@@ -1,18 +1,24 @@
 package kr.ph.peach.service;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.dao.ChatDAO;
 import kr.ph.peach.dao.SaleBoardDAO;
-import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.pagination.SaleBoardCriteria;
 import kr.ph.peach.util.UploadFileUtils;
 import kr.ph.peach.vo.ChatVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
+import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.vo.SaleImageVO;
+import kr.ph.peach.vo.WishVO;
 
 @Service
 public class SaleBoardServiceImp implements SaleBoardService {
@@ -40,6 +46,20 @@ public class SaleBoardServiceImp implements SaleBoardService {
 			cri = new SaleBoardCriteria();
 		}
 		return saleBoardDao.getTotalCount(cri);
+	}
+
+	@Override
+	public boolean insertBoard(SaleBoardVO saleBoard, MemberVO user, MultipartFile[] files) {
+		if(user == null) {
+			return false;
+		}
+		if(saleBoard == null || saleBoard.getSb_name() == null) {
+			return false;
+		}
+		LocalDateTime now = LocalDateTime.now();
+		String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		saleBoard.setSb_date(formatedNow);
+		saleBoard.setSb_me_num(user.getMe_num());
 		
 		if(!saleBoardDao.insertBoard(saleBoard)) {
 			return false;

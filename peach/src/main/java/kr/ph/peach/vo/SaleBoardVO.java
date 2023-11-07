@@ -9,17 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class SaleBoardVO {
-	private int sb_num;
-	private String sb_name;
-	private Integer sb_price;
-	private String sb_info;
-	private Date sb_date;
-	private int sb_wish;
-	private int sb_me_num;
-	private int sb_ss_num;
-	private int sb_sc_num;
-	private String sb_me_nickname;
-	
+	private int sb_num, sb_wish, sb_price, sb_me_num, sb_ss_num, sb_sc_num, sb_me_sugar;
+	private String sb_name, sb_info, sb_me_nickname, sb_sc_name;
+	private String sb_date;
+	private SaleCategoryVO saleCategoryVO;
 	private List<SaleImageVO> saleImageVOList;
 	
 	public SaleBoardVO(String sb_name, int sb_price, String sb_info, int sb_sc_num) {
@@ -33,10 +26,6 @@ public class SaleBoardVO {
 		DecimalFormat decFormat = new DecimalFormat("###,###");
 		return decFormat.format(this.sb_price);
 	}
-	
-	public String get_sb_date(Date sb_date) {		
-		SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return timeFormat.format(sb_date);
-	}	
+
 
 }

@@ -35,7 +35,13 @@ public interface MemberDAO {
 	
 	MemberVO selectMemberByAcc(@Param("acc")String me_acc);
 
-	MemberVO getMemberbyNumber(@Param("meNum")int meNum);
+	MemberVO getMemberByNumber(@Param("meNum")int meNum);
+
+	MemberVO selectMemberByName(@Param("name")String me_name);
+	//---------------------아이디 찾기 -------
+	MemberVO memberIdFind(MemberVO member);
+
+	MemberVO selectMemberBySession(@Param("session_id")String session_id);
 
 }
 
