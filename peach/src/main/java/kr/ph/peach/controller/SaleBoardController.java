@@ -19,12 +19,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.pagination.PageMaker;
 import kr.ph.peach.pagination.SaleBoardCriteria;
+import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.SaleBoardService;
+import kr.ph.peach.service.SaleCategoryService;
+import kr.ph.peach.service.TradingRequestService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.SaleImageVO;
+import kr.ph.peach.vo.TradingRequestVO;
 import kr.ph.peach.vo.WishVO;
 
 
@@ -33,11 +37,26 @@ import kr.ph.peach.vo.WishVO;
 public class SaleBoardController {
 	
 	@Autowired
+	MemberService memberSerivce;
+
+	@Autowired
 	SaleBoardService saleBoardService;
+	
+	@Autowired
+	SaleCategoryService saleCategoryService;
+	
+	@Autowired
+	TradingRequestService tradingRequestService;
 	
 	@GetMapping("/{sc_num}")
 	public String productsList(@PathVariable("sc_num") int categoryId, Model model, HttpSession session, SaleBoardCriteria cri) {
 		List<SaleBoardVO> prList = saleBoardService.getSaleBoardList(cri);
+		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
+		MemberVO user = (MemberVO) session.getAttribute("user");
+		if (user != null) {
+			List<WishVO> wishList = memberSerivce.getWishList(user.getMe_num());
+			model.addAttribute("wishList", wishList);
+		}
 		for(SaleBoardVO tmp : prList) {
 			prList.get(prList.indexOf(tmp)).setSb_me_nickname(saleBoardService.selectMemberNickname(tmp.getSb_me_num()));
 		}
@@ -50,6 +69,7 @@ public class SaleBoardController {
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("pm", pm);
 		model.addAttribute("prList",prList);
+		model.addAttribute("categoryList", categoryList);
 		return "/saleboard/saleBoard";
 	}
 	
@@ -82,11 +102,20 @@ public class SaleBoardController {
 	}
 	
 	@GetMapping("/list")
-	public String list(Model model) {
-		List<SaleBoardVO> dbBoardList = saleBoardService.selectAllBoard();
+	public String list(Model model, SaleBoardCriteria cri, HttpSession session) {
+		List<SaleBoardVO> dbBoardList = saleBoardService.selectAllBoard2(cri);
+		
 		for(SaleBoardVO tmp : dbBoardList) {
 			dbBoardList.get(dbBoardList.indexOf(tmp)).setSb_me_nickname(saleBoardService.selectMemberNickname(tmp.getSb_me_num()));
 		}
+
+		
+		int totalCount = saleBoardService.getTotalCount(cri);
+		int displayPageNum = 24;
+		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
+
+		model.addAttribute("pm", pm);
+		
 		model.addAttribute("dbBoardList", dbBoardList);
 		return "/saleboard/list";
 	}
@@ -177,5 +206,23 @@ public class SaleBoardController {
 		map.put("isWish", isWish);
 		map.put("board", board);
 		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("/detail")
+	public Map<String, Object> tradePost(@RequestBody TradingRequestVO tradingRequest, HttpSession session) {
+	    Map<String, Object> map = new HashMap<>();
+        boolean trade = tradingRequestService.tradePost(tradingRequest.getTq_sb_num(), tradingRequest.getTq_me_num());
+        System.out.println(trade);
+        if (trade) {
+	        map.put("status", "success");
+	        map.put("message", "직거래를 요청하였습니다.");
+	    } else {
+	        map.put("status", "error");
+	        map.put("message", "이미 직거래를 신청한 물품입니다.");
+	    }
+
+	    System.out.println(map);
+	    return map;
 	}
 }

@@ -41,8 +41,12 @@ public interface SaleBoardService {
 	WishVO selectWish(int wi_me_num, int wi_sb_num);
 
 	void deleteWish(WishVO wish);
+	
 	List<SaleBoardVO> getMainSaleBoardList(SaleBoardCriteria cri);
+	
 	List<SaleImageVO> getFileList(Integer sb_num);
+	
+	List<SaleBoardVO> selectAllBoard2(SaleBoardCriteria cri);
 
 	
 }

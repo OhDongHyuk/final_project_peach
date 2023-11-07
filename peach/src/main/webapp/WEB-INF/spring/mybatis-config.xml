@@ -6,6 +6,10 @@
   <typeAliases>
   	<typeAlias type="kr.ph.peach.vo.MemberVO" alias="MemberVO"/>
   	<typeAlias type="kr.ph.peach.vo.SaleBoardVO" alias="SaleBoardVO"/>
+  	<typeAlias type="kr.ph.peach.vo.SaleBoardVO" alias="SaleCategoryVO"/>
+  	<typeAlias type="kr.ph.peach.vo.ProfileVO" alias="ProfileVO"/>
+  	<typeAlias type="kr.ph.peach.vo.CityVO" alias="CityVO"/>
+  	<typeAlias type="kr.ph.peach.vo.BankVO" alias="BankVO"/>
   </typeAliases>
   
 </configuration>

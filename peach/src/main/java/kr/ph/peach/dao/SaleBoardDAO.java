@@ -21,6 +21,8 @@ public interface SaleBoardDAO {
 	List<SaleCategoryVO> selectAllCategory();
 
 	List<SaleBoardVO> selectAllBoard();
+	
+	List<SaleBoardVO> selectAllBoard2(@Param("cri")SaleBoardCriteria cri);
 
 	String selectMemberNickname(int sb_me_num);
 
