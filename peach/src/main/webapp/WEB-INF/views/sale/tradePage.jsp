@@ -377,7 +377,14 @@
 									<button type="button" onClick="location.href='<c:url value='/saleboard/delete?sb_num=${board.sb_num }'/>'" class="cancel">거래취소요청</button>
 								</c:when>
 								<c:otherwise>
-									<p>상대방이 인수/인계를 완료를 기다리는 중입니다.</p>
+									<c:choose>
+										<c:when test="${tr.tradingVO.tr_cu == 2 && tr.tradingVO.tr_se == 2}">
+											<p>거래가 완료되었습니다.</p>
+										</c:when>
+										<c:otherwise>
+											<p>상대방이 인수/인계를 완료를 기다리는 중입니다.</p>
+										</c:otherwise>
+									</c:choose>
 								</c:otherwise>
 							</c:choose>
 						</c:otherwise>	

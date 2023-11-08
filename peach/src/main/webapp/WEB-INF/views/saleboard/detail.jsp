@@ -716,52 +716,59 @@
 		}
 		//피치페이 거래
 		$(document).ready(function() {
-            // 유저 포인트 및 상품 가격을 가져오는 AJAX 요청
-            var me_num = $(this).data('me-num');
-		    var sb_num = $(this).data('sb-num');
-            $.ajax({
-                method: 'GET',
-                url: '<c:url value="/sale/peachTrade"/>', // 여기에 서버 측 스크립트의 URL을 입력하세요
-                success: function(data) {
-                    var userPoints = map.trList.; // 가정: 서버에서 반환되는 유저 포인트
-                    var productPrice = data.productPrice; // 가정: 서버에서 반환되는 상품 가격
-
-                    $('#userPoints').text(userPoints);
-                    $('#productPrice').text(productPrice);
-
-                    $('#buyButton').on('click', function() {
-                        // 유저 포인트와 상품 가격 비교
-                        if (userPoints >= productPrice) {
-                            // 충분한 포인트가 있으면 거래 요청을 보냅니다.
-                            $.ajax({
-                                url: 'process_trade.php', // 거래 요청을 처리하는 서버 측 스크립트의 URL
-                                method: 'POST',
-                                data: {
-                                    userPoints: userPoints,
-                                    productPrice: productPrice
-                                },
-                                success: function(response) {
-                                    console.log('거래가 성공적으로 처리되었습니다.');
-                                    // 성공적으로 처리됐을 때 추가 작업 수행
-                                },
-                                error: function(error) {
-                                    console.log('거래 요청 중 오류가 발생했습니다.');
-                                    // 오류 발생 시 추가 작업 수행
-                                }
-                            });
-                        } else {
-                            console.log('포인트가 부족합니다. 충전 페이지로 이동합니다.');
-                            // 포인트가 부족할 때 추가 작업 수행
-                        }
-                    });
-                },
-                error: function(error) {
-                    console.log('데이터를 불러오는 중 오류가 발생했습니다.');
-                    // 오류 발생 시 추가 작업 수행
-                }
-            });
-        });
+		    $('#peachTrade').on('click', function() {
+		        var sb_num = $(this).data('sb-num');
+		        var me_num = $(this).data('me-num');
 		
+		        $.ajax({
+		            method: 'GET',
+		            url: '<c:url value="/saleboard/peachTrade"/>',
+		            data: { sb_num: sb_num },
+		            success: function(map) {
+		                var userPoints = map.user.me_point;
+		                var productPrice = map.saleBoard.sb_price;
+		
+		                $('#userPoints').text(userPoints);
+		                $('#productPrice').text(productPrice);
+		
+		                if (userPoints >= productPrice) {
+		                    $.ajax({
+		                        method: 'POST',
+		                        url: '<c:url value="/saleboard/peachTrade"/>',
+		                        data: { sb_num: sb_num },
+		                        success: function(map) {
+		                            if (map.trade) {
+		                                console.log('거래가 성공적으로 처리되었습니다.');
+		                                alert('거래가 성공적으로 처리되었습니다.');
+		                                
+		                                var updatedPoints = userPoints - productPrice;
+		                                $.ajax({
+		                                    method: 'POST',
+		                                    url: '<c:url value="/saleboard/reducePoint"/>', // 사용자 포인트 감소를 처리하는 엔드포인트
+		                                    data: { me_num: me_num, me_point: updatedPoints },
+		                                    success: function(response) {
+		                                        console.log('포인트가 감소되었습니다.');
+		                                    }
+		                                });  
+		                            } else {
+		                                console.log('이미 직거래를 신청한 물품입니다.');
+		                                alert('이미 직거래를 신청한 물품입니다.');
+		                            }
+		                        }
+		                    });
+		                } else {
+		                    console.log('포인트가 부족합니다. 충전 페이지로 이동합니다.');
+		                    // 포인트가 부족할 때 추가 작업 수행
+		                }
+		            },
+		            error: function(error) {
+		                console.log('데이터를 불러오는 중 오류가 발생했습니다.');
+		                // 오류 발생 시 추가 작업 수행
+		            }
+		        });
+		    });
+		});
+
 		/* 
 		$(document).ready(function(){
 		    $("#peachTrade").on('click', function(){

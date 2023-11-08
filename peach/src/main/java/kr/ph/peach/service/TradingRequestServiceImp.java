@@ -80,8 +80,28 @@ public class TradingRequestServiceImp implements TradingRequestService{
 	}
 
 	@Override
-	public List<TradingRequestVO> getTradingRequestPeach(MemberVO user, int sb_num, int me_num) {
-		return tradingRequestDao.getTradingRequestPeach(user, sb_num, me_num);
+	public boolean getTradingRequestPeach(MemberVO user, int sb_num) {
+	    List<TradingRequestVO> tradingRequestList = getTradingRequestList(); // 가정: 해당 메서드로 데이터를 가져옴
+
+	    // 반복문을 통해 리스트 내의 객체들을 확인
+	    for (TradingRequestVO request : tradingRequestList) {
+	        if (request.getTq_sb_num() == sb_num && request.getTq_me_num() == user.getMe_num()) {
+	            // 두 값이 모두 일치하는 데이터가 리스트에 존재하면 false 반환
+	            return false;
+	        }
+	    }
+	    
+	    // 반복문을 모두 확인했는데 일치하는 값이 없으면 다른 처리를 해야할 수 있음
+	    tradingRequestDao.getTradingRequestPeach(user, sb_num);
+
+	    // 일치하는 데이터가 없으면 true 반환 또는 다른 값을 반환할 수 있음
+	    return true;
+	}
+
+	@Override
+	public void reducePoint(int me_num, int me_point) {
+		tradingRequestDao.reducePoint(me_num, me_point);
+		
 	}
 
 

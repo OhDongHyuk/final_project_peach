@@ -227,24 +227,37 @@ public class SaleBoardController {
 	    return map;
 	}
 	
+	@ResponseBody
 	@GetMapping("/peachTrade")
 	public Map<String, Object> getPeachTrade(Integer sb_num, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		SaleBoardVO saleNum = saleBoardService.selectBoard(sb_num)
-		System.out.println(trList);
-		map.put("trList", trList);
+		SaleBoardVO saleBoard = saleBoardService.selectBoard(sb_num);
+		System.out.println(user);
+		System.out.println(saleBoard);
+		map.put("user", user);
+		map.put("saleBoard", saleBoard);
         return map;
 		
 	}
 	
 	@ResponseBody
 	@PostMapping("/peachTrade")
-	public Map<String, Object> peachTrade(@RequestParam("sb_num") int sb_num, @RequestParam("me_num") int me_num, HttpSession session) {
+	public Map<String, Object> postPeachTrade(@RequestParam("sb_num") int sb_num, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		List<TradingRequestVO> trList = tradingRequestService.getTradingRequestPeach(user, sb_num, me_num);
-		System.out.println(trList);
+		boolean trade = tradingRequestService.getTradingRequestPeach(user, sb_num);
+		System.out.println(trade);
+		map.put("trade", trade);
+        return map;
+		
+	}
+	
+	@ResponseBody
+	@PostMapping("/reducePoint")
+	public Map<String, Object> reducePoint(@RequestParam("me_num") int me_num, @RequestParam("me_point") int me_point, HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		tradingRequestService.reducePoint(me_num, me_point);
         return map;
 		
 	}

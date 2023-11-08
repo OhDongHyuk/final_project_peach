@@ -30,5 +30,7 @@ public interface TradingRequestService {
 
 	void changeTradingSeState(int tq_num);
 
-	List<TradingRequestVO> getTradingRequestPeach(MemberVO user, int sb_num, int me_num);
+	boolean getTradingRequestPeach(MemberVO user, int sb_num);
+
+	void reducePoint(int me_num, int me_point);
 }
