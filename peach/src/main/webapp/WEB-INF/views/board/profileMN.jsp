@@ -85,7 +85,7 @@
 	<br>
 	<div class="insert-container">
 		<div class="wrapper">
-				<ul class="image-preview">
+				<ul class="image-preview mb-3">
 				<c:if test="${pi_num == ''}">
 				<li class="upload" style="background-image:url('<c:url value='/resources/image/upload.png' />')"></li>
 				</c:if>
