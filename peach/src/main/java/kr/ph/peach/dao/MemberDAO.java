@@ -52,7 +52,7 @@ public interface MemberDAO {
 	List<StatementVO> selectMemberTypeList();
 
 	boolean updateState(@Param("me_num")int me_num, @Param("me_st_num")int me_st_num);
-	
+
 	void insertAuthCode(@Param("au_num")int me_num,@Param("au_code") int num);
-	
+
 }
