@@ -209,20 +209,42 @@ public class MemberServiceImp implements MemberService {
 		return memberDao.memberIdFind(member);
 	}
 
+
+	private boolean checkIdRegex(String id) {
+		//아이디는 영문,숫자,@._-로 이루어지고 8~20자 
+		String regexId = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([\\-.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$";
+		
+		if(id == null) {
+			return false;
+		}
+		return Pattern.matches(regexId, id);
+	}
+	private boolean checkPwRegex(String pw) {
+		
+		//비번은 영문,숫자,특수문자로 이루어지고 8~20자 
+
+		String regexPw = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_+|]).{8,20}$";
+
+		if(pw == null) {
+			return false;
+		}
+		return Pattern.matches(regexPw, pw);
+	}
+	
 	@Override
 	public boolean sendPw(String me_id, String me_name) {
 		MemberVO member = memberDao.selectMember(me_id);
 		MemberVO member2 = memberDao.selectMemberByName(me_name);
 		//아이디(email)를 잘못 입력 
-				if(member == null) {
-					return false;
-				//이름 잘못 입력
-				}
-				
-				if(member2 == null) {
-					return false;
-				}
-				//같으면 
+		if(member == null) {
+			return false;
+		//이름 잘못 입력
+		}
+		
+		if(member2 == null) {
+			return false;
+		}
+		//같으면 
 
 			
 		
@@ -257,40 +279,6 @@ public class MemberServiceImp implements MemberService {
 		memberDao.insertAuthCode(member.getMe_num(), num);	
 		
 		return true;
-		}
-
-	
-			mailSender.send(message);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return false;
-		}
-
 			
-		
-		return true;
-		}
 	}
-
-	private boolean checkIdRegex(String id) {
-		//아이디는 영문,숫자,@._-로 이루어지고 8~20자 
-		String regexId = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([\\-.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$";
-		
-		if(id == null) {
-			return false;
-		}
-		return Pattern.matches(regexId, id);
-	}
-	private boolean checkPwRegex(String pw) {
-		
-		//비번은 영문,숫자,특수문자로 이루어지고 8~20자 
-
-		String regexPw = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_+|]).{8,20}$";
-
-		if(pw == null) {
-			return false;
-		}
-		return Pattern.matches(regexPw, pw);
-	}
-	
 }
