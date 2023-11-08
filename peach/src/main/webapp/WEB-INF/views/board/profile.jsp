@@ -143,7 +143,7 @@
 	  <c:if test="${proImg != null}">
 	  	<img src="<c:url value='/img/${proImg.pi_name}'/>" class="example">
 	  </c:if>
-	  <div class="profile-name"><P>${member.me_id}</P></div>
+	  <div class="profile-name"><P>${member.me_nick}</P></div>
 	  <c:if test="${user.me_num == member.me_num}">
 		<li class="inner-item"><a href="<c:url value='/board/profilePass?pi_num=${proImg.pi_name}'/>">내 프로필 관리</a></li>
 	  </c:if>
@@ -151,7 +151,7 @@
 	 	<div class="profile-outDTbox">
 			 <div class="profile-Detail">
 			 	<div class="profile-namebox">
-			 		<div class="profile-name"><P>${member.me_id}</P></div>
+			 		<div class="profile-name"><P>${member.me_nick}</P></div>
 			 	</div>
 			 	<br/>
 			 	<div style="display:inline;">

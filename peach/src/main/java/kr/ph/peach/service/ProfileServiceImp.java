@@ -1,8 +1,6 @@
 package kr.ph.peach.service;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.dao.ProfileDAO;
-
 import kr.ph.peach.util.UploadFileUtils;
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
@@ -24,10 +21,9 @@ public class ProfileServiceImp implements ProfileService{
 	
 	@Autowired
 	private ProfileDAO profileDao;
-
 	
 	String uploadPath = "C:\\finalImg\\img";
-
+	
 	@Override
 	public List<SaleBoardVO> getProductsById(int me_num, int state) {
 		 List<SaleBoardVO> products = profileDao.getProductsById(me_num, state);
@@ -39,7 +35,7 @@ public class ProfileServiceImp implements ProfileService{
 		 List<SaleCategoryVO> category = profileDao.getCategoriesByScNum(sb_sc_num);
 		    return category;
 	}
-
+	
 	@Override
 	public void dateUp(Integer sb_num) {
 		profileDao.dateUp(sb_num);
@@ -93,13 +89,16 @@ public class ProfileServiceImp implements ProfileService{
 			return;
 		}
 		ProfileVO pf_num2 = profileDao.selectProfile(me_num);
+		System.out.println(pf_num2);
 		ProfileImageVO pfIMG = profileDao.selectImg(pf_num2.getPf_num());
+		System.out.println(pfIMG);
 		if(pfIMG != null && Original == null) {
 			profileDao.deleteIMG(pfIMG.getPi_pf_num());
 		}
 		
 		
 		int pf_num = pf_num2.getPf_num();
+		System.out.println("pf_num "+pf_num);
 		
 		for(MultipartFile file : files) {
 			if(file == null || file.getOriginalFilename().length() == 0) {
@@ -107,8 +106,9 @@ public class ProfileServiceImp implements ProfileService{
 			}
 			try {
 				String pi_name = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+				System.out.println("pi_name"+pi_name);
 				ProfileImageVO profileImage = new ProfileImageVO(pi_name,pf_num);
-				profileDao.insertprofileFile(profileImage);
+				profileDao.insertProfileFile(profileImage);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -163,18 +163,32 @@ public class ProfileServiceImp implements ProfileService{
 	public int selectIMG2(String pi_num) {
 		return profileDao.selectIMG2(pi_num);
 	}
-	
 
-}	
-
-	
-
-	/*
 	@Override
-	public List<MemberVO> getMemberList(String me_id) {
-		return profileDao.selectMemberList(me_id);
+	public void addProfileNum(int me_num) {
+		profileDao.addProfileNum(me_num);
+		
 	}
-	*/
+
+	@Override
+	public void updateProductDate(SaleBoardVO saleBoard) {
+		if(saleBoard == null) {
+			return;
+		}
+		profileDao.updateBoardViews(saleBoard);
+
+	}
+
+	@Override
+	public ProfileImageVO selectOriFile(MemberVO user) {
+		ProfileImageVO OriFile = profileDao.selectOriFile(user);
+		return OriFile;
+	}
+
+	
+	
+}
+	
 	
 	
 	

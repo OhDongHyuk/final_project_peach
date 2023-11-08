@@ -17,4 +17,3 @@ public class ProfileVO {
 		this. pf_text = pf_text;
 	}
 }
-

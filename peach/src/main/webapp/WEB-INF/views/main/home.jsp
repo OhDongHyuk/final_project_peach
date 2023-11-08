@@ -4,124 +4,25 @@
 <!doctype html>
 <html lang="ko">
 <head>
-
 <title>스프링</title>
+<style>
+.price {
+	font-size: 18px;
+	font-weight: bold;
+	margin-top: 4px;
+	line-height: 1.76;
+	letter-spacing: -0.6px;
+}
+
+.price::after {
+	content: "원";
+	font-size: 16px;
+	margin-left: 4px;
+}
+</style>
 </head>
 <body>
-	<header class="header navbar-area">
-		<!-- 헤더 미드 -->
-		<!-- Start Header Middle -->
-		<div class="header-middle">
-			<div class="container">
-				<div class="row align-items-center">
-					<div class="col-lg-3 col-md-3 col-7"></div>
-					<div class="col-lg-5 col-md-7 d-xs-none">
-						<!-- Start Main Menu Search -->
-						<div class="main-menu-search">
-							<!-- navbar search start -->
-							<div class="navbar-search search-style-5">
-								<div class="search-select">
-									<div class="select-position">
-										<select id="select1">
-											<option selected>All</option>
-											<option value="1">제목으로 검색</option>
-											<option value="2">내용으로 검색</option>
-											<option value="3">동네이름으로 검색</option>
-										</select>
-									</div>
-								</div>
-								<div class="search-input">
-									<input type="text" placeholder="Search">
-								</div>
-								<div class="search-btn">
-									<button>
-										<i class="lni lni-search-alt"></i>
-									</button>
-								</div>
-							</div>
-							<!-- navbar search Ends -->
-						</div>
-						<!-- End Main Menu Search -->
-					</div>
-					<div class="col-lg-4 col-md-2 col-5">
-						<div class="middle-right-area">
-							<div class="nav-hotline">
-								<h3>${user.me_nick }님환영합니다.</h3>
-							</div>
-							<div class="navbar-cart">
-								<!-- 찜목록 구현 -->
-								<div class="wishlist">
-									<a href="#"> <i class="lni lni-heart"></i> <span
-										class="total-items">0</span>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- 헤더 마지막 -->
-		<!-- Start Header Bottom -->
-		<div class="container">
-			<div class="row align-items-center">
-				<div class="col-lg-8 col-md-6 col-12">
-					<div class="nav-inner">
-						<!-- Start Mega Category Menu -->
-						<!-- 카테고리 적는곳 -->
-						<div class="mega-category-menu">
-							<span class="cat-button"><i class="lni lni-menu"></i>카테고리</span>
-							<ul class="sub-category">
-								<c:forEach items="${categoryList}" var="category">
-									<li><a href="<c:url value='/sale/${category.sc_num}'/>">${category.sc_name }</a></li>
-								</c:forEach>
-							</ul>
-						</div>
-						<!-- End Mega Category Menu -->
-						<!-- Start Navbar -->
-						<nav class="navbar navbar-expand-lg">
-							<button class="navbar-toggler mobile-menu-btn" type="button"
-								data-bs-toggle="collapse"
-								data-bs-target="#navbarSupportedContent"
-								aria-controls="navbarSupportedContent" aria-expanded="false"
-								aria-label="Toggle navigation">
-								<span class="toggler-icon"></span> <span class="toggler-icon"></span>
-								<span class="toggler-icon"></span>
-							</button>
-							<div class="collapse navbar-collapse sub-menu-bar"
-								id="navbarSupportedContent">
-								<ul id="nav" class="navbar-nav ms-auto">
-									<li class="nav-item"><a href="index.html" class="active"
-										aria-label="Toggle navigation">Home</a></li>
-									<li class="nav-item"><a class="dd-menu collapsed"
-										href="javascript:void(0)" data-bs-toggle="collapse"
-										data-bs-target="#submenu-1-2"
-										aria-controls="navbarSupportedContent" aria-expanded="false"
-										aria-label="Toggle navigation">Pages</a>
-										<ul class="sub-menu collapse" id="submenu-1-2">
-											<li class="nav-item"><a href="about-us.html">About
-													Us</a></li>
-											<li class="nav-item"><a href="faq.html">Faq</a></li>
-											<li class="nav-item"><a href="login.html">Login</a></li>
-											<li class="nav-item"><a href="register.html">Register</a></li>
-											<li class="nav-item"><a href="mail-success.html">Mail
-													Success</a></li>
-											<li class="nav-item"><a href="404.html">404 Error</a></li>
-										</ul></li>
-									<li class="nav-item"><a href="contact.html"
-										aria-label="Toggle navigation">Contact Us</a></li>
-								</ul>
-							</div>
-							<!-- navbar collapse -->
-						</nav>
-						<!-- End Navbar -->
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- End Header Bottom -->
-	</header>
-	<!-- End Header Area -->
+	
 
 
 	<section class="hero-area">
@@ -145,7 +46,7 @@
 										<span>Now Only</span> $320.99
 									</h3>
 									<div class="button">
-										<a href="product-grids.html" class="btn">Shop Now</a>
+										<a href="<c:url value='/'/>" class="btn">Shop Now</a>
 									</div>
 								</div>
 							</div>
@@ -164,7 +65,7 @@
 										<span>Combo Only:</span> $590.00
 									</h3>
 									<div class="button">
-										<a href="product-grids.html" class="btn">Shop Now</a>
+										<a href="<c:url value='/'/>" class="btn">Shop Now</a>
 									</div>
 								</div>
 							</div>
@@ -195,7 +96,7 @@
 									<h2>Weekly Sale!</h2>
 									<p>Saving up to 50% off all online store items this week.</p>
 									<div class="button">
-										<a class="btn" href="product-grids.html">Shop Now</a>
+										<a class="btn" href="<c:url value='/'/>">Shop Now</a>
 									</div>
 								</div>
 							</div>
@@ -213,58 +114,42 @@
 			<div class="row">
 				<div class="col-12">
 					<div class="section-title">
-						<h2>Trending Product</h2>
-						<p>There are many variations of passages of Lorem Ipsum
-							available, but the majority have suffered alteration in some
-							form.</p>
+						<h2>오늘의 상품</h2>
+						<p>자세한 내용 / 문구 입력</p>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<!-- Start Single Product -->
-				<c:forEach items="${list }" var="saleBoard">
+				<c:forEach items="${prList}" var="pr">
 					<div class="col-lg-3 col-md-6 col-12">
 						<div class="single-product">
-							<div class="product-image">
-								<img src="resources/img/slider-bg2.jpg" alt="#">
-								<div class="button">
-									<a href="product-details.html" class="btn"><i
-										class="lni lni-cart"></i> Add to Cart</a>
+							<a href="<c:url value='/saleboard/detail?sb_num=${pr.sb_num}'/>"
+								target="_self">
+								<div class="product-image">
+								<c:choose>
+									<c:when test="${pr.saleImageVOList.size() != 0 }">
+										<img class="item" width="100%" height="194" src="<c:url value='/resources/image/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_name :\"\" }'/>">
+									</c:when>
+									<c:otherwise>
+										<img class="item" width="100%" height="194" src="<c:url value='/resources/image/NoMainImage.png'/>">
+									</c:otherwise>
+								</c:choose>
 								</div>
-							</div>
-							<div class="product-info">
-								<span class="category">${saleBoard.sb_sc_num}</span>
-								<h4 class="title">
-									<a href="product-grids.html">${saleBoard.sb_name}</a>
-								</h4>
-								<ul class="review">
-									<li><i class="lni lni-star-filled"></i></li>
-									<li><i class="lni lni-star-filled"></i></li>
-									<li><i class="lni lni-star-filled"></i></li>
-									<li><i class="lni lni-star-filled"></i></li>
-									<li><i class="lni lni-star"></i></li>
-									<li><span>4.0 Review(s)</span></li>
-									<span>/ 좋아요 ${saleBoard.sb_wish} </span>
-								</ul>
-								<div class="item-info">
-								${saleBoard.sb_info}
+								<div class="product-info">
+									<span class="category">${pr.saleCategoryVO.sc_name}</span>
+									<h4 class="title">${pr.sb_name}</h4>
+									<div class="item-info">${pr.sb_info}</div>
+									<div class="price">
+										<span>${pr.get_sb_price()} </span>
+									</div>
 								</div>
-								<div>
-								
-								</div>
-								<div class="price">
-								<span>${saleBoard.sb_price}원</span>
-								</div>
-								<%-- 	<span>${saleBoard.sb_num}</span> <span>${saleBoard.sb_name}</span>
-									<span>${saleBoard.sb_info}</span> <span>${saleBoard.sb_price}</span>
-									<span>${saleBoard.sb_wish}</span> <span>${saleBoard.sb_me_num}</span>
-									<span>${saleBoard.sb_ss_num}</span> <span>${saleBoard.sb_sc_num}</span>
-									<span>${saleBoard.sb_date}</span> --%>
-							</div>
+							</a>
 						</div>
 
 						<!-- End Single Product -->
 					</div>
+					</a>
 				</c:forEach>
 
 				<!-- End Single Product -->
@@ -273,55 +158,11 @@
 	</section>
 	<!-- End Trending Product Area -->
 
-	<!-- Start Shipping Info -->
-	<section class="shipping-info">
-		<div class="container">
-			<ul>
-				<!-- Free Shipping -->
-				<li>
-					<div class="media-icon">
-						<i class="lni lni-delivery"></i>
-					</div>
-					<div class="media-body">
-						<h5>Free Shipping</h5>
-						<span>On order over $99</span>
-					</div>
-				</li>
-				<!-- Money Return -->
-				<li>
-					<div class="media-icon">
-						<i class="lni lni-support"></i>
-					</div>
-					<div class="media-body">
-						<h5>24/7 Support.</h5>
-						<span>Live Chat Or Call.</span>
-					</div>
-				</li>
-				<!-- Support 24/7 -->
-				<li>
-					<div class="media-icon">
-						<i class="lni lni-credit-cards"></i>
-					</div>
-					<div class="media-body">
-						<h5>Online Payment.</h5>
-						<span>Secure Payment Services.</span>
-					</div>
-				</li>
-				<!-- Safe Payment -->
-				<li>
-					<div class="media-icon">
-						<i class="lni lni-reload"></i>
-					</div>
-					<div class="media-body">
-						<h5>Easy Return.</h5>
-						<span>Hassle Free Shopping.</span>
-					</div>
-				</li>
-			</ul>
-		</div>
-	</section>
-	<!-- End Shipping Info -->
 
+	<script src="resources/js/bootstrap.min.js"></script>
+	<script src="resources/js/tiny-slider.js"></script>
+	<script src="resources/js/glightbox.min.js"></script>
+	<script src="resources/js/main.js"></script>
 	<script type="text/javascript">
 		//========= Hero Slider 
 		tns({
@@ -362,6 +203,29 @@
 				}
 			}
 		});
+		
+		$('.wish').click(function(){
+			let data = {
+				wi_me_num : '${user.me_num}',
+				wi_sb_num : '${board.sb_num}',
+			};
+			ajaxJsonToJson(false, 'post', '/saleboard/wish', data, (data)=>{
+				if(data.isWish == 0){
+					alert('찜을 취소하였습니다.');		
+				}
+				diplayWishBtn(data.isWish);
+				$('.wish-text').text("찜 " + data.board.sb_wish);
+			})
+		})
+		function diplayWishBtn(isWish){
+			
+				$('.wish-type').text("찜취소");
+				$('.wish').removeClass("add");
+				$('.wish').addClass("cancel");
+				$('.wish img').attr("src", "<c:url value='/resources/image/wish-filled.png'/>");
+			
+		}
+		
 	</script>
 
 

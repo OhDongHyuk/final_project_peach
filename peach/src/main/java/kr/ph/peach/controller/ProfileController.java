@@ -2,29 +2,27 @@ package kr.ph.peach.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.service.MemberService;
-
 import kr.ph.peach.service.ProfileService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
- 
 import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
@@ -38,14 +36,15 @@ public class ProfileController {
 	ProfileService profileService;
 	@Autowired
 	MemberService memberService;
-	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/board/profile/{me_num}")
     public String showProfilePage(@PathVariable("me_num") int meNum, Model model, HttpSession session, Criteria cri) {
 	    	MemberVO user = (MemberVO) session.getAttribute("user");
 	    	model.addAttribute("user",user);
     	
-            MemberVO member = memberService.getMemberbyNumber(meNum);
+            MemberVO member = memberService.getMemberByNumber(meNum);
         
             List<SaleBoardVO> products = profileService.getProductsById(meNum, 0);
             List<SaleBoardVO> salingProducts = profileService.getProductsById(meNum, 1);
@@ -109,6 +108,7 @@ public class ProfileController {
 	}
     @GetMapping("/board/profilePass")
 	public String ProfileMNlogin(Model model, HttpSession session, String pi_num) {
+    	System.out.println("Pass1"+pi_num);
     	
     	MemberVO user = (MemberVO) session.getAttribute("user");
         model.addAttribute("user", user);
@@ -130,6 +130,8 @@ public class ProfileController {
     	MemberVO user = (MemberVO) session.getAttribute("user");
         model.addAttribute("user", user);
         Message msg;
+
+        System.out.println("입력한 비밀번호: " + Ppassword);
         
         if (Ppassword == null) {
             return "/board/profilePass";
@@ -137,7 +139,7 @@ public class ProfileController {
         
         String userPassword = user.getMe_pw();
         
-        if (Ppassword.equals(userPassword)) {
+        if (passwordEncoder.matches(Ppassword,userPassword)) {
         	msg = new Message("/board/profileMN?pi_num="+pi_num, "비밀번호 확인되었습니다");
         	model.addAttribute("msg", msg);
         	return "message";
@@ -151,7 +153,8 @@ public class ProfileController {
  
     @GetMapping("/board/profileMN")
 	public String profileMNInsert(Model model, HttpSession session, SaleBoardVO saleBoard, String pi_num) {
- 
+    	System.out.println("MN"+pi_num);
+    	
     	MemberVO user = (MemberVO) session.getAttribute("user");
     	model.addAttribute("user",user);
     	
@@ -168,22 +171,42 @@ public class ProfileController {
       		return "message";
     	}
 	
+		ProfileImageVO OriFile = profileService.selectOriFile(user);
+		String OriFileName = OriFile.getPi_name();
+		
+		model.addAttribute("OriFileName", OriFileName);
 		
 		return "/board/profileMN";
 	}
 	@PostMapping("/board/profileMN")
-	public String insertPost(Model model, HttpSession session, MultipartFile[] files, MultipartFile Original,@RequestParam("me_id") String me_id, 
-			@RequestParam("me_pw") String me_pw, @RequestParam("me_ci_num")int me_ci_num, @RequestParam("pf_text")String pf_text) {
+	public String insertPost(Model model, HttpSession session, MultipartFile[] files, MultipartFile Original,@RequestParam("me_nick") String me_nick, 
+			@RequestParam("me_pw") String me_pw, @RequestParam("me_ci_num")int me_ci_num, @RequestParam("pf_text")String pf_text, @RequestParam("me_pwr") String me_pwr) {
 		Message msg;
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		
 		if(me_ci_num != 0) {
 		profileService.updateCity(user, me_ci_num);		
 		}
+		//영문,숫자,특수문자로 이루어지고 8~20자 
+		String pwRegex = "^[a-zA-Z0-9!@#$%^&*()_+|~]{8,20}$";
 		
-		user.setMe_id(me_id);
-		user.setMe_pw(me_pw);
-		
+		user.setMe_nick(me_nick);
+		if(!me_pw.equals("")) {
+			if(!Pattern.matches(pwRegex, me_pw)){
+				msg = new Message("/board/profileMN", "비밀번호는 영문,숫자,특수문자를 사용하여 8~20자이내에 작성해야합니다.");
+				model.addAttribute("msg", msg);
+				return "message";
+			} 
+			if(me_pw.equals(me_pwr)) {
+				String encPw = passwordEncoder.encode(me_pw);
+				user.setMe_pw(encPw);
+			}else {
+				msg = new Message("/board/profileMN", "비밀번호와 비밀번호 확인의 값이 일치해야 합니다.");
+				model.addAttribute("msg", msg);
+				return "message";
+			}
+		} 
+
 		System.out.println(pf_text);
 		
 		List<ProfileVO> pfList = profileService.getPF(user);	
@@ -225,10 +248,3 @@ public class ProfileController {
 	}
 	
 }
-
-
-
-
-
-
-
