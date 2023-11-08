@@ -79,6 +79,11 @@ public class TradingRequestServiceImp implements TradingRequestService{
 		
 	}
 
+	@Override
+	public List<TradingRequestVO> getTradingRequestPeach(MemberVO user, int sb_num, int me_num) {
+		return tradingRequestDao.getTradingRequestPeach(user, sb_num, me_num);
+	}
+
 
 
 	

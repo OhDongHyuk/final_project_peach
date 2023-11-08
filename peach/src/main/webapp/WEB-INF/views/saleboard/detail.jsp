@@ -523,7 +523,7 @@
 					      	<button type="button" onclick="tradePost()" class="trade">직거래</button>
 					      </div>
 					      <div class="rectangle-button pink-button">
-					        <button>피치페이거래</button>
+					        <button id="peachTrade" type="button" class="trade" data-sb-num="${board.sb_num}" data-me-num="${user.me_num}">피치페이거래</button>
 					      </div>
 					    </div>
 					    <div class="customer-center-container">
@@ -714,6 +714,80 @@
 		        window.location.href = '/peach/member/login';
 		    });
 		}
+		//피치페이 거래
+		$(document).ready(function() {
+            // 유저 포인트 및 상품 가격을 가져오는 AJAX 요청
+            var me_num = $(this).data('me-num');
+		    var sb_num = $(this).data('sb-num');
+            $.ajax({
+                method: 'GET',
+                url: '<c:url value="/sale/peachTrade"/>', // 여기에 서버 측 스크립트의 URL을 입력하세요
+                success: function(data) {
+                    var userPoints = map.trList.; // 가정: 서버에서 반환되는 유저 포인트
+                    var productPrice = data.productPrice; // 가정: 서버에서 반환되는 상품 가격
+
+                    $('#userPoints').text(userPoints);
+                    $('#productPrice').text(productPrice);
+
+                    $('#buyButton').on('click', function() {
+                        // 유저 포인트와 상품 가격 비교
+                        if (userPoints >= productPrice) {
+                            // 충분한 포인트가 있으면 거래 요청을 보냅니다.
+                            $.ajax({
+                                url: 'process_trade.php', // 거래 요청을 처리하는 서버 측 스크립트의 URL
+                                method: 'POST',
+                                data: {
+                                    userPoints: userPoints,
+                                    productPrice: productPrice
+                                },
+                                success: function(response) {
+                                    console.log('거래가 성공적으로 처리되었습니다.');
+                                    // 성공적으로 처리됐을 때 추가 작업 수행
+                                },
+                                error: function(error) {
+                                    console.log('거래 요청 중 오류가 발생했습니다.');
+                                    // 오류 발생 시 추가 작업 수행
+                                }
+                            });
+                        } else {
+                            console.log('포인트가 부족합니다. 충전 페이지로 이동합니다.');
+                            // 포인트가 부족할 때 추가 작업 수행
+                        }
+                    });
+                },
+                error: function(error) {
+                    console.log('데이터를 불러오는 중 오류가 발생했습니다.');
+                    // 오류 발생 시 추가 작업 수행
+                }
+            });
+        });
+		
+		/* 
+		$(document).ready(function(){
+		    $("#peachTrade").on('click', function(){
+		    	var me_num = $(this).data('me-num');
+		    	var sb_num = $(this).data('sb-num');
+		        $.ajax({
+		            method: "POST", // 요청 방식 (GET, POST 등)
+		            url: '<c:url value="/sale/peachTrade"/>', // 서버 엔드포인트 URL
+		            data: {tq_num: tq_num}, {sb_num: sb_num},
+		            dataType: 'json',
+		            success: function(map) {
+		                // 성공 시 실행될 코드
+		                console.log("요청 성공", map);
+		                // 여기서 성공 시 할 작업을 수행
+		                alert("제품 인수를 완료하였습니다");
+		                location.reload();
+		            },
+		            error: function(xhr, status, error) {
+		                // 오류 발생 시 실행될 코드
+		                console.log("요청 오류", error);
+		                // 여기서 오류 시 할 작업을 수행
+		            }
+		        });
+		    });
+		}); */
+		
 		
 		// 신고 모달
 		const reportPostModal = document.getElementById("reportPostModal");

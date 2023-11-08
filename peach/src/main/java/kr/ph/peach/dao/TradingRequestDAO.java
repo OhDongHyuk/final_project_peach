@@ -31,5 +31,7 @@ public interface TradingRequestDAO {
 
 	void changeTradingSeState(@Param("tq_num")int tq_num);
 
+	List<TradingRequestVO> getTradingRequestPeach(@Param("user")MemberVO user, @Param("sb_num")int sb_num, @Param("me_num")int me_num);
+
 
 }

@@ -66,10 +66,7 @@
 	                var notificationBoxContent = '';
 	
 	                $.each(notificationList, function(index, item) {
-	                	console.log(item);
-	                    console.log(item.saleBoardVO);
 	                    var imageSrc = item.saleBoardVO.saleImageVOList.length !== 0 ? item.saleBoardVO.saleImageVOList[0].si_name : '';
-	                    console.log(imageSrc)
 	                    notificationBoxContent += '<div class="notifi-small">' +
 	                        '<img class="notifi-img"  src="/peach/resources/image/' + imageSrc + '">' +
 	                        '<h3>' + item.saleBoardVO.sb_name + '</h3>' + '</br>' +

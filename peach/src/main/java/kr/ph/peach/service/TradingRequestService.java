@@ -29,4 +29,6 @@ public interface TradingRequestService {
 	void changeTradingCuState(int tq_num);
 
 	void changeTradingSeState(int tq_num);
+
+	List<TradingRequestVO> getTradingRequestPeach(MemberVO user, int sb_num, int me_num);
 }

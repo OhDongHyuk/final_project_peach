@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -224,5 +225,27 @@ public class SaleBoardController {
 
 	    System.out.println(map);
 	    return map;
+	}
+	
+	@GetMapping("/peachTrade")
+	public Map<String, Object> getPeachTrade(Integer sb_num, HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		SaleBoardVO saleNum = saleBoardService.selectBoard(sb_num)
+		System.out.println(trList);
+		map.put("trList", trList);
+        return map;
+		
+	}
+	
+	@ResponseBody
+	@PostMapping("/peachTrade")
+	public Map<String, Object> peachTrade(@RequestParam("sb_num") int sb_num, @RequestParam("me_num") int me_num, HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		List<TradingRequestVO> trList = tradingRequestService.getTradingRequestPeach(user, sb_num, me_num);
+		System.out.println(trList);
+        return map;
+		
 	}
 }

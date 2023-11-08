@@ -75,6 +75,9 @@
 	<select id="getTradingRequests" resultMap="TradingRequestVO">
 		select * from trading_request where tq_num = #{tq_num}
 	</select>
+	<select id="getTradingRequestPeach" resultMap="TradingRequestVO">
+		select * from sale_board 
+	</select>
 	<update id="changeTradingState">
 		update trading_request join sale_board on tq_sb_num = sb_num
 		set tq_as_num = 2 ,sb_ss_num = 2 WHERE tq_num = #{tq_num};
