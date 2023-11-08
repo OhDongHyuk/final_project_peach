@@ -163,7 +163,6 @@ public class MemberServiceImp implements MemberService {
 
 	@Override
 	public List<CityVO> getLargeCity() {
-		// TODO Auto-generated method stub
 		return memberDao.selectLargeCity();
 	}
 
@@ -200,6 +199,7 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public MemberVO selectMemberByAcc(String acc) {
 		return memberDao.selectMemberByAcc(acc);
+
 	}
 
 
@@ -209,20 +209,21 @@ public class MemberServiceImp implements MemberService {
 		return memberDao.memberIdFind(member);
 	}
 
-
-
 	@Override
 	public boolean sendPw(String me_id, String me_name) {
 		MemberVO member = memberDao.selectMember(me_id);
 		MemberVO member2 = memberDao.selectMemberByName(me_name);
 		//아이디(email)를 잘못 입력 
-		if(member == null) {
-			return false;
-		//이름 잘못 입력
-		}else if(member2 == null) {
-			return false;
-		//같으면 
-		}else {
+				if(member == null) {
+					return false;
+				//이름 잘못 입력
+				}
+				
+				if(member2 == null) {
+					return false;
+				}
+				//같으면 
+
 			
 		
 		Random r = new Random();
@@ -232,9 +233,11 @@ public class MemberServiceImp implements MemberService {
 		//인증 코드를 이메일로 전송
 		String setfrom = "rlatldbs4042@gmail.com";  
 		String tomail = me_id; //받는사람
-		String title = "[삼삼하개] 비밀번호변경 인증 이메일 입니다"; 
+
+		String title = "[피치마켓] 비밀번호변경 인증 이메일 입니다"; 
 		String content = System.getProperty("line.separator") + "안녕하세요 회원님" + System.getProperty("line.separator")
-				+ "삼삼하개 비밀번호찾기(변경) 인증번호는 " + num + " 입니다." + System.getProperty("line.separator"); // 
+				+ "피치마켓 비밀번호찾기(변경) 인증번호는 " + num + " 입니다." + System.getProperty("line.separator"); // 
+
 	
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
@@ -244,6 +247,18 @@ public class MemberServiceImp implements MemberService {
 			messageHelper.setTo(tomail); 
 			messageHelper.setSubject(title);
 			messageHelper.setText(content); 
+	
+			mailSender.send(message);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+		
+		memberDao.insertAuthCode(member.getMe_num(), num);	
+		
+		return true;
+		}
+
 	
 			mailSender.send(message);
 		} catch (Exception e) {
@@ -269,7 +284,9 @@ public class MemberServiceImp implements MemberService {
 	private boolean checkPwRegex(String pw) {
 		
 		//비번은 영문,숫자,특수문자로 이루어지고 8~20자 
-		String regexPw = "^[a-zA-Z0-9!@#$%^&*()_+|~]{8,20}$";
+
+		String regexPw = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_+|]).{8,20}$";
+
 		if(pw == null) {
 			return false;
 		}
