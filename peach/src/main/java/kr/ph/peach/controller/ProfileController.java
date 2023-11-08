@@ -170,12 +170,12 @@ public class ProfileController {
           	model.addAttribute("msg", msg);
       		return "message";
     	}
-	
 		ProfileImageVO OriFile = profileService.selectOriFile(user);
+		if(OriFile != null) {
 		String OriFileName = OriFile.getPi_name();
 		
 		model.addAttribute("OriFileName", OriFileName);
-		
+		}
 		return "/board/profileMN";
 	}
 	@PostMapping("/board/profileMN")
