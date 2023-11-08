@@ -127,15 +127,21 @@
 							<a href="<c:url value='/saleboard/detail?sb_num=${pr.sb_num}'/>"
 								target="_self">
 								<div class="product-image">
-									<img class="item" width="100%" height="194"
-										src="<c:url value='/img/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_name :\"\" }'/>">
+								<c:choose>
+									<c:when test="${pr.saleImageVOList.size() != 0 }">
+										<img class="item" width="100%" height="194" src="<c:url value='/resources/image/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_name :\"\" }'/>">
+									</c:when>
+									<c:otherwise>
+										<img class="item" width="100%" height="194" src="<c:url value='/resources/image/NoMainImage.png'/>">
+									</c:otherwise>
+								</c:choose>
 								</div>
 								<div class="product-info">
 									<span class="category">${pr.saleCategoryVO.sc_name}</span>
 									<h4 class="title">${pr.sb_name}</h4>
 									<div class="item-info">${pr.sb_info}</div>
 									<div class="price">
-										<span>${pr.get_sb_price(pr.sb_price)} </span>
+										<span>${pr.get_sb_price()} </span>
 									</div>
 								</div>
 							</a>

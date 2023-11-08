@@ -3,6 +3,8 @@ package kr.ph.peach.vo;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,9 +22,9 @@ public class MemberVO {
 	private StatementVO statementVO;
 	private BankVO bankVO;
 	
-	
 	private boolean autoLogin;
 	
+	@JsonIgnore
 	public String getme_date_str() {
 		if(me_date == null) {
 			return "";
@@ -30,6 +32,5 @@ public class MemberVO {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		return format.format(me_date);
 	}
-
 
 }

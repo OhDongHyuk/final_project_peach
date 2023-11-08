@@ -15,16 +15,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.pagination.PageMaker;
 import kr.ph.peach.pagination.SaleBoardCriteria;
-import kr.ph.peach.service.SaleBoardService;
-import kr.ph.peach.service.CategoryService;
 import kr.ph.peach.service.MemberService;
+import kr.ph.peach.service.SaleBoardService;
+import kr.ph.peach.service.SaleCategoryService;
+import kr.ph.peach.service.TradingRequestService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.vo.SaleImageVO;
+import kr.ph.peach.vo.TradingRequestVO;
 import kr.ph.peach.vo.WishVO;
 
 
@@ -32,7 +36,6 @@ import kr.ph.peach.vo.WishVO;
 @RequestMapping("/saleboard")
 public class SaleBoardController {
 	
-
 	@Autowired
 	MemberService memberSerivce;
 
@@ -40,7 +43,10 @@ public class SaleBoardController {
 	SaleBoardService saleBoardService;
 	
 	@Autowired
-	CategoryService saleCategoryService;
+	SaleCategoryService saleCategoryService;
+	
+	@Autowired
+	TradingRequestService tradingRequestService;
 	
 	@GetMapping("/{sc_num}")
 	public String productsList(@PathVariable("sc_num") int categoryId, Model model, HttpSession session, SaleBoardCriteria cri) {
@@ -60,7 +66,6 @@ public class SaleBoardController {
 		//페이지네이션에서 최대 페이지 개수 
 		int displayPageNum = 20;
 		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
-		System.out.println(prList);
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("pm", pm);
 		model.addAttribute("prList",prList);
@@ -69,13 +74,13 @@ public class SaleBoardController {
 	}
 	
 	@GetMapping("/insert")
-	public String insert(Model model, HttpSession session) {
+	public String insert(Model model, HttpSession session, SaleBoardVO saleBoard) {
 		List<SaleCategoryVO> dbCategory = saleBoardService.selectAllCategory();
 		model.addAttribute("dbCategory", dbCategory);
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		Message msg;
 		if(user == null) {
-			msg = new Message("saleboard/list", "로그인이 필요합니다.");
+			msg = new Message("saleboard/" + saleBoard.getSb_sc_num(), "로그인이 필요합니다.");
 			model.addAttribute("msg", msg);
 			return "message";
 		}
@@ -83,21 +88,22 @@ public class SaleBoardController {
 		return "/saleboard/insert";
 	}
 	@PostMapping("/insert")
-	public String insertPost(Model model, SaleBoardVO saleBoard, HttpSession session) {
+	public String insertPost(Model model, SaleBoardVO saleBoard, HttpSession session, MultipartFile[] files) {
 		Message msg;
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		if(saleBoardService.insertBoard(saleBoard, user)) {
-			msg = new Message("salesboard/list", "게시물이 등록되었습니다.");
+		if(saleBoardService.insertBoard(saleBoard, user, files)) {
+			msg = new Message("saleboard/" + saleBoard.getSb_sc_num(), "게시물이 등록되었습니다.");
 		} else {
-			msg = new Message("salesboard/insert", "게시물 등록에 실패했습니다.");
+			msg = new Message("saleboard/insert", "게시물 등록에 실패했습니다.");
 		}
+		//System.out.println(files);
 		model.addAttribute("msg", msg);
 		return "message";
 	}
 	
 	@GetMapping("/list")
-	public String list(Model model,SaleBoardCriteria cri, HttpSession session) {
-		List<SaleBoardVO> dbBoardList = saleBoardService.selectAllBoard(cri);
+	public String list(Model model, SaleBoardCriteria cri, HttpSession session) {
+		List<SaleBoardVO> dbBoardList = saleBoardService.selectAllBoard2(cri);
 		
 		for(SaleBoardVO tmp : dbBoardList) {
 			dbBoardList.get(dbBoardList.indexOf(tmp)).setSb_me_nickname(saleBoardService.selectMemberNickname(tmp.getSb_me_num()));
@@ -117,6 +123,8 @@ public class SaleBoardController {
 	public String detail(Model model, Integer sb_num, HttpSession session) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		SaleBoardVO board = saleBoardService.selectBoard(sb_num);
+		List<SaleImageVO> imageList = saleBoardService.getFileList(sb_num);
+		board.setSaleImageVOList(imageList);
 		board.setSb_me_nickname(saleBoardService.selectMemberNickname(board.getSb_me_num()));
 		board.setSb_sc_name(saleBoardService.selectCategoryName(board.getSb_sc_num()));
 		board.setSb_me_sugar(saleBoardService.selectMemberSugar(board.getSb_me_num()));
@@ -141,10 +149,12 @@ public class SaleBoardController {
 		List<SaleCategoryVO> dbCategory = saleBoardService.selectAllCategory();
 		model.addAttribute("dbCategory", dbCategory);
 		SaleBoardVO board = saleBoardService.selectBoard(sb_num);
+		List<SaleImageVO> imageList = saleBoardService.getFileList(sb_num);
+		board.setSaleImageVOList(imageList);
 		board.setSb_sc_name(saleBoardService.selectCategoryName(board.getSb_sc_num()));
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		if(user == null || board == null || user.getMe_num() != board.getSb_me_num()) {
-			Message msg = new Message("/saleboard/list", "잘못된 접근입니다.");
+			Message msg = new Message("saleboard/" + board.getSb_sc_num(), "잘못된 접근입니다.");
 			model.addAttribute("msg", msg);
 			return "message";
 		}
@@ -153,10 +163,10 @@ public class SaleBoardController {
 		return "/saleboard/update";
 	}
 	@PostMapping("/update")
-	public String updatePost(Model model, HttpSession session, SaleBoardVO board) {
+	public String updatePost(Model model, HttpSession session, SaleBoardVO board, MultipartFile[] files,Integer[] delFiles) {
 		Message msg;
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		if(saleBoardService.updateBoard(board, user)) {
+		if(saleBoardService.updateBoard(board, user, files, delFiles)) {
 			msg = new Message("/saleboard/detail?sb_num="+board.getSb_num(), "수정되었습니다.");
 		}else {
 			msg = new Message("/saleboard/update?sb_num="+board.getSb_num(), "수정을 실패하였습니다."); 
@@ -165,13 +175,15 @@ public class SaleBoardController {
 		return "message";
 	}
 	@GetMapping("/delete")
-	public String delete(Integer sb_num, HttpSession session, Model model) {
+	public String delete(Integer sb_num, HttpSession session, Model model, SaleBoardVO saleBoard) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
+	    SaleBoardVO saleBoardBeforeDeletion = saleBoardService.selectBoard(sb_num); // ID로 판매 게시글 가져오는 메서드
+	    int previousSbScNum = saleBoardBeforeDeletion.getSb_sc_num();
 		Message msg;
 		if(saleBoardService.deleteBoard(sb_num, user)) {
-			msg = new Message("saleboard/list", "삭제되었습니다.");
+			msg = new Message("saleboard/" + previousSbScNum, "삭제되었습니다.");
 		} else {
-			msg = new Message("saleboard/list", "잘못된 접근입니다.");
+			msg = new Message("saleboard/" + previousSbScNum, "잘못된 접근입니다.");
 		}
 		model.addAttribute("msg", msg);
 		return "message";
@@ -196,9 +208,21 @@ public class SaleBoardController {
 		return map;
 	}
 	
-	@GetMapping("/test")
-	public String test() {
-		
-		return "/saleboard/test";
+	@ResponseBody
+	@PostMapping("/detail")
+	public Map<String, Object> tradePost(@RequestBody TradingRequestVO tradingRequest, HttpSession session) {
+	    Map<String, Object> map = new HashMap<>();
+        boolean trade = tradingRequestService.tradePost(tradingRequest.getTq_sb_num(), tradingRequest.getTq_me_num());
+        System.out.println(trade);
+        if (trade) {
+	        map.put("status", "success");
+	        map.put("message", "직거래를 요청하였습니다.");
+	    } else {
+	        map.put("status", "error");
+	        map.put("message", "이미 직거래를 신청한 물품입니다.");
+	    }
+
+	    System.out.println(map);
+	    return map;
 	}
 }

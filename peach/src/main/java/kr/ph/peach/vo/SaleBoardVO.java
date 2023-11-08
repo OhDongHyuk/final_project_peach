@@ -1,8 +1,6 @@
 package kr.ph.peach.vo;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import lombok.Data;
@@ -16,17 +14,19 @@ public class SaleBoardVO {
 	private String sb_date;
 	private SaleCategoryVO saleCategoryVO;
 	private List<SaleImageVO> saleImageVOList;
-
+	private MemberVO memberVO;
+	
 	public SaleBoardVO(String sb_name, int sb_price, String sb_info, int sb_sc_num) {
 		this.sb_name = sb_name;
 		this.sb_price = sb_price;
 		this.sb_info = sb_info;
 		this.sb_sc_num = sb_sc_num;
 	}
-
-	public String get_sb_price(int sb_price) {
+	
+	public String get_sb_price() {
 		DecimalFormat decFormat = new DecimalFormat("###,###");
-		return decFormat.format(sb_price);
+		return decFormat.format(this.sb_price);
 	}
+
 
 }

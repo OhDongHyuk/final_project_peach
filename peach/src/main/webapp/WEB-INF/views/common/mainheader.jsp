@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<header class="header navbar-area">
+<header class="header navbar-area a">
 	<!-- 헤더 미드 -->
 	<!-- Start Header Middle -->
 	<div class="header-middle">
@@ -135,7 +135,11 @@
 	<!-- End Header Bottom -->
 </header>
 <!-- End Header Area -->
-
+<style>
+	.header.navbar-area.a{
+	z-index: 98;
+	}
+</style>
 
 <script type="text/javascript">
 		
