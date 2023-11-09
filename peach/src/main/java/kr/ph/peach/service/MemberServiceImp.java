@@ -275,5 +275,16 @@ public class MemberServiceImp implements MemberService {
 		}
 		return Pattern.matches(regexPw, pw);
 	}
+
+	@Override
+	public void addPoints(int me_num, int paidAmount) {
+		memberDao.addPoints(me_num, paidAmount);
+		
+	}
+
+	@Override
+	public MemberVO getMemberById(int me_num) {
+		return memberDao.getMemberById(me_num);
+	}
 	
 }

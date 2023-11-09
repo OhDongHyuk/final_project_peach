@@ -104,6 +104,18 @@ public class TradingRequestServiceImp implements TradingRequestService{
 		
 	}
 
+	@Override
+	public void addPointToCustomer(int tq_num) {
+		tradingRequestDao.addPointToCustomer(tq_num);
+		
+	}
+
+	@Override
+	public void reducePointToCustomer(int tq_num) {
+		tradingRequestDao.reducePointToCustomer(tq_num);
+		
+	}
+
 
 
 	

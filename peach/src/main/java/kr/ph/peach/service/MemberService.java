@@ -50,5 +50,9 @@ public interface MemberService {
 	int getTotalCount(MemberCriteria cri);
 
 	boolean updateState(int me_num, int me_st_num);
+
+	void addPoints(int me_num, int paidAmount);
+
+	MemberVO getMemberById(int me_num);
 	
 }

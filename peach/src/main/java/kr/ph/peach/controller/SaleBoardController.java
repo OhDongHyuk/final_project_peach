@@ -261,4 +261,21 @@ public class SaleBoardController {
         return map;
 		
 	}
+	
+	@ResponseBody
+	@PostMapping("/addPoints")
+	public Map<String, Object> addPoints(@RequestParam("me_num") int me_num, @RequestParam("paidAmount") int paidAmount, HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		memberSerivce.addPoints(me_num, paidAmount);
+	    MemberVO updatedUser = memberSerivce.getMemberById(me_num);
+
+	    // 세션에 업데이트된 회원 정보 저장
+	    session.setAttribute("user", updatedUser);
+
+	    // 반환할 map에 성공 및 업데이트된 사용자 정보 추가
+	    map.put("updatedUser", updatedUser);
+        return map;
+		
+	}
+
 }

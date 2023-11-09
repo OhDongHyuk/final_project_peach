@@ -563,7 +563,11 @@
 			</c:choose>
 		</div>
 	</div>
-	<script type="text/javascript">
+	<!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+    <!-- iamport.payment.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script type="text/javascript">
 			window.onload = function() {
 			const slides = document.querySelector('.slides'); //전체 슬라이드 컨테이너
 			const slideImg = document.querySelectorAll('.slides li'); //모든 슬라이드들
@@ -716,7 +720,7 @@
 		}
 		//피치페이 거래
 		$(document).ready(function() {
-		    $('#peachTrade').on('click', function() {
+		    $('#peachTrade').on('click', function() {		    	
 		        var sb_num = $(this).data('sb-num');
 		        var me_num = $(this).data('me-num');
 		
@@ -725,6 +729,7 @@
 		            url: '<c:url value="/saleboard/peachTrade"/>',
 		            data: { sb_num: sb_num },
 		            success: function(map) {
+		            	console.log(map)
 		                var userPoints = map.user.me_point;
 		                var productPrice = map.saleBoard.sb_price;
 		
@@ -757,8 +762,58 @@
 		                        }
 		                    });
 		                } else {
-		                    console.log('포인트가 부족합니다. 충전 페이지로 이동합니다.');
-		                    // 포인트가 부족할 때 추가 작업 수행
+		                    if (confirm('포인트가 부족합니다. 추가 결제를 진행하시겠습니까?')) {
+		                        var IMP = window.IMP; 
+		                        IMP.init("imp41345184"); 
+		                        var inputAmount = map.saleBoard.sb_price - map.user.me_point; // 사용자가 입력한 결제할 금액 (임의로 '1111'로 설정)
+		                        var minimumAmount = '1111'; // 최소 결제 금액 (예시로 5000원으로 설정)
+
+		                        if (parseInt(inputAmount) < minimumAmount) {
+		                            // 최소 결제 금액 미만인 경우 최소 금액으로 설정
+		                            inputAmount = minimumAmount.toString();
+		                            alert('최소 결제 금액 이하입니다. 최소 금액(' + minimumAmount + '원)으로 결제합니다.');
+		                        }
+	                            IMP.request_pay({
+	                                pg : 'danal_tpay',
+	                                pay_method : 'card',
+	                                merchant_uid: 'merchant_' + new Date().getTime(), 
+	                                name : map.saleBoard.sb_name,
+	                                amount : inputAmount,
+	                                buyer_email : map.user.me_id,
+	                                buyer_name : map.user.me_name,
+	                                buyer_tel : map.user.me_phone,
+	                            }, function (rsp) { // callback
+	                                //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+	                            	if(rsp.success) {
+	                                    console.log("결제가 성공했습니다.");
+	                                    console.log("결제한 금액:", rsp.paid_amount); // 실제 결제된 금액
+	                                    // me_point에 결제된 금액을 추가하는 요청을 서버로 보냄
+	                                    $.ajax({
+	                                    	async: false,//비동기는 이렇게
+	                                        type: 'POST',
+	                                        url: '/peach/saleboard/addPoints', // 해당 엔드포인트는 서버에서 처리하고 me_point를 업데이트하는 데 사용
+	                                        data: { 
+	                                        	paidAmount: rsp.paid_amount,
+	                                        	me_num: map.user.me_num
+	                                        },
+	                                        success: function (data) {
+	                                            //console.log('서버 응답:', data); // Check the server response in the console
+	                                            alert('포인트가 충전되었습니다.');
+	                                        },
+	                                        error: function () {
+	                                            console.error('포인트 충전에 실패했습니다.');
+	                                            // 실패시 처리
+	                                        }
+	                                    });
+	                            	} else {
+	                            		console.log(rsp);
+	                            	}            	
+	                            });		                        
+		                    } else {
+		                        // 사용자가 '취소'를 선택한 경우
+		                        console.log('추가 결제가 취소되었습니다.');
+		                        // 원하는 작업 수행 (예: 다른 동작 수행 또는 경고창 등)
+		                    }
 		                }
 		            },
 		            error: function(error) {
@@ -769,32 +824,6 @@
 		    });
 		});
 
-		/* 
-		$(document).ready(function(){
-		    $("#peachTrade").on('click', function(){
-		    	var me_num = $(this).data('me-num');
-		    	var sb_num = $(this).data('sb-num');
-		        $.ajax({
-		            method: "POST", // 요청 방식 (GET, POST 등)
-		            url: '<c:url value="/sale/peachTrade"/>', // 서버 엔드포인트 URL
-		            data: {tq_num: tq_num}, {sb_num: sb_num},
-		            dataType: 'json',
-		            success: function(map) {
-		                // 성공 시 실행될 코드
-		                console.log("요청 성공", map);
-		                // 여기서 성공 시 할 작업을 수행
-		                alert("제품 인수를 완료하였습니다");
-		                location.reload();
-		            },
-		            error: function(xhr, status, error) {
-		                // 오류 발생 시 실행될 코드
-		                console.log("요청 오류", error);
-		                // 여기서 오류 시 할 작업을 수행
-		            }
-		        });
-		    });
-		}); */
-		
 		
 		// 신고 모달
 		const reportPostModal = document.getElementById("reportPostModal");

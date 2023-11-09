@@ -52,5 +52,9 @@ public interface MemberDAO {
 	List<StatementVO> selectMemberTypeList();
 
 	boolean updateState(@Param("me_num")int me_num, @Param("me_st_num")int me_st_num);
+
+	void addPoints(@Param("me_num")int me_num, @Param("paidAmount")int paidAmount);
+
+	MemberVO getMemberById(@Param("me_num")int me_num);
 	
 }

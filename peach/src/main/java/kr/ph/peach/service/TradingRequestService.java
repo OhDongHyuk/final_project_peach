@@ -33,4 +33,8 @@ public interface TradingRequestService {
 	boolean getTradingRequestPeach(MemberVO user, int sb_num);
 
 	void reducePoint(int me_num, int me_point);
+
+	void addPointToCustomer(int tq_num);
+
+	void reducePointToCustomer(int tq_num);
 }

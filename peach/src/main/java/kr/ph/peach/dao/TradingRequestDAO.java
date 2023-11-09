@@ -35,5 +35,9 @@ public interface TradingRequestDAO {
 
 	void reducePoint(@Param("me_num")int me_num, @Param("me_point")int me_point);
 
+	void addPointToCustomer(@Param("tq_num")int tq_num);
+
+	void reducePointToCustomer(@Param("tq_num")int tq_num);
+
 
 }
