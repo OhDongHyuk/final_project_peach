@@ -7,7 +7,9 @@
 	<div class="header-middle">
 		<div class="container">
 			<div class="row align-items-center">
-				<div class="col-lg-3 col-md-3 col-7"></div>
+				<div class="col-lg-3 col-md-3 col-7" style="margin: auto;">
+					<a href="<c:url value='/'/>"><img width="200px" height="45px" src="<c:url value="/resources/image/logo.png"/>"></a>
+				</div>
 				<div class="col-lg-5 col-md-7 d-xs-none">
 					<!-- Start Main Menu Search -->
 					<div class="main-menu-search">
@@ -45,7 +47,8 @@
 				<div class="col-lg-4 col-md-2 col-5">
 					<div class="middle-right-area">
 						<div class="nav-hotline">
-							<h3>${user.me_nick }님환영합니다.</h3>
+							<a class="main-header-menu" href="<c:url value='/saleboard/insert'/>">판매하기</a> <span style="font-size: 18px; margin-right: 10px; margin-left: 10px; color: #ccc; font-weight: 100;"> | </span> 
+							<a class="main-header-menu" href="<c:url value='/chat/chat?sb_num=0'/>">피치톡</a>
 						</div>
 						<div class="navbar-cart">
 							<div class="cart-items">
@@ -138,6 +141,30 @@
 <style>
 	.header.navbar-area.a{
 	z-index: 98;
+	}
+	.main-header-menu {
+		text-decoration: none;
+		color: #000;
+		cursor: pointer;
+		font-size: 18px;
+	}
+	.main-header-menu:hover {
+		color:#000;
+		text-decoration: none;
+	}
+	.talk-badge {
+		position: absolute;
+	    right: -18px;
+	    top: -5px;
+	    height: 19px;
+	    width: 19px;
+	    line-height: 19px;
+	    background-color: #FF32B1;
+	    color: #fff;
+	    font-size: 12px;
+	    font-weight: 500;
+	    text-align: center;
+	    border-radius: 50%;
 	}
 </style>
 

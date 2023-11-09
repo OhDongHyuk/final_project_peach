@@ -16,9 +16,8 @@
 				<div class="col-lg-4 col-md-4 col-12">
 					<div class="top-middle">
 						<ul class="useful-links">
-							<li><a href="<c:url value='/'/>">Home</a></li>
-							<li><a href="<c:url value='/'/>">중고 거래</a></li>
-							<li><a href="<c:url value='/board/community'/>">피치 게시판</a></li>
+							<li><a href="<c:url value='/'/>">피치마켓</a></li>
+							<li><a href="<c:url value='/board/community'/>">우리동네 생활</a></li>
 						</ul>
 					</div>
 				</div>
@@ -32,13 +31,12 @@
 									href="<c:url value='/member/login'/>">로그인</a></li>
 							</c:if>
 							<c:if test="${user != NULL }">
-								<li class="inner-item"><a href="#" id="notificationLink">알림</a></li>
+								<li class="inner-item"><a href="#" id="notificationLink">거래 알림</a></li>
 								<div class="notifi-alarm" id="notificationBox">
 								</div>
 								<li class="inner-item"><a href="<c:url value='/member/logout'/>">로그아웃</a></li>
 								<c:set var="profileURL" value="/board/profile/${user.me_num}"/>
 								<li class="inner-item"><a href="<c:url value='${profileURL}'/>">마이페이지</a></li>
-								<li class="inner-item"><a href="<c:url value='/saleboard/insert'/>">제품등록</a></li>
 							</c:if>
 							<c:if test="${user != null && user.me_au == 'admin' }">
 								<li class="inner-item"><a href="<c:url value='/'/>">관리자 메뉴</a></li>

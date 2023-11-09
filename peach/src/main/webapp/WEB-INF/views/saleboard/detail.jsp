@@ -310,7 +310,7 @@
 		}
 		.kind_slider {
 		  border:1px solid #e9ecef;
-		  margin-left: 138px; 
+		  margin-left: 150px; 
 		  width:600px;
 		  height: 600px;
 		  position: relative;
@@ -443,6 +443,84 @@
 			color: grey;
 			font-size: 13px;
 		}
+		/* Image Modal */
+		.image-modal {
+		  display: none;
+		  position: fixed;
+		  z-index: 2;
+		  left: 0;
+		  top: 0;
+		  width: 100%;
+		  height: 100%;
+		  background-color: rgba(0, 0, 0, 0.9);
+		}
+		
+		.image-modal-content {
+		  position: relative;
+		  text-align: center;
+		  margin: auto;
+		  top: 50%;
+		  transform: translateY(-50%);
+		  max-width: 80%;
+		  max-height: 80%;
+		  overflow: auto;
+		}
+		
+		#modalImage {
+		  width: auto;
+		  height: auto;
+		  max-width: 100%;
+		  max-height: 100%;
+		}
+		
+		/* Close button */
+		.close {
+		  position: absolute;
+		  top: 15px;
+		  right: 15px;
+		  font-size: 30px;
+		  color: white;
+		  cursor: pointer;
+		}
+		
+		.close:hover {
+		  color: #ccc;
+		}
+		
+		.image-modal .close {
+			opacity: 1;
+			font-size: 50px;
+		}
+		.image-modal .image-slide-left {
+			background-image: none;
+			width: 25px; /* 사이즈 */
+		    height: 25px; /* 사이즈 */
+		    border-top: 5px solid #fff; /* 선 두께 */
+		    border-right: 5px solid #fff; /* 선 두께 */
+		    transform: rotate(225deg) translateY(50%); /* 각도 */
+		}
+		.image-modal .image-slide-left:hover {
+			opacity: 0.75;
+			border-top: 5px solid #ccc; /* 선 두께 */
+		    border-right: 5px solid #ccc; /* 선 두께 */
+		}
+		.image-modal .image-slide-right {
+			background-image: none;
+			width: 25px; /* 사이즈 */
+		    height: 25px; /* 사이즈 */
+		    border-top: 5px solid #fff; /* 선 두께 */
+		    border-right: 5px solid #fff; /* 선 두께 */
+		    transform: rotate(45deg) translateY(-50%); /* 각도 */
+		}
+		.image-modal .image-slide-right:hover {
+			opacity: 0.75;
+			border-top: 5px solid #ccc; /* 선 두께 */
+		    border-right: 5px solid #ccc; /* 선 두께 */
+		}
+		span {
+			transition: none;
+			-webkit-transition: none;
+		}
 	</style>
 </head>
 <body>
@@ -453,7 +531,7 @@
 			    <c:choose>
 					<c:when test="${board.saleImageVOList.size() != 0 }">			    
 			        	<c:forEach items="${board.saleImageVOList}" var="saleImage">
-		       				 <li><img src="<c:url value='/resources/image/${saleImage.si_name }'/>"/></li>
+		       				 <li><img src="<c:url value='/resources/image/${saleImage.si_thb_name }'/>" data-src="<c:url value='/resources/image/${saleImage.si_name }'/>"></li>
 		      			</c:forEach>
 		      		</c:when>
 		      		<c:otherwise>
@@ -467,6 +545,15 @@
 		      <button class="image-slide-left"></button>
 		      <button class="image-slide-right"></button>
 		 	</div>
+		 	 <div id="imageModal" class="image-modal">
+		        <span class="close" id="closeImageModal">&times;</span>
+		        <div class="image-modal-content">
+		            <img id="modalImage" src="" alt="Original Image">
+		            <!-- Add navigation buttons for scrolling through images -->
+		        </div>
+		            <button class="image-slide-left" id="prevImage"></button>
+		            <button class="image-slide-right" id="nextImage"></button>
+		    </div>
 		</div>
 		<div class="profile-box">
 			<div class="profile-left">
@@ -617,10 +704,9 @@
 			});
 		}
 	
-	
+		//찜버튼 눌렀을 때 기능
 		$('.wish').click(function(){
 			if('${user.me_id}' == '') {
-				//alert('로그인한 회원만 이용이 가능합니다.');
 				if(confirm('로그인하시겠습니까?')){
 					location.href = '<c:url value="/member/login"/>'
 				}
@@ -642,7 +728,7 @@
 		})
 		
 		
-		
+		//ajax로 받아온 찜 상태에 따라 찜버튼 수정
 		function diplayWishBtn(isWish){
 			if(isWish == 0){
 				$('.wish-type').text("찜하기");
@@ -656,132 +742,189 @@
 				$('.wish img').attr("src", "<c:url value='/resources/image/wish-filled.png'/>");
 			}
 		}
-		// 모달 열기 버튼
-		const openModalBtn = document.getElementById("openModalBtn");
-
-		// 모달 요소
-		const modal = document.getElementById("myModal");
-
-		// 모달 열기 버튼 클릭 시 이벤트
-		openModalBtn.addEventListener("click", function() {
-			if('${user.me_id}' == '') {
-				//alert('로그인한 회원만 이용이 가능합니다.');
-				if(confirm('로그인하시겠습니까?')){
-					location.href = '<c:url value="/member/login"/>'
+		if('${user.me_num}' != '${board.sb_me_num}'){	
+			// 모달 열기 버튼
+			const openModalBtn = document.getElementById("openModalBtn");
+	
+			// 모달 요소
+			const modal = document.getElementById("myModal");
+	
+			// 모달 열기 버튼 클릭 시 이벤트
+			openModalBtn.addEventListener("click", function() {
+				if('${user.me_id}' == '') {
+					//alert('로그인한 회원만 이용이 가능합니다.');
+					if(confirm('로그인하시겠습니까?')){
+						location.href = '<c:url value="/member/login"/>'
+					}
+					return;
 				}
-				return;
-			}
-		 	modal.style.display = "block";
-		});
-
-		// 모달 닫기 버튼 또는 바깥 영역 클릭 시 모달 닫기
-		const closeModal = document.querySelector(".close");
-		window.addEventListener("click", function(event) {
-		  if (event.target === modal) {
-		    modal.style.display = "none";
-		  }
-		});
-
-		closeModal.addEventListener("click", function() {
-		  modal.style.display = "none";
-		});
-		
-		function tradePost() {
-		    var tq_sb_num = '${board.sb_num}'; // SaleBoardVO의 sb_num 값 가져오기
-		    var tq_me_num = '${user.me_num}';
-		    console.log({
-	        	tq_sb_num: tq_sb_num,
-	        	tq_me_num: tq_me_num,
-	        })
-		    fetch('/peach/saleboard/detail?sb_num=' + ${board.sb_num}, {
-		        method: 'POST',
-		        headers: {
-		            'Content-Type': 'application/json'
-		        },
-		        body: JSON.stringify({
+			 	modal.style.display = "block";
+			});
+	
+			// 모달 닫기 버튼 또는 바깥 영역 클릭 시 모달 닫기
+			const closeModal = document.querySelector(".modal .close");
+			window.addEventListener("click", function(event) {
+			  if (event.target === modal) {
+			    modal.style.display = "none";
+			  }
+			});
+	
+			closeModal.addEventListener("click", function() {
+			  modal.style.display = "none";
+			});
+			
+			function tradePost() {
+			    var tq_sb_num = '${board.sb_num}'; // SaleBoardVO의 sb_num 값 가져오기
+			    var tq_me_num = '${user.me_num}';
+			    console.log({
 		        	tq_sb_num: tq_sb_num,
-		        	tq_me_num: tq_me_num
+		        	tq_me_num: tq_me_num,
 		        })
-		    })
-		    .then(response => {
-		    	return response.json();	
-		    }).then(json => {
-		    	alert(json.message)
-		    })
-		    .catch(error => {
-		        console.error("로그인이 필요합니다:", error);
-		        alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
-		        window.location.href = '/peach/member/login';
-		    });
-		}
-		
-		// 신고 모달
-		const reportPostModal = document.getElementById("reportPostModal");
-		const openReportModalBtn = document.getElementById("openReportModalBtn");
-		const closeReportModalBtn = document.querySelector(".custom-modal .close");
-		
-		openReportModalBtn.addEventListener("click", function () {
-			if('${user.me_id}' == '') {
-				//alert('로그인한 회원만 이용이 가능합니다.');
-				if(confirm('로그인하시겠습니까?')){
-					location.href = '<c:url value="/member/login"/>'
+			    fetch('/peach/saleboard/detail?sb_num=' + ${board.sb_num}, {
+			        method: 'POST',
+			        headers: {
+			            'Content-Type': 'application/json'
+			        },
+			        body: JSON.stringify({
+			        	tq_sb_num: tq_sb_num,
+			        	tq_me_num: tq_me_num
+			        })
+			    })
+			    .then(response => {
+			    	return response.json();	
+			    }).then(json => {
+			    	alert(json.message)
+			    })
+			    .catch(error => {
+			        console.error("로그인이 필요합니다:", error);
+			        alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+			        window.location.href = '/peach/member/login';
+			    });
+			}
+			
+			// 신고 모달
+			const reportPostModal = document.getElementById("reportPostModal");
+			const openReportModalBtn = document.getElementById("openReportModalBtn");
+			const closeReportModalBtn = document.querySelector(".custom-modal .close");
+			
+			openReportModalBtn.addEventListener("click", function () {
+				if('${user.me_id}' == '') {
+					if(confirm('로그인하시겠습니까?')){
+						location.href = '<c:url value="/member/login"/>'
+					}
+					return;
 				}
-				return;
-			}
-		  	reportPostModal.style.display = "block";
-		});
-		
-		closeReportModalBtn.addEventListener("click", function () {
-		  reportPostModal.style.display = "none";
-		});		
-
-		window.addEventListener("click", function (event) {
-		  if (event.target === reportPostModal) {
-		    reportPostModal.style.display = "none";
-		  }
-		});
-		
-		function reportPost() {
+			  	reportPostModal.style.display = "block";
+			});
 			
-			if('${user.me_num}' == '${board.sb_me_num}'){
-				alert("본인의 게시물은 신고가 불가합니다.");
-				return;
-			}
+			closeReportModalBtn.addEventListener("click", function () {
+			  reportPostModal.style.display = "none";
+			});		
+	
+			window.addEventListener("click", function (event) {
+			  if (event.target === reportPostModal) {
+			    reportPostModal.style.display = "none";
+			  }
+			});
 			
-			const reportReason = document.getElementById("reportReason").value;
-
-		  	if (reportReason.trim() === "") {
-		   		alert("신고 이유를 입력하세요.");
-		   		return;
+			function reportPost() {
+				
+				if('${user.me_num}' == '${board.sb_me_num}'){
+					alert("본인의 게시물은 신고가 불가합니다.");
+					return;
+				}
+				
+				const reportReason = document.getElementById("reportReason").value;
+	
+			  	if (reportReason.trim() === "") {
+			   		alert("신고 이유를 입력하세요.");
+			   		return;
+				}
+			  	
+				let data = {
+					key : '${board.sb_num}',
+					info : reportReason,
+					table : 'sale_board'
+				};
+				ajaxJsonToJson(
+						  false,
+						  'post',
+						  'report',
+						  data,
+						  (data) => {
+						    alert("게시물을 신고했습니다.\n신고 사유: " + reportReason);
+						    console.log(data.msg);
+						    document.getElementById("reportReason").value = '';
+						    closeReportModal(); // 신고 완료 후 모달 닫기
+						  },
+						    () => {
+						    	
+						    	console.log("실패");
+						    }
+						);
+				}
+				
+			// 신고 모달 닫는 기능
+			function closeReportModal() {
+			  reportPostModal.style.display = "none";
 			}
-		  	
-			let data = {
-				key : '${board.sb_num}',
-				info : reportReason,
-				table : 'sale_board'
-			};
-			ajaxJsonToJson(
-					  false,
-					  'post',
-					  'report',
-					  data,
-					  (data) => {
-					    alert("게시물을 신고했습니다.\n신고 사유: " + reportReason);
-					    console.log(data.msg);
-					    document.getElementById("reportReason").value = '';
-					    closeReportModal(); // Close the modal after reporting
-					  },
-					    () => {
-					    	
-					    	console.log("실패");
-					    }
-					);
-			}
-			
-		// Function to close the modal
-		function closeReportModal() {
-		  reportPostModal.style.display = "none";
 		}
+		
+		//이미지 클릭시 원본 이미지 표시 모달
+		document.addEventListener("DOMContentLoaded", function () {
+			  console.log("loaded");
+			  const imageModal = document.getElementById("imageModal");
+			  const modalImage = document.getElementById("modalImage");
+			  const closeImageModalBtn = document.getElementById("closeImageModal");
+			  const nextImageBtn = document.getElementById("nextImage");
+			  const prevImageBtn = document.getElementById("prevImage");
+			  const thumbnailImages = document.querySelectorAll(".slides li");
+
+			  let currentImageIndex = 0;
+
+			  // 모달 오픈 기능
+			  function openImageModal(imageIndex) {
+			    imageModal.style.display = "block";
+			    currentImageIndex = imageIndex;
+			    displayImage(currentImageIndex);
+			  }
+
+			  // 모달 닫기
+			  closeImageModalBtn.addEventListener("click", function () {
+			    imageModal.style.display = "none";
+			  });
+
+			  // 다음 버튼 클릭 시 다음 이미지 보여줌
+			  nextImageBtn.addEventListener("click", function () {
+			    currentImageIndex = (currentImageIndex + 1) % thumbnailImages.length;
+			    displayImage(currentImageIndex);
+			  });
+
+			  // 이전 버튼 클릭 시 이전 이미지 보여줌
+			  prevImageBtn.addEventListener("click", function () {
+			    currentImageIndex =
+			      (currentImageIndex - 1 + thumbnailImages.length) % thumbnailImages.length;
+			    displayImage(currentImageIndex);
+			  });
+
+			  // 해당 인덱의의 img 태그에서 data-src의 값(원본 이미지 주소)를 가져와서 이미지 표시
+			  function displayImage(index) {
+			    modalImage.src = thumbnailImages[index].querySelector("img").getAttribute("data-src");
+			  }
+
+			  // 각 이미지마다 이벤트리스너 생성
+			  thumbnailImages.forEach(function (thumbnail, index) {
+			    thumbnail.addEventListener("click", function () {
+			      openImageModal(index);
+			    });
+			  });
+			  // 이미지 범위 밖에 클릭 시 모달 빠져나오기
+			  window.addEventListener("click", function(event) {
+				  if (event.target === imageModal) {
+				    imageModal.style.display = "none";
+				  }
+				});
+			});
 	</script>
 </body>
 </html>

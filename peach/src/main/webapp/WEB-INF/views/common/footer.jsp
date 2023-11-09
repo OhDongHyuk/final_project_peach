@@ -52,7 +52,12 @@
 			</div>
 		</div>
 	</footer>
-
+	<style>
+		.footer {
+			background-color: #fff;
+			color: #000;
+		}
+	</style>
 	<!--/ End Footer Area -->
 
 </div>

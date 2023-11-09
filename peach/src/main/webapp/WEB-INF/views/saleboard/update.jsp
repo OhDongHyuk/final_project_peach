@@ -104,6 +104,7 @@
 			        fi.setAttribute('onchange', 'addFile(this);');
 			        fi.setAttribute('id', "no" + (fileNo + 1));
 			        fi.setAttribute('name', 'files');
+			        fi.setAttribute('multiple', true);
 			        fileTag.after(fi);
 			    	
 			    }
@@ -140,7 +141,7 @@
 				
 				        // 첨부파일 검증
 				        if (validation(file)) {
-				            // 파일 배열에 담기
+				            // 미리보기 생성 및 다음 인풋태그 생성
 				            var reader = new FileReader();
 							reader.onload = (e) => {
 			            		createFileTag();
@@ -153,8 +154,6 @@
 				            continue;
 				        }
 				    }
-				    // 초기화
-				    //document.querySelector("input[type=file]").value = "";
 				}
 				
 				/* 첨부파일 검증 */
@@ -182,7 +181,7 @@
 				    document.querySelector("#file" + num).remove();
 				    document.querySelector("#no" + num).remove();
 				}
-
+				//기존에 있던 파일일 경우 미리보기 삭제하고 히든으로 delFiles 이름의 인풋태그 생성하여 컨트롤러로 해당 파일 번호 값 전달
 				function deleteOriginal(num) {
 					  let si_num = document.querySelector("#id" + num).getAttribute('data-num');
 				      document.getElementById('sb_me_num').insertAdjacentHTML('afterend', '<input type="hidden" name="delFiles" value="'+si_num+'">');
@@ -191,7 +190,7 @@
 			  </script>
 		</div>
 	<form action="<c:url value='/saleboard/update'/>" method="post" enctype="multipart/form-data">
-		<input type="file" class="real-upload" accept="image/*" onchange="addFile(this);" id="no0" name="files">
+		<input type="file" class="real-upload" accept="image/*" onchange="addFile(this);" id="no0" name="files" multiple>
 		<input type="hidden" name="sb_num" value="${board.sb_num }">
 		<input type="hidden" name="sb_me_num" value="${board.sb_me_num }" id="sb_me_num">
 		<div class="form-group">

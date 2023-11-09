@@ -1436,8 +1436,8 @@ top: -1px;
 }
 
 .header .topbar {
-  background-color: #081828;
-  padding: 18px 0;
+  background-color: #f76076;
+  padding: 12px 0;
 }
 
 @media (max-width: 767px) {
@@ -1528,7 +1528,9 @@ top: -1px;
 }
 
 .header .topbar .top-middle .useful-links li a:hover {
-  color: #0167F3;
+  text-decoration: none;
+  cursor: pointer;
+  color: #fff;
 }
 
 .header .topbar .top-end {
@@ -1566,7 +1568,7 @@ top: -1px;
 
 .header .topbar .top-end .user-login li {
   display: inline-block;
-  border-right: 1px solid rgba(255, 255, 255, 0.459);
+  border-right: 1px solid #fff;
   padding: 0px 10px;
   white-space: nowrap;
 }
@@ -1589,7 +1591,9 @@ top: -1px;
 }
 
 .header .topbar .top-end .user-login li a:hover {
-  color: #0167F3;
+  text-decoration: none;
+  cursor: pointer;
+  color: #fff;
 }
 
 .header .header-middle {
@@ -2969,6 +2973,7 @@ top: 2px;
   top: 50%;
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
+  max-width: 1000px;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -4632,23 +4637,11 @@ top: 2px;
 
 .footer .single-footer h3 {
   position: relative;
-  margin-bottom: 32px;
   padding-bottom: 15px;
-  color: #fff;
+  color: #000;
   font-size: 17px;
   font-weight: 600;
   line-height: 24px;
-}
-
-.footer .single-footer h3::before {
-  display: block;
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 40px;
-  height: 3px;
-  background-color: #0167F3;
-  content: '';
 }
 
 @media (max-width: 767px) {
@@ -4669,7 +4662,7 @@ top: 2px;
 }
 
 .footer .single-footer.f-link ul li a {
-  color: #d6d6d6;
+  color: #000;
   font-size: 14px;
   font-weight: 500;
   position: relative;
@@ -4681,7 +4674,7 @@ top: 2px;
 }
 
 .footer .single-footer.f-contact .phone {
-  color: #d6d6d6;
+  color: #000;
 }
 
 .footer .single-footer.f-contact ul {
@@ -4691,7 +4684,7 @@ top: 2px;
 .footer .single-footer.f-contact ul li {
   display: block;
   margin-bottom: 10px;
-  color: #d6d6d6;
+  color: #000;
 }
 
 .footer .single-footer.f-contact ul li span {
@@ -4703,11 +4696,11 @@ top: 2px;
 }
 
 .footer .single-footer.f-contact ul li span {
-  color: #d6d6d6;
+  color: #000;
 }
 
 .footer .single-footer.f-contact .mail a {
-  color: #d6d6d6;
+  color: #000;
 }
 
 .footer .single-footer.f-contact .mail a:hover {

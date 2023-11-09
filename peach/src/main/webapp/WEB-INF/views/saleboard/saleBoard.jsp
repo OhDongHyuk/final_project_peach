@@ -17,7 +17,7 @@
 						<div class="image-holder">
 							<c:choose>
 								<c:when test="${pr.saleImageVOList.size() != 0 }">
-									<img class="item" width="100%" height="194" src="<c:url value='/resources/image/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_name :\"\" }'/>">
+									<img class="item" width="100%" height="194" src="<c:url value='/resources/image/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_thb_name :\"\" }'/>">
 								</c:when>
 								<c:otherwise>
 									<img class="item" width="100%" height="194" src="<c:url value='/resources/image/NoMainImage.png'/>">
@@ -83,6 +83,7 @@
 			box-sizing: border-box;
 		}
 		.wrapper {
+			padding-top: 50px;
 			max-width: 1035px; /* 최대 너비를 1035px로 고정 */
         	margin: 0 auto; /* 가운데 정렬 */
 			margin-bottom: 40px;
@@ -122,6 +123,7 @@
 			padding: 15px 10px;
 			height: 80px;
 			text-align: right;
+			border-top: 1px solid rgb(238, 238, 238);
 		}
 		.wish-name {
 			display: flex;
