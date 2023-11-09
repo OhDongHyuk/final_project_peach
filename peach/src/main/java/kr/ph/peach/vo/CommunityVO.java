@@ -23,9 +23,10 @@ public class CommunityVO {
 		this.co_date = co_date;
 	}
 	
-	public CommunityVO(String co_title, String co_info, int co_me_num) {
+	public CommunityVO(String co_title, String co_info, int co_me_num, int co_cc_num) {
 		this.co_title = co_title;
 		this.co_info = co_info;
 		this.co_me_num = co_me_num;
+		this.co_cc_num = co_cc_num;
 	}
 }

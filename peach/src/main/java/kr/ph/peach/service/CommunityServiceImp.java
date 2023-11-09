@@ -1,5 +1,7 @@
 package kr.ph.peach.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +18,7 @@ public class CommunityServiceImp implements CommunityService{
 	private CommunityDAO communityDao;
 	
 	@Override
-	public boolean insertCommunity(CommunityVO community, MemberVO user, MultipartFile[] fileList) {
+	public boolean insertCommunity(CommunityVO community, MemberVO user, MultipartFile[] fileList, int cc_num) {
 		if(community == null || 
 			community.getCo_title() == null || community.getCo_title().trim().length() == 0 ||
 			community.getCo_info() == null) {
@@ -26,12 +28,14 @@ public class CommunityServiceImp implements CommunityService{
 		if(user == null) {
 			return false;
 		}
+		
 		//게시글을 DB에 저장
-		boolean res = communityDao.insertCommunity(community,user);
+		boolean res = communityDao.insertCommunity(community,user , cc_num);
 		
 		if(!res) {
 			return false;
 		}
+
 		//첨부파일 등록
 		if(fileList == null || fileList.length == 0) {
 			return true;
@@ -58,11 +62,18 @@ public class CommunityServiceImp implements CommunityService{
 		
 		return true;
 	}
-
+	
 	@Override
-	public CommunityCategoryVO selectCCategory(MemberVO user) {
-			//여기부터 시작
-		return null;
+	public List<CommunityCategoryVO> selectCCategory() {
+	    List<CommunityCategoryVO> CCategory = communityDao.selectCCategory();
+	    return CCategory;
+	}
+	
+	@Override
+	public int selectCIname(String CICategory) {
+	
+		int cc_num = communityDao.selectCICategory(CICategory);
+		return cc_num;
 	}
 }
 	

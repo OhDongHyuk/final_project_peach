@@ -24,9 +24,14 @@
 			<div class="form-group">
 				<input class="form-control" placeholder="제목" name="co_title">
 			</div>
+			<p>*제목은 반드시 입력해야 합니다.</p>
 			<select name="CICategory" class="form-control">
-				<option value="0">카테고리 선택</option>
+			<option value="0">카테고리 선택</option>
+			<c:forEach var="CCNames" items="${CCNames}" varStatus="status">
+   				 <option value="${CCNames}">${CCNames}</option>
+			</c:forEach>
 			</select>
+			<p>*카테고리는 반드시 선택해야 합니다.</p>
 			<br>
 			<div class="form-group">
 				<textarea class="form-control" placeholder="내용" name="co_info" style="min-height: 400px"></textarea>
@@ -40,3 +45,4 @@
 	</div>
 </body>
 </html>
+

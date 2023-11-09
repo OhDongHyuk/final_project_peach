@@ -83,8 +83,7 @@
 	}
 	.pp-box {
 	  position: absolute;
-	  top: 140px;
-	  right: 50px;
+
 	  background-color: lightgray;
 	  padding: 5px;
 	  border-radius: 10px;
@@ -127,9 +126,9 @@
 </style>
 <body>
 <div class="all-profile">
-	<c:if test="${user.me_num == member.me_num }">
+	<c:if test="${user.me_num == member.me_num }">	
 	<div class="pp-box">
-		<div class="pp-balance">피치페이 잔액 : </div>
+		<div class="pp-balance">피치페이 잔액 : '${user.me_point}' </div>
 		<button>피치페이 충전</button>
 		<button>피치페이 출금</button>
 	</div>
