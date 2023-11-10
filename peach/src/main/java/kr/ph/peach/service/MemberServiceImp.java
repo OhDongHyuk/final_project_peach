@@ -275,5 +275,17 @@ public class MemberServiceImp implements MemberService {
 		}
 		return Pattern.matches(regexPw, pw);
 	}
+
+	@Override
+	public MemberVO kakaologin(MemberVO kakaouser) {
+		
+		//아이디와 일치하는 회원 정보를 가져옴
+		MemberVO user = memberDao.selectMember(kakaouser.getMe_id());
+		System.out.println(user);
+	
+		
+		
+		return user;
+	}
 	
 }

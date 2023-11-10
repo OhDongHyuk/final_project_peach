@@ -50,5 +50,7 @@ public interface MemberService {
 	int getTotalCount(MemberCriteria cri);
 
 	boolean updateState(int me_num, int me_st_num);
+
+	MemberVO kakaologin(MemberVO kakaouser);
 	
 }

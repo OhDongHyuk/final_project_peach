@@ -31,7 +31,7 @@ label.error {
 <body>
 	<h2>회원가입</h2>
 	<div class="container">
-		<form action="<c:url value='/member/signup'/>" method="post">
+		<form action="<c:url value='/member/kakaosignup'/>" method="post">
 			<div class="form-group">
 				<label>아이디</label>
 				<input type="text" name="me_id" class="form-control" placeholder="${kakaoinfo.kakao_account.email }" value="${kakaoinfo.kakao_account.email }">
