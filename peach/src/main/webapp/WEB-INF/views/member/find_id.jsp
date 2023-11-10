@@ -59,7 +59,7 @@ $(document).ready(function() {
 });
 
 function fnSubmit() {
-  var name_rule = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,}$/;
+  var name_rule = /^[가-힣]{2,}$/;
   var phone_rule = /^(\+8210\d{4}\d{4}|010\d{4}\d{4})$/;
 
   if ($("#me_name").val() == null || $("#me_name").val() == "") {

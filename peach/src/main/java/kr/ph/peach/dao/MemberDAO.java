@@ -54,5 +54,15 @@ public interface MemberDAO {
 	boolean updateState(@Param("me_num")int me_num, @Param("me_st_num")int me_st_num);
 	
 	void insertAuthCode(@Param("au_num")int me_num,@Param("au_code") int num);
+
+	int checkcode(@Param("code")String code, @Param("num")int num);
+	//-----------------------------------------------------------
+	int pwUpdate(@Param("code") String code, @Param("hashedPw") String hashedPw);
+
+	MemberVO getMemberByCode(@Param("code")String code);
+
+	void deleteCode(@Param("member")MemberVO member);
+
+	List<MemberVO> getMemberLists();
 	
 }

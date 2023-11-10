@@ -1,5 +1,8 @@
 package kr.ph.peach.service;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Random;
 import java.util.regex.Pattern;
@@ -17,6 +20,7 @@ import kr.ph.peach.pagination.MemberCriteria;
 import kr.ph.peach.vo.BankVO;
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.TradingRequestVO;
 import kr.ph.peach.vo.WishVO;
 
 @Service
@@ -215,17 +219,17 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public boolean sendPw(String me_id, String me_name) {
 		MemberVO member = memberDao.selectMember(me_id);
-		MemberVO member2 = memberDao.selectMemberByName(me_name);
+		
 		//아이디(email)를 잘못 입력 
-				if(member == null) {
-					return false;
-				//이름 잘못 입력
-				}
-				
-				if(member2 == null) {
-					return false;
-				}
-				//같으면 
+		if(member == null) {
+			return false;
+		}
+		
+		//이름 잘못 입력
+		if(!member.getMe_name().equals(me_name)) {
+			return false;
+		}
+		//같으면 
 			
 		
 		Random r = new Random();
@@ -237,7 +241,7 @@ public class MemberServiceImp implements MemberService {
 		String tomail = me_id; //받는사람
 		String title = "[피치마켓] 비밀번호변경 인증 이메일 입니다"; 
 		String content = System.getProperty("line.separator") + "안녕하세요 회원님" + System.getProperty("line.separator")
-				+ "피치마켓 비밀번호찾기(변경) 인증번호는 " + num + " 입니다." + System.getProperty("line.separator"); // 
+			 	+ "비밀번호를 재설정하기 위해 다음 <a href='http://localhost:8080/peach/member/pw_auth/check?num="+member.getMe_num()+"&code="+num+"'>링크</a>를 클릭하세요." + System.getProperty("line.separator"); // 
 	
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
@@ -246,7 +250,7 @@ public class MemberServiceImp implements MemberService {
 			messageHelper.setFrom(setfrom); 
 			messageHelper.setTo(tomail); 
 			messageHelper.setSubject(title);
-			messageHelper.setText(content); 
+			messageHelper.setText(content,true); 
 	
 			mailSender.send(message);
 		} catch (Exception e) {
@@ -278,5 +282,50 @@ public class MemberServiceImp implements MemberService {
 		}
 		return Pattern.matches(regexPw, pw);
 	}
+
+
+
+	@Override
+	public boolean checkcode(String code, int num) {
+		
+		return memberDao.checkcode(code,num) != 0;
+	}
+	
+	//---------------------------------------------------------------
+	@Override
+    public boolean updatePassword(String code, String pw) {
+		String encPw = passwordEncoder.encode(pw);
+        return memberDao.pwUpdate(code, encPw) > 0;
+    }
+
+
+
+	@Override
+	public MemberVO getMemberByCode(String code) {
+		return memberDao.getMemberByCode(code);
+	}
+
+
+
+	@Override
+	public boolean checkMeIdAndMeName(String me_id, String me_name) {
+	    List<MemberVO> MemberList = getMemberLists(); // 가정: 해당 메서드로 데이터를 가져옴
+
+	    // 반복문을 통해 리스트 내의 객체들을 확인
+	    for (MemberVO request : MemberList) {
+	        if (request.getMe_id().equals(me_id) && request.getMe_name().equals(me_name)) {
+	            
+	            return true;
+	        }
+	    }	   
+	    // 리스트를 모두 확인했지만 해당 데이터가 없는 경우 true 반환
+	    return false;
+	}
+
+	@Override
+	public List<MemberVO> getMemberLists() {
+		return memberDao.getMemberLists();
+	}
+
 	
 }

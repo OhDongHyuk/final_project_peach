@@ -40,7 +40,8 @@
 							        <h1 class="h4 text-gray-900 mb-2">해당 회원님의 아이디입니다.</h1><br><br>                 
 							        <c:choose>                                                                          
 							            <c:when test="${empty member}">                                                 
-							                <p class="mb-4">조회결과가 없습니다.</p>                                        
+							                <p class="mb-4">조회결과가 없습니다.</p>
+							                <p class="mb-4">이름 혹은 핸드폰 번호가 틀렸습니다.</p>                                        
 							            </c:when>                                                                         
 							            <c:otherwise>                                                                     
 							                <p class="mb-4">${member.me_id}</p>                                              
