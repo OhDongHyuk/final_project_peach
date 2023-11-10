@@ -83,10 +83,12 @@
 	}
 	.pp-box {
 	  position: absolute;
-
+	  text-align: center;
 	  background-color: lightgray;
 	  padding: 5px;
 	  border-radius: 10px;
+	  display: flex;
+	  flex: 1;
 	}
 	.pp-balance {
 		display: inline;
@@ -130,7 +132,9 @@
 	<div class="pp-box">
 		<div class="pp-balance">피치페이 잔액 : '${user.me_point}' </div>
 		<button>피치페이 충전</button>
-		<button>피치페이 출금</button>
+		<form action="<c:url value='/board/profilePay'/>" method="get">
+			<button>피치페이 출금</button>
+		</form>
 	</div>
 	  </c:if>
 	<br/>

@@ -7,7 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.dao.CommunityDAO;
+import kr.ph.peach.pagination.CriteriaCom;
+import kr.ph.peach.pagination.CriteriaProfile;
+import kr.ph.peach.util.UploadFileUtils;
 import kr.ph.peach.vo.CommunityCategoryVO;
+import kr.ph.peach.vo.CommunityImageVO;
 import kr.ph.peach.vo.CommunityVO;
 import kr.ph.peach.vo.MemberVO;
 
@@ -16,6 +20,8 @@ public class CommunityServiceImp implements CommunityService{
 	
 	@Autowired
 	private CommunityDAO communityDao;
+	
+	String uploadPath = "C:\\finalImg\\img";
 	
 	@Override
 	public boolean insertCommunity(CommunityVO community, MemberVO user, MultipartFile[] fileList, int cc_num) {
@@ -31,7 +37,6 @@ public class CommunityServiceImp implements CommunityService{
 		
 		//게시글을 DB에 저장
 		boolean res = communityDao.insertCommunity(community,user , cc_num);
-		
 		if(!res) {
 			return false;
 		}
@@ -45,19 +50,19 @@ public class CommunityServiceImp implements CommunityService{
 			if(file == null || file.getOriginalFilename().length() == 0) {
 				continue;
 			}
-			/*
+			
 			try {
 				//원래 파일명
-				String fi_ori_name = file.getOriginalFilename();
+				String ci_ori_name = file.getOriginalFilename();
 				//서버에 업로드 후 업로드된 경로와 uuid가 포함된 파일명
-				String fi_name = UploadFileUtils.uploadFile(uploadPath, fi_ori_name, file.getBytes());
+				String fi_name = UploadFileUtils.uploadFile(uploadPath, ci_ori_name, file.getBytes());
 				//파일 객체
-				FileVO fileVo = new FileVO(board.getBo_num(), fi_name, fi_ori_name);
-				communityDao.insertFile(fileVo);
+				CommunityImageVO CommunityImageVo = new CommunityImageVO(community.getCo_num(), fi_name, ci_ori_name);
+				communityDao.insertCommunityImage(CommunityImageVo);
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
-			*/
+			
 		}
 		
 		return true;
@@ -75,6 +80,30 @@ public class CommunityServiceImp implements CommunityService{
 		int cc_num = communityDao.selectCICategory(CICategory);
 		return cc_num;
 	}
+
+	@Override
+	public List<CommunityVO> getBoardList(CriteriaCom cri) {
+		if(cri == null) {
+			cri = new CriteriaCom();
+		}
+		return communityDao.selectBoardList(cri);
+	}
+
+	@Override
+	public String getMeNick(CommunityVO list) {
+		return communityDao.selectMeNick(list);
+	}
+
+	@Override
+	public int getTotalCount(CriteriaCom cri) {
+			if(cri == null) {
+			cri = new CriteriaCom();
+		}
+		return communityDao.selectCountBoardList(cri);
+	}
+
+
+
 }
 	
 	

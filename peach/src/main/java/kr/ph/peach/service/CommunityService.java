@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.ph.peach.pagination.CriteriaCom;
+import kr.ph.peach.pagination.CriteriaProfile;
 import kr.ph.peach.vo.CommunityCategoryVO;
 import kr.ph.peach.vo.CommunityVO;
 import kr.ph.peach.vo.MemberVO;
@@ -15,6 +17,13 @@ public interface CommunityService {
 	List<CommunityCategoryVO> selectCCategory();
 	
 	 int selectCIname(String CICategory);
+
+	List<CommunityVO> getBoardList(CriteriaCom cri);
+
+	String getMeNick(CommunityVO tmp);
+
+	int getTotalCount(CriteriaCom cri);
+
 
 
 }

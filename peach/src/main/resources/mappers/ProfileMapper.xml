@@ -91,4 +91,24 @@
  	<select id="selectOriFile" resultType="kr.ph.peach.vo.ProfileImageVO">
 		select pi_num, pi_name, pi_pf_num from member join profile on me_num = pf_me_num join profile_image on pf_num = pi_pf_num where me_num = #{me_num};
 	</select>
+	<select id="getAccount" resultType="kr.ph.peach.vo.MemberVO">
+		select * from member where me_num = ${user.me_num} 
+	</select>
+	<update id="updateWithdraw" parameterType="kr.ph.peach.vo.MemberVO">
+		UPDATE member
+			SET me_point = #{PPoint}
+		WHERE me_num = ${user.me_num}
+	</update>
+	<select id="selectPoint" resultType="int">
+		select me_point from member where me_num = ${me_num};
+	</select>
 </mapper>
+
+
+
+
+
+
+
+
+

@@ -60,5 +60,12 @@ public interface ProfileDAO {
 	void addProfileNum(int me_num);
 
 	ProfileImageVO selectOriFile(MemberVO user);
+
+	MemberVO getAccount(@Param("user")MemberVO user);
+
+	void updateWithdraw(@Param("PPoint")int PPoint, @Param("user")MemberVO user);
+
+	int selectPoint(@Param("me_num")int me_num);
+
 	
 }

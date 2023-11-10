@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.ph.peach.pagination.CriteriaCom;
+import kr.ph.peach.pagination.PageMakerCom;
 import kr.ph.peach.service.CommunityService;
 import kr.ph.peach.vo.CommunityCategoryVO;
 import kr.ph.peach.vo.CommunityVO;
@@ -27,7 +29,23 @@ public class CommunityController {
 	CommunityService communityService;
 	
 	@GetMapping("/board/community")
-	public String Community(Model model, HttpSession session) {
+	public String Community(Model model, HttpSession session, CriteriaCom cri) {
+		MemberVO user = (MemberVO) session.getAttribute("user");
+	    model.addAttribute("user", user);
+	    
+	    List<CommunityVO> list = communityService.getBoardList(cri);
+	    for(CommunityVO tmp : list) {
+	    	list.get(list.indexOf(tmp)).setMe_nick(communityService.getMeNick(tmp));
+	    }
+	    model.addAttribute("list", list);
+	    
+	    int totalCount = communityService.getTotalCount(cri);
+		//페이지네이션 페이지수
+		final int DISPLAY_PAGE_NUM = 3;
+		PageMakerCom cpm = new PageMakerCom(DISPLAY_PAGE_NUM, cri, totalCount);
+	    
+		model.addAttribute("title", "게시글 조회");
+		model.addAttribute("cpm", cpm);
 		
 		return "/board/community";
 	}

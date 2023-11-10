@@ -37,8 +37,6 @@
 				<textarea class="form-control" placeholder="내용" name="co_info" style="min-height: 400px"></textarea>
 			</div>
 			<input type="file" class="form-control" name="fileList">
-			<input type="file" class="form-control" name="fileList">
-			<input type="file" class="form-control" name="fileList">
 			<br>
 			<button class="btn btn-danger">게시글 등록</button>
 		</form>

@@ -185,6 +185,27 @@ public class ProfileServiceImp implements ProfileService{
 		return OriFile;
 	}
 
+	@Override
+	public MemberVO getAccount(MemberVO user) {
+		MemberVO member = profileDao.getAccount(user);
+		return member;
+	}
+
+	@Override
+	public boolean updateWithdraw(int PPoint, MemberVO user) {
+		if(user != null) {
+		profileDao.updateWithdraw(PPoint, user);
+		return true;
+		}else {
+			return false;
+		}
+	}
+
+	@Override
+	public int selectPoint(int me_num) {
+		return profileDao.selectPoint(me_num);
+	}
+
 	
 	
 }

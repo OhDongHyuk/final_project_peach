@@ -51,6 +51,12 @@ public interface ProfileService {
 
 	ProfileImageVO selectOriFile(MemberVO user);
 
+	MemberVO getAccount(MemberVO user);
+
+	boolean updateWithdraw(int PPoint, MemberVO user);
+
+	int selectPoint(int me_num);
+
 
 	
 }

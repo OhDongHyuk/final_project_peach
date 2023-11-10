@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.service.MemberService;
@@ -42,8 +43,9 @@ public class ProfileController {
     @GetMapping("/board/profile/{me_num}")
     public String showProfilePage(@PathVariable("me_num") int meNum, Model model, HttpSession session, Criteria cri) {
 	    	MemberVO user = (MemberVO) session.getAttribute("user");
+	    	user.setMe_point(profileService.selectPoint(user.getMe_num()));
+	    	System.out.println(user);
 	    	model.addAttribute("user",user);
-    	
             MemberVO member = memberService.getMemberByNumber(meNum);
         
             List<SaleBoardVO> products = profileService.getProductsById(meNum, 0);
@@ -241,5 +243,53 @@ public class ProfileController {
 		
 		return res;
 	}
-	
+	 @GetMapping("/board/profilePay")
+		public String profilePay(Model model, HttpSession session) {
+		 MemberVO user = (MemberVO) session.getAttribute("user");
+	     model.addAttribute("user",user);
+	     
+	     MemberVO member = profileService.getAccount(user);
+	     System.out.println("member"+ member);
+	     model.addAttribute("member", member);
+	     
+	     
+		 if(user == null) {
+				return "/member/login";
+			} else {
+				return "/board/profilePay";
+			}
+	 }
+	 @PostMapping("/board/profilePay")
+	 	public String profileWithdraw(@RequestParam("me_point")int me_point, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+		 Message msg;
+		 MemberVO user = (MemberVO) session.getAttribute("user");
+		 
+		 int userMoney = user.getMe_point();
+		 int WMoney = me_point;
+		 
+		 model.addAttribute("userMoney", userMoney);
+		 model.addAttribute("WMoney", WMoney);
+		 
+		 int PPoint = userMoney-WMoney;
+		 System.out.println("PPoint"+PPoint);
+		 
+		 if(profileService.updateWithdraw(PPoint, user)) {
+				msg = new Message("/board/profile/"+ user.getMe_num(), "출금 성공.");
+			} else {
+				msg = new Message("/board/profilePay", "출금 실패.");
+			}
+			model.addAttribute("msg", msg);
+			return "message";
+	 }
 }
+
+
+
+
+
+
+
+
+
+
+

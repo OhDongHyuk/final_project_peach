@@ -3,16 +3,64 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.ph.peach.dao.CommunityDAO">
-	<insert id="insertCommunity">
+	<insert id="insertCommunity" keyProperty="community.co_num" useGeneratedKeys="true">
+    <selectKey keyProperty="community.co_num" resultType="int" order="BEFORE">
+        SELECT IFNULL(MAX(co_num), 0) + 1 AS co_num FROM community
+    </selectKey>
     INSERT INTO community(co_title, co_info, co_me_num, co_cc_num)
     VALUES (#{community.co_title}, #{community.co_info}, #{user.me_num}, #{cc_num})
-	</insert>
+</insert>
     <select id="selectCCategory" resultType="kr.ph.peach.vo.CommunityCategoryVO">
     	SELECT cc_name FROM community_category;
     </select>
     <select id="selectCICategory" resultType="int">
     	SELECT cc_num FROM community_category where cc_name like #{CICategory};
     </select>
+    <insert id="insertCommunityImage">
+		insert into community_image(ci_name, ci_ori_name, ci_co_num)
+		values(#{communityImage.ci_name},#{communityImage.ci_ori_name},#{communityImage.ci_co_num})
+	</insert>
+	<select id="selectBoardList" resultType="CommunityVO">
+		select * from community
+		<if test='cri.t == "all"'>
+		where 
+			co_title like concat('%', #{cri.s}, '%')
+			or co_info like concat('%', #{cri.s}, '%')
+			or co_me_num like concat('%', #{cri.s}, '%')
+		</if>
+		<if test='cri.t == "total"'>
+		where 
+			co_title like concat('%', #{cri.s}, '%')
+			or co_info like concat('%', #{cri.s}, '%')
+		</if>
+		<if test='cri.t == "writer"'>
+		where  
+			co_me_num like concat('%', #{cri.s}, '%')
+		</if>	
+		order by co_num asc
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	<select id="selectMeNick" resultType="String">
+		select me_nick from member where me_num = ${list.co_me_num}
+	</select>
+	<select id="selectCountBoardList" resultType="int">
+		select count(*) from community
+		<if test='cri.t == "all"'>
+		where 
+			co_title like concat('%', #{cri.s}, '%')
+			or co_info like concat('%', #{cri.s}, '%')
+			or co_me_num like concat('%', #{cri.s}, '%')
+		</if>
+		<if test='cri.t == "total"'>
+		where 
+			co_title like concat('%', #{cri.s}, '%')
+			or co_info like concat('%', #{cri.s}, '%')
+		</if>
+		<if test='cri.t == "writer"'>
+		where  
+			co_me_num like concat('%', #{cri.s}, '%')
+		</if>
+	</select>
 </mapper>
 
 
