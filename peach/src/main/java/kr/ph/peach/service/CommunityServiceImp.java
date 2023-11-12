@@ -102,6 +102,12 @@ public class CommunityServiceImp implements CommunityService{
 		return communityDao.selectCountBoardList(cri);
 	}
 
+	@Override
+	public CommunityVO selectDetail(int co_num) {
+		CommunityVO detail = communityDao.selectDetail(co_num);
+		return detail;
+	}
+
 
 
 }

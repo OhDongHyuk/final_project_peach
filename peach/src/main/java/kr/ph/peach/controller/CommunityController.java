@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.pagination.CriteriaCom;
 import kr.ph.peach.pagination.PageMakerCom;
 import kr.ph.peach.service.CommunityService;
@@ -96,5 +98,16 @@ public class CommunityController {
 			return "/main/message";
 		}
 	}
-	
+	@GetMapping("/board/communityDetail/{co_num}")
+    public String showProfilePage(@PathVariable("co_num") int co_num, Model model, HttpSession session) {
+	    	MemberVO user = (MemberVO) session.getAttribute("user");
+	    	model.addAttribute("user",user);
+	    	
+	    	CommunityVO Detail = communityService.selectDetail(co_num);
+	    	model.addAttribute("Detail",Detail);
+	    	
+	    	MemberVO Writer = communityService.selectWriter(Detail);
+	    	
+	    	return "/board/communityDetail";
+	}
 }

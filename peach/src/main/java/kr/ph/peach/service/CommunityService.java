@@ -24,6 +24,8 @@ public interface CommunityService {
 
 	int getTotalCount(CriteriaCom cri);
 
+	CommunityVO selectDetail(int co_num);
+
 
 
 }

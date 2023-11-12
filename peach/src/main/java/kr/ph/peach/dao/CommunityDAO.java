@@ -29,5 +29,7 @@ public interface CommunityDAO {
 
 	int selectCountBoardList(@Param("cri")CriteriaCom cri);
 
+	CommunityVO selectDetail(@Param("co_num")int co_num);
+
 
 }

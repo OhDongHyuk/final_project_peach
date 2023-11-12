@@ -29,6 +29,7 @@
 				<input type="text" class="form-control" name="PAccount_name" value="${member.me_bk_name}" disabled>
 				<br>
 				<input type="text" class="form-control" name="PReal_name" value="${member.me_name}" disabled>
+				<p>*본인명과 일치하지 않는 계좌는 출금되지 않습니다.</p>
 				<br>
 				<input type="text" class="form-control" name="me_point" placeholder="출금액" id="PPoint">
 				<p class="error">포인트 이상의 금액은 출금 할 수 없습니다.</p>

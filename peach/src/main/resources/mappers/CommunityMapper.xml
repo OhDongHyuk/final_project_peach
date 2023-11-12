@@ -61,6 +61,10 @@
 			co_me_num like concat('%', #{cri.s}, '%')
 		</if>
 	</select>
+	<select id="selectDetail" resultType="kr.ph.peach.vo.CommunityVO">
+		select * FROM community where co_num = ${co_num}
+	</select>
+	
 </mapper>
 
 

@@ -88,7 +88,7 @@
 				<tr class="CTR">
 					<td>${list.co_num}</td>
 					<!--communityList 추가 필요-->
-					<td><a href="<c:url value='/board/communityList/${community.co_num}'/>">${list.co_title }</a></td>
+					<td><a href="<c:url value='/board/communityDetail/${list.co_num}'/>">${list.co_title }</a></td>
 					<td>${list.me_nick}</td>
 					<td>${list.co_date}</td>
 					<td>${list.co_like}</td>
