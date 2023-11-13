@@ -205,4 +205,7 @@
 		update member set me_st_num = #{me_st_num} where
 		me_num = #{me_num}
 	</update>
+	<select id="selectCity" resultType="kr.ph.peach.vo.CityVO">
+		select * from city where ci_num = #{me_ci_num}
+	</select>
 </mapper>

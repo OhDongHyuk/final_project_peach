@@ -6,142 +6,236 @@
 <head>
 <title>스프링</title>
 <style>
-.price {
-	font-size: 18px;
-	font-weight: bold;
-	margin-top: 4px;
-	line-height: 1.76;
-	letter-spacing: -0.6px;
-}
-
-.price::after {
-	content: "원";
-	font-size: 16px;
-	margin-left: 4px;
-}
-.slide {
-  /* layout */
-  display: flex;
-  flex-wrap: nowrap;
-  /* 컨테이너의 내용물이 컨테이너 크기(width, height)를 넘어설 때 보이지 않도록 하기 위해 hidden을 준다. */
-  overflow: hidden;
-
-  /* position */
-  /* slide_button의 position absolute가 컨테이너 안쪽에서 top, left, right offset이 적용될 수 있도록 relative를 준다. (기본값이 static인데, static인 경우 그 상위 컨테이너로 나가면서 현재 코드에선 html을 기준으로 offset을 적용시키기 때문) */
-  position: relative;
-
-  /* size */
-  width: 100%;
-
-  /* slide drag를 위해 DOM요소가 드래그로 선택되는것을 방지 */
-  user-select: none;
-}
-.slide_item {
-  /* layout */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  /* position - 버튼 클릭시 left offset값을 적용시키기 위해 */
-  position: relative;
-  left: 0px;
-
-  /* size */
-  width: 100%;
-  height: 300px;
-  /* flex item의 flex-shrink는 기본값이 1이므로 컨테이너 크기에 맞게 줄어드는데, 슬라이드를 구현할 것이므로 줄어들지 않도록 0을 준다. */
-  flex-shrink: 0;
-
-  /* transition */
-  transition: left 1s;
-}
-.slide_button {
-  /* layout */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  /* position */
-  position: absolute;
-  /* 버튼이 중앙에 위치하게 하기위해 계산 */
-  top: calc(50% - 16px);
-
-  /* size */
-  width: 32px;
-  height: 32px;
-
-  /* style */
-  font-size: 50px;
-  font-weight: 500;
-  color: #fff;
-  cursor: pointer;
-}
-
-.slide_prev_button {
-  left: 10px;
-}
-.slide_next_button {
-  right: 10px;
-}
-
-/* 각 슬라이드가 변경되는 것을 시각적으로 확인하기 쉽도록 각 슬라이드별 색상 적용 */
-.slide_item.item1 {
-  background-color: darkgoldenrod;
-}
-.slide_item.item2 {
-  background-color: aqua;
-}
-.slide_item.item3 {
-  background-color: blueviolet;
-}
-.slide_item.item4 {
-  background-color: burlywood;
-}
-.slide_item.item5 {
-  background-color: cornflowerblue;
-}
-
-/* 페이지네이션 스타일 */
-ul,
-li {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-.slide_pagination {
-  /* layout */
-  display: flex;
-  gap: 5px;
-
-  /* position */
-  position: absolute;
-  bottom: 0;
-  /* left:50%, translateX(-50%)를 하면 가로 가운데로 위치시킬 수 있다. */
-  left: 50%;
-  transform: translateX(-50%);
-}
-.slide_pagination > li {
-  /* 현재 슬라이드가 아닌 것은 투명도 부여 */
-  color: #fff;
-  cursor: pointer;
-  font-size: 25px;
-}
-.slide_pagination > li.active {
-  /* 현재 슬라이드 색상은 투명도 없이 */
-  color: #f76076;
-}
-
-.slide_item_duplicate {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  left: 0px;
-  width: 100%;
-  height: 300px;
-  flex-shrink: 0;
-  transition: left 0s;
-}
+	.price {
+		font-size: 18px;
+		font-weight: bold;
+		margin-top: 4px;
+		line-height: 1.76;
+		letter-spacing: -0.6px;
+	}
+	
+	.price::after {
+		content: "원";
+		font-size: 16px;
+		margin-left: 4px;
+	}
+	.slide {
+	  /* layout */
+	  display: flex;
+	  flex-wrap: nowrap;
+	  /* 컨테이너의 내용물이 컨테이너 크기(width, height)를 넘어설 때 보이지 않도록 하기 위해 hidden을 준다. */
+	  overflow: hidden;
+	
+	  /* position */
+	  /* slide_button의 position absolute가 컨테이너 안쪽에서 top, left, right offset이 적용될 수 있도록 relative를 준다. (기본값이 static인데, static인 경우 그 상위 컨테이너로 나가면서 현재 코드에선 html을 기준으로 offset을 적용시키기 때문) */
+	  position: relative;
+	
+	  /* size */
+	  width: 100%;
+	
+	  /* slide drag를 위해 DOM요소가 드래그로 선택되는것을 방지 */
+	  user-select: none;
+	}
+	.slide_item {
+	  /* layout */
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	
+	  /* position - 버튼 클릭시 left offset값을 적용시키기 위해 */
+	  position: relative;
+	  left: 0px;
+	
+	  /* size */
+	  width: 100%;
+	  height: 300px;
+	  /* flex item의 flex-shrink는 기본값이 1이므로 컨테이너 크기에 맞게 줄어드는데, 슬라이드를 구현할 것이므로 줄어들지 않도록 0을 준다. */
+	  flex-shrink: 0;
+	
+	  /* transition */
+	  transition: left 1s;
+	}
+	.slide_button {
+	  /* layout */
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	
+	  /* position */
+	  position: absolute;
+	  /* 버튼이 중앙에 위치하게 하기위해 계산 */
+	  top: calc(50% - 16px);
+	
+	  /* size */
+	  width: 32px;
+	  height: 32px;
+	
+	  /* style */
+	  font-size: 50px;
+	  font-weight: 500;
+	  color: #fff;
+	  cursor: pointer;
+	}
+	
+	.slide_prev_button {
+	  left: 10px;
+	}
+	.slide_next_button {
+	  right: 10px;
+	}
+	
+	/* 각 슬라이드가 변경되는 것을 시각적으로 확인하기 쉽도록 각 슬라이드별 색상 적용 */
+	.slide_item.item1 {
+	  background-color: darkgoldenrod;
+	}
+	.slide_item.item2 {
+	  background-color: aqua;
+	}
+	.slide_item.item3 {
+	  background-color: blueviolet;
+	}
+	.slide_item.item4 {
+	  background-color: burlywood;
+	}
+	.slide_item.item5 {
+	  background-color: cornflowerblue;
+	}
+	
+	/* 페이지네이션 스타일 */
+	ul,
+	li {
+	  list-style-type: none;
+	  padding: 0;
+	  margin: 0;
+	}
+	.slide_pagination {
+	  /* layout */
+	  display: flex;
+	  gap: 5px;
+	
+	  /* position */
+	  position: absolute;
+	  bottom: 0;
+	  /* left:50%, translateX(-50%)를 하면 가로 가운데로 위치시킬 수 있다. */
+	  left: 50%;
+	  transform: translateX(-50%);
+	}
+	.slide_pagination > li {
+	  /* 현재 슬라이드가 아닌 것은 투명도 부여 */
+	  color: #fff;
+	  cursor: pointer;
+	  font-size: 25px;
+	}
+	.slide_pagination > li.active {
+	  /* 현재 슬라이드 색상은 투명도 없이 */
+	  color: #f76076;
+	}
+	
+	.slide_item_duplicate {
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  position: relative;
+	  left: 0px;
+	  width: 100%;
+	  height: 300px;
+	  flex-shrink: 0;
+	  transition: left 0s;
+	}
+	
+	.item-main-holder{
+       flex: 0 0 230px; /* 고정 너비 */
+       margin-right: 5px;
+       margin-left: 5px;
+       margin-bottom: 12px;
+       margin-top: 12px;
+	}
+	.item-holder{
+		border: 1px solid rgb(238, 238, 238);
+		background: rgb(255, 255, 255);
+		display: block;
+		width: 230px;
+	}
+	a {
+		color: rgb(33, 33, 33);
+		text-decoration: none;
+		cursor: pointer;
+	}
+	a:hover {
+		text-decoration: none;
+		color: #000;
+		transition: 0.3s;
+	}
+	.image-holder {
+		position: relative;
+		width: 100%;
+		height: 228px;
+	}
+	.image-holder img {
+		width: 228px; height: 228px;
+	}
+	.text-holder {
+		padding: 15px 15px;
+		height: 90px;
+		text-align: left;
+	}
+	.wish-name {
+		display: flex;
+		justify-content: space-between;
+	}
+	.wish {
+		color: grey;
+		text-align: right;
+		min-width: 30px;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		font-size: 16px;
+	}
+	.wish img {
+		width: 15px;
+		height: 15px;
+	}
+	.title {
+		position: relative;
+		font-size: 16px;
+		font-weight: 400;
+		padding-bottom: 20px;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+	.profile-date {
+		display: flex;
+		padding: 9px 15px 9px 15px;
+		-webkit-box-pack: justify;
+		justify-content: space-between;
+		-webkit-box-align: center;
+		align-items: center;
+		height: 40px;
+	}
+	.price-holder {
+		font-size: 19px;
+		font-weight: 700;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+	.price-holder::after {
+		content: "원";
+		font-size: 13px;
+		mergin-left: 3px;
+	}
+	.date {
+		heigt: 40px;
+		font-size: 12px;
+		white-space: nowrap;
+		color: rgb(102, 102, 102);
+	}
+	.profile {
+		font-size: 12px;
+		color: rgb(136, 136, 136);
+	}
 </style>
 </head>
 <body>
@@ -170,42 +264,50 @@ li {
 			<div class="row">
 				<div class="col-12">
 					<div class="section-title">
-						<h2>오늘의 상품</h2>
-						<p>자세한 내용 / 문구 입력</p>
+						<h2>우리동네 인기 상품</h2>
+						<p>내 동네의 최근 20개의 인기상품을 확인해보세요!</p>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<!-- Start Single Product -->
 				<c:forEach items="${prList}" var="pr">
-					<div class="col-lg-3 col-md-6 col-12">
-						<div class="single-product">
-							<a href="<c:url value='/saleboard/detail?sb_num=${pr.sb_num}'/>"
-								target="_self">
-								<div class="product-image">
-								<c:choose>
-									<c:when test="${pr.saleImageVOList.size() != 0 }">
-										<img class="item" width="100%" height="194" src="<c:url value='/resources/image/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_name :\"\" }'/>">
-									</c:when>
-									<c:otherwise>
-										<img class="item" width="100%" height="194" src="<c:url value='/resources/image/NoMainImage.png'/>">
-									</c:otherwise>
-								</c:choose>
-								</div>
-								<div class="product-info">
-									<span class="category">${pr.saleCategoryVO.sc_name}</span>
-									<h4 class="title">${pr.sb_name}</h4>
-									<div class="item-info">${pr.sb_info}</div>
-									<div class="price">
-										<span>${pr.get_sb_price()} </span>
-									</div>
-								</div>
-							</a>
+					<div class="item-main-holder">
+					<%-- a태그를 통해 해당 상품 번호의 상세정보로 경로 전달 --%>
+					<a href="<c:url value='/saleboard/detail?sb_num=${pr.sb_num}' />" class="item-holder">
+						<div class="image-holder">
+							<c:choose>
+								<c:when test="${pr.saleImageVOList.size() != 0 }">
+									<img class="item" src="<c:url value='/resources/image/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_thb_name :\"\" }'/>">
+								</c:when>
+								<c:otherwise>
+									<img class="item" src="<c:url value='/resources/image/NoMainImage.png'/>">
+								</c:otherwise>
+							</c:choose>
 						</div>
-
-						<!-- End Single Product -->
-					</div>
+						<div class="text-holder">
+							<div class="title">
+								${pr.sb_name}
+							</div>	
+							<div class="wish-name">
+								<div class="price-holder">
+									${pr.get_sb_price()}
+								</div>			
+								<div class="wish">
+									<img src="<c:url value="/resources/image/wish-small.png"/>"> <span style="font-size:14px;">${pr.sb_wish}</span>
+								</div>
+							</div>
+						</div>
+						<div class="profile-date">
+							<div class="profile">
+								${pr.sb_me_nickname}
+							</div>	
+							<div class="date">
+								${pr.get_date()}
+							</div>
+						</div>
 					</a>
+				</div>			
 				</c:forEach>
 
 				<!-- End Single Product -->

@@ -121,9 +121,7 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("/id/check")
 	public boolean idCheck(@RequestParam("id") String id){
-		System.out.println(id);
 		boolean res= memberService.checkId(id);
-		System.out.println(res);
 		return res;
 	}
 	
@@ -144,9 +142,7 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("/nick/check")
 	public boolean nickCheck(@RequestParam("nick") String nick){
-		System.out.println(nick);
 		boolean res= memberService.checkNick(nick);
-		System.out.println(res);
 		return res;
 	}
 	

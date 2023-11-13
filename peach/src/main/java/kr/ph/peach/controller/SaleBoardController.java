@@ -62,12 +62,14 @@ public class SaleBoardController {
 		for(SaleBoardVO tmp : prList) {
 			prList.get(prList.indexOf(tmp)).setSb_me_nickname(saleBoardService.selectMemberNickname(tmp.getSb_me_num()));
 		}
+		String categoryName = categoryList.get(categoryId - 1).getSc_name();
 		cri.setSc_num(categoryId);
 		//전체 게시글 수 
 		int totalCount = saleBoardService.getTotalCount(cri);
 		//페이지네이션에서 최대 페이지 개수 
 		int displayPageNum = 20;
 		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
+		model.addAttribute("categoryName", categoryName);
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("pm", pm);
 		model.addAttribute("prList",prList);

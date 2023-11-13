@@ -578,7 +578,7 @@
 			<p class="title">${board.sb_name}</p>
 			<p class="category-date">${board.sb_sc_name} | ${board.sb_date}</p>
 			<p class="price">${board.get_sb_price()}</p>
-			<p class="content">${board.sb_info}</p>
+			<div class="content">${board.sb_info}</div>
 			<p class="wish-text">찜 ${board.sb_wish}</p>
 		</div>
 		<div class="button-box">
@@ -659,10 +659,9 @@
 			const prev = document.querySelector('.image-slide-left'); //이전 버튼
 			const next = document.querySelector('.image-slide-right'); //다음 버튼
 			const slideWidth = 600; //한개의 슬라이드 넓이
-			const slideMargin = 0; //슬라이드간의 margin 값
 
 			//전체 슬라이드 컨테이너 넓이 설정
-			slides.style.width = (slideWidth + slideMargin) * slideCount + 'px';
+			slides.style.width = slideWidth * slideCount + 'px';
 
 			function moveSlide(num) {
 			  slides.style.left = -num * 600 + 'px';
@@ -677,7 +676,16 @@
 			}
 
 			const paginationItems = document.querySelectorAll(".slide_pagination > li");
-			console.log(paginationItems);
+			
+			for (let i = 0; i < slideCount; i++) {
+	  			paginationItems[i].addEventListener("click", () => {
+	  			let dv = event.currentTarget;
+	    		paginationItems[currentIdx].setAttribute("class", "");
+	    		currentIdx = i;
+	   			moveSlide(currentIdx);
+	    		dv.setAttribute("class", "active");
+	  			});
+			}
 
 			prev.addEventListener('click', function () {
 			  /*첫 번째 슬라이드로 표시 됐을때는 

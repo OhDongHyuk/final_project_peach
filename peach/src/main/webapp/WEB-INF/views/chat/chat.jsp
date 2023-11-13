@@ -26,7 +26,7 @@
 	    display: flex;
 	    height: 100%;
 	    margin: 0 auto;
-	    max-width: 1050px;
+	    max-width: 1320px;
 	    overflow-x: auto;
 	}
 	

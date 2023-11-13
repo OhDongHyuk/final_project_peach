@@ -73,7 +73,6 @@ public class MemberServiceImp implements MemberService {
 		// 비번 암호화
 		String encPw = passwordEncoder.encode(member.getMe_pw());
 		member.setMe_pw(encPw);
-		System.out.println(member);
 		// 회원가입
 		return memberDao.insertMember(member);
 	}
@@ -87,9 +86,7 @@ public class MemberServiceImp implements MemberService {
 		
 		//아이디와 일치하는 회원 정보를 가져옴
 		MemberVO user = memberDao.selectMember(member.getMe_id());
-		System.out.println(user);
 		//아이디와 일치하는 회원 정보가 있고, 비번이 일치하면 
-		System.out.println("로그인테스트"+passwordEncoder.matches(member.getMe_pw(), user.getMe_pw()));
 		if(user != null && passwordEncoder.matches(member.getMe_pw(), user.getMe_pw())) {
 			return user;
 		}
@@ -274,6 +271,14 @@ public class MemberServiceImp implements MemberService {
 			return false;
 		}
 		return Pattern.matches(regexPw, pw);
+	}
+
+	@Override
+	public CityVO selectCity(int me_ci_num) {
+		if(me_ci_num == 0) {
+			return null;
+		}
+		return memberDao.selectCity(me_ci_num);
 	}
 	
 }
