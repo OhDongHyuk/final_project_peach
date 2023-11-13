@@ -244,11 +244,9 @@
 			<div class="row">
 				<div class="col-12 custom-padding-right">
 					<div class="slide slide_wrap">
-				      <div class="slide_item item1">1</div>
-				      <div class="slide_item item2">2</div>
-				      <div class="slide_item item3">3</div>
-				      <div class="slide_item item4">4</div>
-				      <div class="slide_item item5">5</div>
+				      <div class="slide_item item1"><img style="width: 100%; height: 100%" src="<c:url value='/resources/image/banner1.png'/>"></div>
+				      <div class="slide_item item2"><img style="width: 100%; height: 100%" src="<c:url value='/resources/image/banner2.png'/>"></div>
+				      <div class="slide_item item3"><img style="width: 100%; height: 100%" src="<c:url value='/resources/image/banner3.png'/>"></div>
 				      <div class="slide_prev_button slide_button">&lt;</div>
 				      <div class="slide_next_button slide_button">&gt;</div>
 				      <ul class="slide_pagination"></ul>
