@@ -35,7 +35,7 @@ label.error {
 			<div class="form-group">
 				<label>아이디</label>
 				<input type="text" name="me_id" class="form-control" placeholder="${kakaoinfo.kakao_account.email }" value="${kakaoinfo.kakao_account.email }">
-				
+				<input type="text" name="me_social" value="social">
 			</div>
 			<button class="btn btn-outline-dark col-12" type="button" id="btn-check" >아이디 중복체크</button>
 			<div class="form-group">

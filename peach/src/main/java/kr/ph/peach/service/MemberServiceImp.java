@@ -287,5 +287,25 @@ public class MemberServiceImp implements MemberService {
 		
 		return user;
 	}
+
+	@Override
+	public void withdrawMember(MemberVO user) {
+		if(user == null || user.getMe_id() == null) {
+			return;
+		}
+		
+		memberDao.deleteMember(user);
+		
+	}
+
+	
+
+	@Override
+	public MemberVO getMemberList(MemberVO user) {
+		if(user == null || user.getMe_id() == null) {
+		
+		}
+		return memberDao.getMemberid(user.getMe_id());
+	}
 	
 }

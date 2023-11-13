@@ -52,5 +52,9 @@ public interface MemberDAO {
 	List<StatementVO> selectMemberTypeList();
 
 	boolean updateState(@Param("me_num")int me_num, @Param("me_st_num")int me_st_num);
+
+	void deleteMember(@Param("user")MemberVO user);
+
+	MemberVO getMemberid(@Param("user")String me_id);
 	
 }

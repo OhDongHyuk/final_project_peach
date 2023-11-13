@@ -28,6 +28,7 @@ import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.ProfileService;
 import kr.ph.peach.vo.BankVO;
 import kr.ph.peach.vo.CityVO;
+import kr.ph.peach.vo.KakaoMemberVO;
 import kr.ph.peach.vo.KakaoVO;
 import kr.ph.peach.vo.MemberVO;
 import lombok.extern.log4j.Log4j;
@@ -53,15 +54,23 @@ public class KakaoController<JSONElement> {
 	public String loginKakao(Model model, String code, String state, MemberVO member, HttpSession session)
 			throws IOException {
 
+		//유저의 엑세스토큰 저장
 		KakaoVO kakao = getKakaoAccessToken(code);
-
-		System.out.println(kakao);
+		String token = kakao.getAccess_token();
+		
+		
 		String res = getUserForKakao(kakao.getAccess_token());
-		log.info(res);
 
 		Map<String, Object> kakaoinfo = getKakaologin(res);
-//		String userid = (String) ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("email");
-
+		
+		//유저의 id를저장
+		KakaoMemberVO userid = new KakaoMemberVO();
+		userid.setTarget_id((Long) kakaoinfo.get("id"));
+		System.out.println(userid.getTarget_id());
+		Long idnumber = userid.getTarget_id();
+		System.out.println("유저 아이디넘버" + idnumber);
+		
+		
 		MemberVO kakaouser = new MemberVO();
 		kakaouser.setMe_id((String) ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("email"));
 		String kakaoemail = (String) ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("email");
@@ -70,14 +79,20 @@ public class KakaoController<JSONElement> {
 		String R = p.replace("+82 ", "0");
 		kakaouser.setMe_phone(R);
 		System.out.println(kakaouser);
-
-		MemberVO user = memberService.kakaologin(kakaouser);
-
+		MemberVO user = memberService.kakaologin(kakaouser.getMe_id());
+		System.out.println("테스트" + user);
+		
 		if (kakao != null || user.getMe_id() == null) {
 			// 유저정보
 			session.setAttribute("user", user);
+			System.out.println("유저정보"+user);
 			// 카카오톡에서 받은 토큰
 			session.setAttribute("kakao", kakao);
+			session.setAttribute("token", token);
+			session.setAttribute("idnumber", idnumber);
+			System.out.println(kakao);
+			System.out.println(token);
+			System.out.println(idnumber);
 			return "redirect:/";
 		} else {
 			model.addAttribute("kakaoinfo", kakaoinfo);
@@ -97,30 +112,78 @@ public class KakaoController<JSONElement> {
 	@GetMapping("/kakao/logout")
 	public String logout(Model model, String code, String state, HttpSession session) {
 
-		
-		
 		session.invalidate();
 
 		return "redirect:https://kauth.kakao.com/oauth/logout?client_id=48d34ab3779ba344d7b7d355a84f5660&logout_redirect_uri=http://localhost:8080/peach";
 
 	}
 
-	/*
-	 * @GetMapping("/member/logout") public String kakaoLogout(HttpSession session,
-	 * String code) {
-	 * 
-	 * KakaoVO kakao = getKakaoAccessToken(code);
-	 * 
-	 * if (kakao != null && !"".equals("access_Token")) {
-	 * session.removeAttribute("access_Token"); session.removeAttribute("user"); }
-	 * else { System.out.println("access_Token is null");
-	 * 
-	 * }
-	 * 
-	 * return "redirect:/";
-	 * 
-	 * }
-	 */
+	@GetMapping("/kakao/withdraw")
+	public String withdraw(HttpSession session) throws IOException {
+		String token = (String) session.getAttribute("token");
+		System.out.println("토큰정보" + token);
+		Long idnumber = (Long) session.getAttribute("idnumber");
+		System.out.println("아이디정보" + idnumber);
+		getUserWithdrawKakao(token, idnumber);
+		
+		
+		
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		memberService.withdrawMember(user);
+		
+		session.invalidate();
+			
+
+		return "redirect:/";
+	}
+
+	private String getUserWithdrawKakao(String token, Long idnumber) {
+
+		try {
+			String apiUrl = "https://kapi.kakao.com/v1/user/unlink";
+			Map<String, String> params = new HashMap<String, String>();
+			params.put("target_id_type", "user_id");
+			Map<String, Long> idnum = new HashMap<String, Long>();
+			idnum.put("target_id", idnumber);
+			apiUrl = addParams(apiUrl, params);
+			
+			URL url = new URL(apiUrl + "=" + idnum);
+
+			// HTTP 연결 설정
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+			connection.setRequestProperty("Authorization", "Bearer " + token); // 요청 헤더
+																						// // 설정
+
+			// 응답 코드 확인
+			int responseCode = connection.getResponseCode();
+			System.out.println("HTTP 응답 코드: " + responseCode);
+
+			// 응답 데이터 읽기
+			if (responseCode == HttpURLConnection.HTTP_OK) {
+				BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				String inputLine;
+				StringBuilder response = new StringBuilder();
+
+				while ((inputLine = in.readLine()) != null) {
+					response.append(inputLine);
+				}
+
+				in.close(); // 응답 출력
+
+				return response.toString();
+
+			} else {
+				System.out.println("api 호출 실패");
+			}
+		} catch (
+
+		Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	@PostMapping("/member/kakaosignup")
 	public String signupPost(MemberVO member, Model model) {
@@ -159,6 +222,8 @@ public class KakaoController<JSONElement> {
 		ObjectMapper objectMapper = new ObjectMapper(); // 발급받은 통행증을 map화
 		Map<String, Object> kakaoinfo = objectMapper.readValue(res, new TypeReference<Map<String, Object>>() {
 		});
+
+	
 		System.out.println(kakaoinfo);
 		System.out.println("유저 ID = " + kakaoinfo.get("id"));
 		System.out.println("유저 연동시간 = " + kakaoinfo.get("connected_at"));
@@ -166,6 +231,7 @@ public class KakaoController<JSONElement> {
 		System.out.println("유저 이름 = " + ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("name"));
 		System.out.println("유저 핸드폰번호 = " + ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("phone_number"));
 		System.out.println("유저 이메일 = " + ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("email"));
+
 //		System.out.println(kakaoinfo.keyset("properties"));
 
 		MemberVO member = new MemberVO();
@@ -319,42 +385,5 @@ public class KakaoController<JSONElement> {
 		return null;
 	}
 
-	private KakaoVO kakaoLogout(String code) {
-		try {
-			
-			
-			String apiUrl = "https://kauth.kakao.com/oauth/logout?client_id=48d34ab3779ba344d7b7d355a84f5660&logout_redirect_uri=Http://localhost:8080/peach";
-			URL url = new URL(apiUrl);
-
-			// HTTP 연결 설정
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-			connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8"); // 요청 헤더
-																												// // 설정
-
-			// 응답 코드 확인
-			int responseCode = connection.getResponseCode();
-
-			// 응답 데이터 읽기
-			if (responseCode == HttpURLConnection.HTTP_OK) {
-				BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				String inputLine;
-				StringBuilder response = new StringBuilder();
-
-				while ((inputLine = in.readLine()) != null) {
-					response.append(inputLine);
-				}
-				in.close();
-
-			} else {
-				System.out.println("호출실패");
-			}
-		} catch (
-
-		Exception e) {
-			e.printStackTrace();
-			System.out.println("호출실패");
-		}
-		return null;
-	}
+	
 }

@@ -205,4 +205,8 @@
 		update member set me_st_num = #{me_st_num} where
 		me_num = #{me_num}
 	</update>
+	<delete id="deleteMember">
+		DELETE from member WHERE me_id = #{user.me_id};
+	</delete>
+	
 </mapper>
