@@ -38,7 +38,7 @@ public class ReportController {
 			map.put("msg", msg);
 			return map;
 		}
-		reportVo.setMe_num(user.getMe_num());
+		reportVo.setRp_me_num(user.getMe_num());
 		if(reportService.insertReport(reportVo)) {
 			msg = "성공";
 			map.put("msg", msg);

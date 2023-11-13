@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.ph.peach.pagination.MemberCriteria;
 import kr.ph.peach.pagination.PageMaker;
 import kr.ph.peach.service.MemberService;
+import kr.ph.peach.service.ReportService;
 import kr.ph.peach.service.SaleBoardService;
 import kr.ph.peach.service.SaleCategoryService;
 import kr.ph.peach.vo.CommunityCategoryVO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.ReportVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.StatementVO;
 
@@ -38,6 +40,9 @@ public class AdminController {
 	@Autowired
 	SaleCategoryService saleCategoryService;
 
+	@Autowired
+	ReportService reportService;
+	
 	@GetMapping("/home")
 	public String home() {
 
@@ -170,13 +175,17 @@ public class AdminController {
 	
 
 	
-	
-	
-	
+	/* 신고페이지 관리 */
 	
 	@GetMapping("/report")
-	public String report() {
-
+	public String report(Model model, HttpSession session, MemberCriteria cri) {
+		
+		List<ReportVO> report = reportService.getreportList(cri);
+		
+		System.out.println(report);
+		model.addAttribute("report", report);
+		
+		
 		return "/admin/report";
 	}
 	

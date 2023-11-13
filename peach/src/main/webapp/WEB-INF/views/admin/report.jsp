@@ -76,52 +76,30 @@
 				<table class="table">
 					<thead style="height: 50px">
 						<tr>
-							<th>회원 번호</th>
-							<th>ID</th>
-							<th>이름</th>
-							<th>전화번호</th>
-							<th>닉네임</th>
-							<th>포인트</th>
-							<th>권한</th>
-							<th>가입날짜</th>
-							<th>당도</th>
-							<th>계정상태</th>
-							<th>지역(대분류)</th>
-							<th>은행</th>
-							<th>수정</th>
+							<th>신고 번호</th>
+							<th>신고 날짜</th>
+							<th>신고자 닉네임</th>
+							<th>신고된 테이블</th>
+							<th>신고 키번호</th>
+							<th>신고내용보기</th>
 
 						</tr>
 					</thead>
-					<c:forEach items="${mbList}" var="mbList">
+					<c:forEach items="${report}" var="report">
 						<tbody>
 							<tr>
-								<td>${mbList.me_num}</td>
-								<td>${mbList.me_id}</td>
-								<td>${mbList.me_name}</td>
-								<td>${mbList.me_phone}</td>
-								<td>${mbList.me_nick}</td>
-								<td>${mbList.me_point}</td>
-								<td>${mbList.me_au}</td>
-								<td>${mbList.me_date}</td>
-								<td>${mbList.me_sugar}</td>
-								<td>${mbList.statementVO.st_name}</td>
-								<td>${mbList.cityVO.ci_large}</td>
-								<td>${mbList.bankVO.bk_name}</td>
+								<td>${report.rp_num}</td>
+								<td>${report.rp_date}</td>
+								<td>${report.rp_me_num}</td>
+								<td>${report.rp_table}</td>
+								<td>${report.rp_key}</td>
 								<td><div class="btnWrap">
-										<button type="button" class="popupBtn">수정하기</button>
+										<button type="button" class="popupBtn">신고내용보기</button>
 									</div>
 									<div class="modalWrap">
 										<div class="modalBody">
 											<span class="closeBtn"></span>
-											<form action="<c:url value='/admin/manager'/>" method="post">
-												<input type="hidden" name="me_num" value="${mbList.me_num}">
-												<select class="form-control" name="me_st_num">
-													<c:forEach items="${StateTypeList}" var="List">
-														<option value="${List.st_num }">${List.st_name }</option>
-													</c:forEach>
-												</select>
-												<button>완료</button>
-											</form>
+												${report.rp_info }
 										</div>
 									</div></td>
 							</tr>
