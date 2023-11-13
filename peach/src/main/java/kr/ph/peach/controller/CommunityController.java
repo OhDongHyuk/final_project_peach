@@ -20,9 +20,11 @@ import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.pagination.CriteriaCom;
 import kr.ph.peach.pagination.PageMakerCom;
 import kr.ph.peach.service.CommunityService;
+import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.CommunityCategoryVO;
 import kr.ph.peach.vo.CommunityVO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.ReplyVO;
 
 @Controller
 public class CommunityController {
@@ -103,11 +105,40 @@ public class CommunityController {
 	    	MemberVO user = (MemberVO) session.getAttribute("user");
 	    	model.addAttribute("user",user);
 	    	
-	    	CommunityVO Detail = communityService.selectDetail(co_num);
-	    	model.addAttribute("Detail",Detail);
+	    	CommunityVO detail = communityService.selectDetail(co_num);
+	    	model.addAttribute("detail",detail);
 	    	
-	    	MemberVO Writer = communityService.selectWriter(Detail);
+	    	MemberVO writer = communityService.selectWriter(detail);
+	    	model.addAttribute("writer",writer);
 	    	
+	    	List<ReplyVO> reply = communityService.selectReply(co_num);
+	    	
+	    	// 댓글 작성자의 닉네임을 가져와서 ReplyVO에 설정
+	    	List<ReplyVO> replyList = new ArrayList<>();
+	        for (ReplyVO re : reply) {
+	            String replyWriter = communityService.getReNick(re);
+	            re.setReplyWriter(replyWriter);
+	            replyList.add(re);
+	        }
+	        model.addAttribute("reList", replyList);
+	        
 	    	return "/board/communityDetail";
+	}
+	@PostMapping("/board/communityDetail")
+	public String insertPost(Model model, HttpSession session, @RequestParam("re_info")String re_info,  @RequestParam("co_num") int co_num) {
+		MemberVO user = (MemberVO) session.getAttribute("user");
+		Message msg;
+		System.out.println("re_info"+ re_info);
+		if (user == null) {
+        	msg = new Message("/member/login", "로그인을 필요로 합니다.");
+        	model.addAttribute("msg", msg);
+        	return "message";
+        } else {
+        	communityService.insertReply(re_info, co_num, user);
+        	
+        	msg = new Message("/board/communityDetail/"+co_num, "댓글 입력 완료.");
+        	model.addAttribute("msg", msg);
+    		return "message";
+        }
 	}
 }

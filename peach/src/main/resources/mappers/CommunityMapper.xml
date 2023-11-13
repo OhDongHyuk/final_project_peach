@@ -64,7 +64,19 @@
 	<select id="selectDetail" resultType="kr.ph.peach.vo.CommunityVO">
 		select * FROM community where co_num = ${co_num}
 	</select>
-	
+	<select id="selectWriter" resultType="kr.ph.peach.vo.MemberVO">
+		select * FROM member where me_num = ${detail.co_me_num}
+	</select>
+	<insert id="insertReply">
+		insert into reply(re_info, re_co_num, re_me_num)
+			values(${re_info},${co_num},${user.me_num}) 
+	</insert>
+	<select id="selectReply" resultType="kr.ph.peach.vo.ReplyVO">
+		select * FROM reply where re_co_num = ${co_num}
+	</select>
+	<select id="selectReNick" resultType="String">
+   	 SELECT me_nick FROM member WHERE me_num = #{reply.re_me_num}
+	</select>
 </mapper>
 
 

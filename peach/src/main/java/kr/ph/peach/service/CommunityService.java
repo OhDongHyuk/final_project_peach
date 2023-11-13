@@ -9,6 +9,7 @@ import kr.ph.peach.pagination.CriteriaProfile;
 import kr.ph.peach.vo.CommunityCategoryVO;
 import kr.ph.peach.vo.CommunityVO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.ReplyVO;
 
 public interface CommunityService {
 
@@ -26,6 +27,11 @@ public interface CommunityService {
 
 	CommunityVO selectDetail(int co_num);
 
+	MemberVO selectWriter(CommunityVO detail);
 
+	void insertReply(String re_info, int co_num, MemberVO user);
 
+	List<ReplyVO> selectReply(int co_num);
+	//임시
+	String getReNick(ReplyVO reply);
 }

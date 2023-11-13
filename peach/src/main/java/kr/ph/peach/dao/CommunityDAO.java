@@ -10,6 +10,7 @@ import kr.ph.peach.vo.CommunityCategoryVO;
 import kr.ph.peach.vo.CommunityImageVO;
 import kr.ph.peach.vo.CommunityVO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.ReplyVO;
 
 public interface CommunityDAO {
 
@@ -30,6 +31,16 @@ public interface CommunityDAO {
 	int selectCountBoardList(@Param("cri")CriteriaCom cri);
 
 	CommunityVO selectDetail(@Param("co_num")int co_num);
+
+	MemberVO selectWriter(@Param("detail")CommunityVO detail);
+
+	void insertReply(@Param("re_info")String re_info,@Param("co_num") int co_num,@Param("user") MemberVO user);
+
+	List<ReplyVO> selectReply(@Param("co_num")int co_num);
+
+	List<MemberVO> selectRe(@Param("reply")List<ReplyVO> reply);
+
+	String selectReNick(ReplyVO reply);
 
 
 }

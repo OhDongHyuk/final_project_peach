@@ -14,6 +14,7 @@ import kr.ph.peach.vo.CommunityCategoryVO;
 import kr.ph.peach.vo.CommunityImageVO;
 import kr.ph.peach.vo.CommunityVO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.ReplyVO;
 
 @Service
 public class CommunityServiceImp implements CommunityService{
@@ -108,7 +109,26 @@ public class CommunityServiceImp implements CommunityService{
 		return detail;
 	}
 
+	@Override
+	public MemberVO selectWriter(CommunityVO detail) {
+		MemberVO Writer = communityDao.selectWriter(detail);
+		return Writer;
+	}
 
+	@Override
+	public void insertReply(String re_info, int co_num, MemberVO user) {
+		communityDao.insertReply(re_info,co_num, user);
+	}
+
+	public List<ReplyVO> selectReply(int co_num) {
+	    return communityDao.selectReply(co_num);
+	    
+	}
+
+	@Override
+	public String getReNick(ReplyVO reply) {
+		return communityDao.selectReNick(reply);
+	}
 
 }
 	

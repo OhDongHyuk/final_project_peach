@@ -13,6 +13,7 @@
   	<typeAlias type="kr.ph.peach.vo.ProfileImageVO" alias="ProfileImageVO"/>
   	<typeAlias type="kr.ph.peach.vo.CommunityVO" alias="CommunityVO"/>
   	<typeAlias type="kr.ph.peach.vo.CommunityCategoryVO" alias="CommunityCategoryVO"/>
+  	<typeAlias type="kr.ph.peach.vo.ReplyVO" alias="ReplyVO"/>
   </typeAliases>
   
 </configuration>
