@@ -34,4 +34,5 @@ public class ReportServiceImp implements ReportService {
 		return reportDao.getreportList(cri);
 	}
 
+	
 }

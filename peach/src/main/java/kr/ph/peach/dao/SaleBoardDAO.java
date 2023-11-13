@@ -58,4 +58,6 @@ public interface SaleBoardDAO {
 
 	void deleteFile(Integer num);
 
+	void adminDeleteBoard(@Param("sb_num")Integer sb_num);
+
 }

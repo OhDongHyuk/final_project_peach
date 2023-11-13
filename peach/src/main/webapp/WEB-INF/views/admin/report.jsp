@@ -80,7 +80,7 @@
 							<th>신고 날짜</th>
 							<th>신고자 닉네임</th>
 							<th>신고된 테이블</th>
-							<th>신고 키번호</th>
+							<th>신고 게시글번호</th>
 							<th>신고내용보기</th>
 
 						</tr>
@@ -90,9 +90,9 @@
 							<tr>
 								<td>${report.rp_num}</td>
 								<td>${report.rp_date}</td>
-								<td>${report.rp_me_num}</td>
+								<td>${report.memberVO.me_nick}</td>
 								<td>${report.rp_table}</td>
-								<td>${report.rp_key}</td>
+								<td><a href="<c:url value='/saleboard/detail?sb_num=${report.rp_key}' />">${report.rp_key}</a></td>
 								<td><div class="btnWrap">
 										<button type="button" class="popupBtn">신고내용보기</button>
 									</div>

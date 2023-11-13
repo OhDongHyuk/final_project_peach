@@ -10,6 +10,5 @@ public class KakaoVO {
 	String scope;
 	int expires_in;
 	int refresh_token_expires_in;
-	String target_id_type;
-	String target_id;
+	
 }

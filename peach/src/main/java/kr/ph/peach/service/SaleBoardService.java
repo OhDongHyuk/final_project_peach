@@ -47,6 +47,9 @@ public interface SaleBoardService {
 	List<SaleImageVO> getFileList(Integer sb_num);
 	
 	List<SaleBoardVO> selectAllBoard2(SaleBoardCriteria cri);
+	
+	boolean adminDeleteBoard(Integer sb_num, MemberVO user);
 
+	
 	
 }

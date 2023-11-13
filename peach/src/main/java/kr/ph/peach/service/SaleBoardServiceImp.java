@@ -261,4 +261,19 @@ public class SaleBoardServiceImp implements SaleBoardService {
 		return saleBoardDao.selectFileList(si_table, sb_num);
 	}
 
+
+
+	@Override
+	public boolean adminDeleteBoard(Integer sb_num, MemberVO user) {
+		if(sb_num == 0) {
+			return false;
+		}
+		if(!user.getMe_au().equals("admin")) {
+			return false;
+		}
+		saleBoardDao.deleteAllWish(sb_num);
+		saleBoardDao.adminDeleteBoard(sb_num);
+		return true;
+	}
+
 }

@@ -13,4 +13,5 @@ public interface ReportService {
 	List<ReportVO> getreportList(MemberCriteria cri);
 
 	
+	
 }
