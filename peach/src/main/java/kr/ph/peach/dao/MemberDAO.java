@@ -55,6 +55,9 @@ public interface MemberDAO {
 
 	void deleteMember(@Param("user")MemberVO user);
 
-	MemberVO getMemberid(@Param("user")String me_id);
+	MemberVO selectMemberID(@Param("kakaoname")String kakaoname);
+
+	boolean insertMemberForKakao(@Param("member")MemberVO member);
+
 	
 }

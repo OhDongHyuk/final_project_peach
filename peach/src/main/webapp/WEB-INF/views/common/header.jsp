@@ -41,7 +41,8 @@
 								<c:if test="${user.me_social != 'normal' }">
 									<li class="inner-item"><a
 										href="<c:url value='/kakao/logout'/>"> 소셜로그아웃하기</a></li>
-									<li class="inner-item"><a href="<c:url value='/kakao/withdraw'/>">연결끊기</a></li>
+									<li class="inner-item"><a
+										href="<c:url value='/kakao/withdraw'/>">연결끊기</a></li>
 								</c:if>
 								<c:set var="profileURL" value="/board/profile/${user.me_num}" />
 								<li class="inner-item"><a

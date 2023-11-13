@@ -51,10 +51,11 @@ public interface MemberService {
 
 	boolean updateState(int me_num, int me_st_num);
 
-	MemberVO kakaologin(MemberVO kakaouser);
-
 	void withdrawMember(MemberVO user);
 
-	MemberVO getMemberList(MemberVO user);
+	MemberVO kakaologin(String kakaoname);
+
+	boolean signupforkakao(MemberVO member);
+
 	
 }

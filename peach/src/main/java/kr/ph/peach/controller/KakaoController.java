@@ -78,11 +78,13 @@ public class KakaoController<JSONElement> {
 		String p = (String) ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("phone_number");
 		String R = p.replace("+82 ", "0");
 		kakaouser.setMe_phone(R);
-		System.out.println(kakaouser);
-		MemberVO user = memberService.kakaologin(kakaouser.getMe_id());
+		System.out.println("카카오유저테스트"+kakaouser.getMe_id());
+		String kakaoname = (String)kakaouser.getMe_id();
+		System.out.println("유저이메일" + kakaoname);
+		MemberVO user = memberService.kakaologin(kakaoname);
 		System.out.println("테스트" + user);
 		
-		if (kakao != null || user.getMe_id() == null) {
+		if (kakao != null && user != null) {
 			// 유저정보
 			session.setAttribute("user", user);
 			System.out.println("유저정보"+user);
@@ -90,10 +92,10 @@ public class KakaoController<JSONElement> {
 			session.setAttribute("kakao", kakao);
 			session.setAttribute("token", token);
 			session.setAttribute("idnumber", idnumber);
-			System.out.println(kakao);
-			System.out.println(token);
-			System.out.println(idnumber);
-			return "redirect:/";
+			/*
+			 * System.out.println(kakao); System.out.println(token);
+			 * System.out.println(idnumber);
+			 */
 		} else {
 			model.addAttribute("kakaoinfo", kakaoinfo);
 			List<CityVO> list = memberService.getLargeCity();
@@ -104,6 +106,8 @@ public class KakaoController<JSONElement> {
 			model.addAttribute("R", R);
 			return "/member/kakaosignup";
 		}
+
+		return "redirect:/";
 
 //		session.setAttribute("user", user);
 
@@ -121,9 +125,9 @@ public class KakaoController<JSONElement> {
 	@GetMapping("/kakao/withdraw")
 	public String withdraw(HttpSession session) throws IOException {
 		String token = (String) session.getAttribute("token");
-		System.out.println("토큰정보" + token);
+//		System.out.println("토큰정보" + token);
 		Long idnumber = (Long) session.getAttribute("idnumber");
-		System.out.println("아이디정보" + idnumber);
+//		System.out.println("아이디정보" + idnumber);
 		getUserWithdrawKakao(token, idnumber);
 		
 		
@@ -204,7 +208,7 @@ public class KakaoController<JSONElement> {
 		}
 
 		// 서비스에게 회원가입 시켜야 함 => 회원정보를 주면서 => 가입여부를 알려달라고 함
-		boolean res = memberService.signup(member);
+		boolean res = memberService.signupforkakao(member);
 		if (res) {
 			model.addAttribute("msg", "회원가입 성공!");
 			model.addAttribute("url", "member/login");
@@ -224,14 +228,18 @@ public class KakaoController<JSONElement> {
 		});
 
 	
-		System.out.println(kakaoinfo);
-		System.out.println("유저 ID = " + kakaoinfo.get("id"));
-		System.out.println("유저 연동시간 = " + kakaoinfo.get("connected_at"));
-		System.out.println("유저 닉네임 = " + ((Map<String, Object>) kakaoinfo.get("properties")).get("nickname"));
-		System.out.println("유저 이름 = " + ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("name"));
-		System.out.println("유저 핸드폰번호 = " + ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("phone_number"));
-		System.out.println("유저 이메일 = " + ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("email"));
-
+		/*
+		 * System.out.println(kakaoinfo); System.out.println("유저 ID = " +
+		 * kakaoinfo.get("id")); System.out.println("유저 연동시간 = " +
+		 * kakaoinfo.get("connected_at")); System.out.println("유저 닉네임 = " +
+		 * ((Map<String, Object>) kakaoinfo.get("properties")).get("nickname"));
+		 * System.out.println("유저 이름 = " + ((Map<String, Object>)
+		 * kakaoinfo.get("kakao_account")).get("name"));
+		 * System.out.println("유저 핸드폰번호 = " + ((Map<String, Object>)
+		 * kakaoinfo.get("kakao_account")).get("phone_number"));
+		 * System.out.println("유저 이메일 = " + ((Map<String, Object>)
+		 * kakaoinfo.get("kakao_account")).get("email"));
+		 */
 //		System.out.println(kakaoinfo.keyset("properties"));
 
 		MemberVO member = new MemberVO();
