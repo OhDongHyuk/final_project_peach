@@ -10,6 +10,8 @@
 	<div class="wrapper">
 		<div class="category-name">${categoryName }</div>
 		<div class="containerboard">
+			<c:if test="${prList.size() != 0 }">
+			
 			<%-- forEach를 통해 판매상품 리스트를 컨트롤러에서 가져와서 출력 --%>
 			<c:forEach items="${prList}" var="pr">
 					<div class="item-main-holder">
@@ -49,6 +51,12 @@
 					</a>
 				</div>			
 				</c:forEach>
+				</c:if>
+				<c:if test="${prList.size() == 0 }">
+					<div class="no-posts">
+						해당 카테고리에 아직 등록된 게시글이 없습니다.
+					</div>
+				</c:if>
 		</div>
 	</div>
     	<!-- 댓글 페이지네이션 -->
@@ -222,6 +230,11 @@
 		.pagination li.current a {
 		    background-color: #F16461;
 		    color: #fff;
+		}
+		.no-posts {
+			text-align: center;
+			margin-top: 20px;
+			margin-left: 12px;
 		}
 	</style>
 </html>

@@ -43,8 +43,8 @@
 				<div class="col-lg-3 col-md-2 col-5">
 					<div class="middle-right-area">
 						<div class="nav-hotline">
-							<a class="main-header-menu" href="<c:url value='/saleboard/insert'/>">판매하기</a> <span style="font-size: 18px; margin-right: 10px; margin-left: 10px; color: #ccc; font-weight: 100;"> | </span> 
-							<a class="main-header-menu" href="<c:url value='/chat/chat?sb_num=0'/>">피치톡</a>
+							<a class="main-header-menu" href="<c:url value='/saleboard/insert'/>"><img width="28px" height="28px" src="<c:url value='/resources/image/saleicon.png'/>"> 판매하기</a> <span style="font-size: 18px; margin-right: 10px; margin-left: 10px; color: #ccc; font-weight: 100;"> | </span> 
+							<a class="main-header-menu" href="<c:url value='/chat/chat?sb_num=0'/>"><img width="30px" height="30px" src="<c:url value='/resources/image/chaticon.png'/>"> 피치톡</a>
 						</div>
 						<div class="navbar-cart">
 							<div class="cart-items">
