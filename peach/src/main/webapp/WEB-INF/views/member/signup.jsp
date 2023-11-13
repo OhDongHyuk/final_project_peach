@@ -5,18 +5,51 @@
 <html>
 <head>
 	<style>
-	.messages {
-	    color: red;
-	}
-	
-	
-	label.error {
-	    color: red;
-	}
-	
-	.messages.error {
-	    color: red;
-	}
+		/* 새로운 색상 스키마 */
+		body {
+			background-color: #f76076;
+			color: #fff;
+		}
+
+		.container2 {
+			margin: 0 auto;
+			width: 500px;
+			background-color: #fff;
+			border-radius: 10px;
+			padding: 20px;
+			margin-top: 20px;
+		}
+		
+		/* 폼 스타일 */
+		.form-group label {
+			color: black;
+		}
+
+		.form-control {
+			border: 1px solid #f76076;
+			border-radius: 5px;
+		}
+
+		/* 버튼 스타일 */
+		.btn-outline,
+		.btn-success {
+			background-color: #f76076;
+			border: 1px solid black;
+			color: #fff;
+		}
+
+		.btn-outline:hover,
+		.btn-success:hover {
+			background-color: #f76076;
+			color: #fff;
+		}
+
+		/* 에러 메시지 */
+		.messages,
+		label.error,
+		.messages.error {
+			color: #f76076;
+		}
 	</style>
 	<title>Home</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,38 +62,38 @@
   
 </head>
 <body>
-	<h2>회원가입</h2>
-	<div class="container">
+	
+	<div class="container2" style="border: 1px solid #f76076;">
 		<form action="<c:url value='/member/signup'/>" method="post" id="form">
 			<div class="form-group">
 				<label>아이디</label>
-				<input type="text" name="me_id" class="form-control" placeholder="아이디">
+				<input style="border: 1px solid #f76076;" type="text" name="me_id" class="form-control" placeholder="아이디">
 			</div>
-			<button class="btn btn-outline-dark col-12" type="button" id="btn-check">아이디 중복체크</button>
+			<button class="btn btn-outline col-12" style="border: 1px solid #f76076;" type="button" id="btn-check">아이디 중복체크</button>
 			<div class="form-group">
 				<label>비밀번호</label>
-				<input type="password" name="me_pw" class="form-control" placeholder="비밀번호" id="pw">
+				<input style="border: 1px solid #f76076;" type="password" name="me_pw" class="form-control" placeholder="비밀번호" id="pw">
 			</div>
 			<div class="form-group">
 				<label>비밀번호 확인</label>
-				<input type="password" name="me_pw2" class="form-control" placeholder="비밀번호 확인">
+				<input style="border: 1px solid #f76076;" type="password" name="me_pw2" class="form-control" placeholder="비밀번호 확인">
 			</div>
 			<div class="form-group">
 				<label>이름</label>
-				<input type="text" name="me_name" class="form-control" placeholder="이름">
+				<input style="border: 1px solid #f76076;" type="text" name="me_name" class="form-control" placeholder="이름">
 			</div>
 			<div class="form-group">
 				<label>핸드폰 번호</label>
-				<input type="text" name="me_phone" class="form-control" placeholder="핸드폰 번호">
+				<input style="border: 1px solid #f76076;" type="text" name="me_phone" class="form-control" placeholder="핸드폰 번호">
 			</div>
 			<div class="form-group">
 				<label>닉네임</label>
-				<input type="text" name="me_nick" class="form-control" placeholder="닉네임">
+				<input style="border: 1px solid #f76076;" type="text" name="me_nick" class="form-control" placeholder="닉네임">
 			</div>
-			<button class="btn btn-outline-dark col-12" type="button" id="btn-check2">닉네임 중복체크</button>
+			<button class="btn btn-outline col-12" style="border: 1px solid #f76076;" type="button" id="btn-check2">닉네임 중복체크</button>
 			<div class="form-group">
 				<label>지역(시/도)</label>
-				<select name="large" class="form-control">
+				<select style="border: 1px solid #f76076;" name="large" class="form-control">
 					<option value="0">시/도를 선택하세요.</option>
 					<c:forEach items="${large}" var="name">
 						<option>${name.ci_large }</option>	
@@ -69,19 +102,19 @@
 			</div>
 			<div class="form-group">
 				<label>지역(시/군/구)</label>
-				<select name="medium" class="form-control">
+				<select style="border: 1px solid #f76076;" name="medium" class="form-control">
 					<option value="0">시/군/구를 선택하세요.</option>
 				</select>
 			</div>
 			<div class="form-group">
 				<label>지역(읍/면/동)</label>
-				<select name="me_ci_num" class="form-control">
+				<select style="border: 1px solid #f76076;" name="me_ci_num" class="form-control">
 					<option value="">읍/면/동을 선택하세요.</option>
 				</select>
 			</div>
 			<div class="form-group">
 				<label>은행</label>
-				<select name="me_bk_name" class="form-control">
+				<select style="border: 1px solid #f76076;" name="me_bk_name" class="form-control">
 					<option value="">은행을 선택하세요.</option>
 					<c:forEach items="${bankList }" var="bank">
 					<option >${bank.bk_name }</option>
@@ -90,10 +123,10 @@
 			</div>
 			<div class="form-group">
 				<label>계좌번호</label>
-				<input type="text" name="me_acc" class="form-control" placeholder="계좌번호">
+				<input style="border: 1px solid #f76076;" type="text" name="me_acc" class="form-control" placeholder="계좌번호">
 			</div>
 			
-			<button class="btn btn-success col-12">회원가입</button>
+			<button style="border: 1px solid #f76076; background-color:#f76076; " class="btn btn-success col-12">회원가입</button>
 		</form>
 	</div>
 	<script type="text/javascript">

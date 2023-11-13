@@ -81,8 +81,6 @@ public class MemberServiceImp implements MemberService {
 		// 회원가입
 		return memberDao.insertMember(member);
 	}
-	
-	
 
 	@Override
 	public MemberVO login(MemberVO member) {
@@ -205,6 +203,7 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public MemberVO selectMemberByAcc(String acc) {
 		return memberDao.selectMemberByAcc(acc);
+
 	}
 
 
@@ -214,13 +213,12 @@ public class MemberServiceImp implements MemberService {
 		return memberDao.memberIdFind(member);
 	}
 
-
-
 	@Override
 	public boolean sendPw(String me_id, String me_name) {
 		MemberVO member = memberDao.selectMember(me_id);
 		
 		//아이디(email)를 잘못 입력 
+
 		if(member == null) {
 			return false;
 		}
@@ -230,7 +228,8 @@ public class MemberServiceImp implements MemberService {
 			return false;
 		}
 		//같으면 
-			
+
+							
 		
 		Random r = new Random();
 		int num = r.nextInt(999999); // 랜덤난수설정
@@ -239,9 +238,13 @@ public class MemberServiceImp implements MemberService {
 		//인증 코드를 이메일로 전송
 		String setfrom = "rlatldbs4042@gmail.com";  
 		String tomail = me_id; //받는사람
+
 		String title = "[피치마켓] 비밀번호변경 인증 이메일 입니다"; 
 		String content = System.getProperty("line.separator") + "안녕하세요 회원님" + System.getProperty("line.separator")
-			 	+ "비밀번호를 재설정하기 위해 다음 <a href='http://localhost:8080/peach/member/pw_auth/check?num="+member.getMe_num()+"&code="+num+"'>링크</a>를 클릭하세요." + System.getProperty("line.separator"); // 
+
+			 	+ "비밀번호를 재설정하기 위해 다음 <a href='http://localhost:8080/peach/member/pw_auth/check?num="+member.getMe_num()+"&code="+num+"'>링크</a>를 클릭하세요." + System.getProperty("line.separator") ;// 
+
+				
 	
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
@@ -261,8 +264,11 @@ public class MemberServiceImp implements MemberService {
 		memberDao.insertAuthCode(member.getMe_num(), num);	
 		
 		return true;
-		}
+		
+
 	
+		
+	}
 
 	private boolean checkIdRegex(String id) {
 		//아이디는 영문,숫자,@._-로 이루어지고 8~20자 
@@ -276,7 +282,9 @@ public class MemberServiceImp implements MemberService {
 	private boolean checkPwRegex(String pw) {
 		
 		//비번은 영문,숫자,특수문자로 이루어지고 8~20자 
+
 		String regexPw = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_+|]).{8,20}$";
+
 		if(pw == null) {
 			return false;
 		}

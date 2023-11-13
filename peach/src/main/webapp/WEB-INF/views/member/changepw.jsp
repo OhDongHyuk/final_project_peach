@@ -5,6 +5,14 @@
 <html>
 <head>
 <style>
+
+	.container3{
+	padding-top: 70px;
+		height : 500px;
+		width: 500px;
+		margin: 0 auto;
+	}
+
 	.messages {
 	    color: red;
 	}
@@ -29,19 +37,18 @@
 </head>
 
 <body class="bg-gradient-primary">
-<h1>비번 변경 페이지</h1>
-	<div class="container">
+	<div class="container3">
 		<form action="<c:url value='/member/pwUpdate'/>" method="post" id="form">
 		<input type="hidden" value="${code }" name="code">
 			<div class="form-group">
 				<label>새 비밀번호 </label>
-				<input type="password" name="me_pw" class="form-control" placeholder="새 비밀번호" id="pw">
+				<input style="border: 1px solid #f76076; border-radius: 5px;" type="password" name="me_pw" class="form-control" placeholder="새 비밀번호" id="pw">
 			</div>
-			<div class="form-group">
+			<div class="form-group" >
 				<label>새 비밀번호 확인</label>
-				<input type="password" name="me_pw2" class="form-control" placeholder="새 비밀번호 확인">
+				<input style="border: 1px solid #f76076; border-radius: 5px;" type="password" name="me_pw2" class="form-control" placeholder="새 비밀번호 확인">
 			</div>
-			<button class="btn btn-success col-12">확인</button>
+			<button class="btn" style="background-color: #f76076;width: 100%;">확인</button>
 		</form>
 	</div>  
 	<script type="text/javascript">
