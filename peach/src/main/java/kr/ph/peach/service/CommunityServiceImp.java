@@ -130,6 +130,83 @@ public class CommunityServiceImp implements CommunityService{
 		return communityDao.selectReNick(reply);
 	}
 
+	@Override
+	public List<CommunityCategoryVO> getCoCategory() {
+		return communityDao.selectCoCategory();
+	}
+
+	@Override
+	public CommunityImageVO getCoImg(int co_num) {
+		CommunityImageVO coImage = communityDao.getCoImg(co_num);
+		return coImage;
+	}
+
+	@Override
+	public CommunityCategoryVO selectEditCC(CommunityVO detail) {
+		return communityDao.selectEditCC(detail);
+	}
+
+	@Override
+	public boolean updateCommunity(CommunityVO community, int co_num, MultipartFile[] fileList, int cc_num, MemberVO user) {
+		if(community == null || 
+				community.getCo_title() == null || community.getCo_title().trim().length() == 0 ||
+				community.getCo_info() == null) {
+				return false;
+			}
+			//작성자가 없으면 안되기 때문
+			if(user == null) {
+				return false;
+			}
+			//community는 co_title
+			//게시글을 DB에 저장
+			boolean res = communityDao.updateCommunity(community,co_num , cc_num);
+			if(!res) {
+				return false;
+			}
+
+			//첨부파일 등록
+			if(fileList == null || fileList.length == 0) {
+				return true;
+			}
+			
+			for(MultipartFile file : fileList) {
+				if(file == null || file.getOriginalFilename().length() == 0) {
+					continue;
+				}
+				
+				try {
+					//원래 파일명
+					String ci_ori_name = file.getOriginalFilename();
+					//서버에 업로드 후 업로드된 경로와 uuid가 포함된 파일명
+					String fi_name = UploadFileUtils.uploadFile(uploadPath, ci_ori_name, file.getBytes());
+					//파일 객체
+					CommunityImageVO CommunityImageVo = new CommunityImageVO(community.getCo_num(), fi_name, ci_ori_name);
+					communityDao.insertCommunityImage(CommunityImageVo);
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+			}
+			
+			return true;
+		}
+
+	@Override
+	public void updateCoView(int co_num) {
+		communityDao.updateCoView(co_num);
+	}
+
+	@Override
+	public void updateReply(int co_num) {
+		communityDao.updateReply(co_num);
+	}
+
+	@Override
+	public void increaseLikeCount(int coNum) {
+		communityDao.increaseLikeCount(coNum);
+		
+	}
+
 }
 	
 	

@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.ph.peach.pagination.CriteriaCom;
 import kr.ph.peach.pagination.CriteriaProfile;
 import kr.ph.peach.vo.CommunityCategoryVO;
+import kr.ph.peach.vo.CommunityImageVO;
 import kr.ph.peach.vo.CommunityVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.ReplyVO;
@@ -34,4 +35,19 @@ public interface CommunityService {
 	List<ReplyVO> selectReply(int co_num);
 	//임시
 	String getReNick(ReplyVO reply);
+
+	List<CommunityCategoryVO> getCoCategory();
+
+	CommunityImageVO getCoImg(int co_num);
+
+	CommunityCategoryVO selectEditCC(CommunityVO detail);
+
+	boolean updateCommunity(CommunityVO community, int co_num , MultipartFile[] fileList, int cc_num,MemberVO user);
+
+	void updateCoView(int co_num);
+
+	void updateReply(int co_num);
+
+	void increaseLikeCount(int coNum);
+
 }

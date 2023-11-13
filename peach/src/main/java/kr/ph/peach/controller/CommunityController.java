@@ -7,13 +7,16 @@ import javax.servlet.http.HttpSession;
 import javax.swing.JOptionPane;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.pagination.Criteria;
@@ -22,6 +25,7 @@ import kr.ph.peach.pagination.PageMakerCom;
 import kr.ph.peach.service.CommunityService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.CommunityCategoryVO;
+import kr.ph.peach.vo.CommunityImageVO;
 import kr.ph.peach.vo.CommunityVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.ReplyVO;
@@ -51,6 +55,9 @@ public class CommunityController {
 		model.addAttribute("title", "게시글 조회");
 		model.addAttribute("cpm", cpm);
 		
+		List<CommunityCategoryVO> co_category = communityService.getCoCategory();
+		model.addAttribute("co_category", co_category);
+		
 		return "/board/community";
 	}
 
@@ -75,12 +82,12 @@ public class CommunityController {
 
 	    return "/board/communityInsert";
 	}
-	//값을 넣지 않았을 때 오류 발생
+
 	@PostMapping("/board/communityInsert")
 	public String insertPost(Model model, CommunityVO community, HttpSession session, 
 			MultipartFile [] fileList, @RequestParam("CICategory") String CICategory) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		System.out.println("CICategory"+CICategory);
+		
 		if("0".equals(CICategory)) {
 			return "redirect:/board/communityInsert";
 		}else {
@@ -105,6 +112,8 @@ public class CommunityController {
 	    	MemberVO user = (MemberVO) session.getAttribute("user");
 	    	model.addAttribute("user",user);
 	    	
+	    	communityService.updateCoView(co_num);
+	    	
 	    	CommunityVO detail = communityService.selectDetail(co_num);
 	    	model.addAttribute("detail",detail);
 	    	
@@ -121,19 +130,29 @@ public class CommunityController {
 	            replyList.add(re);
 	        }
 	        model.addAttribute("reList", replyList);
+
+	        CommunityImageVO coImage = communityService.getCoImg(co_num);
+	        model.addAttribute("coImage", coImage);
+	        
+	     // 댓글 수 업데이트 
+	        communityService.updateReply(co_num);
 	        
 	    	return "/board/communityDetail";
 	}
 	@PostMapping("/board/communityDetail")
-	public String insertPost(Model model, HttpSession session, @RequestParam("re_info")String re_info,  @RequestParam("co_num") int co_num) {
+	public String insertPost(Model model, HttpSession session, @RequestParam("re_info")String re_info,  @RequestParam("co_num") int co_num, @RequestParam("coNum") int coNum) {
 		MemberVO user = (MemberVO) session.getAttribute("user");
 		Message msg;
-		System.out.println("re_info"+ re_info);
+		
+		if(re_info.isEmpty()) {
+			return "redirect:/board/communityDetail/" + co_num;
+		}
 		if (user == null) {
         	msg = new Message("/member/login", "로그인을 필요로 합니다.");
         	model.addAttribute("msg", msg);
         	return "message";
         } else {
+        	
         	communityService.insertReply(re_info, co_num, user);
         	
         	msg = new Message("/board/communityDetail/"+co_num, "댓글 입력 완료.");
@@ -141,4 +160,61 @@ public class CommunityController {
     		return "message";
         }
 	}
+	@GetMapping("/board/communityEdit/{co_num}")
+	public String CommunityEdit(@PathVariable("co_num") int co_num, Model model, HttpSession session) {
+		MemberVO user = (MemberVO) session.getAttribute("user");
+	    model.addAttribute("user", user);
+		
+	    CommunityVO detail = communityService.selectDetail(co_num);
+    	model.addAttribute("detail",detail);
+    	System.out.println("detail"+detail);
+    	
+    	CommunityCategoryVO EditCategory = communityService.selectEditCC(detail);
+    	model.addAttribute("EditCategory",EditCategory);
+    	
+    	List<CommunityCategoryVO> CCategory = communityService.selectCCategory();
+	    List<String> CCNames = new ArrayList<>();
+
+	    for (CommunityCategoryVO category : CCategory) {
+	        CCNames.add(category.getCc_name());
+	    }
+
+	    model.addAttribute("CCNames", CCNames);
+	    
+	    if (user == null) {
+	        return "redirect:/member/login";
+	    }
+    	
+		return "/board/communityEdit";
+	}
+	
+	@PostMapping("/board/communityEdit/{co_num}")
+	public String updatePost(@PathVariable("co_num") int co_num, Model model,@ModelAttribute("community") CommunityVO community, HttpSession session, 
+			MultipartFile [] fileList, @RequestParam("CICategory") String CICategory) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		System.out.println("co_num"+co_num);
+		if("0".equals(CICategory)) {
+			return "redirect:/board/communityEdit";
+		}else {
+			int cc_num = communityService.selectCIname(CICategory);
+			boolean res = communityService.updateCommunity(community, co_num, fileList,cc_num ,user);
+			
+			if(res) {
+				model.addAttribute("msg", "게시글 수정 성공!");
+				model.addAttribute("url", "/board/community");
+			}else {
+				model.addAttribute("msg", "게시글 수정 실패!");
+				model.addAttribute("url", "/board/community");
+			}
+			return "/main/message";
+		}
+	}
+	@PostMapping("/board/communityDetail/like")
+	@ResponseBody
+	public void likeCommunity(@RequestParam("coNum") int coNum) {
+	        communityService.increaseLikeCount(coNum);
+	}
 }
+
+
+

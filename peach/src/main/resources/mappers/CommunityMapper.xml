@@ -34,8 +34,9 @@
 			or co_info like concat('%', #{cri.s}, '%')
 		</if>
 		<if test='cri.t == "writer"'>
-		where  
-			co_me_num like concat('%', #{cri.s}, '%')
+		INNER JOIN member ON community.co_me_num = member.me_num
+        where  
+            member.me_nick like concat('%', #{cri.s}, '%')
 		</if>	
 		order by co_num asc
 		limit #{cri.pageStart}, #{cri.perPageNum}
@@ -69,14 +70,44 @@
 	</select>
 	<insert id="insertReply">
 		insert into reply(re_info, re_co_num, re_me_num)
-			values(${re_info},${co_num},${user.me_num}) 
+			values(#{re_info},${co_num},${user.me_num}) 
 	</insert>
 	<select id="selectReply" resultType="kr.ph.peach.vo.ReplyVO">
 		select * FROM reply where re_co_num = ${co_num}
 	</select>
 	<select id="selectReNick" resultType="String">
-   	 SELECT me_nick FROM member WHERE me_num = #{reply.re_me_num}
+   		 SELECT me_nick FROM member WHERE me_num = #{reply.re_me_num}
 	</select>
+	<select id="selectCoCategory" resultType="kr.ph.peach.vo.CommunityCategoryVO">
+		select * FROM community_category
+	</select>
+	<select id="getCoImg" resultType="kr.ph.peach.vo.CommunityImageVO">
+		select * FROM community_Image where ci_co_num = ${co_num}
+	</select>
+	<select id="selectEditCC" resultType="kr.ph.peach.vo.CommunityCategoryVO">
+		select * FROM community_category where cc_num = ${detail.co_cc_num}
+	</select>
+	<update id="updateCommunity">
+		update community set co_title = #{community.co_title},
+							co_cc_num = ${cc_num},
+							co_info = #{community.co_info}
+		where co_num = ${co_num}
+	</update>
+	<update id="updateCoView">
+		update community
+    		set co_views = co_views + 1
+   	    where co_num = #{co_num}
+	</update>
+	<update id="updateReply">
+	    update community
+	    	set co_reply = (select count(*) from reply where re_co_num = #{co_num})
+	    where co_num = #{co_num}
+	</update>
+	<update id="increaseLikeCount">
+	    UPDATE community
+	    SET co_like = co_like + 1
+    	WHERE co_num = #{coNum}
+	</update>
 </mapper>
 
 

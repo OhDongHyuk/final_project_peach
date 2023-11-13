@@ -48,16 +48,18 @@
 	<br>
 	<h1 class="community-title">피치 게시판</h1>
 	<div class="community-category">
-		<ul class="pagination pagination">
-		<li class="page-item"><a class="page-link" href="#">전체</a></li>
-		  <li class="page-item"><a class="page-link" href="#">소모임</a></li>
-		  <li class="page-item"><a class="page-link" href="#">맛집탐방</a></li>
-		  <li class="page-item"><a class="page-link" href="#">무료나눔</a></li>
-		</ul>
+		<div class="form-group">
+			<label>카테고리 선택</label>
+			<select name="co_category" class="form-control">
+				<option value="0">선택</option>
+				<c:forEach items="${co_category}" var="name">
+					<option value="${name.cc_name}">${name.cc_name}</option>
+				</c:forEach>
+			</select>
+		</div>
 	</div>
 	<br>
 	
-	<!-- 수정필요(커뮤니티용 cri 추가) -->
 	<form action="<c:url value='/board/community'/>" method="get">
 		<div class="com-group mb-3 d-flex justify-content-center">
 			<select class="cc-control mb-1" name="t">
@@ -121,4 +123,9 @@
 	</ul>
 	<a href="<c:url value='/board/communityInsert'/>" class="Cbtn"><P style="color:black">글쓰기</P></a>
 </body>
+<script>
+	$('[name=co_category]').change(function(){
+		 
+	});
+</script>
 </html>

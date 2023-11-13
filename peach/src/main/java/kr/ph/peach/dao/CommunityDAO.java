@@ -42,5 +42,18 @@ public interface CommunityDAO {
 
 	String selectReNick(ReplyVO reply);
 
+	List<CommunityCategoryVO> selectCoCategory();
+
+	CommunityImageVO getCoImg(@Param("co_num")int co_num);
+
+	CommunityCategoryVO selectEditCC(@Param("detail")CommunityVO detail);
+
+	boolean updateCommunity(@Param("community")CommunityVO community,@Param("co_num")int co_num,@Param("cc_num") int cc_num);
+
+	void updateCoView(int co_num);
+
+	void updateReply(int co_num);
+
+	void increaseLikeCount(@Param("coNum")int coNum);
 
 }
