@@ -42,7 +42,7 @@
 									<li class="inner-item"><a
 										href="<c:url value='/kakao/logout'/>"> 소셜로그아웃하기</a></li>
 									<li class="inner-item"><a
-										href="<c:url value='/kakao/withdraw'/>">연결끊기</a></li>
+										href="<c:url value='/kakao/withdraw'/>" onclick="return confirm('회원탈퇴시 계정정보가 전부 없어집니다.');">회원탈퇴</a></li>
 								</c:if>
 								<c:set var="profileURL" value="/board/profile/${user.me_num}" />
 								<li class="inner-item"><a

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.pagination.MemberCriteria;
 import kr.ph.peach.pagination.PageMaker;
 import kr.ph.peach.service.MemberService;
@@ -169,17 +170,18 @@ public class AdminController {
 
 	/* 신고페이지 관리 */
 	@GetMapping("/report")
-	public String report(Model model, HttpSession session, MemberCriteria cri) {
+	public String report(Model model, HttpSession session, Criteria cri) {
 
 		List<ReportVO> report = reportService.getreportList(cri);
 		model.addAttribute("report", report);
-		/*
-		 * for(ReportVO tmp : report) {
-		 * report.get(report.indexOf(tmp)).setRp_key(reportService.selectrpKeyList(tmp.
-		 * getRp_key())); }
-		 */
 		
-		
+		int totalCount = reportService.getTotalCount(cri);
+
+		int displayPageNum = 8;
+		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
+
+		System.out.println(cri);
+		model.addAttribute("pm", pm);
 		
 		return "/admin/report";
 	}
@@ -204,8 +206,6 @@ public class AdminController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean res = reportService.deleteReport(report);
 		map.put("res", res);
-		System.out.println(map);
-		System.out.println(res);
 		return map;
 	}
 	

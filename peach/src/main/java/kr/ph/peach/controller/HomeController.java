@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.ph.peach.pagination.PageMaker;
 import kr.ph.peach.pagination.SaleBoardCriteria;
+import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.SaleBoardService;
 import kr.ph.peach.service.SaleCategoryService;
 import kr.ph.peach.service.TradingRequestService;
@@ -25,6 +26,7 @@ import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.TradingRequestVO;
+import kr.ph.peach.vo.WishVO;
 
 @Controller
 public class HomeController {
@@ -35,6 +37,9 @@ public class HomeController {
 	@Autowired
 	SaleBoardService saleBoardService;
 
+	@Autowired
+	MemberService memberSerivce;
+	
 	@Autowired
 	TradingRequestService tradingRequestService;
 
@@ -59,6 +64,14 @@ public class HomeController {
 		// 현재 페이지에 맞는 게시글을 가져와야함
 		List<SaleBoardVO> list = saleBoardService.getMainSaleBoardList(cri);
 		int totalCount = saleBoardService.getTotalCount(cri);
+		
+		MemberVO user = (MemberVO) session.getAttribute("user");
+		if (user != null) {
+			List<WishVO> wishList = memberSerivce.getWishList(user.getMe_num());
+			System.out.println(wishList);
+			model.addAttribute("wishList", wishList);
+		}
+
 		int displayPageNum = 8;
 		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
 

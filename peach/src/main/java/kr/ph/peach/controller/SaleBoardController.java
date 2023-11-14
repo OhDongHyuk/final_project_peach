@@ -55,7 +55,7 @@ public class SaleBoardController {
 		MemberVO user = (MemberVO) session.getAttribute("user");
 		if (user != null) {
 			List<WishVO> wishList = memberSerivce.getWishList(user.getMe_num());
-			model.addAttribute("wishList", wishList);
+			System.out.println(wishList);
 		}
 		for(SaleBoardVO tmp : prList) {
 			prList.get(prList.indexOf(tmp)).setSb_me_nickname(saleBoardService.selectMemberNickname(tmp.getSb_me_num()));
@@ -104,7 +104,15 @@ public class SaleBoardController {
 	@GetMapping("/list")
 	public String list(Model model, SaleBoardCriteria cri, HttpSession session) {
 		List<SaleBoardVO> dbBoardList = saleBoardService.selectAllBoard2(cri);
-		
+		MemberVO user = (MemberVO) session.getAttribute("user");
+		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
+		if (user != null) {
+			List<WishVO> wishList = memberSerivce.getWishList(user.getMe_num());
+			System.out.println(wishList);
+			model.addAttribute("wishList", wishList);
+		}
+		model.addAttribute("categoryList", categoryList);
+
 		for(SaleBoardVO tmp : dbBoardList) {
 			dbBoardList.get(dbBoardList.indexOf(tmp)).setSb_me_nickname(saleBoardService.selectMemberNickname(tmp.getSb_me_num()));
 		}
@@ -128,6 +136,14 @@ public class SaleBoardController {
 		board.setSb_me_nickname(saleBoardService.selectMemberNickname(board.getSb_me_num()));
 		board.setSb_sc_name(saleBoardService.selectCategoryName(board.getSb_sc_num()));
 		board.setSb_me_sugar(saleBoardService.selectMemberSugar(board.getSb_me_num()));
+		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
+		if (user != null) {
+			List<WishVO> wishList = memberSerivce.getWishList(user.getMe_num());
+			System.out.println(wishList);
+			model.addAttribute("wishList", wishList);
+		}
+		model.addAttribute("categoryList", categoryList);
+
 		if(user != null && board != null) {
 			WishVO dbWish = saleBoardService.selectWish(user.getMe_num(), board.getSb_num());			
 			int wishCheck = 0;

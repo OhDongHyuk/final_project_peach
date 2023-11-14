@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.ph.peach.dao.ReportDAO;
+import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.pagination.MemberCriteria;
 import kr.ph.peach.vo.ReportVO;
 @Service
@@ -29,7 +30,7 @@ public class ReportServiceImp implements ReportService {
 	}
 
 	@Override
-	public List<ReportVO> getreportList(MemberCriteria cri) {
+	public List<ReportVO> getreportList(Criteria cri) {
 		
 		return reportDao.getreportList(cri);
 	}
@@ -43,6 +44,14 @@ public class ReportServiceImp implements ReportService {
 		
 		//신고글을 삭제
 		return reportDao.deleteReportNum(report.getRp_num());
+	}
+
+	@Override
+	public int getTotalCount(Criteria cri) {
+		if (cri == null) {
+			cri = new MemberCriteria();
+		}
+		return reportDao.getTotalCount(cri);
 	}
 
 	

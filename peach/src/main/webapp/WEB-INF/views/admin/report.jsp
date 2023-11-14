@@ -129,10 +129,10 @@
 										<c:if test="${pm.cri.type == '0' }">selected</c:if>>전체</option>
 									<option value="me_nick"
 										<c:if test="${pm.cri.type == 'me_nick' }">selected</c:if>>닉네임</option>
+									<option value="rp_key"
+										<c:if test="${pm.cri.type == 'rp_key' }">selected</c:if>>게시판 번호</option>
 									<option value="rp_info"
-										<c:if test="${pm.cri.type == 'rp_info' }">selected</c:if>>권한</option>
-									<option value="bo_contents"
-										<c:if test="${pm.cri.type == 'bo_contents' }">selected</c:if>>내용</option>
+										<c:if test="${pm.cri.type == 'rp_info' }">selected</c:if>>내용</option>
 								</select>
 							</div>
 							<input type="text" class="form-control" name="search"
