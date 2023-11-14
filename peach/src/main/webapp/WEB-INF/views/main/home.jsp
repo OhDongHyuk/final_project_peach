@@ -19,6 +19,11 @@
 	font-size: 16px;
 	margin-left: 4px;
 }
+.side-bar{
+	float: right;
+	position: sticky;
+}
+
 </style>
 </head>
 <body>
@@ -108,6 +113,7 @@
 		</div>
 	</section>
 
+
 	<!-- Start Trending Product Area -->
 	<section class="trending-product section" style="margin-top: 12px;">
 		<div class="container">
@@ -132,7 +138,7 @@
 										<img class="item" width="100%" height="194" src="<c:url value='/resources/image/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_name :\"\" }'/>">
 									</c:when>
 									<c:otherwise>
-										<img class="item" width="100%" height="194" src="<c:url value='/resources/image/NoMainImage.png'/>">
+										<img class="item" width="100%" height="auto" src="<c:url value='/resources/image/NoMainImage.png'/>">
 									</c:otherwise>
 								</c:choose>
 								</div>
