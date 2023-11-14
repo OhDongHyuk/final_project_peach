@@ -7,12 +7,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.dao.CommunityDAO;
+import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.pagination.CriteriaCom;
 import kr.ph.peach.pagination.CriteriaProfile;
+import kr.ph.peach.pagination.PageMakerCom;
 import kr.ph.peach.util.UploadFileUtils;
 import kr.ph.peach.vo.CommunityCategoryVO;
 import kr.ph.peach.vo.CommunityImageVO;
 import kr.ph.peach.vo.CommunityVO;
+import kr.ph.peach.vo.LikesVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.ReplyVO;
 
@@ -87,6 +90,7 @@ public class CommunityServiceImp implements CommunityService{
 		if(cri == null) {
 			cri = new CriteriaCom();
 		}
+		System.out.println("cri2" + cri);
 		return communityDao.selectBoardList(cri);
 	}
 
@@ -128,11 +132,6 @@ public class CommunityServiceImp implements CommunityService{
 	@Override
 	public String getReNick(ReplyVO reply) {
 		return communityDao.selectReNick(reply);
-	}
-
-	@Override
-	public List<CommunityCategoryVO> getCoCategory() {
-		return communityDao.selectCoCategory();
 	}
 
 	@Override
@@ -206,6 +205,23 @@ public class CommunityServiceImp implements CommunityService{
 		communityDao.increaseLikeCount(coNum);
 		
 	}
+
+	@Override
+	public void insertLike(int coNum, MemberVO user) {
+		communityDao.insertLike(coNum, user);
+	}
+
+	@Override
+	public LikesVO selectLkNum(MemberVO user) {
+		LikesVO lk_num = communityDao.selectLkNum(user);
+		return lk_num;
+	}
+
+	@Override
+	public String getCcName(CommunityVO list) {
+		return communityDao.getCcName(list);
+	}
+
 
 
 }

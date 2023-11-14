@@ -22,22 +22,38 @@
 	</insert>
 	<select id="selectBoardList" resultType="CommunityVO">
 		select * from community
-		<if test='cri.t == "all"'>
-		where 
-			co_title like concat('%', #{cri.s}, '%')
-			or co_info like concat('%', #{cri.s}, '%')
-			or co_me_num like concat('%', #{cri.s}, '%')
-		</if>
-		<if test='cri.t == "total"'>
-		where 
-			co_title like concat('%', #{cri.s}, '%')
-			or co_info like concat('%', #{cri.s}, '%')
-		</if>
-		<if test='cri.t == "writer"'>
 		INNER JOIN member ON community.co_me_num = member.me_num
-        where  
-            member.me_nick like concat('%', #{cri.s}, '%')
-		</if>	
+		join community_category on cc_num = co_cc_num
+		<if test='cri.c == null'>  	
+			<if test='cri.t == "all"'>
+			and 
+				(co_title like concat('%', #{cri.s}, '%')
+				or co_info like concat('%', #{cri.s}, '%')
+				or co_me_num like concat('%', #{cri.s}, '%'))
+			</if>
+			<if test='cri.t == "total"'>
+			and 
+				(co_title like concat('%', #{cri.s}, '%')
+				or co_info like concat('%', #{cri.s}, '%'))
+			</if>
+			<if test='cri.t == "writer"'>
+			
+	        and  
+	            member.me_nick like concat('%', #{cri.s}, '%')
+			</if>	
+		</if>
+		<if test='cri.c == "small"'>
+		and 
+			community_category.cc_name like concat('%', #{cri.s}, '%')
+		</if>
+		<if test='cri.c == "restaurant"'>
+		and 
+			community_category.cc_name like concat('%', #{cri.s}, '%')
+		</if>
+		<if test='cri.c == "share"'>
+		and 
+			community_category.cc_name like concat('%', #{cri.s}, '%')
+		</if>
 		order by co_num asc
 		limit #{cri.pageStart}, #{cri.perPageNum}
 	</select>
@@ -78,9 +94,6 @@
 	<select id="selectReNick" resultType="String">
    		 SELECT me_nick FROM member WHERE me_num = #{reply.re_me_num}
 	</select>
-	<select id="selectCoCategory" resultType="kr.ph.peach.vo.CommunityCategoryVO">
-		select * FROM community_category
-	</select>
 	<select id="getCoImg" resultType="kr.ph.peach.vo.CommunityImageVO">
 		select * FROM community_Image where ci_co_num = ${co_num}
 	</select>
@@ -108,6 +121,16 @@
 	    SET co_like = co_like + 1
     	WHERE co_num = #{coNum}
 	</update>
+	<insert id="insertLike">
+		insert into likes(lk_co_num, lk_me_num)
+		values(${co_num},${user.me_num})
+	</insert>
+	<select id="selectLkNum" resultType="kr.ph.peach.vo.LikesVO">
+		select lk_num FROM likes where lk_me_num = #{user.me_num}
+	</select>
+	<select id="getCcName" resultType="String">
+		select cc_name From community_category where cc_num = #{list.co_cc_num}
+	</select>
 </mapper>
 
 

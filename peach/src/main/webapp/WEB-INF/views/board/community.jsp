@@ -40,6 +40,14 @@
 	.CTR{
 		text-align: center;
 	}
+	.CTR2{
+		text-align: center;
+	}
+
+	.community_item{
+		 display: flex;
+  		 justify-content: center;
+	}
 </style>
 <title>피치 게시판</title>
 </head>
@@ -50,57 +58,62 @@
 	<div class="community-category">
 		<div class="form-group">
 			<label>카테고리 선택</label>
-			<select name="co_category" class="form-control">
-				<option value="0">선택</option>
-				<c:forEach items="${co_category}" var="name">
-					<option value="${name.cc_name}">${name.cc_name}</option>
-				</c:forEach>
-			</select>
+			<form action="<c:url value='/board/community'/>" method="get">
+				<select class="cc-control mb-1" name="c">
+					<option value="0">선택</option>
+					<option value="small" <c:if test="${cpm.cri.c == 'small'}">selected</c:if>>소모임</option>
+					<option value="restaurant" <c:if test="${cpm.cri.c == 'restaurant'}">selected</c:if>>맛집탐방</option>
+					<option value="share" <c:if test="${cpm.cri.c == 'share'}">selected</c:if>>무료나눔</option>
+				</select>
+				<button class="btn btn-outline-dark">검색</button>
+			</form>
 		</div>
 	</div>
 	<br>
+		<form action="<c:url value='/board/community'/>" method="get">
+			<div class="com-group mb-3 d-flex justify-content-center">
+				<select class="cc-control mb-1" name="t">
+					<option value="all" <c:if test="${cpm.cri.t == 'all'}">selected</c:if>>전체</option>
+					<option value="total" <c:if test="${cpm.cri.t == 'total'}">selected</c:if>>제목 + 내용</option>
+					<option value="writer" <c:if test="${cpm.cri.t == 'writer'}">selected</c:if>>작성자</option>
+				</select>
+				<input type="text" class="form-control" name="s" value="${cpm.cri.s}">
+				<button class="btn btn-outline-dark">검색</button>
+			</div>
+		</form>
 	
-	<form action="<c:url value='/board/community'/>" method="get">
-		<div class="com-group mb-3 d-flex justify-content-center">
-			<select class="cc-control mb-1" name="t">
-				<option value="all" <c:if test="${cpm.cri.t == 'all'}">selected</c:if>>전체</option>
-				<option value="total" <c:if test="${cpm.cri.t == 'total'}">selected</c:if>>제목 + 내용</option>
-				<option value="writer" <c:if test="${cpm.cri.t == 'writer'}">selected</c:if>>작성자</option>
-			</select>
-			<input type="text" class="form-control" name="s" value="${cpm.cri.s}">
-			<button class="btn btn-outline-dark">검색</button>
-		</div>
-	</form>
-	
-	<div class="community-list">
-	<table class="table table-Secondary table-hover">
-		<thead>
-			<tr class="CTR">
-				<th>${communityALLList}</th>
-				<th>제목</th>
-				<th>작성자</th>
-				<th>날짜</th>
-				<th>추천</th>
-				<th>조회수</th>
-				<th>댓글수</th>
-			</tr>
-		</thead>
-		<tbody>
-			 <c:forEach items="${list}" var="list">						
-				<tr class="CTR">
-					<td>${list.co_num}</td>
-					<!--communityList 추가 필요-->
-					<td><a href="<c:url value='/board/communityDetail/${list.co_num}'/>">${list.co_title }</a></td>
-					<td>${list.me_nick}</td>
-					<td>${list.co_date}</td>
-					<td>${list.co_like}</td>
-					<td>${list.co_views}</td>
-					<td>${list.co_reply}</td>
-				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
-	</div>
+		<div class="community_item">
+			<div class="community-list">
+				<table class="table table-Secondary table-hover">
+					<thead>
+						<tr class="CTR2">
+							<th>${communityALLList}</th>
+							<th>제목</th>
+							<th>작성자</th>
+							<th>날짜</th>
+							<th>추천</th>
+							<th>조회수</th>
+							<th>댓글수</th>
+							<th>카테고리</th>
+						</tr>
+					</thead>
+					<tbody>
+						 <c:forEach items="${list}" var="list">						
+							<tr class="CTR">
+								<td>${list.co_num}</td>
+								<td><a href="<c:url value='/board/communityDetail/${list.co_num}'/>">${list.co_title }</a></td>
+								<td><a href="<c:url value='/board/profile/+${list.co_me_num}'/>">${list.me_nick}</a></td>
+								<td>${list.co_date}</td>
+								<td>${list.co_like}</td>
+								<td>${list.co_views}</td>
+								<td>${list.co_reply}</td>
+								<th>${list.cc_name}</th>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</div>			
 	<ul class="pagination justify-content-center">
 		<c:if test="${cpm.prev}">
 			<li class="page-item">
@@ -127,5 +140,6 @@
 	$('[name=co_category]').change(function(){
 		 
 	});
+	
 </script>
 </html>

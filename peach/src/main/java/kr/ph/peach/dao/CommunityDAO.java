@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.pagination.CriteriaCom;
 import kr.ph.peach.pagination.CriteriaProfile;
 import kr.ph.peach.vo.CommunityCategoryVO;
 import kr.ph.peach.vo.CommunityImageVO;
 import kr.ph.peach.vo.CommunityVO;
+import kr.ph.peach.vo.LikesVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.ReplyVO;
 
@@ -42,8 +44,6 @@ public interface CommunityDAO {
 
 	String selectReNick(ReplyVO reply);
 
-	List<CommunityCategoryVO> selectCoCategory();
-
 	CommunityImageVO getCoImg(@Param("co_num")int co_num);
 
 	CommunityCategoryVO selectEditCC(@Param("detail")CommunityVO detail);
@@ -56,5 +56,10 @@ public interface CommunityDAO {
 
 	void increaseLikeCount(int coNum);
 
-	
+	void insertLike(@Param("co_num")int coNum,@Param("user") MemberVO user);
+
+	LikesVO selectLkNum(@Param("user")MemberVO user);
+
+	String getCcName(@Param("list")CommunityVO list);
+
 }

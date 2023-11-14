@@ -27,6 +27,7 @@ import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.CommunityCategoryVO;
 import kr.ph.peach.vo.CommunityImageVO;
 import kr.ph.peach.vo.CommunityVO;
+import kr.ph.peach.vo.LikesVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.ReplyVO;
 
@@ -40,13 +41,14 @@ public class CommunityController {
 	public String Community(Model model, HttpSession session, CriteriaCom cri) {
 		MemberVO user = (MemberVO) session.getAttribute("user");
 	    model.addAttribute("user", user);
-	    
+	    System.out.println("cri"+cri);
 	    List<CommunityVO> list = communityService.getBoardList(cri);
 	    for(CommunityVO tmp : list) {
 	    	list.get(list.indexOf(tmp)).setMe_nick(communityService.getMeNick(tmp));
+	    	//list.get(list.indexOf(tmp)).setCc_name(communityService.getCcName(tmp));//수정 후 삭제
 	    }
+	    System.out.println("list"+ list);
 	    model.addAttribute("list", list);
-	    
 	    int totalCount = communityService.getTotalCount(cri);
 		//페이지네이션 페이지수
 		final int DISPLAY_PAGE_NUM = 3;
@@ -55,9 +57,7 @@ public class CommunityController {
 		model.addAttribute("title", "게시글 조회");
 		model.addAttribute("cpm", cpm);
 		
-		List<CommunityCategoryVO> co_category = communityService.getCoCategory();
-		model.addAttribute("co_category", co_category);
-		
+
 		return "/board/community";
 	}
 
@@ -141,7 +141,7 @@ public class CommunityController {
 	    	return "/board/communityDetail";
 	}
 	@PostMapping("/board/communityDetail")
-	public String insertPost(Model model, HttpSession session, @RequestParam("re_info")String re_info,  @RequestParam("co_num") int co_num, @RequestParam("coNum") int coNum) {
+	public String insertPost(Model model, HttpSession session, @RequestParam("re_info")String re_info,  @RequestParam("co_num") int co_num) {
 		MemberVO user = (MemberVO) session.getAttribute("user");
 		Message msg;
 		
@@ -212,15 +212,25 @@ public class CommunityController {
 	}
 	@PostMapping("/board/communityDetail/{coNum}")
 	@ResponseBody
-	public void likeCommunity(@PathVariable("coNum") int coNum, HttpSession session) {
+	public boolean likeCommunity(@PathVariable("coNum") int coNum, HttpSession session) {
 			MemberVO user = (MemberVO)session.getAttribute("user");
 			System.out.println(user);
 			if (user == null) {
-		        return;
+		        return false;
 		    }
-			
+			LikesVO lk_num = communityService.selectLkNum(user);
+			System.out.println("lk_num"+lk_num);
+			//이미 좋아요를 눌렀는지 확인
+			if(lk_num == null) {
+				//좋아요 등록
+				communityService.insertLike(coNum, user);
+			}else {
+				return false;
+			}
+
 			System.out.println("coNum"+coNum);
 			communityService.increaseLikeCount(coNum);
+			return true;
 	}
 }
 

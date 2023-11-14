@@ -8,6 +8,7 @@ public class CriteriaCom {
 	private int perPageNum; //한 페이지에서 컨텐츠 개수
 	private String s;
 	private String t;
+	private String c;
 	
 	public CriteriaCom() {
 		page = 1;
@@ -33,4 +34,8 @@ public class CriteriaCom {
 	public String getUrl() {
 		return "?t=" + t + "&s=" + s + "&page=" + page;
 	}
+	public String getUrlCom() {
+		return "?c=" + c + "&page=" + page;
+	}
+
 }

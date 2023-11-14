@@ -269,8 +269,9 @@
    		   </c:if>
 	   	 		<div class="co_de_content CDdiv">${detail.co_info}</div>
 		</div>
-		
-		<button class="co_like" onclick="likeCommunity()">추천</button>
+		<c:if test="${user.me_num != null}">
+			<button class="co_like" onclick="likeCommunity()">추천</button>
+		</c:if>
 		<br>
 		<c:if test="${not empty reList}">
 		    <div class="co_de_comments">
@@ -296,7 +297,7 @@
 		<br>
 		<form action="<c:url value='/board/communityDetail'/>" method="post" enctype="multipart/form-data">
 		    <div class="form-group">
-			<textarea id="summernote" name="re_info" class="form-control" rows="4"></textarea>
+				<textarea id="summernote" name="re_info" class="form-control" rows="4"></textarea>
 			</div>
 			<input type="hidden" name="co_num" value="${detail.co_num}">
 			<button class="CDbtn">등록</button>
@@ -358,7 +359,11 @@
                 url: "/peach/board/communityDetail/"+coNum,
                 data: {},
                 success: function(response) {
-                	alert("추천 성공");
+                    if (response === true) {
+                        alert("추천 성공");
+                    } else {
+                        alert("추천은 한 번만 가능합니다.");
+                    }
                 },
                 error: function(error) {
                     alert("추천 실패");
@@ -448,8 +453,6 @@
 			  	re_num = $(this).data('num');
 			});	
 		});
-		
-		
 		
 		closeReportModalBtn2.addEventListener("click", function () {
 		  reportPostModal2.style.display = "none";

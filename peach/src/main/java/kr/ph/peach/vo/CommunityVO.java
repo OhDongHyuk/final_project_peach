@@ -9,7 +9,7 @@ public class CommunityVO {
 
 	
 	private int co_num, co_like, co_reply, co_me_num, co_cc_num, co_views;
-	private String co_title, co_info, co_date, me_nick;
+	private String co_title, co_info, co_date, me_nick , cc_name;
 	
 	public CommunityVO(int co_num, int co_like, int co_reply, int co_me_num, int co_cc_num, String co_title,
 			String co_info, String co_date, int co_views) {

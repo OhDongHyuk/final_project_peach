@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.pagination.CriteriaCom;
 import kr.ph.peach.pagination.CriteriaProfile;
+import kr.ph.peach.pagination.PageMakerCom;
 import kr.ph.peach.vo.CommunityCategoryVO;
 import kr.ph.peach.vo.CommunityImageVO;
 import kr.ph.peach.vo.CommunityVO;
+import kr.ph.peach.vo.LikesVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.ReplyVO;
 
@@ -36,8 +39,6 @@ public interface CommunityService {
 	//임시
 	String getReNick(ReplyVO reply);
 
-	List<CommunityCategoryVO> getCoCategory();
-
 	CommunityImageVO getCoImg(int co_num);
 
 	CommunityCategoryVO selectEditCC(CommunityVO detail);
@@ -49,6 +50,13 @@ public interface CommunityService {
 	void updateReply(int co_num);
 
 	void increaseLikeCount(int coNum);
+
+	void insertLike(int coNum, MemberVO user);
+
+	LikesVO selectLkNum(MemberVO user);
+
+	String getCcName(CommunityVO tmp);
+
 
 
 }
