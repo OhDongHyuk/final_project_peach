@@ -62,7 +62,10 @@ public class SaleBoardController {
 		for(SaleBoardVO tmp : prList) {
 			prList.get(prList.indexOf(tmp)).setSb_me_nickname(saleBoardService.selectMemberNickname(tmp.getSb_me_num()));
 		}
-		String categoryName = categoryList.get(categoryId - 1).getSc_name();
+		String categoryName = "전체보기";
+		if(categoryId > 0) {
+			categoryName = categoryList.get(categoryId - 1).getSc_name();			
+		}
 		cri.setSc_num(categoryId);
 		//전체 게시글 수 
 		int totalCount = saleBoardService.getTotalCount(cri);

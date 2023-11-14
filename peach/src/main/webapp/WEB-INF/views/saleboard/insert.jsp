@@ -259,11 +259,11 @@
 		<input type="file" class="real-upload" accept="image/*" onchange="addFile(this);" id="no0" name="files" multiple>
 		<div class="form-group">
 			<label class="content-title">제목</label>
-			<input type="text" class="form-control" name="sb_name" placeholder="상품명을 입력해주세요.">
+			<input type="text" class="form-control" name="sb_name" placeholder="상품명을 입력해주세요." required>
 		</div>
 		<div class="form-group">
 			<label class="content-category">카테고리</label>
-			<select name="sb_sc_num" class="custom-select">
+			<select name="sb_sc_num" class="custom-select" required>
 				<option selected>카테고리 선택</option>
 			    <c:forEach items="${dbCategory}" var="dbCategory">
 			    	<option value="${dbCategory.sc_num}">${dbCategory.sc_name}</option>
@@ -273,7 +273,7 @@
 		<div class="form-group">
 			<label class="content-price">가격</label>
 			<div class="price-holder">
-				<input type="text" id="price-input" class="form-control price-input" name="sb_price" maxlength="11" placeholder="가격을 입력해주세요.">
+				<input type="text" id="price-input" class="form-control price-input" name="sb_price" maxlength="11" placeholder="가격을 입력해주세요." required>
 			</div>
 		</div>
 		<div class="form-group">
