@@ -50,4 +50,5 @@ public interface CommunityService {
 
 	void increaseLikeCount(int coNum);
 
+
 }

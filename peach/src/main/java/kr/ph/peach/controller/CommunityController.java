@@ -133,6 +133,7 @@ public class CommunityController {
 
 	        CommunityImageVO coImage = communityService.getCoImg(co_num);
 	        model.addAttribute("coImage", coImage);
+  
 	        
 	     // 댓글 수 업데이트 
 	        communityService.updateReply(co_num);
@@ -209,10 +210,17 @@ public class CommunityController {
 			return "/main/message";
 		}
 	}
-	@PostMapping("/board/communityDetail/like")
+	@PostMapping("/board/communityDetail/{coNum}")
 	@ResponseBody
-	public void likeCommunity(@RequestParam("coNum") int coNum) {
-	        communityService.increaseLikeCount(coNum);
+	public void likeCommunity(@PathVariable("coNum") int coNum, HttpSession session) {
+			MemberVO user = (MemberVO)session.getAttribute("user");
+			System.out.println(user);
+			if (user == null) {
+		        return;
+		    }
+			
+			System.out.println("coNum"+coNum);
+			communityService.increaseLikeCount(coNum);
 	}
 }
 

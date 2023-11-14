@@ -64,6 +64,181 @@
         	margin-left: auto;
         	margin-top:10px;
         }
+        	.custom-modal {
+		  display: none;
+		  position: fixed;
+		  z-index: 1;
+		  left: 0;
+		  top: 0;
+		  width: 100%;
+		  height: 100%;
+		  overflow: auto;
+		  background-color: rgba(0, 0, 0, 0.4);
+		}
+		
+		.custom-modal .modal-content {
+		  background-color: rgb(247, 247, 247);
+		  margin: 15% auto;
+		  border: 1px solid #888;
+		  width: 420px;
+		  padding: 20px;
+		  text-align: center;
+		  border-radius: 8px;
+		  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+		}
+		
+		.custom-modal .modal-header h2 {
+		  font-size: 24px;
+		  font-weight: bold;
+		}
+		
+		.custom-modal .modal-body {
+		  margin-top: 20px;
+		}
+		
+		.custom-modal .report-reason {
+		  width: 100%;
+		  padding: 10px;
+		  border: 1px solid #ccc;
+		  border-radius: 4px;
+		  resize: none;
+		  height: 200px;
+		}
+		
+		.custom-modal .report-button,
+		.custom-modal .cancel-button {
+		  padding: 10px 20px;
+		  font-size: 16px;
+		  cursor: pointer;
+		  border: none;
+		  border-radius: 5px;
+		  margin-right: 10px;
+		}
+		
+		.custom-modal .report-button {
+		  background-color: #ff5733;
+		  color: white;
+		}
+		
+		.custom-modal .report-button:hover {
+		  background-color: #ff4500;
+		}
+		
+		.custom-modal .cancel-button {
+		  background-color: #ccc;
+		  color: #333;
+		}
+		
+		.custom-modal .cancel-button:hover {
+		  background-color: #999;
+		}
+		
+		.custom-modal .close {
+		  position: absolute;
+		  top: 10px;
+		  right: 10px;
+		  cursor: pointer;
+		  font-size: 24px;
+		}
+		
+		.custom-modal .close:hover,
+		.custom-modal .close:focus {
+		  color: black;
+		  text-decoration: none;
+		  cursor: pointer;
+		}
+		.report-text-area {
+			text-align: left;
+			margin-top: 20px;
+		}
+		.maxtext {
+			color: grey;
+			font-size: 13px;
+		}
+		
+			.custom-modal2 {
+		  display: none;
+		  position: fixed;
+		  z-index: 1;
+		  left: 0;
+		  top: 0;
+		  width: 100%;
+		  height: 100%;
+		  overflow: auto;
+		  background-color: rgba(0, 0, 0, 0.4);
+		}
+		
+		.custom-modal2 .modal-content {
+		  background-color: rgb(247, 247, 247);
+		  margin: 15% auto;
+		  border: 1px solid #888;
+		  width: 420px;
+		  padding: 20px;
+		  text-align: center;
+		  border-radius: 8px;
+		  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+		}
+		
+		.custom-modal2 .modal-header h2 {
+		  font-size: 24px;
+		  font-weight: bold;
+		}
+		
+		.custom-modal2 .modal-body {
+		  margin-top: 20px;
+		}
+		
+		.custom-modal2 .report-reason {
+		  width: 100%;
+		  padding: 10px;
+		  border: 1px solid #ccc;
+		  border-radius: 4px;
+		  resize: none;
+		  height: 200px;
+		}
+		
+		.custom-modal2 .report-button,
+		.custom-modal2 .cancel-button {
+		  padding: 10px 20px;
+		  font-size: 16px;
+		  cursor: pointer;
+		  border: none;
+		  border-radius: 5px;
+		  margin-right: 10px;
+		}
+		
+		.custom-modal2 .report-button {
+		  background-color: #ff5733;
+		  color: white;
+		}
+		
+		.custom-modal2 .report-button:hover {
+		  background-color: #ff4500;
+		}
+		
+		.custom-modal2 .cancel-button {
+		  background-color: #ccc;
+		  color: #333;
+		}
+		
+		.custom-modal2 .cancel-button:hover {
+		  background-color: #999;
+		}
+		
+		.custom-modal2 .close {
+		  position: absolute;
+		  top: 10px;
+		  right: 10px;
+		  cursor: pointer;
+		  font-size: 24px;
+		}
+		
+		.custom-modal2 .close:hover,
+		.custom-modal2 .close:focus {
+		  color: black;
+		  text-decoration: none;
+		  cursor: pointer;
+		}
     </style>
     <title>커뮤니티 세부 정보</title>
 </head>
@@ -77,7 +252,13 @@
         		<button class="edit" type="submit">수정</button>
    			 </form>
 	    </c:if>
-	    <button class="report-button1">신고</button>
+	    <c:if test="${user.me_num != writer.me_num}">
+			<div class="profile-right">
+				<div class="profile-right-box">
+					<button type="button" class="report-post" id="openReportModalBtn">게시물 신고하기</button>
+				</div>
+			</div>
+		</c:if>
 	    <div class="co_de_write">
 	 	  	<!-- 글 내용 -->
 	 	   <c:if test="${coImage != null}">
@@ -99,7 +280,15 @@
 		            		${reList.replyWriter}
 		            	</div>
 		                	${reList.re_info}
-					<button class="report-button2">신고</button>
+						<div class="report-button2">
+							<c:if test="${reList.replyWriter != user.me_nick}">
+								<div class="profile-right">
+									<div class="profile-right-box">
+										<button type="button" class="report-post" id="openReportModalBtn2" data-num="${reList.re_num }">신고</button>
+									</div>
+								</div>
+							</c:if>
+						</div>
 		            </div>
 		        </c:forEach>
 		    </div>
@@ -134,7 +323,27 @@
 	    </div>
 	  </div>
 	</div>
-    <!-- summernote 초기화 스크립트 -->
+	<div id="reportPostModal2" class="custom-modal2">
+	  <div class="modal-content">
+	    <span class="close">&times;</span>
+	    <div class="modal-header">
+	      <h2>신고하기</h2>
+	    </div>
+	    <div class="modal-body">
+	      <p>신고 내용을 작성해주세요.</p>
+	      <p>최대한 자세하게 기재해주셔야 원활한 신고 처리가 가능합니다.</p>
+	      <div class="report-text-area">
+		      <p class="maxtext">* 최대 500자 제한</p>
+		      <textarea id="reportReason2" class="report-reason" placeholder="신고 이유를 입력하세요" maxlength="500"></textarea>						      
+	      </div>
+	    </div>
+	    <div class="modal-footer">
+	      <button class="report-button" onclick="reportPost2()">신고</button>
+	      <button class="cancel-button" onclick="closeReportModal2()">취소</button>
+	    </div>
+	  </div>
+	</div>
+
     <script>
         $(document).ready(function() {
             $('#summernote').summernote();
@@ -142,18 +351,14 @@
         
         function likeCommunity() {
             // 게시물 번호
-            var coNum = "${detail.co_num}"; 
+            var coNum = "${co_num}"; 
             // Ajax 요청
             $.ajax({
                 type: "POST",
-                url: "/board/communityDetail/like",
-                data: { coNum: coNum },
+                url: "/peach/board/communityDetail/"+coNum,
+                data: {},
                 success: function(response) {
-                    if (response === "success") {
-                        alert("추천 성공");
-                    } else {
-                        alert("추천 실패");
-                    }
+                	alert("추천 성공");
                 },
                 error: function(error) {
                     alert("추천 실패");
@@ -187,7 +392,7 @@
 		
 		function reportPost() {
 			
-			if('${user.me_num}' == '${board.sb_me_num}'){
+			if('${user.me_num}' == '${writer_me_num}'){
 				alert("본인의 게시물은 신고가 불가합니다.");
 				return;
 			}
@@ -200,9 +405,9 @@
 			}
 		  	
 			let data = {
-				key : '${board.sb_num}',
+				key : '${co_num}',
 				info : reportReason,
-				table : 'sale_board'
+				table : 'community'
 			};
 			ajaxJsonToJson(
 					  false,
@@ -224,6 +429,73 @@
 		function closeReportModal() {
 			  reportPostModal.style.display = "none";
 			}
+	
+		let re_num = 0;
+		const reportPostModal2 = document.getElementById("reportPostModal2");
+		const openReportModalBtn2 = document.querySelectorAll("#openReportModalBtn2");
+		const closeReportModalBtn2 = document.querySelector(".custom-modal2 .close");
+		
+		[].forEach.call(openReportModalBtn2, function(button){
+			button.addEventListener("click", function () {
+				console.log(button);
+				if('${user.me_id}' == '') {
+					if(confirm('로그인하시겠습니까?')){
+						location.href = '<c:url value="/member/login"/>'
+					}
+					return;
+				}
+			  	reportPostModal2.style.display = "block";
+			  	re_num = $(this).data('num');
+			});	
+		});
+		
+		
+		
+		closeReportModalBtn2.addEventListener("click", function () {
+		  reportPostModal2.style.display = "none";
+		});		
+
+		window.addEventListener("click", function (event) {
+		  if (event.target === reportPostModal) {
+		    reportPostModal2.style.display = "none";
+		  }
+		});
+		
+		function reportPost2() {
+			
+			const reportReason2 = document.getElementById("reportReason2").value;
+
+		  	if (reportReason2.trim() === "") {
+		   		alert("신고 이유를 입력하세요.");
+		   		return;
+			}
+		  	
+			let data = {
+				key : re_num,
+				info : reportReason2,
+				table : 'reply'
+			};
+			ajaxJsonToJson(
+					  false,
+					  'post',
+					  'report',
+					  data,
+					  (data) => {
+					    alert("게시물을 신고했습니다.\n신고 사유: " + reportReason2);
+					    console.log(data.msg);
+					    document.getElementById("reportReason2").value = '';
+					    closeReportModal(); 
+					  },
+					    () => {
+					    	
+					    	console.log("실패");
+					    }
+					);
+			}
+		function closeReportModal2() {
+			  reportPostModal2.style.display = "none";
+			}
+		
     </script>
 </body>
 </html>

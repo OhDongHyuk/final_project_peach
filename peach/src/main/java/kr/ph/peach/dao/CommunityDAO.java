@@ -54,6 +54,7 @@ public interface CommunityDAO {
 
 	void updateReply(int co_num);
 
-	void increaseLikeCount(@Param("coNum")int coNum);
+	void increaseLikeCount(int coNum);
 
+	
 }
