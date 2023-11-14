@@ -50,6 +50,7 @@
 		.messages.error {
 			color: #f76076;
 		}
+		
 	</style>
 	<title>Home</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,7 +64,7 @@
 </head>
 <body>
 	
-	<div class="container2" style="border: 1px solid #f76076;">
+	<div class="container2" style="border: 3px solid #f76076;">
 		<form action="<c:url value='/member/signup'/>" method="post" id="form">
 			<div class="form-group">
 				<label>아이디</label>

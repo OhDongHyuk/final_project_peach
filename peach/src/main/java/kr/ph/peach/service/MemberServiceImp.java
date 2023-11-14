@@ -212,62 +212,63 @@ public class MemberServiceImp implements MemberService {
 	public MemberVO memberIdFind(MemberVO member) {
 		return memberDao.memberIdFind(member);
 	}
-
+	
 	@Override
 	public boolean sendPw(String me_id, String me_name) {
-		MemberVO member = memberDao.selectMember(me_id);
-		
-		//아이디(email)를 잘못 입력 
+	    MemberVO member = memberDao.selectMember(me_id);
 
-		if(member == null) {
-			return false;
-		}
-		
-		//이름 잘못 입력
-		if(!member.getMe_name().equals(me_name)) {
-			return false;
-		}
-		//같으면 
+	    // 아이디(email)를 잘못 입력
+	    if (member == null) {
+	        return false;
+	    }
 
-							
-		
-		Random r = new Random();
-		int num = r.nextInt(999999); // 랜덤난수설정
-		
-		
-		//인증 코드를 이메일로 전송
-		String setfrom = "rlatldbs4042@gmail.com";  
-		String tomail = me_id; //받는사람
+	    // 이름 잘못 입력
+	    if (!member.getMe_name().equals(me_name)) {
+	        return false;
+	    }
 
-		String title = "[피치마켓] 비밀번호변경 인증 이메일 입니다"; 
-		String content = System.getProperty("line.separator") + "안녕하세요 회원님" + System.getProperty("line.separator")
+	    Random r = new Random();
+	    int num = r.nextInt(999999); // 랜덤난수설정
 
-			 	+ "비밀번호를 재설정하기 위해 다음 <a href='http://localhost:8080/peach/member/pw_auth/check?num="+member.getMe_num()+"&code="+num+"'>링크</a>를 클릭하세요." + System.getProperty("line.separator") ;// 
+	    // 이메일 내용을 HTML 형식으로 구성
+	    String setfrom = "rlatldbs4042@gmail.com";
+	    String tomail = me_id;
 
-				
-	
-		try {
-			MimeMessage message = mailSender.createMimeMessage();
-			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "utf-8");
-	
-			messageHelper.setFrom(setfrom); 
-			messageHelper.setTo(tomail); 
-			messageHelper.setSubject(title);
-			messageHelper.setText(content,true); 
-	
-			mailSender.send(message);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return false;
-		}
-		
-		memberDao.insertAuthCode(member.getMe_num(), num);	
-		
-		return true;
-		
+	    String title = "[피치마켓] 비밀번호 변경 인증 이메일";
+	    String content = "<html>"
+	    		 + "<body>"
+	             + "<table width='100%' bgcolor='#76076' style='margin: 0; padding: 0; font-family: Arial, sans-serif;'>"
+	             + "  <tr>"
+	             + "    <td align='center'>"
+	             + "      <img src='http://localhost:8080/peach/resources/image/피치.png' style='display: block; margin: 0 auto;'>"
+	             + "      <h1 style='text-align: center; color: #ffffff;'>비밀번호 변경</h1>"
+	             + "      <p style='text-align: center; color: #ffffff;'>안녕하세요 " + me_name + " 님,</p>"
+	             + "      <p style='text-align: center; color: #ffffff;'>비밀번호를 재설정하기 위해 아래 링크를 클릭하세요.</p>"
+	             + "      <p style='text-align: center; color: #ffffff;'><a href='http://localhost:8080/peach/member/pw_auth/check?num=" + member.getMe_num() + "&code=" + num + "' style='color: #cee13a; text-decoration: underline;'>비밀번호 변경하기</a></p>"
+	             + "    </td>"
+	             + "  </tr>"
+	             + "</table>"
+	             + "</body>"
+	             + "</html>";
 
-	
-		
+	    try {
+	        MimeMessage message = mailSender.createMimeMessage();
+	        MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "utf-8");
+
+	        messageHelper.setFrom(setfrom);
+	        messageHelper.setTo(tomail);
+	        messageHelper.setSubject(title);
+	        messageHelper.setText(content, true);
+
+	        mailSender.send(message);
+	    } catch (Exception e) {
+	        System.out.println(e.getMessage());
+	        return false;
+	    }
+
+	    memberDao.insertAuthCode(member.getMe_num(), num);
+
+	    return true;
 	}
 
 	private boolean checkIdRegex(String id) {
@@ -334,6 +335,8 @@ public class MemberServiceImp implements MemberService {
 	public List<MemberVO> getMemberLists() {
 		return memberDao.getMemberLists();
 	}
+
+	
 
 	
 }
