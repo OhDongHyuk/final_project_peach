@@ -153,4 +153,7 @@
 	<delete id="sb_num">
 		delete from sale_board where sb_num = #{sb_num}
 	</delete>
+	<delete id="adminDeleteBoard">
+			delete from sale_board where sb_num = #{sb_num}
+	</delete>
 </mapper>

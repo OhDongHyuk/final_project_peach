@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import kr.ph.peach.pagination.SaleBoardCriteria;
+import kr.ph.peach.vo.ReportVO;
 import kr.ph.peach.vo.SaleBoardVO;
 
 import kr.ph.peach.vo.SaleCategoryVO;

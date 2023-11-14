@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.ph.peach.pagination.SaleBoardCriteria;
 
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.ReportVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.SaleImageVO;

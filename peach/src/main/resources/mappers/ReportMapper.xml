@@ -29,4 +29,7 @@
 		select * from member where me_num = #{rp_me_num}
 		
 	</select>
+	<delete id="deleteReportNum">
+		delete from report where rp_num = #{rp_num}
+	</delete>
 </mapper>

@@ -66,6 +66,16 @@
 	display: flex;
 	margin-top: -5px;
 }
+
+.flex-box {
+	display: flex;
+	border: none;
+}
+
+.btn-white-delete {
+	background-color: #fff;
+	border: none;
+}
 </style>
 </head>
 <body>
@@ -81,8 +91,8 @@
 							<th>신고자 닉네임</th>
 							<th>신고된 테이블</th>
 							<th>신고 게시글번호</th>
-							<th>신고내용보기</th>
-
+							<th>신고 사유 보기</th>
+							<th>신고 삭제</th>
 						</tr>
 					</thead>
 					<c:forEach items="${report}" var="report">
@@ -91,17 +101,20 @@
 								<td>${report.rp_num}</td>
 								<td>${report.rp_date}</td>
 								<td>${report.memberVO.me_nick}</td>
-								<td>${report.rp_table}</td>
-								<td><a href="<c:url value='/saleboard/detail?sb_num=${report.rp_key}' />">${report.rp_key}</a></td>
-								<td><div class="btnWrap">
+								<td>${report.rp_table == 'sale_board'}</td>
+								<td><a
+									href="<c:url value='/saleboard/detail?sb_num=${report.rp_key}' />">${report.rp_key}</a></td>
+								<td>
+									<div class="btnWrap">
 										<button type="button" class="popupBtn">신고내용보기</button>
 									</div>
 									<div class="modalWrap">
 										<div class="modalBody">
-											<span class="closeBtn"></span>
-												${report.rp_info }
+											<span class="closeBtn"></span> ${report.rp_info }
 										</div>
-									</div></td>
+									</div>
+								</td>
+								<td><button onclick="deleteReport(${report.rp_num})" class="btn-white-delete">신고 삭제</button></td>
 							</tr>
 						</tbody>
 					</c:forEach>
@@ -109,35 +122,17 @@
 
 				<div class="admin-search">
 					<form action="" method="get" class="admin-search-bar">
-						<div class="form-group">
-							<select class="form-control" name="authority">
-								<option value="0"
-									<c:if test="${pm.cri.authority == '0' }">selected</c:if>
-									>전체</option>
-								<option value="admin"
-									<c:if test="${pm.cri.authority == 'admin' }">selected</c:if>
-									>관리자</option>
-								<option value="user"
-									<c:if test="${pm.cri.authority == 'user' }">selected</c:if>
-									>회원</option>
-							</select>
-						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
 								<select class="form-control" name="type">
 									<option value="0"
 										<c:if test="${pm.cri.type == '0' }">selected</c:if>>전체</option>
-									<option value="me_num"
-										<c:if test="${pm.cri.type == 'me_num' }">selected</c:if>>회원번호</option>
-									<option value="me_name"
-										<c:if test="${pm.cri.type == 'me_name' }">selected</c:if>>이름</option>
 									<option value="me_nick"
 										<c:if test="${pm.cri.type == 'me_nick' }">selected</c:if>>닉네임</option>
-									<option value="me_au"
-										<c:if test="${pm.cri.type == 'me_au' }">selected</c:if>>권한</option>
+									<option value="rp_info"
+										<c:if test="${pm.cri.type == 'rp_info' }">selected</c:if>>권한</option>
 									<option value="bo_contents"
 										<c:if test="${pm.cri.type == 'bo_contents' }">selected</c:if>>내용</option>
-
 								</select>
 							</div>
 							<input type="text" class="form-control" name="search"
@@ -185,8 +180,22 @@
 				$(this).hide()
 			}
 		})
+		
+		function deleteReport(rp_num){
+  		let rp = {
+  				rp_num : rp_num
+  		}
+  		ajaxJsonToJson(false, "post", "/admin/report/delete", rp, (data)=>{
+  			if(data.res){
+  				alert('삭제 성공')
+	  			location.reload();
+  			}else{
+  				alert('삭제 실패')
+  			}
+  		});
+  	}
+		
 
-	
 	</script>
 
 </body>

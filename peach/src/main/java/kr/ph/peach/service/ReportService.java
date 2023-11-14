@@ -12,6 +12,8 @@ public interface ReportService {
 
 	List<ReportVO> getreportList(MemberCriteria cri);
 
+	boolean deleteReport(ReportVO report);
+
 	
 	
 }

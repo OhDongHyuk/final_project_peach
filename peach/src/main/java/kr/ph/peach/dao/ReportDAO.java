@@ -13,5 +13,7 @@ public interface ReportDAO {
 
 	List<ReportVO> getreportList(@Param("cri")MemberCriteria cri);
 
+	boolean deleteReportNum(@Param("rp_num")int rp_num);
+
 
 }

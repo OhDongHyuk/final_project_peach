@@ -15,6 +15,7 @@ import kr.ph.peach.pagination.SaleBoardCriteria;
 import kr.ph.peach.util.UploadFileUtils;
 import kr.ph.peach.vo.ChatVO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.ReportVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.SaleImageVO;
@@ -22,19 +23,20 @@ import kr.ph.peach.vo.WishVO;
 
 @Service
 public class SaleBoardServiceImp implements SaleBoardService {
-	
+
 	String uploadPath = "C:\\Users\\user1\\Documents\\workspace-sts-3.9.1\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\peach\\resources\\image";
-	//String uploadPath = "/Users/hojunlee/Documents/workspace-sts-3.9.18.RELEASE/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/peach/resources/image";
-	
+	// String uploadPath =
+	// "/Users/hojunlee/Documents/workspace-sts-3.9.18.RELEASE/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/peach/resources/image";
+
 	@Autowired
 	SaleBoardDAO saleBoardDao;
-	
+
 	@Autowired
 	ChatDAO chatDao;
 
 	@Override
 	public List<SaleBoardVO> getSaleBoardList(SaleBoardCriteria cri) {
-		if(cri == null) {
+		if (cri == null) {
 			cri = new SaleBoardCriteria();
 		}
 		return saleBoardDao.selectSaleBoardList(cri);
@@ -42,7 +44,7 @@ public class SaleBoardServiceImp implements SaleBoardService {
 
 	@Override
 	public int getTotalCount(SaleBoardCriteria cri) {
-		if(cri == null) {
+		if (cri == null) {
 			cri = new SaleBoardCriteria();
 		}
 		return saleBoardDao.getTotalCount(cri);
@@ -50,34 +52,34 @@ public class SaleBoardServiceImp implements SaleBoardService {
 
 	@Override
 	public boolean insertBoard(SaleBoardVO saleBoard, MemberVO user, MultipartFile[] files) {
-		if(user == null) {
+		if (user == null) {
 			return false;
 		}
-		if(saleBoard == null || saleBoard.getSb_name() == null) {
+		if (saleBoard == null || saleBoard.getSb_name() == null) {
 			return false;
 		}
 		LocalDateTime now = LocalDateTime.now();
 		String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 		saleBoard.setSb_date(formatedNow);
 		saleBoard.setSb_me_num(user.getMe_num());
-		
-		if(!saleBoardDao.insertBoard(saleBoard)) {
+
+		if (!saleBoardDao.insertBoard(saleBoard)) {
 			return false;
 		}
-		if(files == null || files.length == 0) {
+		if (files == null || files.length == 0) {
 			return true;
 		}
 		uploadFileAndInsert(files, saleBoard.getSb_num());
-		
+
 		return true;
 	}
 
 	private void uploadFileAndInsert(MultipartFile[] files, int sb_num) {
-		if(files == null || files.length == 0) {
+		if (files == null || files.length == 0) {
 			return;
 		}
-		for(MultipartFile file : files) {
-			if(file == null || file.getOriginalFilename().length() == 0) {
+		for (MultipartFile file : files) {
+			if (file == null || file.getOriginalFilename().length() == 0) {
 				continue;
 			}
 			try {
@@ -89,30 +91,30 @@ public class SaleBoardServiceImp implements SaleBoardService {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
 
 	@Override
 	public List<SaleCategoryVO> selectAllCategory() {
-		
+
 		return saleBoardDao.selectAllCategory();
 	}
 
 	@Override
 	public List<SaleBoardVO> selectAllBoard() {
-		
+
 		return saleBoardDao.selectAllBoard();
 	}
-	
+
 	@Override
 	public List<SaleBoardVO> selectAllBoard2(SaleBoardCriteria cri) {
-		
+
 		return saleBoardDao.selectAllBoard2(cri);
 	}
 
 	@Override
 	public String selectMemberNickname(int sb_me_num) {
-		if(sb_me_num == 0) {
+		if (sb_me_num == 0) {
 			return null;
 		}
 		return saleBoardDao.selectMemberNickname(sb_me_num);
@@ -120,7 +122,7 @@ public class SaleBoardServiceImp implements SaleBoardService {
 
 	@Override
 	public SaleBoardVO selectBoard(Integer sb_num) {
-		if(sb_num == null) {
+		if (sb_num == null) {
 			return null;
 		}
 		return saleBoardDao.selectBoard(sb_num);
@@ -128,7 +130,7 @@ public class SaleBoardServiceImp implements SaleBoardService {
 
 	@Override
 	public String selectCategoryName(int sb_sc_num) {
-		if(sb_sc_num == 0) {
+		if (sb_sc_num == 0) {
 			return null;
 		}
 		return saleBoardDao.selectCategoryName(sb_sc_num);
@@ -136,7 +138,7 @@ public class SaleBoardServiceImp implements SaleBoardService {
 
 	@Override
 	public int selectMemberSugar(int sb_me_num) {
-		if(sb_me_num == 0) {
+		if (sb_me_num == 0) {
 			return 0;
 		}
 		return saleBoardDao.selectMemberSugar(sb_me_num);
@@ -144,14 +146,14 @@ public class SaleBoardServiceImp implements SaleBoardService {
 
 	@Override
 	public boolean updateBoard(SaleBoardVO board, MemberVO user, MultipartFile[] files, Integer[] delFiles) {
-		if(board == null || user == null) {
+		if (board == null || user == null) {
 			return false;
 		}
-		if(user.getMe_num() != board.getSb_me_num()) {
+		if (user.getMe_num() != board.getSb_me_num()) {
 			return false;
 		}
 		saleBoardDao.updateBoard(board);
-		
+
 		uploadFileAndInsert(files, board.getSb_num());
 		deleteFile(delFiles);
 		return true;
@@ -159,19 +161,19 @@ public class SaleBoardServiceImp implements SaleBoardService {
 
 	@Override
 	public boolean deleteBoard(Integer sb_num, MemberVO user) {
-		if(sb_num == 0) {
+		if (sb_num == 0) {
 			return false;
 		}
-		if(user == null) {
+		if (user == null) {
 			return false;
 		}
 		SaleBoardVO board = saleBoardDao.selectBoard(sb_num);
 		ChatVO chat = chatDao.selectChatBySbNum(sb_num);
-		if(chat != null) {
+		if (chat != null) {
 			chatDao.deleteMessages(chat.getCh_num());
 			chatDao.deleteChat(chat.getCh_num());
 		}
-		if(board == null || board.getSb_me_num() != user.getMe_num()) {
+		if (board == null || board.getSb_me_num() != user.getMe_num()) {
 			return false;
 		}
 		List<SaleImageVO> fileList = board.getSaleImageVOList();
@@ -182,71 +184,70 @@ public class SaleBoardServiceImp implements SaleBoardService {
 	}
 
 	private void deleteFile(List<SaleImageVO> fileList) {
-		if(fileList == null || fileList.size() == 0){
+		if (fileList == null || fileList.size() == 0) {
 			return;
 		}
-		Integer [] nums = new Integer[fileList.size()];
-		for(int i = 0; i < nums.length; i++) {
+		Integer[] nums = new Integer[fileList.size()];
+		for (int i = 0; i < nums.length; i++) {
 			nums[i] = fileList.get(i).getSi_num();
 		}
 		deleteFile(nums);
-		
+
 	}
 
 	private void deleteFile(Integer[] nums) {
-		if(nums == null || nums.length == 0) {
+		if (nums == null || nums.length == 0) {
 			return;
 		}
-		
-		for(Integer num : nums) {
-			if(num == null) {
+
+		for (Integer num : nums) {
+			if (num == null) {
 				continue;
 			}
-			//첨부파일 정보를 가져옴
+			// 첨부파일 정보를 가져옴
 			SaleImageVO fileVo = saleBoardDao.selectFile(num);
-			if(fileVo == null) {
+			if (fileVo == null) {
 				continue;
 			}
 			UploadFileUtils.deleteFile(uploadPath, fileVo.getSi_name());
-			//DB에서 제거 
+			// DB에서 제거
 			saleBoardDao.deleteFile(num);
 		}
-		
+
 	}
 
 	@Override
 	public void insertWish(WishVO wish) {
-		if(wish == null) {
+		if (wish == null) {
 			return;
 		}
 		saleBoardDao.insertWish(wish);
 		saleBoardDao.updateWish(wish.getWi_sb_num(), 1);
-		
+
 	}
 
 	@Override
 	public WishVO selectWish(int wi_me_num, int wi_sb_num) {
-		if(wi_me_num == 0 || wi_sb_num == 0) {
+		if (wi_me_num == 0 || wi_sb_num == 0) {
 			return null;
 		}
-		
+
 		return saleBoardDao.selectWish(wi_me_num, wi_sb_num);
 	}
 
 	@Override
 	public void deleteWish(WishVO wish) {
-		if(wish == null) {
+		if (wish == null) {
 			return;
 		}
 		saleBoardDao.deleteWish(wish);
 		saleBoardDao.updateWish(wish.getWi_sb_num(), -1);
 
-		
 	}
 
 	@Override
 	public List<SaleBoardVO> getMainSaleBoardList(SaleBoardCriteria cri) {
-		if(cri == null) {
+		if (cri == null) {
 			cri = new SaleBoardCriteria();
 		}
 		return saleBoardDao.selectMainSaleBoardList(cri);
@@ -254,25 +255,25 @@ public class SaleBoardServiceImp implements SaleBoardService {
 
 	@Override
 	public List<SaleImageVO> getFileList(Integer sb_num) {
-		if(sb_num == null) {
+		if (sb_num == null) {
 			return null;
 		}
 		String si_table = "sale_board";
 		return saleBoardDao.selectFileList(si_table, sb_num);
 	}
 
-
-
 	@Override
 	public boolean adminDeleteBoard(Integer sb_num, MemberVO user) {
-		if(sb_num == 0) {
+		if (sb_num == 0) {
 			return false;
 		}
-		if(!user.getMe_au().equals("admin")) {
+		if (!user.getMe_au().equals("admin")) {
 			return false;
 		}
+
 		saleBoardDao.deleteAllWish(sb_num);
 		saleBoardDao.adminDeleteBoard(sb_num);
+
 		return true;
 	}
 

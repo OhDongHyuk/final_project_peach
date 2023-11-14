@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,11 +21,9 @@ import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.ReportService;
 import kr.ph.peach.service.SaleBoardService;
 import kr.ph.peach.service.SaleCategoryService;
-import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.CommunityCategoryVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.ReportVO;
-import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.StatementVO;
 
@@ -171,33 +168,47 @@ public class AdminController {
 	}
 
 	/* 신고페이지 관리 */
-
 	@GetMapping("/report")
 	public String report(Model model, HttpSession session, MemberCriteria cri) {
 
 		List<ReportVO> report = reportService.getreportList(cri);
-
-		System.out.println(report);
 		model.addAttribute("report", report);
+		/*
+		 * for(ReportVO tmp : report) {
+		 * report.get(report.indexOf(tmp)).setRp_key(reportService.selectrpKeyList(tmp.
+		 * getRp_key())); }
+		 */
+		
+		
+		
+		return "/admin/report";
+	}
+
+	/* 삭제 메서드 */
+	@GetMapping("/delete")
+	public String reportDelete(Integer sb_num, HttpSession session, Model model, MemberCriteria cri, ReportVO report) {
+		MemberVO user = (MemberVO) session.getAttribute("user");
+
+		saleBoardService.adminDeleteBoard(sb_num, user);
+		
+		List<ReportVO> reportlist = reportService.getreportList(cri);
+		System.out.println(reportlist);
+		model.addAttribute("report", reportlist);
 
 		return "/admin/report";
 	}
 
-	@GetMapping("/delete")
-	public String reportDelete(@PathVariable("sc_num")Integer sb_num, HttpSession session, Model model) {
-		MemberVO user = (MemberVO) session.getAttribute("user");
-		System.out.println(user);
-		System.out.println(sb_num);
-		Message msg;
-		if(saleBoardService.adminDeleteBoard(sb_num,user)) {
-			msg = new Message("saleboard/", "삭제되었습니다.");
-		} else {
-			msg = new Message("saleboard/", "잘못된 접근입니다.");
-		}
-		model.addAttribute("msg", msg);
-		return "message";
+	@ResponseBody // ajax를 받기위해 필요
+	@PostMapping("/report/delete")
+	public Map<String, Object> reportDeleteNum(@RequestBody ReportVO report){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = reportService.deleteReport(report);
+		map.put("res", res);
+		System.out.println(map);
+		System.out.println(res);
+		return map;
 	}
-
+	
 	@GetMapping("/tradereport")
 	public String tradeReport() {
 
