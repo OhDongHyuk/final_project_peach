@@ -64,7 +64,8 @@ public interface MemberDAO {
 	void deleteCode(@Param("member")MemberVO member);
 
 	List<MemberVO> getMemberLists();
-	
+
+	MemberVO getMemberById(@Param("me_num")int me_num);
 
 
 }

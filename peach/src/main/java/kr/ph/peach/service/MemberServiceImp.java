@@ -202,8 +202,6 @@ public class MemberServiceImp implements MemberService {
 		return memberDao.selectMemberByAcc(acc);
 
 	}
-
-	}
 	
 	@Override
 	public boolean sendPw(String me_id, String me_name) {
@@ -323,6 +321,17 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public List<MemberVO> getMemberLists() {
 		return memberDao.getMemberLists();
+	}
+	
+	@Override
+	public void addPoints(int me_num, int paidAmount) {
+		memberDao.addPoints(me_num, paidAmount);
+		
+	}
+
+	@Override
+	public MemberVO getMemberById(int me_num) {
+		return memberDao.getMemberById(me_num);
 	}
 
 	
