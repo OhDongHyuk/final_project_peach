@@ -207,46 +207,60 @@ public class MemberServiceImp implements MemberService {
 
 	@Override
 	public boolean sendPw(String me_id, String me_name) {
-		MemberVO member = memberDao.selectMember(me_id);
-		MemberVO member2 = memberDao.selectMemberByName(me_name);
-		//아이디(email)를 잘못 입력 
-		if(member == null) {
-			return false;
-		//이름 잘못 입력
-		}else if(member2 == null) {
-			return false;
-		//같으면 
-		}else {
-			
-		
-		Random r = new Random();
-		int num = r.nextInt(999999); // 랜덤난수설정
-		
-		
-		//인증 코드를 이메일로 전송
-		String setfrom = "rlatldbs4042@gmail.com";  
-		String tomail = me_id; //받는사람
-		String title = "[삼삼하개] 비밀번호변경 인증 이메일 입니다"; 
-		String content = System.getProperty("line.separator") + "안녕하세요 회원님" + System.getProperty("line.separator")
-				+ "삼삼하개 비밀번호찾기(변경) 인증번호는 " + num + " 입니다." + System.getProperty("line.separator"); // 
-	
-		try {
-			MimeMessage message = mailSender.createMimeMessage();
-			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "utf-8");
-	
-			messageHelper.setFrom(setfrom); 
-			messageHelper.setTo(tomail); 
-			messageHelper.setSubject(title);
-			messageHelper.setText(content); 
+	    MemberVO member = memberDao.selectMember(me_id);
 
-			mailSender.send(message);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return false;
-		}
-		
-		return true;
-		}
+	    // 아이디(email)를 잘못 입력
+	    if (member == null) {
+	        return false;
+	    }
+
+	    // 이름 잘못 입력
+	    if (!member.getMe_name().equals(me_name)) {
+	        return false;
+	    }
+
+	    Random r = new Random();
+	    int num = r.nextInt(999999); // 랜덤난수설정
+
+	    // 이메일 내용을 HTML 형식으로 구성
+	    String setfrom = "rlatldbs4042@gmail.com";
+	    String tomail = me_id;
+
+	    String title = "[피치마켓] 비밀번호 변경 인증 이메일";
+	    String content = "<html>"
+	    		 + "<body>"
+	             + "<table width='100%' bgcolor='#76076' style='margin: 0; padding: 0; font-family: Arial, sans-serif;'>"
+	             + "  <tr>"
+	             + "    <td align='center'>"
+	             + "      <img src='http://localhost:8080/peach/resources/image/피치.png' style='display: block; margin: 0 auto;'>"
+	             + "      <h1 style='text-align: center; color: #ffffff;'>비밀번호 변경</h1>"
+	             + "      <p style='text-align: center; color: #ffffff;'>안녕하세요 " + me_name + " 님,</p>"
+	             + "      <p style='text-align: center; color: #ffffff;'>비밀번호를 재설정하기 위해 아래 링크를 클릭하세요.</p>"
+	             + "      <p style='text-align: center; color: #ffffff;'><a href='http://localhost:8080/peach/member/pw_auth/check?num=" + member.getMe_num() + "&code=" + num + "' style='color: #cee13a; text-decoration: underline;'>비밀번호 변경하기</a></p>"
+	             + "    </td>"
+	             + "  </tr>"
+	             + "</table>"
+	             + "</body>"
+	             + "</html>";
+
+	    try {
+	        MimeMessage message = mailSender.createMimeMessage();
+	        MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "utf-8");
+
+	        messageHelper.setFrom(setfrom);
+	        messageHelper.setTo(tomail);
+	        messageHelper.setSubject(title);
+	        messageHelper.setText(content, true);
+
+	        mailSender.send(message);
+	    } catch (Exception e) {
+	        System.out.println(e.getMessage());
+	        return false;
+	    }
+
+	    memberDao.insertAuthCode(member.getMe_num(), num);
+
+	    return true;
 	}
 
 	private boolean checkIdRegex(String id) {
@@ -257,6 +271,16 @@ public class MemberServiceImp implements MemberService {
 			return false;
 		}
 		return Pattern.matches(regexId, id);
+	}
+	
+	private boolean checkPwRegex(String pw) {
+		
+		// 비번은 영문,숫자,특수문자로 이루어지고 8~20자
+		String regexPw = "^[a-zA-Z0-9!@#$%^&*()_+|~]{8,20}$";
+		if (pw == null) {
+			return false;
+		}
+		return Pattern.matches(regexPw, pw);
 	}
 
 	@Override
@@ -278,15 +302,6 @@ public class MemberServiceImp implements MemberService {
 		return memberDao.selectCity(me_ci_num);
 	}
 	
-	private boolean checkPwRegex(String pw) {
-
-		// 비번은 영문,숫자,특수문자로 이루어지고 8~20자
-		String regexPw = "^[a-zA-Z0-9!@#$%^&*()_+|~]{8,20}$";
-		if (pw == null) {
-			return false;
-		}
-		return Pattern.matches(regexPw, pw);
-	}
 
 	@Override
 	public void withdrawMember(MemberVO user) {
@@ -354,5 +369,44 @@ public class MemberServiceImp implements MemberService {
 		// 회원가입
 		return memberDao.insertMemberForKakao(member);
 	}
+
+	@Override
+	public boolean checkcode(String code, int num) {
+		
+		return memberDao.checkcode(code,num) != 0;
+	}
+
+	@Override
+    public boolean updatePassword(String code, String pw) {
+		String encPw = passwordEncoder.encode(pw);
+        return memberDao.pwUpdate(code, encPw) > 0;
+    }
+
+	@Override
+	public MemberVO getMemberByCode(String code) {
+		return memberDao.getMemberByCode(code);
+	}
+
+	@Override
+	public boolean checkMeIdAndMeName(String me_id, String me_name) {
+	    List<MemberVO> MemberList = getMemberLists(); // 가정: 해당 메서드로 데이터를 가져옴
+
+	    // 반복문을 통해 리스트 내의 객체들을 확인
+	    for (MemberVO request : MemberList) {
+	        if (request.getMe_id().equals(me_id) && request.getMe_name().equals(me_name)) {
+	            
+	            return true;
+	        }
+	    }	   
+	    // 리스트를 모두 확인했지만 해당 데이터가 없는 경우 true 반환
+	    return false;
+	}
+
+	@Override
+	public List<MemberVO> getMemberLists() {
+		return memberDao.getMemberLists();
+	}
+	
+	
 
 }

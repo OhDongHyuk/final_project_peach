@@ -12,10 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import kr.ph.peach.service.ChatService;
+import kr.ph.peach.service.AuthService;
 import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.ProfileService;
 import kr.ph.peach.util.Message;
@@ -34,7 +36,7 @@ public class MemberController {
 	private ProfileService profileService;
 	
 	@Autowired
-	private ChatService chatService;
+	private AuthService authService;
 
 	@GetMapping("/signup")
 	public String signup(Model model) {
@@ -192,17 +194,23 @@ public class MemberController {
 	}
 	
 	//---------------------------비번 찾기--------------------------------
-	
 	@RequestMapping(value = "/pw_auth.me")
 	public String pw_auth(Model model,String me_id, String me_name) throws IOException {
-
-		Message msg = new Message("/", "비밀번호를 이메일로 전송했습니다.");
-		if(!memberService.sendPw(me_id,me_name)) {
-			msg = new Message("/member/pw_find", "정보를 잘못입력했습니다.");
+		// 여기서 사용자 인증 프로세스 추가 (예: 회원 아이디와 코드를 비교하여 일치하는지 확인)
+		boolean memberCheck = memberService.checkMeIdAndMeName(me_id, me_name);
+		Message msg;
+		authService.deleteCodeByAuthNum(me_id);
+		if(memberCheck) {
+			msg = new Message("/", "비밀번호를 이메일로 전송했습니다.");
+			if(!memberService.sendPw(me_id,me_name)) {
+				msg = new Message("/member/pw_find", "정보를 잘못입력했습니다.");
+			}
+		}else {
+		        msg = new Message("/member/pw_find", "아이디 혹은 이름이 틀렸습니다.");
 		}
-		
 		model.addAttribute("msg", msg);
 		return "message";
+		
 		
 	}
 	@GetMapping("/pw_find")
@@ -210,6 +218,37 @@ public class MemberController {
 	    
 	    
 	    return "/member/pw_find";
+	}
+	//---
+	@RequestMapping(value = "/pw_auth/check")
+	public String pw_authcheck(Model model,String code, int num) throws IOException {
+
+		if(memberService.checkcode(code,num)) {
+			model.addAttribute("code",code);
+			return "/member/changepw";
+		}
+        Message msg = new Message("/member/pw_find", "잘못된 링크이거나 인증 시간이 지났습니다.");
+        model.addAttribute("msg", msg);
+        
+		return "message";
+	}
+	
+	//----------------------------------------------------------------------------
+	@RequestMapping(value = "/pwUpdate", method = RequestMethod.POST)
+	public String pwUpdate(String code, Model model,String me_pw, RedirectAttributes redirectAttributes) {
+
+		// 이후, 비밀번호 업데이트 수행
+	    boolean success = memberService.updatePassword(code, me_pw);
+	    if (success) {
+	    	authService.deleteCode(code);
+	        // 비밀번호 업데이트가 성공한 경우
+	    	redirectAttributes.addFlashAttribute("successMessage", "비밀번호가 성공적으로 변경되었습니다.");
+	    	return "redirect:/member/login"; // 변경 완료 메시지를 보여주는 페이지로 리다이렉트
+	    } else {
+	        // 비밀번호 업데이트가 실패한 경우
+	    	redirectAttributes.addFlashAttribute("errorMessage", "비밀번호 변경에 실패했습니다.");
+	    	return "redirect:/member/pw_find"; // 변경 실패 메시지를 보여주는 페이지로 리다이렉트
+	    }
 	}
 	
 	
