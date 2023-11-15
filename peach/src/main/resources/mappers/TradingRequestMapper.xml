@@ -76,6 +76,11 @@
 	<select id="getTradingRequests" resultMap="TradingRequestVO">
 		select * from trading_request where tq_num = #{tq_num}
 	</select>
+	<insert id="getTradingRequestPeach">
+		insert into trading_request(tq_sb_num, tq_me_num, tq_trade_type) 
+		values(#{sb_num}, #{user.me_num}, 2);
+	</insert>
+
 	<update id="changeTradingState">
 		update trading_request join sale_board on tq_sb_num = sb_num
 		set tq_as_num = 2 ,sb_ss_num = 2 WHERE tq_num = #{tq_num};
@@ -97,4 +102,16 @@
 		update trading_request join trading on tq_num = tr_tq_num
 		set tr_se = 2 where tq_num = #{tq_num};
 	</update>
+	<update id="reducePoint">
+		update member set me_point = #{me_point} where me_num = #{me_num};
+	</update>
+	<update id="addPointToCustomer">
+		update trading_request join member on tq_me_num = me_num join sale_board on tq_sb_num = sb_num 
+		set me_point =  me_point + sb_price where tq_num = #{tq_num} and tq_trade_type = 2
+	</update>
+	<update id="reducePointToCustomer">
+		update trading_request join member on tq_me_num = me_num join sale_board on tq_sb_num = sb_num 
+		set me_point =  me_point - sb_price where tq_num = #{tq_num} and tq_trade_type = 2
+	</update>
+
 </mapper>

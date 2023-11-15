@@ -9,45 +9,57 @@
 <body>	
 	<div class="wrapper">
 		<div class="containerboard">
-			<%-- forEach를 통해 판매상품 리스트를 컨트롤러에서 가져와서 출력 --%>
-			<c:forEach items="${prList}" var="pr">
-				<div class="item">
-					<%-- a태그를 통해 해당 상품 번호의 상세정보로 경로 전달 --%>
-					<a href="<c:url value='/saleboard/detail?sb_num=${pr.sb_num}' />" class="item-holder">
-						<div class="image-holder">
-							<c:choose>
-								<c:when test="${pr.saleImageVOList.size() != 0 }">
-									<img class="item" width="100%" height="194" src="<c:url value='/resources/image/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_name :\"\" }'/>">
-								</c:when>
-								<c:otherwise>
-									<img class="item" width="100%" height="194" src="<c:url value='/resources/image/NoMainImage.png'/>">
-								</c:otherwise>
-							</c:choose>
-						</div>
-						<div class="text-holder">
-							<div class="wish-name">
-								<div class="wish">
-									&#9825; <span style="font-size:14px;">${pr.sb_wish}</span>
+			<c:choose>
+	            <c:when test="${empty prList}">
+	            	<div class="message-container">
+	            		<div class="empty-space">
+	            		</div>
+	            		<img class="no-items-img" width="100px" height="100px" src="<c:url value='/img/RESISTX.gif'/>">
+	                	<p class="no-items-message">등록된 상품이 없습니다.</p>
+	            	</div>
+	            </c:when>
+	            <c:otherwise>
+					<%-- forEach를 통해 판매상품 리스트를 컨트롤러에서 가져와서 출력 --%>
+					<c:forEach items="${prList}" var="pr">
+						<div class="item">
+							<%-- a태그를 통해 해당 상품 번호의 상세정보로 경로 전달 --%>
+							<a href="<c:url value='/saleboard/detail?sb_num=${pr.sb_num}' />" class="item-holder">
+								<div class="image-holder">
+									<c:choose>
+										<c:when test="${pr.saleImageVOList.size() != 0 }">
+											<img class="item" width="100%" height="194" src="<c:url value='/resources/image/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_name :\"\" }'/>">
+										</c:when>
+										<c:otherwise>
+											<img class="item" width="100%" height="194" src="<c:url value='/resources/image/NoMainImage.png'/>">
+										</c:otherwise>
+									</c:choose>
 								</div>
-								<div class="title">
-									${pr.sb_name}
-								</div>				
-							</div>
-							<div class="price-holder">
-								${pr.get_sb_price()}
-							</div>
-						</div>
-						<div class="profile-date">
-							<div class="profile">
-								${pr.sb_me_nickname}
-							</div>	
-							<div class="date">
-								${pr.sb_date}
-							</div>
-						</div>
-					</a>
-				</div>			
-			</c:forEach>
+								<div class="text-holder">
+									<div class="wish-name">
+										<div class="wish">
+											&#9825; <span style="font-size:14px;">${pr.sb_wish}</span>
+										</div>
+										<div class="title">
+											${pr.sb_name}
+										</div>				
+									</div>
+									<div class="price-holder">
+										${pr.get_sb_price()}
+									</div>
+								</div>
+								<div class="profile-date">
+									<div class="profile">
+										${pr.sb_me_nickname}
+									</div>	
+									<div class="date">
+										${pr.sb_date}
+									</div>
+								</div>
+							</a>
+						</div>			
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
     	<!-- 댓글 페이지네이션 -->
@@ -79,6 +91,24 @@
 	</ul>	
 </body>
 	<style>
+		.empty-space{
+			height: 300px;
+		}
+        .message-container {
+        	width: 100%;
+			height: 800px;
+           text-align: center;
+           padding: 20px;
+        }
+        .no-items-img{
+        	flex: 0 0 196px;
+        }
+        .no-items-message {
+        	
+            font-size: 20px;
+            color: #555;
+            margin: 10px 0;
+        }
 		::before, ::after {
 			box-sizing: border-box;
 		}
@@ -89,9 +119,10 @@
 			display: block;
 		}
 		.containerboard {
+			width: 100%;
+			height: 800px;
 			display: flex;
 			flex-wrap: wrap;
-			justify-content: flex-start; /* 왼쪽 정렬 */
 			align-items: stretch;
 		}
 		.item{
