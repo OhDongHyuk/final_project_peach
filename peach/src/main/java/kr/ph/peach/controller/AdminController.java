@@ -174,6 +174,7 @@ public class AdminController {
 
 		List<ReportVO> report = reportService.getreportList(cri);
 		model.addAttribute("report", report);
+		System.out.println(report);
 		
 		int totalCount = reportService.getTotalCount(cri);
 
