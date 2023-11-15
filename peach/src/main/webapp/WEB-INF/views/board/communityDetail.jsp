@@ -252,12 +252,14 @@
         		<button class="edit" type="submit">수정</button>
    			 </form>
 	    </c:if>
+	    <c:if test="${user != null}">
 	    <c:if test="${user.me_num != writer.me_num}">
 			<div class="profile-right">
 				<div class="profile-right-box">
 					<button type="button" class="report-post" id="openReportModalBtn">게시물 신고하기</button>
 				</div>
 			</div>
+		</c:if>
 		</c:if>
 	    <div class="co_de_write">
 	 	  	<!-- 글 내용 -->
@@ -269,9 +271,12 @@
    		   </c:if>
 	   	 		<div class="co_de_content CDdiv">${detail.co_info}</div>
 		</div>
+		<c:if test="${user.me_num != writer.me_num}">
 		<c:if test="${user.me_num != null}">
 			<button class="co_like" onclick="likeCommunity()">추천</button>
 		</c:if>
+		</c:if>
+		<br>
 		<br>
 		<c:if test="${not empty reList}">
 		    <div class="co_de_comments">
@@ -285,7 +290,9 @@
 							<c:if test="${reList.replyWriter != user.me_nick}">
 								<div class="profile-right">
 									<div class="profile-right-box">
+										<c:if test= "${user != null}">
 										<button type="button" class="report-post" id="openReportModalBtn2" data-num="${reList.re_num }">신고</button>
+										</c:if>
 									</div>
 								</div>
 							</c:if>

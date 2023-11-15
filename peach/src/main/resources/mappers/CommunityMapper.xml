@@ -24,37 +24,30 @@
 		select * from community
 		INNER JOIN member ON community.co_me_num = member.me_num
 		join community_category on cc_num = co_cc_num
-		<if test='cri.c == null'>  	
-			<if test='cri.t == "all"'>
-			and 
-				(co_title like concat('%', #{cri.s}, '%')
-				or co_info like concat('%', #{cri.s}, '%')
-				or co_me_num like concat('%', #{cri.s}, '%'))
-			</if>
-			<if test='cri.t == "total"'>
-			and 
-				(co_title like concat('%', #{cri.s}, '%')
-				or co_info like concat('%', #{cri.s}, '%'))
-			</if>
-			<if test='cri.t == "writer"'>
-			
-	        and  
-	            member.me_nick like concat('%', #{cri.s}, '%')
-			</if>	
-		</if>
-		<if test='cri.c == "small"'>
+		where 1 = 1
+		<if test='cri.t == "all"'>
 		and 
-			community_category.cc_name like concat('%', #{cri.s}, '%')
+			(co_title like concat('%', #{cri.s}, '%')
+			or co_info like concat('%', #{cri.s}, '%')
+			or co_me_num like concat('%', #{cri.s}, '%'))
 		</if>
-		<if test='cri.c == "restaurant"'>
+		<if test='cri.t == "total"'>
 		and 
-			community_category.cc_name like concat('%', #{cri.s}, '%')
+			(co_title like concat('%', #{cri.s}, '%')
+			or co_info like concat('%', #{cri.s}, '%'))
 		</if>
-		<if test='cri.c == "share"'>
+		<if test='cri.t == "writer"'>
+		
+        and  
+            member.me_nick like concat('%', #{cri.s}, '%')
+		</if>	
+	
+		<if test='cri.c != "선택"'>
 		and 
-			community_category.cc_name like concat('%', #{cri.s}, '%')
+			community_category.cc_name = #{cri.c}
 		</if>
-		order by co_num asc
+		
+		order by co_date DESC 
 		limit #{cri.pageStart}, #{cri.perPageNum}
 	</select>
 	<select id="selectMeNick" resultType="String">
@@ -125,9 +118,10 @@
 		insert into likes(lk_co_num, lk_me_num)
 		values(${co_num},${user.me_num})
 	</insert>
-	<select id="selectLkNum" resultType="kr.ph.peach.vo.LikesVO">
-		select lk_num FROM likes where lk_me_num = #{user.me_num}
+	<select id="selectLkCoNum" resultType="kr.ph.peach.vo.LikesVO">
+		select lk_co_num FROM likes where lk_me_num = #{user.me_num} and lk_co_num = ${coNum}
 	</select>
+
 	<select id="getCcName" resultType="String">
 		select cc_name From community_category where cc_num = #{list.co_cc_num}
 	</select>

@@ -90,7 +90,7 @@ public class CommunityServiceImp implements CommunityService{
 		if(cri == null) {
 			cri = new CriteriaCom();
 		}
-		System.out.println("cri2" + cri);
+	
 		return communityDao.selectBoardList(cri);
 	}
 
@@ -212,15 +212,16 @@ public class CommunityServiceImp implements CommunityService{
 	}
 
 	@Override
-	public LikesVO selectLkNum(MemberVO user) {
-		LikesVO lk_num = communityDao.selectLkNum(user);
-		return lk_num;
+	public LikesVO selectLkCoNum(MemberVO user, int coNum) {
+		LikesVO lk_co_num = communityDao.selectLkCoNum(user, coNum);
+		return lk_co_num;
 	}
 
 	@Override
 	public String getCcName(CommunityVO list) {
 		return communityDao.getCcName(list);
 	}
+
 
 
 

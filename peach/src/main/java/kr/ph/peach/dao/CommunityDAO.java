@@ -58,8 +58,9 @@ public interface CommunityDAO {
 
 	void insertLike(@Param("co_num")int coNum,@Param("user") MemberVO user);
 
-	LikesVO selectLkNum(@Param("user")MemberVO user);
+	LikesVO selectLkCoNum(@Param("user")MemberVO user ,@Param("coNum") int coNum);
 
 	String getCcName(@Param("list")CommunityVO list);
+
 
 }

@@ -15,6 +15,7 @@ public class CriteriaCom {
 		perPageNum = 10;
 		t = "all";
 		s = "";
+		c = "선택";
 	}
 	
 	public CriteriaCom(int page, int perPageNum) {

@@ -53,7 +53,7 @@ public interface CommunityService {
 
 	void insertLike(int coNum, MemberVO user);
 
-	LikesVO selectLkNum(MemberVO user);
+	LikesVO selectLkCoNum(MemberVO user, int coNum);
 
 	String getCcName(CommunityVO tmp);
 

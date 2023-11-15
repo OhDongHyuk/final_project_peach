@@ -55,23 +55,16 @@
 	<br>
 	<br>
 	<h1 class="community-title">피치 게시판</h1>
-	<div class="community-category">
-		<div class="form-group">
-			<label>카테고리 선택</label>
-			<form action="<c:url value='/board/community'/>" method="get">
-				<select class="cc-control mb-1" name="c">
-					<option value="0">선택</option>
-					<option value="small" <c:if test="${cpm.cri.c == 'small'}">selected</c:if>>소모임</option>
-					<option value="restaurant" <c:if test="${cpm.cri.c == 'restaurant'}">selected</c:if>>맛집탐방</option>
-					<option value="share" <c:if test="${cpm.cri.c == 'share'}">selected</c:if>>무료나눔</option>
-				</select>
-				<button class="btn btn-outline-dark">검색</button>
-			</form>
-		</div>
-	</div>
+	<br>
 	<br>
 		<form action="<c:url value='/board/community'/>" method="get">
 			<div class="com-group mb-3 d-flex justify-content-center">
+				<select class="cc-control mb-1" name="c">
+					<option value="선택">선택</option>
+					<option value="소모임" <c:if test="${cpm.cri.c == 'small'}">selected</c:if>>소모임</option>
+					<option value="맛집탐방" <c:if test="${cpm.cri.c == 'restaurant'}">selected</c:if>>맛집탐방</option>
+					<option value="무료나눔" <c:if test="${cpm.cri.c == 'share'}">selected</c:if>>무료나눔</option>
+				</select>
 				<select class="cc-control mb-1" name="t">
 					<option value="all" <c:if test="${cpm.cri.t == 'all'}">selected</c:if>>전체</option>
 					<option value="total" <c:if test="${cpm.cri.t == 'total'}">selected</c:if>>제목 + 내용</option>
@@ -137,9 +130,10 @@
 	<a href="<c:url value='/board/communityInsert'/>" class="Cbtn"><P style="color:black">글쓰기</P></a>
 </body>
 <script>
+	<!-- 
 	$('[name=co_category]').change(function(){
 		 
-	});
+	});-->
 	
 </script>
 </html>

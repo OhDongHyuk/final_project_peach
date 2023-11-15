@@ -41,13 +41,14 @@ public class CommunityController {
 	public String Community(Model model, HttpSession session, CriteriaCom cri) {
 		MemberVO user = (MemberVO) session.getAttribute("user");
 	    model.addAttribute("user", user);
-	    System.out.println("cri"+cri);
+	
 	    List<CommunityVO> list = communityService.getBoardList(cri);
+	    /*
 	    for(CommunityVO tmp : list) {
 	    	list.get(list.indexOf(tmp)).setMe_nick(communityService.getMeNick(tmp));
 	    	//list.get(list.indexOf(tmp)).setCc_name(communityService.getCcName(tmp));//수정 후 삭제
-	    }
-	    System.out.println("list"+ list);
+	    }*/
+	 
 	    model.addAttribute("list", list);
 	    int totalCount = communityService.getTotalCount(cri);
 		//페이지네이션 페이지수
@@ -214,14 +215,13 @@ public class CommunityController {
 	@ResponseBody
 	public boolean likeCommunity(@PathVariable("coNum") int coNum, HttpSession session) {
 			MemberVO user = (MemberVO)session.getAttribute("user");
-			System.out.println(user);
+
 			if (user == null) {
 		        return false;
 		    }
-			LikesVO lk_num = communityService.selectLkNum(user);
-			System.out.println("lk_num"+lk_num);
+			LikesVO lk_co_num = communityService.selectLkCoNum(user, coNum);
 			//이미 좋아요를 눌렀는지 확인
-			if(lk_num == null) {
+			if(lk_co_num == null) {
 				//좋아요 등록
 				communityService.insertLike(coNum, user);
 			}else {
