@@ -66,5 +66,7 @@ public interface MemberDAO {
 
 	boolean insertMemberForKakao(@Param("member")MemberVO member);
 
+	CityVO selectCity(@Param("me_ci_num")int me_ci_num);
+
 	
 }

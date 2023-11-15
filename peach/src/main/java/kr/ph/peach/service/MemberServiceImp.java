@@ -31,8 +31,6 @@ public class MemberServiceImp implements MemberService {
 	@Autowired
 	private JavaMailSender mailSender;
 
-	@Autowired
-	private JavaMailSender mailSender;
 
 	@Override
 	public boolean signup(MemberVO member) {
@@ -199,18 +197,6 @@ public class MemberServiceImp implements MemberService {
 	public MemberVO selectMemberByAcc(String acc) {
 		return memberDao.selectMemberByAcc(acc);
 
-	}
-
-	private boolean checkPwRegex(String pw) {
-		
-		//비번은 영문,숫자,특수문자로 이루어지고 8~20자 
-
-		String regexPw = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_+|]).{8,20}$";
-
-		if(pw == null) {
-			return false;
-		}
-		return Pattern.matches(regexPw, pw);
 	}
 	
 	//-------------아이디 찾기------------

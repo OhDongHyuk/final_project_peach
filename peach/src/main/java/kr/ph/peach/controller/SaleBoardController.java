@@ -124,7 +124,7 @@ public class SaleBoardController {
 		MemberVO user = (MemberVO) session.getAttribute("user");
 		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
 		if (user != null) {
-			List<WishVO> wishList = memberSerivce.getWishList(user.getMe_num());
+			List<WishVO> wishList = memberService.getWishList(user.getMe_num());
 			System.out.println(wishList);
 			model.addAttribute("wishList", wishList);
 		}
@@ -161,7 +161,7 @@ public class SaleBoardController {
 		board.setSb_me_sugar(saleBoardService.selectMemberSugar(board.getSb_me_num()));
 		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
 		if (user != null) {
-			List<WishVO> wishList = memberSerivce.getWishList(user.getMe_num());
+			List<WishVO> wishList = memberService.getWishList(user.getMe_num());
 			System.out.println(wishList);
 			model.addAttribute("wishList", wishList);
 		}

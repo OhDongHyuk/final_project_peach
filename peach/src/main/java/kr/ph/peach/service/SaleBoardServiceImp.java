@@ -33,9 +33,6 @@ public class SaleBoardServiceImp implements SaleBoardService {
 
 	@Autowired
 	SaleBoardDAO saleBoardDao;
-	
-	@Autowired
-	ChatDAO chatDao;
 
 	@Autowired
 	ChatDAO chatDao;
@@ -122,12 +119,6 @@ public class SaleBoardServiceImp implements SaleBoardService {
 	public List<SaleBoardVO> selectAllBoard() {
 
 		return saleBoardDao.selectAllBoard();
-	}
-	
-	@Override
-	public List<SaleBoardVO> selectAllBoard2(SaleBoardCriteria cri) {
-		
-		return saleBoardDao.selectAllBoard2(cri);
 	}
 
 	@Override
