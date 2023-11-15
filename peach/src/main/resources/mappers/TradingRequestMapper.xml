@@ -98,9 +98,17 @@
 		update trading_request join trading on tq_num = tr_tq_num
 		set tr_cu = 2 where tq_num = #{tq_num};
 	</update>
+	<update id="changeTradingCuStateCancel">
+		update trading_request join trading on tq_num = tr_tq_num
+		set tr_cu = 1 where tq_num = #{tq_num};
+	</update>
 	<update id="changeTradingSeState">
 		update trading_request join trading on tq_num = tr_tq_num
 		set tr_se = 2 where tq_num = #{tq_num};
+	</update>
+	<update id="changeTradingSeStateCancel">
+		update trading_request join trading on tq_num = tr_tq_num
+		set tr_se = 1 where tq_num = #{tq_num};
 	</update>
 	<update id="reducePoint">
 		update member set me_point = #{me_point} where me_num = #{me_num};

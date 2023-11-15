@@ -42,6 +42,6 @@
 		</div>
 	</div>
 	<a href="<c:url value='/member/find_id'/>" class="btn btn-facebook btn-user btn-block">아이디 찾기</a>
-	<a href="<c:url value='/member/pw_find'/>" class="btn btn-warning btn-user btn-block">비밀번호찾기 찾기</a>
+	<a href="<c:url value='/member/pw_find'/>" class="btn btn-warning btn-user btn-block">비밀번호 찾기</a>
 </body>
 </html>
