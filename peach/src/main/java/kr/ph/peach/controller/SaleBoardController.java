@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,6 +51,7 @@ public class SaleBoardController {
 	@Autowired
 	TradingRequestService tradingRequestService;
 	
+	//메인페이지 API
 	@GetMapping("/{sc_num}")
 	public String productsList(@PathVariable("sc_num") int categoryId, Model model, HttpSession session, SaleBoardCriteria cri) {
 		List<SaleBoardVO> prList = saleBoardService.getSaleBoardList(cri);
@@ -61,12 +64,17 @@ public class SaleBoardController {
 		for(SaleBoardVO tmp : prList) {
 			prList.get(prList.indexOf(tmp)).setSb_me_nickname(saleBoardService.selectMemberNickname(tmp.getSb_me_num()));
 		}
+		String categoryName = "전체보기";
+		if(categoryId > 0) {
+			categoryName = categoryList.get(categoryId - 1).getSc_name();			
+		}
 		cri.setSc_num(categoryId);
 		//전체 게시글 수 
 		int totalCount = saleBoardService.getTotalCount(cri);
 		//페이지네이션에서 최대 페이지 개수 
 		int displayPageNum = 20;
 		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
+		model.addAttribute("categoryName", categoryName);
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("pm", pm);
 		model.addAttribute("prList",prList);
@@ -74,11 +82,14 @@ public class SaleBoardController {
 		return "/saleboard/saleBoard";
 	}
 	
+	//중고거래 게시글 페이지 불러오기
 	@GetMapping("/insert")
 	public String insert(Model model, HttpSession session, SaleBoardVO saleBoard) {
+		//게시물 카테고리 불러와 페이지로 넘겨줌
 		List<SaleCategoryVO> dbCategory = saleBoardService.selectAllCategory();
 		model.addAttribute("dbCategory", dbCategory);
 		MemberVO user = (MemberVO)session.getAttribute("user");
+		//유저가 없으면 로그인 필요 메시지 보낸 
 		Message msg;
 		if(user == null) {
 			msg = new Message("saleboard/" + saleBoard.getSb_sc_num(), "로그인이 필요합니다.");
@@ -88,12 +99,15 @@ public class SaleBoardController {
 		
 		return "/saleboard/insert";
 	}
+	
+	//중고거래 게시글 페이지 제출
 	@PostMapping("/insert")
 	public String insertPost(Model model, SaleBoardVO saleBoard, HttpSession session, MultipartFile[] files) {
 		Message msg;
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		if(saleBoardService.insertBoard(saleBoard, user, files)) {
-			msg = new Message("saleboard/" + saleBoard.getSb_sc_num(), "게시물이 등록되었습니다.");
+			//게시물 등록 성공 시 등록한 게시물 상세페이지로 이
+			msg = new Message("saleboard/detail?sb_num=" + saleBoard.getSb_num(), "게시물이 등록되었습니다.");
 		} else {
 			msg = new Message("saleboard/insert", "게시물 등록에 실패했습니다.");
 		}
@@ -101,7 +115,9 @@ public class SaleBoardController {
 		model.addAttribute("msg", msg);
 		return "message";
 	}
+
 	
+	//검색 시 나오는 검색결과 페이지
 	@GetMapping("/list")
 	public String list(Model model, SaleBoardCriteria cri, HttpSession session) {
 		List<SaleBoardVO> dbBoardList = saleBoardService.selectAllBoard2(cri);
@@ -115,10 +131,9 @@ public class SaleBoardController {
 		model.addAttribute("categoryList", categoryList);
 
 		for(SaleBoardVO tmp : dbBoardList) {
+			//객체의 회원번호로 회원 닉네임을 가져온 후 해당 객체의 닉네임에 저장(db에서 게시물이 회원번호만 외래키로 가지고 있고 닉네임 정보는 가져와야함)
 			dbBoardList.get(dbBoardList.indexOf(tmp)).setSb_me_nickname(saleBoardService.selectMemberNickname(tmp.getSb_me_num()));
 		}
-
-		
 		int totalCount = saleBoardService.getTotalCount(cri);
 		int displayPageNum = 24;
 		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
@@ -128,10 +143,17 @@ public class SaleBoardController {
 		model.addAttribute("dbBoardList", dbBoardList);
 		return "/saleboard/list";
 	}
+	
+	//중고거래 게시물 상세페이지
 	@GetMapping("/detail")
 	public String detail(Model model, Integer sb_num, HttpSession session) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		SaleBoardVO board = saleBoardService.selectBoard(sb_num);
+		if(board == null) {
+			Message msg = new Message("", "잘못된 접근입니다.");
+			model.addAttribute("msg", msg);
+			return "message";
+		}
 		List<SaleImageVO> imageList = saleBoardService.getFileList(sb_num);
 		board.setSaleImageVOList(imageList);
 		board.setSb_me_nickname(saleBoardService.selectMemberNickname(board.getSb_me_num()));
@@ -161,6 +183,7 @@ public class SaleBoardController {
 		
 	}
 	
+	//중고거래 게시물 수정 페이지 불러오기
 	@GetMapping("/update")
 	public String update(Model model, HttpSession session, Integer sb_num) {
 		List<SaleCategoryVO> dbCategory = saleBoardService.selectAllCategory();
@@ -179,6 +202,8 @@ public class SaleBoardController {
 		
 		return "/saleboard/update";
 	}
+	
+	//중고거래 게시물 수정 페이지 제출
 	@PostMapping("/update")
 	public String updatePost(Model model, HttpSession session, SaleBoardVO board, MultipartFile[] files,Integer[] delFiles) {
 		Message msg;
@@ -191,11 +216,13 @@ public class SaleBoardController {
 		model.addAttribute("msg", msg);
 		return "message";
 	}
+	
+	//중고거래 게시물 삭제 페이지
 	@GetMapping("/delete")
 	public String delete(Integer sb_num, HttpSession session, Model model, SaleBoardVO saleBoard) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
-	    SaleBoardVO saleBoardBeforeDeletion = saleBoardService.selectBoard(sb_num); // ID로 판매 게시글 가져오는 메서드
-	    int previousSbScNum = saleBoardBeforeDeletion.getSb_sc_num();
+	    SaleBoardVO saleBoardBeforeDeletion = saleBoardService.selectBoard(sb_num); // 게시글 번호로 판매 게시글 가져오는 메서드
+	    int previousSbScNum = saleBoardBeforeDeletion.getSb_sc_num(); //미리 게시글 카테고리 번호를 저장하여 해당 카테고리 목록으로 페이지 반환
 		Message msg;
 		if(saleBoardService.deleteBoard(sb_num, user)) {
 			msg = new Message("saleboard/" + previousSbScNum, "삭제되었습니다.");
@@ -206,10 +233,12 @@ public class SaleBoardController {
 		return "message";
 	}
 	
+	//중고거래 게시물 찜 눌렀을 때 ajax로 처리
 	@ResponseBody
 	@PostMapping("/wish")
 	public Map<String, Object> ajaxTest(@RequestBody WishVO wish){
 		Map<String, Object> map = new HashMap<String, Object>();
+		//찜 상태를 0으로 초기화하고 db에 찜 내역이 없다면 찜을 추가하고 찜 상태를 1로, 찜 내역이 있다면 찜을 삭제하고 찜 상태를 0으로 반환한다.
 		WishVO dbWish = saleBoardService.selectWish(wish.getWi_me_num(), wish.getWi_sb_num());
 		int isWish = 0;
 		if(dbWish == null) {
@@ -225,6 +254,7 @@ public class SaleBoardController {
 		return map;
 	}
 	
+	//거래 요청 시 ajax로 불러오는 페이지
 	@ResponseBody
 	@PostMapping("/detail")
 	public Map<String, Object> tradePost(@RequestBody TradingRequestVO tradingRequest, HttpSession session) {

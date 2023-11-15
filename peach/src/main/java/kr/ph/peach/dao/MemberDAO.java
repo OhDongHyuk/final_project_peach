@@ -62,22 +62,11 @@ public interface MemberDAO {
 
 	void deleteMember(@Param("user")MemberVO user);
 
-	void insertAuthCode(@Param("au_num")int me_num,@Param("au_code") int num);
-
 	MemberVO selectMemberID(@Param("kakaoname")String kakaoname);
 
 	boolean insertMemberForKakao(@Param("member")MemberVO member);
 
 	CityVO selectCity(@Param("me_ci_num")int me_ci_num);
 
-	int checkcode(@Param("code")String code, @Param("num")int num);
-	//-----------------------------------------------------------
-	int pwUpdate(@Param("code") String code, @Param("hashedPw") String hashedPw);
-
-	MemberVO getMemberByCode(@Param("code")String code);
-
-	void deleteCode(@Param("member")MemberVO member);
-
-	List<MemberVO> getMemberLists();
 	
 }

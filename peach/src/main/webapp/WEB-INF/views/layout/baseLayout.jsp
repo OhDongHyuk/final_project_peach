@@ -53,9 +53,8 @@
  <!-- ========================= CSS here ========================= -->
     <link rel="stylesheet" href="<c:url value='/resources/css/bootstrap.min.css'/>" />
     <link rel="stylesheet" href="<c:url value='/resources/css/LineIcons.3.0.css'/>" />
-    <link rel="stylesheet" href="<c:url value='/resources/css/tiny-slider.css'/>" />
     <link rel="stylesheet" href="<c:url value='/resources/css/glightbox.min.css'/>" />
-    <link rel="stylesheet" href="<c:url value='/resources/css/main.css'/>" />
+    <link rel="stylesheet" href="<c:url value='/resources/css/main.css?version1.5'/>" />
 </head>
 <body>
     <tiles:insertAttribute name="header"/>

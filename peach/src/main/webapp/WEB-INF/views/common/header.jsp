@@ -8,9 +8,11 @@
 			<div class="row align-items-center">
 				<div class="col-lg-4 col-md-4 col-12">
 					<div class="top-left">
-						<ul class="menu-top-link">
-
-						</ul>
+						<c:if test="${user != null }">
+							<ul class="menu-top-link">
+								<img width="20px" height="20px" src="<c:url value='/resources/image/location.png'/>"> ${user.me_city_name}
+							</ul>
+						</c:if>
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-4 col-12">
@@ -21,8 +23,8 @@
 							<li><a href="<c:url value='/board/community'/>">피치 게시판</a></li>
 						</ul>
 					</div>
-				</div>
-				<div class="col-lg-4 col-md-4 col-12">
+				</div>				<div class="col-lg-4 col-md-4 col-12">
+
 					<div class="top-end">
 						<ul class="user-login">
 							<c:if test="${user == NULL}">

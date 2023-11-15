@@ -8,46 +8,59 @@
 </head>
 <body>	
 	<div class="wrapper">
+		<div class="category-name">${categoryName }</div>
 		<div class="containerboard">
-			<%-- forEach를 통해 판매상품 리스트를 컨트롤러에서 가져와서 출력 --%>
-			<c:forEach items="${prList}" var="pr">
-				<div class="item">
-					<%-- a태그를 통해 해당 상품 번호의 상세정보로 경로 전달 --%>
-					<a href="<c:url value='/saleboard/detail?sb_num=${pr.sb_num}' />" class="item-holder">
-						<div class="image-holder">
-							<c:choose>
-								<c:when test="${pr.saleImageVOList.size() != 0 }">
-									<img class="item" width="100%" height="194" src="<c:url value='/resources/image/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_name :\"\" }'/>">
-								</c:when>
-								<c:otherwise>
-									<img class="item" width="100%" height="194" src="<c:url value='/resources/image/NoMainImage.png'/>">
-								</c:otherwise>
-							</c:choose>
-						</div>
-						<div class="text-holder">
-							<div class="wish-name">
-								<div class="wish">
-									&#9825; <span style="font-size:14px;">${pr.sb_wish}</span>
+			<c:choose>
+	            <c:when test="${empty prList}">
+	            	<div class="message-container">
+	            		<div class="empty-space">
+	            		</div>
+	            		<img class="no-items-img" width="100px" height="100px" src="<c:url value='/img/RESISTX.gif'/>">
+	                	<p class="no-items-message">등록된 상품이 없습니다.</p>
+	            	</div>
+	            </c:when>
+	            <c:otherwise>
+					<%-- forEach를 통해 판매상품 리스트를 컨트롤러에서 가져와서 출력 --%>
+					<c:forEach items="${prList}" var="pr">
+						<div class="item">
+							<%-- a태그를 통해 해당 상품 번호의 상세정보로 경로 전달 --%>
+							<a href="<c:url value='/saleboard/detail?sb_num=${pr.sb_num}' />" class="item-holder">
+								<div class="image-holder">
+									<c:choose>
+										<c:when test="${pr.saleImageVOList.size() != 0 }">
+											<img class="item" width="100%" height="194" src="<c:url value='/resources/image/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_name :\"\" }'/>">
+										</c:when>
+										<c:otherwise>
+											<img class="item" width="100%" height="194" src="<c:url value='/resources/image/NoMainImage.png'/>">
+										</c:otherwise>
+									</c:choose>
 								</div>
-								<div class="title">
-									${pr.sb_name}
-								</div>				
-							</div>
-							<div class="price-holder">
-								${pr.get_sb_price()}
-							</div>
-						</div>
-						<div class="profile-date">
-							<div class="profile">
-								${pr.sb_me_nickname}
-							</div>	
-							<div class="date">
-								${pr.sb_date}
-							</div>
-						</div>
-					</a>
-				</div>			
-			</c:forEach>
+								<div class="text-holder">
+									<div class="wish-name">
+										<div class="wish">
+											&#9825; <span style="font-size:14px;">${pr.sb_wish}</span>
+										</div>
+										<div class="title">
+											${pr.sb_name}
+										</div>				
+									</div>
+									<div class="price-holder">
+										${pr.get_sb_price()}
+									</div>
+								</div>
+								<div class="profile-date">
+									<div class="profile">
+										${pr.sb_me_nickname}
+									</div>	
+									<div class="date">
+										${pr.sb_date}
+									</div>
+								</div>
+							</a>
+						</div>			
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
     	<!-- 댓글 페이지네이션 -->
@@ -79,49 +92,82 @@
 	</ul>	
 </body>
 	<style>
+		.empty-space{
+			height: 300px;
+		}
+        .message-container {
+        	width: 100%;
+			height: 800px;
+           text-align: center;
+           padding: 20px;
+        }
+        .no-items-img{
+        	flex: 0 0 196px;
+        }
+        .no-items-message {
+        	
+            font-size: 20px;
+            color: #555;
+            margin: 10px 0;
+        }
 		::before, ::after {
 			box-sizing: border-box;
 		}
 		.wrapper {
-			max-width: 1035px; /* 최대 너비를 1035px로 고정 */
+			padding-top: 50px;
+			max-width: 1320px; /* 최대 너비를 1035px로 고정 */
         	margin: 0 auto; /* 가운데 정렬 */
 			margin-bottom: 40px;
 			display: block;
 		}
+		.category-name {
+			font-size: 26px;
+			color: #000;
+			margin-left: 12px;
+		}
 		.containerboard {
+			width: 100%;
+			height: 800px;
 			display: flex;
 			flex-wrap: wrap;
-			justify-content: flex-start; /* 왼쪽 정렬 */
 			align-items: stretch;
 		}
-		.item{
-	        flex: 0 0 196px; /* 고정 너비 */
-	        margin-right: 11px;
-	        margin-bottom: 11px;
+		.item-main-holder{
+	       flex: 0 0 196px; /* 고정 너비 */
+	       margin-right: 12px;
+	       margin-left: 12px;
+	       margin-bottom: 12px;
+	       margin-top: 12px;
+	       box-sizing: border
 		}
 		.item-holder{
 			border: 1px solid rgb(238, 238, 238);
 			background: rgb(255, 255, 255);
 			display: block;
-			max-width: 196px;
+			width: 196px;
 		}
 		a {
-		color: rgb(33, 33, 33);
-		text-decoration: none;
-		cursor: pointer;
+			color: rgb(33, 33, 33);
+			text-decoration: none;
+			cursor: pointer;
+		}
+		a:hover {
+			text-decoration: none;
+			color: #000;
+			transition: 0.3s;
 		}
 		.image-holder {
 			position: relative;
 			width: 100%;
 			height: 194px;
 		}
-		.img {
+		.image-holder img {
 			width: 194px; height: 194px;
 		}
 		.text-holder {
-			padding: 15px 10px;
+			padding: 15px 15px;
 			height: 80px;
-			text-align: right;
+			text-align: left;
 		}
 		.wish-name {
 			display: flex;
@@ -129,24 +175,29 @@
 		}
 		.wish {
 			color: grey;
-			text-align: left;
+			text-align: right;
 			min-width: 30px;
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			overflow: hidden;
+			font-size: 15px;
+		}
+		.wish img {
+			width: 14px;
+			height: 14px;
 		}
 		.title {
 			position: relative;
 			font-size: 14px;
-			padding-bottom: 20px;
+			font-weight: 400;
+			padding-bottom: 15px;
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			overflow: hidden;
 		}
 		.profile-date {
 			display: flex;
-			border-top: 1px  solid rgb(238, 238, 238);
-			padding: 9px 5px 9px 5px;
+			padding: 9px 15px 9px 15px;
 			-webkit-box-pack: justify;
 			justify-content: space-between;
 			-webkit-box-align: center;
@@ -154,8 +205,8 @@
 			height: 40px;
 		}
 		.price-holder {
-			font-size: 16px;
-			font-weight: 600;
+			font-size: 17px;
+			font-weight: 700;
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			overflow: hidden;
@@ -179,6 +230,7 @@
 	   		display: flex; /* 페이지 번호를 가로로 배열하기 위한 스타일 */
 	   		justify-content: center; /* 페이지 번호 중앙 정렬 */
 	   		list-style-type: none;
+	   		margin-bottom: 20px;
 		}
 		.page-item {
 		    margin: 0 3px; /* 페이지 번호 간격 설정 */
@@ -201,6 +253,11 @@
 		.pagination li.current a {
 		    background-color: #F16461;
 		    color: #fff;
+		}
+		.no-posts {
+			text-align: center;
+			margin-top: 20px;
+			margin-left: 12px;
 		}
 	</style>
 </html>

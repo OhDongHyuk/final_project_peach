@@ -206,6 +206,7 @@
 		select * from statement
 	</select>
 
+
 	<select id="memberIdFind"  resultType="MemberVO">
 	<![CDATA[
 	    select
@@ -224,7 +225,7 @@
 			auth_code(au_num,au_code,au_time)
 			select (#{au_num},#{au_code}, addtime(now(), "00:05"))
 	</insert>
-
+  
 	<update id="updateState">
 		update member set me_st_num = #{me_st_num} where
 		me_num = #{me_num}
@@ -250,16 +251,4 @@
 			member(me_id, me_pw, me_name, me_acc, me_phone, me_nick, me_ci_num, me_bk_name,me_social)
 			values(#{member.me_id},#{member.me_pw},#{member.me_name},#{member.me_acc},#{member.me_phone},#{member.me_nick},#{member.me_ci_num},#{member.me_bk_name},#{member.me_social})
 	</insert>
-		<select id="checkcode" resultType="int">
-		select count(*) from auth_code where au_num = #{num} and au_code = #{code} and au_time > now() 
-	</select>
-	
-	<update id="pwUpdate">
-    update member set me_pw = #{hashedPw} where me_num = (
-        select me_num from auth_code where au_code = #{code}
-    )
-	</update>	
-	<select id="getMemberByCode" resultType="MemberVO">
-    SELECT me_pw FROM member join auth_code on me_num = au_num WHERE au_code = #{code} LIMIT 1
-	</select>
 </mapper>
