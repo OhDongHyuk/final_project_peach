@@ -208,9 +208,7 @@ public class CommunityServiceImp implements CommunityService{
 			}
 			return true;
 			
-			 /*기존 파일 삭제
-				communityDao.deleteCommunityImage(co_num);
-			 */
+			 
 
 		}
 
@@ -261,6 +259,12 @@ public class CommunityServiceImp implements CommunityService{
 	public CommunityImageVO selecteditImg(int co_num) {
 		CommunityImageVO editImg = communityDao.selecteditImg(co_num);
 		return editImg;
+	}
+
+	@Override
+	public boolean deleteComImg(int co_num) {
+		
+		return communityDao.deleteComImg(co_num);
 	}
 	
 

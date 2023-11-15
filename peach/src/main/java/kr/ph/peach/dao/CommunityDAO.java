@@ -70,5 +70,7 @@ public interface CommunityDAO {
 
 	void deleteCommunityImage(@Param("co_num")int co_num);
 
+	boolean deleteComImg(@Param("co_num")int co_num);
+
 
 }

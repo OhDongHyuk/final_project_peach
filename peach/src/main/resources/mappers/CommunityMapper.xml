@@ -135,7 +135,7 @@
 		update community_image set ci_name = #{communityImageVo.ci_name}, ci_ori_name = #{communityImageVo.ci_ori_name}
 			where ci_co_num = #{co_num}
 	</update>
-	<delete id="deleteCommunityImage">
+	<delete id="deleteComImg">
 		delete From community_image where ci_co_num = #{co_num}
 	</delete>
 </mapper>

@@ -37,13 +37,39 @@
 				<textarea class="form-control" placeholder="내용" name="co_info" style="min-height: 400px">${detail.co_info}</textarea>
 			</div>
 			<input type="file" class="form-control" name="fileList">
+			<button type="button" onclick="deleteUploadedFile()">기존 이미지 삭제</button>
 			<br>
 			<input type="hidden" name="editImg" value="${editImg}">
 			<br>
 			<button class="btn btn-danger">게시글 등록</button>
 		</form>
+		<br>
+		
 	</div>
 	
 </body>
+<script>
+  function deleteUploadedFile() {
+    // 삭제할 이미지 파일명 가져오기
+    const co_num = '${co_num}'; // 이미지 파일명을 서버에서 전달받아 설정
+    var ans = confirm('삭제하시겠습니까?');
+    if (ans) {
+	    // 이미지 삭제 요청
+	    $.ajax({
+	      url: '<c:url value="/board/deleteUploadedFile"/>', // 이미지 삭제를 처리하는 서버 API의 URL
+	      type: 'POST',
+	      data: {co_num: co_num},
+	      success: function (data) {
+	    	alert('이미지를 삭제했습니다.')
+	
+	      },
+	      error: function (xhr, status, error) {
+	        console.error(error);
+	        alert('이미지 삭제에 실패했습니다.');
+	      }
+	    });
+    }
+  }
+</script>
 </html>
 

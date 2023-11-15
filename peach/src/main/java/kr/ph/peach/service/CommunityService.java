@@ -61,6 +61,8 @@ public interface CommunityService {
 
 	CommunityImageVO selecteditImg(int co_num);
 
+	boolean deleteComImg(int co_num);
+
 
 
 }
