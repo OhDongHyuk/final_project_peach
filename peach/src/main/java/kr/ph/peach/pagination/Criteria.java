@@ -12,7 +12,7 @@ public class Criteria {
 	
 	public Criteria() {
 		page = 1;
-		perPageNum = 20;
+		perPageNum = 24;
 		type="0";//전체 검색
 		search="";
 	}

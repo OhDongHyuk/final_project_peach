@@ -6,17 +6,17 @@
 <head>
 	<style>
 	.messages {
-	    color: red;
-	}
-	
-	
-	label.error {
-	    color: red;
-	}
-	
-	.messages.error {
-	    color: red;
-	}
+    color: red; /* 실패 메시지의 텍스트 색상을 빨간색으로 설정 */
+}
+
+/* 메시지가 표시되는 위치 및 스타일 지정 */
+label.error {
+    color: red; /* 실패 메시지의 텍스트 색상을 빨간색으로 설정 */
+}
+
+.messages.error {
+    color: red; /* 실패 메시지의 텍스트 색상을 빨간색으로 설정 */
+}
 	</style>
 	<title>Home</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -133,6 +133,16 @@
 				}
 			});
 		})
+		$('form').submit(function(){
+			if(!checkId){
+				alert('아이디 중복 검사를 하세요.');
+				return false;
+			}
+			if(!checkNick){
+				alert('닉네임 중복 검사를 하세요.');
+				return false;
+			}
+		})
 		$('[name=me_id]').change(function(){
 			checkId = false;
 		})
@@ -196,7 +206,7 @@
 		            },
 		            me_name: {
 		                required : true,
-		                regex : /^[가-힣]{2,}$/
+		                regex : /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,}$/
 		            },
 		            me_acc: {
 		                required : true,
@@ -285,17 +295,15 @@
 		
 		//ajax를 이용하여 시/도를 선택하면 해당하는 시/군/구가 셋팅되는 코드
 		$('[name=large]').change(function(){
-			console.log(123)
 			let largeName = $(this).val();
 			//medium태그에 넣을 option태그
-			let str = '<option value="">시/군/구를 선택하세요.</option>';
+			let str = '<option value="0">시/군/구를 선택하세요.</option>';
 			//시도를 선택하세요를 선택하면
-			if(largeName == ""){
+			if(largeName == 0){
 				$('[name=medium]').html(str);
-				$('[name=me_ci_num]').html('<option value="">읍/면/동을 선택하세요.</option>');
+				$('[name=me_ci_num]').html('<option value="0">읍/면/동을 선택하세요.</option>');
 				return;
 			}
-			console.log(largeName)
 			$.ajax({
 				async : false,
 				url : '<c:url value="/member/medium"/>', 
@@ -305,9 +313,8 @@
 					for(medium of data){
 						str += `<option>\${medium.ci_medium}</option>`
 					}
-					console.log(str)
 					$('[name=medium]').html(str);
-					$('[name=me_ci_num]').html('<option value="">읍/면/동을 선택하세요.</option>');
+					$('[name=me_ci_num]').html('<option value="0">읍/면/동을 선택하세요.</option>');
 				}, 
 				error : function(a,b,c){
 					console.log(a);
@@ -320,9 +327,9 @@
 		$('[name=medium]').change(function(){
 			let mediumName = $(this).val();
 			//medium태그에 넣을 option태그
-			let str = '<option value="">읍/면/동을 선택하세요.</option>';
+			let str = '<option value="0">읍/면/동을 선택하세요.</option>';
 			//시도를 선택하세요를 선택하면
-			if(mediumName == ""){
+			if(mediumName == 0){
 				$('[name=me_ci_num]').html(str);
 				return;
 			}

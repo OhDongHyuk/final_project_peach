@@ -57,4 +57,36 @@ public interface MemberDAO {
 
 	MemberVO getMemberById(@Param("me_num")int me_num);
 
+	List<CityVO> selectMediumCity(@Param("large")String large);
+
+	List<CityVO> selectSmallCity(@Param("medium")String medium);
+	
+	List<BankVO> selectBank();
+
+	MemberVO selectMemberByNickName(@Param("nick")String me_nick);
+	
+	MemberVO selectMemberByPhoneNum(@Param("phone")String me_phone);
+	
+	MemberVO selectMemberByAcc(@Param("acc")String me_acc);
+
+	MemberVO getMemberByNumber(@Param("meNum")int meNum);
+
+	MemberVO selectMemberByName(@Param("name")String me_name);
+	//---------------------아이디 찾기 -------
+	MemberVO memberIdFind(MemberVO member);
+
+	MemberVO selectMemberBySession(@Param("session_id")String session_id);
+	
+	List<WishVO> getsaleBoardWishList(@Param("me_num")int me_num);
+
+	List<MemberVO> getMemberList(@Param("cri")MemberCriteria cri);
+
+	int getTotalCount(@Param("cri")MemberCriteria cri);
+
+	List<StatementVO> selectMemberTypeList();
+
+	boolean updateState(@Param("me_num")int me_num, @Param("me_st_num")int me_st_num);
+
+	CityVO selectCity(int me_ci_num);
+	
 }

@@ -8,6 +8,7 @@
 </head>
 <body>	
 	<div class="wrapper">
+		<div class="category-name">${categoryName }</div>
 		<div class="containerboard">
 			<c:choose>
 	            <c:when test="${empty prList}">
@@ -113,10 +114,16 @@
 			box-sizing: border-box;
 		}
 		.wrapper {
-			max-width: 1035px; /* 최대 너비를 1035px로 고정 */
+			padding-top: 50px;
+			max-width: 1320px; /* 최대 너비를 1035px로 고정 */
         	margin: 0 auto; /* 가운데 정렬 */
 			margin-bottom: 40px;
 			display: block;
+		}
+		.category-name {
+			font-size: 26px;
+			color: #000;
+			margin-left: 12px;
 		}
 		.containerboard {
 			width: 100%;
@@ -125,34 +132,42 @@
 			flex-wrap: wrap;
 			align-items: stretch;
 		}
-		.item{
-	        flex: 0 0 196px; /* 고정 너비 */
-	        margin-right: 11px;
-	        margin-bottom: 11px;
+		.item-main-holder{
+	       flex: 0 0 196px; /* 고정 너비 */
+	       margin-right: 12px;
+	       margin-left: 12px;
+	       margin-bottom: 12px;
+	       margin-top: 12px;
+	       box-sizing: border
 		}
 		.item-holder{
 			border: 1px solid rgb(238, 238, 238);
 			background: rgb(255, 255, 255);
 			display: block;
-			max-width: 196px;
+			width: 196px;
 		}
 		a {
-		color: rgb(33, 33, 33);
-		text-decoration: none;
-		cursor: pointer;
+			color: rgb(33, 33, 33);
+			text-decoration: none;
+			cursor: pointer;
+		}
+		a:hover {
+			text-decoration: none;
+			color: #000;
+			transition: 0.3s;
 		}
 		.image-holder {
 			position: relative;
 			width: 100%;
 			height: 194px;
 		}
-		.img {
+		.image-holder img {
 			width: 194px; height: 194px;
 		}
 		.text-holder {
-			padding: 15px 10px;
+			padding: 15px 15px;
 			height: 80px;
-			text-align: right;
+			text-align: left;
 		}
 		.wish-name {
 			display: flex;
@@ -160,24 +175,29 @@
 		}
 		.wish {
 			color: grey;
-			text-align: left;
+			text-align: right;
 			min-width: 30px;
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			overflow: hidden;
+			font-size: 15px;
+		}
+		.wish img {
+			width: 14px;
+			height: 14px;
 		}
 		.title {
 			position: relative;
 			font-size: 14px;
-			padding-bottom: 20px;
+			font-weight: 400;
+			padding-bottom: 15px;
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			overflow: hidden;
 		}
 		.profile-date {
 			display: flex;
-			border-top: 1px  solid rgb(238, 238, 238);
-			padding: 9px 5px 9px 5px;
+			padding: 9px 15px 9px 15px;
 			-webkit-box-pack: justify;
 			justify-content: space-between;
 			-webkit-box-align: center;
@@ -185,8 +205,8 @@
 			height: 40px;
 		}
 		.price-holder {
-			font-size: 16px;
-			font-weight: 600;
+			font-size: 17px;
+			font-weight: 700;
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			overflow: hidden;
@@ -210,6 +230,7 @@
 	   		display: flex; /* 페이지 번호를 가로로 배열하기 위한 스타일 */
 	   		justify-content: center; /* 페이지 번호 중앙 정렬 */
 	   		list-style-type: none;
+	   		margin-bottom: 20px;
 		}
 		.page-item {
 		    margin: 0 3px; /* 페이지 번호 간격 설정 */
@@ -232,6 +253,11 @@
 		.pagination li.current a {
 		    background-color: #F16461;
 		    color: #fff;
+		}
+		.no-posts {
+			text-align: center;
+			margin-top: 20px;
+			margin-left: 12px;
 		}
 	</style>
 </html>
