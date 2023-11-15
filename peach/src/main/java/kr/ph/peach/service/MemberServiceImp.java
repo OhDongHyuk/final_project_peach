@@ -355,4 +355,43 @@ public class MemberServiceImp implements MemberService {
 		return memberDao.insertMemberForKakao(member);
 	}
 
+	@Override
+	public boolean checkcode(String code, int num) {
+		
+		return memberDao.checkcode(code,num) != 0;
+	}
+
+	@Override
+    public boolean updatePassword(String code, String pw) {
+		String encPw = passwordEncoder.encode(pw);
+        return memberDao.pwUpdate(code, encPw) > 0;
+    }
+
+	@Override
+	public MemberVO getMemberByCode(String code) {
+		return memberDao.getMemberByCode(code);
+	}
+
+	@Override
+	public boolean checkMeIdAndMeName(String me_id, String me_name) {
+	    List<MemberVO> MemberList = getMemberLists(); // 가정: 해당 메서드로 데이터를 가져옴
+
+	    // 반복문을 통해 리스트 내의 객체들을 확인
+	    for (MemberVO request : MemberList) {
+	        if (request.getMe_id().equals(me_id) && request.getMe_name().equals(me_name)) {
+	            
+	            return true;
+	        }
+	    }	   
+	    // 리스트를 모두 확인했지만 해당 데이터가 없는 경우 true 반환
+	    return false;
+	}
+
+	@Override
+	public List<MemberVO> getMemberLists() {
+		return memberDao.getMemberLists();
+	}
+	
+	
+
 }

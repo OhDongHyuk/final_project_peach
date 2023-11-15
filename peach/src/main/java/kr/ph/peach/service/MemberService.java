@@ -65,4 +65,13 @@ public interface MemberService {
 	
 	CityVO selectCity(int me_ci_num);
 	
+	boolean checkcode(String code, int num);
+	//---------------------------------------------------
+	boolean updatePassword(String code, String hashedPw);
+
+	MemberVO getMemberByCode(String code);
+
+	boolean checkMeIdAndMeName(String me_id, String me_name);
+	
+	List<MemberVO> getMemberLists();
 }
