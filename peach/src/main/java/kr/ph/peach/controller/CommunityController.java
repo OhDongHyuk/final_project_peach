@@ -113,6 +113,8 @@ public class CommunityController {
 	    	MemberVO user = (MemberVO) session.getAttribute("user");
 	    	model.addAttribute("user",user);
 	    	
+	    	
+	    	
 	    	communityService.updateCoView(co_num);
 	    	
 	    	CommunityVO detail = communityService.selectDetail(co_num);

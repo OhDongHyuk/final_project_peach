@@ -14,17 +14,19 @@
 
 	.community-title{
 		text-align: center;
+		color: #ff007f; /* 분홍색 계열의 글자색 */
 	}
 	
 	.community-list{
 		 display: flex;
          width: 800px;
-         height: 600px;
          border: 1px solid black;
          margin: 0 auto;
+         background-color: #ffe6f7; /* 분홍색 계열의 배경색 */
 	}
 	.form-control{
 		width: 400px;
+		height: auto;
 	}
 	.Cbtn{
 		width: 60px;
@@ -35,18 +37,31 @@
 		margin-left: 1020px;
 		margin-top: 10px;
 		margin-bottom: 20px;
-		background-color: gray;
+		background-color: #ff007f; /* 분홍색 계열의 배경색 */
+		color: white;
 	}
 	.CTR{
 		text-align: center;
+		 background-color: #ffd9eb; /* 분홍색 계열의 배경색 */
 	}
 	.CTR2{
 		text-align: center;
+		 background-color: #ffccdd; /* 분홍색 계열의 배경색 */
 	}
 
 	.community_item{
 		 display: flex;
   		 justify-content: center;
+	}
+	.comList{
+		display: flex;
+    	padding-left: 0;
+   	    list-style: none;
+   	    border-radius: 0.25rem;
+	}
+	.cc-control{
+		height: auto;
+
 	}
 </style>
 <title>피치 게시판</title>
@@ -59,13 +74,13 @@
 	<br>
 		<form action="<c:url value='/board/community'/>" method="get">
 			<div class="com-group mb-3 d-flex justify-content-center">
-				<select class="cc-control mb-1" name="c">
+				<select class="cc-control" name="c">
 					<option value="선택">선택</option>
 					<option value="소모임" <c:if test="${cpm.cri.c == 'small'}">selected</c:if>>소모임</option>
 					<option value="맛집탐방" <c:if test="${cpm.cri.c == 'restaurant'}">selected</c:if>>맛집탐방</option>
 					<option value="무료나눔" <c:if test="${cpm.cri.c == 'share'}">selected</c:if>>무료나눔</option>
 				</select>
-				<select class="cc-control mb-1" name="t">
+				<select class="cc-control" name="t">
 					<option value="all" <c:if test="${cpm.cri.t == 'all'}">selected</c:if>>전체</option>
 					<option value="total" <c:if test="${cpm.cri.t == 'total'}">selected</c:if>>제목 + 내용</option>
 					<option value="writer" <c:if test="${cpm.cri.t == 'writer'}">selected</c:if>>작성자</option>
@@ -107,7 +122,7 @@
 				</table>
 			</div>
 		</div>			
-	<ul class="pagination justify-content-center">
+	<ul class="pagination justify-content-center comList">
 		<c:if test="${cpm.prev}">
 			<li class="page-item">
 				<a class="page-link" 
@@ -127,7 +142,7 @@
 			</li>
 		</c:if>
 	</ul>
-	<a href="<c:url value='/board/communityInsert'/>" class="Cbtn"><P style="color:black">글쓰기</P></a>
+	<a href="<c:url value='/board/communityInsert'/>" class="Cbtn">글쓰기</a>
 </body>
 <script>
 	<!-- 

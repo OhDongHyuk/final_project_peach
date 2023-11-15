@@ -246,7 +246,8 @@
 	<br>
 	<div class="co_de CDdiv">
 	    <div class="co_de_title CDdiv">제목: ${detail.co_title}</div>
-	    <div class="co_de_info CDdiv">작성자: ${writer.me_nick} | 작성일: ${detail.co_date}</div>
+	    <div class="co_de_info CDdiv"><a href="<c:url value='/board//profile/+${writer.me_num}'/>">작성자: ${writer.me_nick}</a> | 작성일: ${detail.co_date}</div>
+	
 	    <c:if test="${user.me_num == writer.me_num}">
 	    	<form action="<c:url value='/board/communityEdit/${detail.co_num}'/>" method="get">
         		<button class="co_edit" type="submit">수정</button>
@@ -284,7 +285,7 @@
 		        <c:forEach var="reList" items="${reList}">
 		            <div class="co_de_comment">
 		            	<div class="reply_writer">
-		            		${reList.replyWriter}
+		            		<a href="<c:url value='/board//profile/+${reList.re_me_num}'/>">${reList.replyWriter}</a>
 		            	</div>
 		                	${reList.re_info}
 						<div class="report-button2">

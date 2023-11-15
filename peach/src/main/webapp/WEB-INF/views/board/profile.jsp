@@ -12,18 +12,19 @@
 		min-width: 1000px;
 		max-width: 1000px;
 		display: flex;
-		border-style: dashed;
-		border-width: 1px;
-		border-color: gray;
+		border-style: outset;
+		border-width: 9px;
+		border-color: ffd9eb;
 		border-radius: 20px;
+		background-color: #ffc2e0;
 	}
 	.profile-imgbox {
 		flex: 00 310px;
-		background-color: aqua;
+		background-color: #ffe5f2;
 		text-align: center;
-		border-right: dashed;
-		border-width: 1px;
-		border-color: gray;
+		border-right: solid;
+		border-width: 7px;
+		border-color: ffd9eb;
 		border-radius: 20px 0 0 20px;
 	}
 	.btn-profile {
@@ -108,7 +109,7 @@
 		padding-left: 15px;
 		padding-right: 10px;
 		flex: 1;
-		background-color: yellow;
+		background-color: #ffe2ed;
 		border-radius: 0 20px 20px 0;
 	}
 	.profile-product-detail-text {
@@ -146,7 +147,7 @@
 	  <c:if test="${proImg != null}">
 	  	<img src="<c:url value='/img/${proImg.pi_name}'/>" class="example">
 	  </c:if>
-	  <div class="profile-name"><P>${member.me_nick}</P></div>
+	  <div class="profile-name"><P style="color: black; font-weight: bold;">${member.me_nick}</P></div>
 	  <c:if test="${user.me_num == member.me_num}">
 		<li class="inner-item"><a href="<c:url value='/board/profilePass?pi_num=${proImg.pi_name}'/>">내 프로필 관리</a></li>
 	  </c:if>
@@ -154,7 +155,7 @@
 	 	<div class="profile-outDTbox">
 			 <div class="profile-Detail">
 			 	<div class="profile-namebox">
-			 		<div class="profile-name"><P>${member.me_nick}</P></div>
+			 		<div class="profile-name"><P style="color: black; font-weight: bold;">${member.me_nick}</P></div>
 			 	</div>
 			 	<br/>
 			 	<div style="display:inline;">
