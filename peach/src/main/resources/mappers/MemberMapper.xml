@@ -206,7 +206,6 @@
 		select * from statement
 	</select>
 
-
 	<select id="memberIdFind"  resultType="MemberVO">
 	<![CDATA[
 	    select
@@ -225,7 +224,7 @@
 			auth_code(au_num,au_code,au_time)
 			select (#{au_num},#{au_code}, addtime(now(), "00:05"))
 	</insert>
-  
+
 	<update id="updateState">
 		update member set me_st_num = #{me_st_num} where
 		me_num = #{me_num}

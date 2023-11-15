@@ -133,16 +133,6 @@ label.error {
 				}
 			});
 		})
-		$('form').submit(function(){
-			if(!checkId){
-				alert('아이디 중복 검사를 하세요.');
-				return false;
-			}
-			if(!checkNick){
-				alert('닉네임 중복 검사를 하세요.');
-				return false;
-			}
-		})
 		$('[name=me_id]').change(function(){
 			checkId = false;
 		})
@@ -206,7 +196,7 @@ label.error {
 		            },
 		            me_name: {
 		                required : true,
-		                regex : /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,}$/
+		                regex : /^[가-힣]{2,}$/
 		            },
 		            me_acc: {
 		                required : true,
@@ -295,15 +285,17 @@ label.error {
 		
 		//ajax를 이용하여 시/도를 선택하면 해당하는 시/군/구가 셋팅되는 코드
 		$('[name=large]').change(function(){
+			console.log(123)
 			let largeName = $(this).val();
 			//medium태그에 넣을 option태그
-			let str = '<option value="0">시/군/구를 선택하세요.</option>';
+			let str = '<option value="">시/군/구를 선택하세요.</option>';
 			//시도를 선택하세요를 선택하면
-			if(largeName == 0){
+			if(largeName == ""){
 				$('[name=medium]').html(str);
-				$('[name=me_ci_num]').html('<option value="0">읍/면/동을 선택하세요.</option>');
+				$('[name=me_ci_num]').html('<option value="">읍/면/동을 선택하세요.</option>');
 				return;
 			}
+			console.log(largeName)
 			$.ajax({
 				async : false,
 				url : '<c:url value="/member/medium"/>', 
@@ -313,8 +305,9 @@ label.error {
 					for(medium of data){
 						str += `<option>\${medium.ci_medium}</option>`
 					}
+					console.log(str)
 					$('[name=medium]').html(str);
-					$('[name=me_ci_num]').html('<option value="0">읍/면/동을 선택하세요.</option>');
+					$('[name=me_ci_num]').html('<option value="">읍/면/동을 선택하세요.</option>');
 				}, 
 				error : function(a,b,c){
 					console.log(a);
@@ -327,9 +320,9 @@ label.error {
 		$('[name=medium]').change(function(){
 			let mediumName = $(this).val();
 			//medium태그에 넣을 option태그
-			let str = '<option value="0">읍/면/동을 선택하세요.</option>';
+			let str = '<option value="">읍/면/동을 선택하세요.</option>';
 			//시도를 선택하세요를 선택하면
-			if(mediumName == 0){
+			if(mediumName == ""){
 				$('[name=me_ci_num]').html(str);
 				return;
 			}

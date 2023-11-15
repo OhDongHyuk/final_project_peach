@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.ph.peach.pagination.PageMaker;
 import kr.ph.peach.pagination.SaleBoardCriteria;
-import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.SaleBoardService;
 import kr.ph.peach.service.SaleCategoryService;
 import kr.ph.peach.service.TradingRequestService;
@@ -66,9 +65,6 @@ public class HomeController {
 		}
 		cri.setPerPageNum(20);
 		List<SaleBoardVO> prList = saleBoardService.getSaleBoardList(cri);
-		for(SaleBoardVO tmp : prList) {
-			prList.get(prList.indexOf(tmp)).setSb_me_nickname(saleBoardService.selectMemberNickname(tmp.getSb_me_num()));
-		}
 		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
 		cri.setPerPageNum(8);
 		// 현재 페이지에 맞는 게시글을 가져와야함
@@ -107,15 +103,13 @@ public class HomeController {
 	@PostMapping("/common/reject")
 	public Map<String,Object> rejectPost(@RequestParam("tq_num") int tq_num, Model model, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		tradingRequestService.addPointToCustomer(tq_num);
 		boolean rejection = tradingRequestService.deleteTradingRequest(tq_num, model, session);
 		if (rejection) {
-	        // 삭제 작업이 성공한 경우의 로직			
+	        // 삭제 작업이 성공한 경우의 로직
 	        map.put("status", "success");
 	        map.put("message", "거래 요청이 삭제되었습니다.");
 	    } else {
 	        // 삭제 작업이 실패한 경우의 로직
-	    	tradingRequestService.reducePointToCustomer(tq_num);
 	        map.put("status", "error");
 	        map.put("message", "거래 요청 삭제에 실패했습니다.");
 	    }

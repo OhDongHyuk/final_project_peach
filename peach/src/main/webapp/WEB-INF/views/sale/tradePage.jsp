@@ -490,16 +490,16 @@
 				<div class="button-box">
 					<c:choose>
 						<c:when test="${user.me_num == tr.tq_me_num && tr.tradingVO.tr_cu == 1}">
-							<button type="button" onClick="location.href='<c:url value='/chat/chat?sb_num=${tr.saleBoardVO.sb_num}'/>'" class="chat">피치톡</button>
+							<button type="button" onClick="location.href='<c:url value='/saleboard/update?sb_num=${board.sb_num }'/>'" class="chat">피치톡</button>
 							<button id="underTake" type="button" class="pay" data-tq-num="${tr.tq_num}">인수완료</button>
-							<button type="button" class="report-post" id="openReportModalBtn">거래취소 요청</button>
+							<button type="button" onClick="location.href='<c:url value='/saleboard/delete?sb_num=${board.sb_num }'/>'" class="cancel">거래취소요청</button>
 						</c:when>
 						<c:otherwise>
 							<c:choose>
 								<c:when test="${user.me_num == tr.saleBoardVO.sb_me_num && tr.tradingVO.tr_se == 1}">
-									<button type="button" onClick="location.href='<c:url value='/chat/chat?sb_num=0'/>'" class="chat">피치톡</button>
+									<button type="button" onClick="location.href='<c:url value='/saleboard/update?sb_num=${board.sb_num }'/>'" class="chat">피치톡</button>
 									<button id="giveItem" type="button" class="pay" data-tq-num="${tr.tq_num}">인계완료</button>
-									<button type="button" class="report-post" id="openReportModalBtn">거래취소 요청</button>
+									<button type="button" onClick="location.href='<c:url value='/saleboard/delete?sb_num=${board.sb_num }'/>'" class="cancel">거래취소요청</button>
 								</c:when>
 								<c:otherwise>
 									<c:choose>
@@ -526,26 +526,6 @@
 		</c:forEach>
 	</c:otherwise>
 </c:choose>
-					<div id="reportPostModal" class="custom-modal">
-						  <div class="modal-content">
-						    <span class="close">&times;</span>
-						    <div class="modal-header">
-						      <h2>거래취소 요청</h2>
-						    </div>
-						    <div class="modal-body">
-						      <p>거래취소 요청 사유를 작성해주세요.</p>
-						      <p>최대한 자세하게 기재해주셔야 원활한 취소 처리가 가능합니다.</p>
-						      <div class="report-text-area">
-							      <p class="maxtext">* 최대 500자 제한</p>
-							      <textarea id="reportReason" class="report-reason" placeholder="거래취소 요청 사유를 입력하세요" maxlength="500"></textarea>						      
-						      </div>
-						    </div>
-						    <div class="modal-footer">
-						      <button class="report-button" onclick="reportPost()">거래취소 요청</button>
-						      <button class="cancel-button" onclick="closeReportModal()">취소</button>
-						    </div>
-						  </div>
-						</div>
 </body>
 <script>
 	//인수 확인
@@ -707,46 +687,5 @@
 	  }
 	});
 
-	function reportPost() {
-		
-		if('${user.me_num}' == '${board.sb_me_num}'){
-			alert("본인의 게시물은 신고가 불가합니다.");
-			return;
-		}
-		
-		const reportReason = document.getElementById("reportReason").value;
-	
-	  	if (reportReason.trim() === "") {
-	   		alert("취소 사유를 입력하세요.");
-	   		return;
-		}
-	  	
-		let data = {
-			key : '${board.sb_num}',
-			info : reportReason,
-			table : 'sale_board'
-		};
-		ajaxJsonToJson(
-				  false,
-				  'post',
-				  'report',
-				  data,
-				  (data) => {
-				    alert("거래취소 요청을 완료했습니다.\n취소 사유: " + reportReason);
-				    console.log(data.msg);
-				    document.getElementById("reportReason").value = '';
-				    closeReportModal(); // Close the modal after reporting
-				  },
-				    () => {
-				    	
-				    	console.log("실패");
-				    }
-				);
-		}
-		
-	// Function to close the modal
-	function closeReportModal() {
-	  reportPostModal.style.display = "none";
-	}
 </script>
 </html>

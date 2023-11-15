@@ -62,6 +62,8 @@ public interface MemberDAO {
 
 	void deleteMember(@Param("user")MemberVO user);
 
+	void insertAuthCode(@Param("au_num")int me_num,@Param("au_code") int num);
+
 	MemberVO selectMemberID(@Param("kakaoname")String kakaoname);
 
 	boolean insertMemberForKakao(@Param("member")MemberVO member);

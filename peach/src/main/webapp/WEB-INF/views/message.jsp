@@ -13,13 +13,7 @@
 	if(msg != null | msg.msg != null){
 		alert(msg.msg);
 	}
-	
-	if(msg.url.startsWith('http')){
-		location.href = msg.url;
-	} else {	
-		location.href = '<c:url value="/"/>' + msg.url;
-	}
-	
+	location.href = '<c:url value="/"/>' + msg.url;
 	</script>
 </body>
 </html>

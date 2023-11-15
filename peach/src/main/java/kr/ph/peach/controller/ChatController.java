@@ -36,16 +36,11 @@ public class ChatController {
 		SaleBoardVO saleBoard = saleBoardService.selectBoard(sb_num);
 		Message msg;
 		if(user == null) {
-			msg = new Message("/member/login", "로그인이 필요합니다.");
+			msg = new Message("/saleboard/detail?sb_num="+sb_num, "로그인이 필요합니다.");
 			model.addAttribute("msg", msg);
 			return "message";
 		}
-		if(sb_num != 0 && saleBoard == null) {
-			msg = new Message("", "잘못된 접근입니다.");
-			model.addAttribute("msg", msg);
-			return "message";
-		}
-		if(saleBoard != null && user.getMe_num() == saleBoard.getSb_me_num()) {
+		if(user.getMe_num() == saleBoard.getSb_me_num()) {
 			msg = new Message("/saleboard/detail?sb_num="+sb_num, "잘못된 접근입니다.");
 			model.addAttribute("msg", msg);
 			return "message";

@@ -65,4 +65,6 @@ public interface MemberService {
 	
 	CityVO selectCity(int me_ci_num);
 	
+	List<MemberVO> getMemberLists();
+	
 }

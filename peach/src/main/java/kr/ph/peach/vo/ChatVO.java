@@ -34,7 +34,7 @@ public class ChatVO {
 		} else if(diff > 604799) {
 			diff = diff/604800;
 			standard = "주 전";
-		} else if(diff > 86399) {
+		} else if(diff > 864399) {
 			diff = diff/86400;
 			standard = "일 전";
 		} else if(diff > 3599) {

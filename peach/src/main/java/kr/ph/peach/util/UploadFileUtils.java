@@ -1,17 +1,10 @@
 package kr.ph.peach.util;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-import javax.imageio.ImageIO;
-
 import org.springframework.util.FileCopyUtils;
-
-import net.coobird.thumbnailator.Thumbnails;
-import net.coobird.thumbnailator.geometry.Positions;
 
 public class UploadFileUtils {
 
@@ -28,40 +21,23 @@ public class UploadFileUtils {
 	
 		//같은 파일명을가지는 파일을 업로드할 때 덮어쓰기가 되지 않게 처리
 		UUID uuid = UUID.randomUUID();
-		String savedFileName = uuid.toString() + "_" + originalFileName;
+		String savedFileName = uuid.toString() + "_" + originalFileName; //8-4-4-4-12_파일명
 
 		
 		//파일을 복사
 		//빈 파일을 생성
 		File target = new File(uploadPath, savedFileName);
 		FileCopyUtils.copy(fileData, target);
-		return savedFileName;
+		return uploadFileName(uploadPath, savedFileName);
 	}
-	
-	public static String createThumbnail(String uploadPath, String si_name, byte[] fileData) throws IOException {
-		
-		String savedFileName = "thumb" + "_" + si_name;
-
-		File thumbnailFile = new File(uploadPath, savedFileName);
-        
-        try (ByteArrayInputStream bis = new ByteArrayInputStream(fileData)) {
-            Thumbnails.of(bis)
-                    .size(600, 600)
-                    .crop(Positions.CENTER) 
-                    .toFile(thumbnailFile); 
-        }
-        return savedFileName;
+	private static String uploadFileName(String savedPath, String savedFileName) {
+		String fileName = savedFileName;
+		return fileName;
 	}
-	
-	
-	public static void deleteFile(String uploadPath, String si_name, String si_thb_name) {
+	public static void deleteFile(String uploadPath, String si_name) {
 		File file = new File(uploadPath, si_name);
-		File thumbFile = new File(uploadPath, si_thb_name);
 		if(file.exists()) {
 			file.delete();
-		}
-		if(thumbFile.exists()) {
-			thumbFile.delete();
 		}
 	}
 }

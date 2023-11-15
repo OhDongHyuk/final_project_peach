@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<div class="footer footer-container">
+<div class="footer">
 	<!-- Start Footer Area -->
 	<footer class="footer">
 		<!-- Start Footer Middle -->
@@ -55,14 +55,4 @@
 
 	<!--/ End Footer Area -->
 
-
 </div>
-<style>
-		.footer {
-			background-color: #fff;
-			color: #000;
-		}
-		.footer-container {
-			border-top: 1px solid #eee;
-		}
-</style>

@@ -16,10 +16,8 @@
 		<collection property="saleImageVOList" ofType="kr.ph.peach.vo.SaleImageVO" column="sb_num" select="selectSaleBoardImageList"/>
 		<collection property="saleCategoryVO" ofType="kr.ph.peach.vo.SaleCategoryVO" column="sb_sc_num" select="saleCategoryProduction"/>
 	</resultMap>
-	<insert id="insertBoard" useGeneratedKeys="true" keyProperty="saleBoard.sb_num">
-		insert 
-			into sale_board(sb_name, sb_price, sb_info, sb_date, sb_me_num, sb_sc_num) 
-			values(#{saleBoard.sb_name}, #{saleBoard.sb_price}, #{saleBoard.sb_info}, #{saleBoard.sb_date}, #{saleBoard.sb_me_num}, #{saleBoard.sb_sc_num})
+	<insert id="insertBoard" useGeneratedKeys="true" keyProperty="saleBoard.sb_num" >
+		insert into sale_board(sb_name, sb_price, sb_info, sb_date, sb_me_num, sb_sc_num) values(#{saleBoard.sb_name}, #{saleBoard.sb_price}, #{saleBoard.sb_info}, #{saleBoard.sb_date}, #{saleBoard.sb_me_num}, #{saleBoard.sb_sc_num})
 	</insert>
 	<select id="selectAllCategory" resultType="kr.ph.peach.vo.SaleCategoryVO">
 		select * from sale_category
@@ -30,21 +28,22 @@
 	<select id="selectAllBoard2"
 		resultMap="SaleBoardVO">
 		select * from sale_board 
-		where 
-			1 = 1
+		where 1 = 1
 		<choose>
 			<when test='cri.type == "0"'>
-				and 
-					(sb_num like concat('%', #{cri.search}, '%')
+				and (sb_num like concat('%', #{cri.search}, '%')
 				or
-					sb_name like concat('%', #{cri.search}, '%')
+				sb_name like concat('%', #{cri.search}, '%')
 				or
-					sb_info like concat('%', #{cri.search}, '%'))
+				sb_info like
+				concat('%', #{cri.search}, '%'))
 			</when>
 			<otherwise>
 				and ${cri.type} like concat('%', #{cri.search}, '%')
 			</otherwise>
-		</choose>	
+		</choose>
+		
+		
 		order by sb_date desc
 		limit
 		#{cri.pageStart}, #{cri.perPageNum}
@@ -72,29 +71,19 @@
 			sb_num = #{board.sb_num}
 	</update>
 	<delete id="deleteBoard">
-		delete from sale_board 
-		where 
-			sb_num = #{sb_num}
+		delete from sale_board where sb_num = #{sb_num}
 	</delete>
 	<insert id="insertWish">
-		insert 
-		into wish(wi_me_num, wi_sb_num) 
-		values(#{wish.wi_me_num}, #{wish.wi_sb_num})
+		insert into wish(wi_me_num, wi_sb_num) values(#{wish.wi_me_num}, #{wish.wi_sb_num})
 	</insert>
 	<select id="selectWish" resultType="kr.ph.peach.vo.WishVO">
-		select * from wish 
-		where 
-			wi_me_num = #{wi_me_num} and wi_sb_num = #{wi_sb_num}
+		select * from wish where wi_me_num = #{wi_me_num} and wi_sb_num = #{wi_sb_num}
 	</select>
 	<delete id="deleteWish">
-		delete from wish 
-		where 
-			wi_me_num = #{wish.wi_me_num} and wi_sb_num = #{wish.wi_sb_num}
+		delete from wish where wi_me_num = #{wish.wi_me_num} and wi_sb_num = #{wish.wi_sb_num}
 	</delete>
 	<delete id="deleteAllWish">
-		delete from wish
-		where 
-			wi_sb_num = #{sb_num}
+		delete from wish where wi_sb_num = #{sb_num}
 	</delete>
 
 	<update id="updateWish">
@@ -132,42 +121,32 @@
 			and sb_sc_num = #{cri.sc_num}
 	</select>
 	<select id="selectImage" resultType="kr.ph.peach.vo.SaleImageVO">
-		select * from sale_image 
-		where 
-			si_key = #{sb_num} and si_table = "sale_board"
+		select * from sale_image where si_key = #{sb_num} and si_table = "sale_board"
 	</select>
 	<select id="selectSaleBoardImageList" resultType="kr.ph.peach.vo.SaleImageVO">
-		select * from sale_image 
-		where 
-			si_key = #{sb_num} and si_table = "sale_board"
+		select * from sale_image where si_key = #{sb_num} and si_table = "sale_board"
 	</select>
-		<select id="selectMainSaleBoardList" resultMap="SaleBoardVO">
+		<select id="selectMainSaleBoardList"
+		resultMap="SaleBoardVO">
 		select * from sale_board order by sb_num desc
 		limit #{cri.pageStart},
 		#{cri.perPageNum}
 	</select>
 	<select id="selectSaleBoardCount" resultType="int">
-		select count(*) from sale_board
+		select count(*) from
+		sale_board
 	</select>
 	<select id="saleCategoryProduction" resultType="kr.ph.peach.vo.SaleCategoryVO">
-		select * from sale_category 
-		where 
-			sc_num = #{sb_sc_num}
+		select * from sale_category where sc_num = #{sb_sc_num}
 	</select>
 	<insert id="insertFile">
-		insert 
-		into sale_image(si_name, si_thb_name, si_table, si_key) 
-		values(#{saleImage.si_name}, #{saleImage.si_thb_name}, #{saleImage.si_table}, #{saleImage.si_key})
+		insert into sale_image(si_name, si_table, si_key) values(#{saleImage.si_name}, #{saleImage.si_table}, #{saleImage.si_key})
 	</insert>
 	<select id="selectFileList" resultType="kr.ph.peach.vo.SaleImageVO">
-		select * from sale_image 
-		where 
-			si_table = #{si_table} and si_key = #{sb_num}
+		select * from sale_image where si_table = #{si_table} and si_key = #{sb_num}
 	</select>
 	<select id="selectFile" resultType="kr.ph.peach.vo.SaleImageVO">
-		select * from sale_image 
-		where 
-			si_num = #{num}
+		select * from sale_image where si_num = #{num}
 	</select>
 	<delete id="deleteFile">
 		delete from sale_image where si_num = #{num}

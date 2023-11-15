@@ -39,7 +39,6 @@
 		<result property="tq_sb_num" column="tq_sb_num"/>
 		<result property="tq_me_num" column="tq_me_num"/>
 		<result property="tq_as_num" column="tq_as_num"/>
-		<result property="tq_trade_type" column="tq_trade_type"/>
 		<collection property="saleBoardVO" resultMap="SaleBoardVO" column="tq_sb_num"/>
 		<collection property="memberVO" resultMap="MemberVO" column="tq_me_num"/>
 		<collection property="saleCategoryVO" ofType="kr.ph.peach.vo.SaleCategoryVO" column="sb_sc_num" select="saleCategoryProduction"/>
@@ -49,8 +48,8 @@
 		select * from member where me_num = #{sb_me_num}
 	</select>
 	<insert id="tradePost">	
-		insert into trading_request(tq_sb_num, tq_me_num, tq_trade_type) 
-		values(#{tq_sb_num}, #{tq_me_num}, 1);
+		insert into trading_request(tq_sb_num, tq_me_num) 
+		values(#{tq_sb_num}, #{tq_me_num});
 	</insert>
 	<select id="getTradingRequest" resultMap="TradingRequestVO">
 		select * from trading_request join sale_board on tq_sb_num = sb_num join member on tq_me_num = me_num where sb_me_num = #{user.me_num} and tq_as_num = 1;
@@ -76,11 +75,6 @@
 	<select id="getTradingRequests" resultMap="TradingRequestVO">
 		select * from trading_request where tq_num = #{tq_num}
 	</select>
-	<insert id="getTradingRequestPeach">
-		insert into trading_request(tq_sb_num, tq_me_num, tq_trade_type) 
-		values(#{sb_num}, #{user.me_num}, 2);
-	</insert>
-
 	<update id="changeTradingState">
 		update trading_request join sale_board on tq_sb_num = sb_num
 		set tq_as_num = 2 ,sb_ss_num = 2 WHERE tq_num = #{tq_num};
