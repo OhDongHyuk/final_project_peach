@@ -79,13 +79,15 @@ public class HomeController {
 	@PostMapping("/common/reject")
 	public Map<String,Object> rejectPost(@RequestParam("tq_num") int tq_num, Model model, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		tradingRequestService.addPointToCustomer(tq_num);
 		boolean rejection = tradingRequestService.deleteTradingRequest(tq_num, model, session);
 		if (rejection) {
-	        // 삭제 작업이 성공한 경우의 로직
+	        // 삭제 작업이 성공한 경우의 로직			
 	        map.put("status", "success");
 	        map.put("message", "거래 요청이 삭제되었습니다.");
 	    } else {
 	        // 삭제 작업이 실패한 경우의 로직
+	    	tradingRequestService.reducePointToCustomer(tq_num);
 	        map.put("status", "error");
 	        map.put("message", "거래 요청 삭제에 실패했습니다.");
 	    }

@@ -29,4 +29,13 @@ public interface TradingRequestService {
 	void changeTradingCuState(int tq_num);
 
 	void changeTradingSeState(int tq_num);
+
+	boolean getTradingRequestPeach(MemberVO user, int sb_num);
+
+	void reducePoint(int me_num, int me_point);
+
+	void addPointToCustomer(int tq_num);
+
+	void reducePointToCustomer(int tq_num);
+
 }

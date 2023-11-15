@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -112,6 +114,7 @@ public class SaleBoardController {
 		model.addAttribute("msg", msg);
 		return "message";
 	}
+
 	
 	//검색 시 나오는 검색결과 페이지
 	@GetMapping("/list")
@@ -252,4 +255,56 @@ public class SaleBoardController {
 	    System.out.println(map);
 	    return map;
 	}
+	
+	@ResponseBody
+	@GetMapping("/peachTrade")
+	public Map<String, Object> getPeachTrade(Integer sb_num, HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		SaleBoardVO saleBoard = saleBoardService.selectBoard(sb_num);
+		System.out.println(user);
+		System.out.println(saleBoard);
+		map.put("user", user);
+		map.put("saleBoard", saleBoard);
+        return map;
+		
+	}
+	
+	@ResponseBody
+	@PostMapping("/peachTrade")
+	public Map<String, Object> postPeachTrade(@RequestParam("sb_num") int sb_num, HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean trade = tradingRequestService.getTradingRequestPeach(user, sb_num);
+		System.out.println(trade);
+		map.put("trade", trade);
+        return map;
+		
+	}
+	
+	@ResponseBody
+	@PostMapping("/reducePoint")
+	public Map<String, Object> reducePoint(@RequestParam("me_num") int me_num, @RequestParam("me_point") int me_point, HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		tradingRequestService.reducePoint(me_num, me_point);
+        return map;
+		
+	}
+	
+	@ResponseBody
+	@PostMapping("/addPoints")
+	public Map<String, Object> addPoints(@RequestParam("me_num") int me_num, @RequestParam("paidAmount") int paidAmount, HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		memberSerivce.addPoints(me_num, paidAmount);
+	    MemberVO updatedUser = memberSerivce.getMemberById(me_num);
+
+	    // 세션에 업데이트된 회원 정보 저장
+	    session.setAttribute("user", updatedUser);
+
+	    // 반환할 map에 성공 및 업데이트된 사용자 정보 추가
+	    map.put("updatedUser", updatedUser);
+        return map;
+		
+	}
+
 }

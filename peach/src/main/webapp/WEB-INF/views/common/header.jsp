@@ -18,8 +18,9 @@
 				<div class="col-lg-4 col-md-4 col-12">
 					<div class="top-middle">
 						<ul class="useful-links">
-							<li><a href="<c:url value='/'/>">피치마켓</a></li>
-							<li><a href="<c:url value='/board/community'/>">우리동네 생활</a></li>
+							<li><a href="<c:url value='/'/>">Home</a></li>
+							<li><a href="<c:url value='/'/>">중고 거래</a></li>
+							<li><a href="<c:url value='/board/community'/>">피치 게시판</a></li>
 						</ul>
 					</div>
 				</div>				<div class="col-lg-4 col-md-4 col-12">
@@ -39,6 +40,7 @@
 								<li class="inner-item"><a href="<c:url value='/member/logout'/>">로그아웃</a></li>
 								<c:set var="profileURL" value="/board/profile/${user.me_num}"/>
 								<li class="inner-item"><a href="<c:url value='${profileURL}'/>">마이페이지</a></li>
+								<li class="inner-item"><a href="<c:url value='/saleboard/insert'/>">제품등록</a></li>
 							</c:if>
 							<c:if test="${user != null && user.me_au == 'admin' }">
 								<li class="inner-item"><a href="<c:url value='/'/>">관리자 메뉴</a></li>
@@ -66,14 +68,15 @@
 	                var notificationBoxContent = '';
 	
 	                $.each(notificationList, function(index, item) {
-	                	console.log(item);
-	                    console.log(item.saleBoardVO);
 	                    var imageSrc = item.saleBoardVO.saleImageVOList.length !== 0 ? item.saleBoardVO.saleImageVOList[0].si_name : '';
-	                    console.log(imageSrc)
+	                    var tradeType = (item.tq_trade_type === 1) ? '직거래' : '피치거래';
+
 	                    notificationBoxContent += '<div class="notifi-small">' +
 	                        '<img class="notifi-img"  src="/peach/resources/image/' + imageSrc + '">' +
 	                        '<h3>' + item.saleBoardVO.sb_name + '</h3>' + '</br>' +
 	                        '<h3 a>' + item.memberVO.me_id + '</h3>' +
+	                        '<h3>' + tradeType + '</h3>' +
+
 	                        '<div class="notifi-btnbox">' + 
 	                        '<button class="notifi-btn accept" onclick="acception(' + item.tq_num + ')">수락</button>' +
 	                        '<button class="notifi-btn reject" onclick="rejection(' + item.tq_num + ')">거절</button>' +
