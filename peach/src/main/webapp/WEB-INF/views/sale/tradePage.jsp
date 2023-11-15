@@ -722,9 +722,9 @@
 		}
 	  	
 		let data = {
-			key : '${board.sb_num}',
-			info : reportReason,
-			table : 'sale_board'
+				rp_key : '${board.sb_num}',
+				rp_info : reportReason,
+				rp_table : 'sale_board'
 		};
 		ajaxJsonToJson(
 				  false,

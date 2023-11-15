@@ -256,6 +256,7 @@
 		</div>
 	</section>
 
+
 	<!-- Start Trending Product Area -->
 	<section class="trending-product section" style="margin-top: 12px;">
 		<div class="container">
