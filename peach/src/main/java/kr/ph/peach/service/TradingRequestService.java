@@ -38,4 +38,8 @@ public interface TradingRequestService {
 
 	void reducePointToCustomer(int tq_num);
 
+	void changeTradingSeStateCancel(int tq_num);
+
+	void changeTradingCuStateCancel(int tq_num);
+
 }

@@ -36,28 +36,12 @@
 							</label>
 						</div>
 						<button class="btn btn-outline-warning col-12">로그인</button>
-						<a href="<c:url value='/member/find_id'/>" class="btn">아이디 찾기</a>
-						<a href="<c:url value='/member/pw_find'/>" class="btn">비밀번호 찾기</a>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+	<a href="<c:url value='/member/find_id'/>" class="btn btn-facebook btn-user btn-block">아이디 찾기</a>
+	<a href="<c:url value='/member/pw_find'/>" class="btn btn-warning btn-user btn-block">비밀번호 찾기</a>
 </body>
-<script>
-    // 페이지가 로드될 때 서버에서 전달된 메시지 확인
-    var successMessage = "${successMessage}";
-    var errorMessage = "${errorMessage}";
-
-    // 비밀번호 변경 성공 시
-    if (successMessage !== "") {
-        alert(successMessage);
-    }
-    
-    // 비밀번호 변경 실패 시
-    if (errorMessage !== "") {
-        alert(errorMessage);
-    }
-</script>
 </html>

@@ -33,15 +33,14 @@
 	<div class="card-body p-0">                                                                             
 	<!-- Nested Row within Card Body -->                                                                
 	<div class="row">                                                                                   
-	<div class="col-lg-6 d-none d-lg-block bg-password-image"><img style="width: 100%; margin-top: 100px" src="<c:url value='/resources/image/피치.png'/>"></div>                                
+	<div class="col-lg-6 d-none d-lg-block bg-password-image"></div>                                
 	<div class="col-lg-6">                                                                          
 				<div class="p-5">                                                                           
 							    <div class="text-center">                                                               
 							        <h1 class="h4 text-gray-900 mb-2">해당 회원님의 아이디입니다.</h1><br><br>                 
 							        <c:choose>                                                                          
 							            <c:when test="${empty member}">                                                 
-							                <p class="mb-4">조회결과가 없습니다.</p>
-							                <p class="mb-4">이름 혹은 핸드폰 번호가 틀렸습니다.</p>                                        
+							                <p class="mb-4">조회결과가 없습니다.</p>                                        
 							            </c:when>                                                                         
 							            <c:otherwise>                                                                     
 							                <p class="mb-4">${member.me_id}</p>                                              

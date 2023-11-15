@@ -116,6 +116,18 @@ public class TradingRequestServiceImp implements TradingRequestService{
 		
 	}
 
+	@Override
+	public void changeTradingSeStateCancel(int tq_num) {
+		tradingRequestDao.changeTradingSeStateCancel(tq_num);
+		
+	}
+
+	@Override
+	public void changeTradingCuStateCancel(int tq_num) {
+		tradingRequestDao.changeTradingCuStateCancel(tq_num);
+		
+	}
+
 
 
 	

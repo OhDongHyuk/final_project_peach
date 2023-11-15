@@ -39,5 +39,9 @@ public interface TradingRequestDAO {
 
 	void reducePointToCustomer(@Param("tq_num")int tq_num);
 
+	void changeTradingSeStateCancel(@Param("tq_num")int tq_num);
+
+	void changeTradingCuStateCancel(@Param("tq_num")int tq_num);
+
 
 }

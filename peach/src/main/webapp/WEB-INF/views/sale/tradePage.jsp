@@ -7,6 +7,25 @@
     <title>Trade Page</title>
 </head>
 	<style>
+		/*오류처리*/
+		.empty-space{
+			height: 300px;
+		}
+        .message-container {
+        	width: 100%;
+			height: 800px;
+           text-align: center;
+           padding: 20px;
+        }
+        .no-items-img{
+        	flex: 0 0 196px;
+        }
+        .no-items-message {
+        	
+            font-size: 20px;
+            color: #555;
+            margin: 10px 0;
+        }
 		/*신고모달*/
 		.custom-modal {
 		  display: none;
@@ -424,7 +443,12 @@
 <body>
 <c:choose>
     <c:when test="${empty trList}">
-        <h3>잘못된 접근입니다.</h3>
+	    <div class="message-container">
+     		<div class="empty-space">
+     		</div>
+     		<img class="no-items-img" width="100px" height="100px" src="<c:url value='/img/RESISTX.gif'/>">
+         	<p class="no-items-message">잘못된 접근입니다.</p>
+     	</div>
     </c:when>
     <c:otherwise>
 		<c:forEach items="${trList}" var="tr">
@@ -482,8 +506,15 @@
 										<c:when test="${tr.tradingVO.tr_cu == 2 && tr.tradingVO.tr_se == 2}">
 											<p>거래가 완료되었습니다.</p>
 										</c:when>
-										<c:otherwise>
-											<p>상대방이 인수/인계를 완료를 기다리는 중입니다.</p>
+										<c:otherwise>																						
+											<c:choose>
+												<c:when test="${user.me_num == tr.tq_me_num && tr.tradingVO.tr_cu == 2}">
+													<button id="underTakeCancel" type="button" class="pay" data-tq-num="${tr.tq_num}">인수취소</button>
+												</c:when>
+												<c:otherwise>
+													<button id="giveItemCancel" type="button" class="pay" data-tq-num="${tr.tq_num}">인계취소</button>
+												</c:otherwise>
+											</c:choose>
 										</c:otherwise>
 									</c:choose>
 								</c:otherwise>
@@ -517,6 +548,7 @@
 						</div>
 </body>
 <script>
+	//인수 확인
 	$(document).ready(function(){
 	    $("#underTake").click(function(){
 	        var tq_num = $(this).data('tq-num');
@@ -549,7 +581,40 @@
 	        }
 	    });
 	});
+	//인수 취소
+	$(document).ready(function(){
+	    $("#underTakeCancel").click(function(){
+	        var tq_num = $(this).data('tq-num');
 	
+	        // 확인창 보이기
+	        var confirmUndertake = confirm("제품 인수를 취소하시겠습니까?");
+	        
+	        if (confirmUndertake) {
+	            $.ajax({
+	                method: "POST", // 요청 방식 (GET, POST 등)
+	                url: '<c:url value="/sale/undertakeCancel"/>', // 서버 엔드포인트 URL
+	                data: {tq_num: tq_num},
+	                dataType: 'json',
+	                success: function(map) {
+	                    // 성공 시 실행될 코드
+	                    console.log("요청 성공", map);
+	                    // 여기서 성공 시 할 작업을 수행
+	                    alert("제품 인수를 취소하였습니다");
+	                    location.reload();
+	                },
+	                error: function(xhr, status, error) {
+	                    // 오류 발생 시 실행될 코드
+	                    console.log("요청 오류", error);
+	                    // 여기서 오류 시 할 작업을 수행
+	                }
+	            });
+	        } else {
+	            // 사용자가 "아니요"를 선택한 경우
+	            // 아무 동작 없이 그냥 종료
+	        }
+	    });
+	});
+	//인계 완료
 	$(document).ready(function(){
 	    $("#giveItem").click(function(){
 	        var tq_num = $(this).data('tq-num');
@@ -568,6 +633,39 @@
 	                    console.log("요청 성공", map);
 	                    // 여기서 성공 시 할 작업을 수행
 	                    alert("제품 인계를 완료하였습니다");
+	                    location.reload();
+	                },
+	                error: function(xhr, status, error) {
+	                    // 오류 발생 시 실행될 코드
+	                    console.log("요청 오류", error);
+	                    // 여기서 오류 시 할 작업을 수행
+	                }
+	            });
+	        } else {
+	            // 사용자가 "아니요"를 선택한 경우
+	            // 아무 동작 없이 그냥 종료
+	        }
+	    });
+	});
+	//인계 취소
+	$(document).ready(function(){
+	    $("#giveItemCancel").click(function(){
+	        var tq_num = $(this).data('tq-num');
+	
+	        // 확인창 보이기
+	        var confirmGiveItem = confirm("제품 인계를 취소하시겠습니까?");
+	
+	        if (confirmGiveItem) {
+	            $.ajax({
+	                method: "POST", // 요청 방식 (GET, POST 등)
+	                url: '<c:url value="/sale/giveitemCancel"/>', // 서버 엔드포인트 URL
+	                data: {tq_num: tq_num},
+	                dataType: 'json',
+	                success: function(map) {
+	                    // 성공 시 실행될 코드
+	                    console.log("요청 성공", map);
+	                    // 여기서 성공 시 할 작업을 수행
+	                    alert("제품 인계를 취소하였습니다");
 	                    location.reload();
 	                },
 	                error: function(xhr, status, error) {
