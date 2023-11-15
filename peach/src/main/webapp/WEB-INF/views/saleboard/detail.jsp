@@ -655,7 +655,7 @@
     <!-- iamport.payment.js -->
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
     <script type="text/javascript">
-			window.onload = function() {
+		window.onload = function() {
 			const slides = document.querySelector('.slides'); //전체 슬라이드 컨테이너
 			const slideImg = document.querySelectorAll('.slides li'); //모든 슬라이드들
 			let currentIdx = 0; //현재 슬라이드 index
@@ -814,8 +814,8 @@
 			    });
 			}
 		 	modal.style.display = "block";
-		});
-
+		};
+	
 		// 모달 닫기 버튼 또는 바깥 영역 클릭 시 모달 닫기
 		const closeModal = document.querySelector(".close");
 		window.addEventListener("click", function(event) {
@@ -974,7 +974,8 @@
 					location.href = '<c:url value="/member/login"/>'
 				}
 			  	reportPostModal.style.display = "block";
-			});
+			}
+		});
 			
 			closeReportModalBtn.addEventListener("click", function () {
 			  reportPostModal.style.display = "none";
@@ -1027,7 +1028,7 @@
 			function closeReportModal() {
 			  reportPostModal.style.display = "none";
 			}
-		}
+		
 		
 		//이미지 클릭시 원본 이미지 표시 모달
 		document.addEventListener("DOMContentLoaded", function () {
