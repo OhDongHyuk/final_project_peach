@@ -26,7 +26,7 @@
 			</div>
 			<p>*제목은 반드시 입력해야 합니다.</p>
 			<select name="CICategory" class="form-control">
-			<option value="0">선택</option>
+			<option>${detail.cc_name}</option>
 			<c:forEach var="CCNames" items="${CCNames}" varStatus="status">
    				 <option value="${CCNames}">${CCNames}</option>
 			</c:forEach>
@@ -38,9 +38,12 @@
 			</div>
 			<input type="file" class="form-control" name="fileList">
 			<br>
+			<input type="hidden" name="editImg" value="${editImg}">
+			<br>
 			<button class="btn btn-danger">게시글 등록</button>
 		</form>
 	</div>
+	
 </body>
 </html>
 

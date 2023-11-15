@@ -146,7 +146,7 @@ public class CommunityServiceImp implements CommunityService{
 	}
 
 	@Override
-	public boolean updateCommunity(CommunityVO community, int co_num, MultipartFile[] fileList, int cc_num, MemberVO user) {
+	public boolean updateCommunity(CommunityVO community, int co_num, MultipartFile[] fileList, int cc_num, MemberVO user, String editImg) {
 		if(community == null || 
 				community.getCo_title() == null || community.getCo_title().trim().length() == 0 ||
 				community.getCo_info() == null) {
@@ -167,27 +167,51 @@ public class CommunityServiceImp implements CommunityService{
 			if(fileList == null || fileList.length == 0) {
 				return true;
 			}
-			
-			for(MultipartFile file : fileList) {
-				if(file == null || file.getOriginalFilename().length() == 0) {
-					continue;
+			System.out.println("editImg"+editImg);
+			//editImg가 이미 있으면 수정
+			if(!editImg.isEmpty()) {
+				for(MultipartFile file : fileList) {
+					if(file == null || file.getOriginalFilename().length() == 0) {
+						continue;
+					}
+					
+					try {
+						//원래 파일명
+						String ci_ori_name = file.getOriginalFilename();
+						//서버에 업로드 후 업로드된 경로와 uuid가 포함된 파일명
+						String fi_name = UploadFileUtils.uploadFile(uploadPath, ci_ori_name, file.getBytes());
+						//파일 객체
+						CommunityImageVO CommunityImageVo = new CommunityImageVO(community.getCo_num(), fi_name, ci_ori_name);
+						communityDao.updateCommunityImage(CommunityImageVo, co_num);
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
 				}
-				
-				try {
-					//원래 파일명
-					String ci_ori_name = file.getOriginalFilename();
-					//서버에 업로드 후 업로드된 경로와 uuid가 포함된 파일명
-					String fi_name = UploadFileUtils.uploadFile(uploadPath, ci_ori_name, file.getBytes());
-					//파일 객체
-					CommunityImageVO CommunityImageVo = new CommunityImageVO(community.getCo_num(), fi_name, ci_ori_name);
-					communityDao.insertCommunityImage(CommunityImageVo);
-				}catch(Exception e) {
-					e.printStackTrace();
+			}else {
+				for(MultipartFile file : fileList) {
+					if(file == null || file.getOriginalFilename().length() == 0) {
+						continue;
+					}
+					
+					try {
+						//원래 파일명
+						String ci_ori_name = file.getOriginalFilename();
+						//서버에 업로드 후 업로드된 경로와 uuid가 포함된 파일명
+						String fi_name = UploadFileUtils.uploadFile(uploadPath, ci_ori_name, file.getBytes());
+						//파일 객체
+						CommunityImageVO CommunityImageVo = new CommunityImageVO(community.getCo_num(), fi_name, ci_ori_name);
+						communityDao.insertCommunityImage(CommunityImageVo);
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
 				}
-				
 			}
-			
 			return true;
+			
+			 /*기존 파일 삭제
+				communityDao.deleteCommunityImage(co_num);
+			 */
+
 		}
 
 	@Override
@@ -221,6 +245,24 @@ public class CommunityServiceImp implements CommunityService{
 	public String getCcName(CommunityVO list) {
 		return communityDao.getCcName(list);
 	}
+
+	@Override
+	public boolean deleteCOM(Integer co_num) {
+		if(co_num == null) {
+			return false;
+		}else {
+		
+		//게시글 삭제 
+		communityDao.deleteCom(co_num);}
+		return true;
+	}
+
+	@Override
+	public CommunityImageVO selecteditImg(int co_num) {
+		CommunityImageVO editImg = communityDao.selecteditImg(co_num);
+		return editImg;
+	}
+	
 
 
 

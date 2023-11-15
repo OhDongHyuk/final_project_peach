@@ -50,7 +50,7 @@
 			justify-content: center;
 			align-items: center;
         }
-        .edit{
+        .co_edit{
       	    height: 30px;
         	width: 50px;
         }
@@ -249,8 +249,9 @@
 	    <div class="co_de_info CDdiv">작성자: ${writer.me_nick} | 작성일: ${detail.co_date}</div>
 	    <c:if test="${user.me_num == writer.me_num}">
 	    	<form action="<c:url value='/board/communityEdit/${detail.co_num}'/>" method="get">
-        		<button class="edit" type="submit">수정</button>
+        		<button class="co_edit" type="submit">수정</button>
    			 </form>
+   			 <button onclick="deleteCom(${detail.co_num})">삭제</button>
 	    </c:if>
 	    <c:if test="${user != null}">
 	    <c:if test="${user.me_num != writer.me_num}">
@@ -291,7 +292,7 @@
 								<div class="profile-right">
 									<div class="profile-right-box">
 										<c:if test= "${user != null}">
-										<button type="button" class="report-post" id="openReportModalBtn2" data-num="${reList.re_num }">신고</button>
+										<button type="button" class="report-post" id="openReportModalBtn2" data-num="${reList.re_num}">신고</button>
 										</c:if>
 									</div>
 								</div>
@@ -403,7 +404,7 @@
 		});
 		
 		function reportPost() {
-			
+
 			if('${user.me_num}' == '${writer_me_num}'){
 				alert("본인의 게시물은 신고가 불가합니다.");
 				return;
@@ -448,6 +449,7 @@
 		const closeReportModalBtn2 = document.querySelector(".custom-modal2 .close");
 		
 		[].forEach.call(openReportModalBtn2, function(button){
+			 console.log("버튼 클릭됨");
 			button.addEventListener("click", function () {
 				console.log(button);
 				if('${user.me_id}' == '') {
@@ -472,7 +474,7 @@
 		});
 		
 		function reportPost2() {
-			
+			 console.log("버튼 클릭됨");
 			const reportReason2 = document.getElementById("reportReason2").value;
 
 		  	if (reportReason2.trim() === "") {
@@ -505,6 +507,25 @@
 		function closeReportModal2() {
 			  reportPostModal2.style.display = "none";
 			}
+		
+		function deleteCom(co_num){
+			var ans = confirm('삭제하시겠습니까?');
+			if (ans) {
+				$.ajax({
+					type: 'POST',
+					url: '<c:url value="/board/comDelete"/>', // 맞게 URL 수정
+					data: { co_num: co_num },
+					success: function (data) {
+						alert('삭제 성공');
+						window.location.href = '<c:url value="/board/community"/>';
+					},
+					error: function (a) {
+						alert('삭제 실패');
+						console.log(a);
+					}
+				});
+			}
+		}
 		
     </script>
 </body>

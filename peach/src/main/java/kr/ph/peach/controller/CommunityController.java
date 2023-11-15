@@ -130,8 +130,9 @@ public class CommunityController {
 	            re.setReplyWriter(replyWriter);
 	            replyList.add(re);
 	        }
+	     
 	        model.addAttribute("reList", replyList);
-
+	        
 	        CommunityImageVO coImage = communityService.getCoImg(co_num);
 	        model.addAttribute("coImage", coImage);
   
@@ -166,10 +167,13 @@ public class CommunityController {
 	public String CommunityEdit(@PathVariable("co_num") int co_num, Model model, HttpSession session) {
 		MemberVO user = (MemberVO) session.getAttribute("user");
 	    model.addAttribute("user", user);
-		
+	    
+	    if (user == null) {
+	        return "redirect:/member/login";
+	    }
+
 	    CommunityVO detail = communityService.selectDetail(co_num);
     	model.addAttribute("detail",detail);
-    	System.out.println("detail"+detail);
     	
     	CommunityCategoryVO EditCategory = communityService.selectEditCC(detail);
     	model.addAttribute("EditCategory",EditCategory);
@@ -180,26 +184,25 @@ public class CommunityController {
 	    for (CommunityCategoryVO category : CCategory) {
 	        CCNames.add(category.getCc_name());
 	    }
-
 	    model.addAttribute("CCNames", CCNames);
+	   
+	    //co_num으로 해당글의 이미지 불러오기, 필요 없어지면 지워야함
+	    CommunityImageVO editImg = communityService.selecteditImg(co_num);
+    	model.addAttribute("editImg",editImg);
 	    
-	    if (user == null) {
-	        return "redirect:/member/login";
-	    }
-    	
 		return "/board/communityEdit";
 	}
 	
 	@PostMapping("/board/communityEdit/{co_num}")
 	public String updatePost(@PathVariable("co_num") int co_num, Model model,@ModelAttribute("community") CommunityVO community, HttpSession session, 
-			MultipartFile [] fileList, @RequestParam("CICategory") String CICategory) {
+			MultipartFile [] fileList, @RequestParam("CICategory") String CICategory, @RequestParam("editImg") String editImg) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		System.out.println("co_num"+co_num);
+
 		if("0".equals(CICategory)) {
 			return "redirect:/board/communityEdit";
 		}else {
 			int cc_num = communityService.selectCIname(CICategory);
-			boolean res = communityService.updateCommunity(community, co_num, fileList,cc_num ,user);
+			boolean res = communityService.updateCommunity(community, co_num, fileList,cc_num ,user, editImg);
 			
 			if(res) {
 				model.addAttribute("msg", "게시글 수정 성공!");
@@ -231,6 +234,19 @@ public class CommunityController {
 			System.out.println("coNum"+coNum);
 			communityService.increaseLikeCount(coNum);
 			return true;
+	}
+	@ResponseBody
+    @PostMapping("/board/comDelete")
+	public String deleteCom(Integer co_num, Model model) {
+		System.out.println(co_num);
+		Message msg;
+		if(communityService.deleteCOM(co_num)) {
+			msg = new Message("/board/community", "게시글을 삭제했습니다.");
+		}else {
+			msg = new Message("/board/community", "잘못된 접근입니다.");
+		}
+		model.addAttribute(msg);
+		return "Message";
 	}
 }
 

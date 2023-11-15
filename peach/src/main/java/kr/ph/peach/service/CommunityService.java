@@ -43,7 +43,7 @@ public interface CommunityService {
 
 	CommunityCategoryVO selectEditCC(CommunityVO detail);
 
-	boolean updateCommunity(CommunityVO community, int co_num , MultipartFile[] fileList, int cc_num,MemberVO user);
+	boolean updateCommunity(CommunityVO community, int co_num , MultipartFile[] fileList, int cc_num,MemberVO user,String editImg);
 
 	void updateCoView(int co_num);
 
@@ -56,6 +56,10 @@ public interface CommunityService {
 	LikesVO selectLkCoNum(MemberVO user, int coNum);
 
 	String getCcName(CommunityVO tmp);
+
+	boolean deleteCOM(Integer co_num);
+
+	CommunityImageVO selecteditImg(int co_num);
 
 
 

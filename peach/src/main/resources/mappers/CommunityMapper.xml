@@ -72,7 +72,7 @@
 		</if>
 	</select>
 	<select id="selectDetail" resultType="kr.ph.peach.vo.CommunityVO">
-		select * FROM community where co_num = ${co_num}
+		select * FROM community join community_category on co_cc_num = cc_num where co_num = ${co_num}
 	</select>
 	<select id="selectWriter" resultType="kr.ph.peach.vo.MemberVO">
 		select * FROM member where me_num = ${detail.co_me_num}
@@ -125,7 +125,21 @@
 	<select id="getCcName" resultType="String">
 		select cc_name From community_category where cc_num = #{list.co_cc_num}
 	</select>
+	<delete id="deleteCom">
+		delete from community where co_num = #{co_num}
+	</delete>
+	<select id="selecteditImg" resultType="kr.ph.peach.vo.CommunityImageVO">
+		select * from community_image where ci_co_num = #{co_num}
+	</select>
+	<update id="updateCommunityImage">
+		update community_image set ci_name = #{communityImageVo.ci_name}, ci_ori_name = #{communityImageVo.ci_ori_name}
+			where ci_co_num = #{co_num}
+	</update>
+	<delete id="deleteCommunityImage">
+		delete From community_image where ci_co_num = #{co_num}
+	</delete>
 </mapper>
+
 
 
 

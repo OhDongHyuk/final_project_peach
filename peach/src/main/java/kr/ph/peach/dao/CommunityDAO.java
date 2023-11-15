@@ -62,5 +62,13 @@ public interface CommunityDAO {
 
 	String getCcName(@Param("list")CommunityVO list);
 
+	void deleteCom(Integer co_num);
+
+	CommunityImageVO selecteditImg(int co_num);
+
+	void updateCommunityImage(@Param("communityImageVo")CommunityImageVO communityImageVo,@Param("co_num") int co_num);
+
+	void deleteCommunityImage(@Param("co_num")int co_num);
+
 
 }
