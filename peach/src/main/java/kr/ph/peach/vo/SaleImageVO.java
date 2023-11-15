@@ -15,11 +15,7 @@ public class SaleImageVO {
 		this.si_table = si_table;
 		this.si_key = si_key;
 	}
-	public SaleImageVO(String si_name, String si_table, int si_key) {
-		this.si_name = si_name;
-		this.si_table = si_table;
-		this.si_key = si_key;
-	}
+
 	public SaleImageVO(String si_name, String si_table, int si_key) {
 		this.si_name = si_name;
 		this.si_table = si_table;

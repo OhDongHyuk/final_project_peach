@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import kr.ph.peach.service.AuthService;
+import kr.ph.peach.service.ChatService;
 import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.ProfileService;
 import kr.ph.peach.util.Message;
@@ -33,9 +32,6 @@ public class MemberController {
 	
 	@Autowired
 	private ProfileService profileService;
-	
-	@Autowired
-	private ChatService chatService;
 
 	@GetMapping("/signup")
 	public String signup(Model model) {

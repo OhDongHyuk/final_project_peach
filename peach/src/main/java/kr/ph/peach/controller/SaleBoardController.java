@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +38,7 @@ import kr.ph.peach.vo.WishVO;
 public class SaleBoardController {
 	
 	@Autowired
-	MemberService memberSerivce;
+	MemberService memberService;
 
 	@Autowired
 	SaleBoardService saleBoardService;
@@ -54,7 +55,7 @@ public class SaleBoardController {
 		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
 		MemberVO user = (MemberVO) session.getAttribute("user");
 		if (user != null) {
-			List<WishVO> wishList = memberSerivce.getWishList(user.getMe_num());
+			List<WishVO> wishList = memberService.getWishList(user.getMe_num());
 			model.addAttribute("wishList", wishList);
 		}
 		for(SaleBoardVO tmp : prList) {

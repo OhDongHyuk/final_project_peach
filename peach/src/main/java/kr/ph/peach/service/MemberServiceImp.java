@@ -208,12 +208,6 @@ public class MemberServiceImp implements MemberService {
 	public MemberVO memberIdFind(MemberVO member) {
 		return memberDao.memberIdFind(member);
 	}
-	
-	//-------------아이디 찾기------------
-	@Override
-	public MemberVO memberIdFind(MemberVO member) {
-		return memberDao.memberIdFind(member);
-	}
 
 	@Override
 	public boolean sendPw(String me_id, String me_name) {
@@ -283,9 +277,7 @@ public class MemberServiceImp implements MemberService {
 		return Pattern.matches(regexId, id);
 	}
 
-	@Override
-	public void addPoints(int me_num, int paidAmount) {
-		memberDao.addPoints(me_num, paidAmount);
+	private boolean checkPwRegex(String pw) {
 		
 		//비번은 영문,숫자,특수문자로 이루어지고 8~20자 
 
@@ -296,8 +288,6 @@ public class MemberServiceImp implements MemberService {
 		}
 		return Pattern.matches(regexPw, pw);
 	}
-
-
 
 	@Override
 	public void withdrawMember(MemberVO user) {
@@ -365,5 +355,60 @@ public class MemberServiceImp implements MemberService {
 		// 회원가입
 		return memberDao.insertMemberForKakao(member);
 	}
+
+	@Override
+	public MemberVO getMemberById(int me_num) {
+		return memberDao.getMemberById(me_num);
+	}
+
+	@Override
+	public CityVO selectCity(int me_ci_num) {
+		if(me_ci_num == 0) {
+			return null;
+		}
+		return memberDao.selectCity(me_ci_num);
+	}
+
+	@Override
+	public List<MemberVO> getMemberLists() {
+		return memberDao.getMemberLists();
+	}
+
+	@Override
+	public void addPoints(int me_num, int paidAmount) {
+		memberDao.addPoints(me_num, paidAmount);
+	}
+
+	@Override
+	public boolean checkcode(String code, int num) {
+		
+		return memberDao.checkcode(code,num) != 0;
+	}
+
+	@Override
+    public boolean updatePassword(String code, String pw) {
+		String encPw = passwordEncoder.encode(pw);
+        return memberDao.pwUpdate(code, encPw) > 0;
+    }
+
+	@Override
+	public MemberVO getMemberByCode(String code) {
+		return memberDao.getMemberByCode(code);
+	}
+
+	@Override
+	public boolean checkMeIdAndMeName(String me_id, String me_name) {
+	    List<MemberVO> MemberList = getMemberLists(); // 가정: 해당 메서드로 데이터를 가져옴
+
+	    // 반복문을 통해 리스트 내의 객체들을 확인
+	    for (MemberVO request : MemberList) {
+	        if (request.getMe_id().equals(me_id) && request.getMe_name().equals(me_name)) {
+	            
+	            return true;
+	        }
+	    }	   
+	    // 리스트를 모두 확인했지만 해당 데이터가 없는 경우 true 반환
+	    return false;
+	} 
 
 }
