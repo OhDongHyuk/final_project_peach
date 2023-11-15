@@ -34,7 +34,7 @@ label.error {
 		<form action="<c:url value='/member/kakaosignup'/>" method="post">
 			<div class="form-group">
 				<label>아이디</label>
-				<input type="text" name="me_id" class="form-control" placeholder="${kakaoinfo.kakao_account.email }" value="${kakaoinfo.kakao_account.email }">
+				<input type="text" name="me_id" class="form-control" placeholder="${kakao.me_id}" value="${kakao.me_id}">
 				<input type="hidden" name="me_social" value="social">
 			</div>
 			<button class="btn btn-outline-dark col-12" type="button" id="btn-check" >아이디 중복체크</button>
@@ -48,17 +48,17 @@ label.error {
 			</div>
 			<div class="form-group">
 				<label>이름</label>
-				<input type="text" name="me_name" class="form-control" placeholder="${kakaoinfo.kakao_account.name }" value="${kakaoinfo.kakao_account.name }">
+				<input type="text" name="me_name" class="form-control" placeholder="${kakao.me_name }" value="${kakao.me_name}">
 				
 			</div>
 			<div class="form-group">
 				<label>핸드폰 번호</label>
-				<input type="text" name="me_phone" class="form-control" placeholder="${R }" value="${R }">
+				<input type="text" name="me_phone" class="form-control" placeholder="${kakao.me_phone }" value="${kakao.me_phone }">
 				
 			</div>
 			<div class="form-group">
 				<label>닉네임</label>
-				<input type="text" name="me_nick" class="form-control" placeholder="${kakaoinfo.properties.nickname }" value="${kakaoinfo.properties.nickname }">
+				<input type="text" name="me_nick" class="form-control" placeholder="${kakao.me_nick }" value="${kakao.me_nick}">
 			</div>
 			<button class="btn btn-outline-dark col-12" type="button" id="btn-check2">닉네임 중복체크</button>
 			<div class="form-group">

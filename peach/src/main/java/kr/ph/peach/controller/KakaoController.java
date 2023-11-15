@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,44 +52,49 @@ public class KakaoController<JSONElement> {
 
 	@SuppressWarnings({ "unchecked", "unused" })
 	@GetMapping("/kakao/login")
-	public String loginKakao(Model model, String code, HttpSession session)
-			throws IOException {
+	public String loginKakao(Model model, String code, HttpSession session) throws IOException {
 
-		session.setAttribute("code", code);
+		MemberVO kakaouser = (MemberVO) session.getAttribute("kakao");
 		
-		//유저의 엑세스토큰 저장
-		KakaoVO kakao = getKakaoAccessToken(code);
-		session.setAttribute("kakao", kakao);
-		if(kakao != null) {
-		String res = getUserForKakao(kakao.getAccess_token());
-		String token = kakao.getAccess_token();
+		String token = null;
+		Map<String, Object> kakaoinfo = null;
+		Long idnumber = 0L;
 		
-		Map<String, Object> kakaoinfo = getKakaologin(res);
+		if (kakaouser == null) {
+			
+			KakaoVO kakao = getKakaoAccessToken(code);
+			session.setAttribute("kakao", kakao);
+			
+			String res = getUserForKakao(kakao.getAccess_token());
+
+			token = kakao.getAccess_token();
+
+			kakaoinfo = getKakaologin(res);
+			
+			// 유저의 id를저장
+			KakaoMemberVO userid = new KakaoMemberVO();
+			userid.setTarget_id((Long) kakaoinfo.get("id"));
+			idnumber = userid.getTarget_id();
+
+			kakaouser = new MemberVO();
+			//kakaouser.setMe_id((String) ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("email"));
+			String kakaoemail = (String) ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("email");
+			kakaouser.setMe_id(kakaoemail);
+			String p = (String) ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("phone_number");
+			String R = p.replace("+82 ", "0");
+			kakaouser.setMe_phone(R);
+			String kakaoname = (String) kakaouser.getMe_id();
+			kakaouser.setMe_nick((String) ((Map<String, Object>) kakaoinfo.get("properties")).get("nickname"));
+			kakaouser.setMe_name((String) ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("name"));
+			
+		}
 		
-		//유저의 id를저장
-		KakaoMemberVO userid = new KakaoMemberVO();
-		userid.setTarget_id((Long) kakaoinfo.get("id"));
-		System.out.println(userid.getTarget_id());
-		Long idnumber = userid.getTarget_id();
-		System.out.println("유저 아이디넘버" + idnumber);
-		
-		
-		MemberVO kakaouser = new MemberVO();
-		kakaouser.setMe_id((String) ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("email"));
-		String kakaoemail = (String) ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("email");
-		kakaouser.setMe_id(kakaoemail);
-		String p = (String) ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("phone_number");
-		String R = p.replace("+82 ", "0");
-		kakaouser.setMe_phone(R);
-		String kakaoname = (String)kakaouser.getMe_id();
-		MemberVO user = memberService.kakaologin(kakaoname);
-		
-		if (kakao != null && user != null) {
+		MemberVO user = memberService.kakaologin(kakaouser.getMe_id());
+		if (user != null) {
 			// 유저정보
 			session.setAttribute("user", user);
-			System.out.println("유저정보"+user);
+			System.out.println("유저정보" + user);
 			// 카카오톡에서 받은 토큰
-			
 			session.setAttribute("token", token);
 			session.setAttribute("idnumber", idnumber);
 			return "redirect:/";
@@ -103,13 +109,10 @@ public class KakaoController<JSONElement> {
 			model.addAttribute("large", list);
 			List<BankVO> bankList = memberService.getBank();
 			model.addAttribute("bankList", bankList);
-			model.addAttribute("R", R);
+			model.addAttribute("R", kakaouser.getMe_phone());
+			session.setAttribute("kakao", kakaouser);
 			return "/member/kakaosignup";
 		}
-		}
-		return "/member/login";
-
-//		session.setAttribute("user", user);
 
 	}
 
@@ -129,15 +132,11 @@ public class KakaoController<JSONElement> {
 		Long idnumber = (Long) session.getAttribute("idnumber");
 //		System.out.println("아이디정보" + idnumber);
 		getUserWithdrawKakao(token, idnumber);
-		
-		
-		
-		
-		MemberVO user = (MemberVO)session.getAttribute("user");
+
+		MemberVO user = (MemberVO) session.getAttribute("user");
 		memberService.withdrawMember(user);
-		
+
 		session.invalidate();
-			
 
 		return "redirect:/";
 	}
@@ -151,14 +150,14 @@ public class KakaoController<JSONElement> {
 			Map<String, Long> idnum = new HashMap<String, Long>();
 			idnum.put("target_id", idnumber);
 			apiUrl = addParams(apiUrl, params);
-			
+
 			URL url = new URL(apiUrl + "=" + idnum);
 
 			// HTTP 연결 설정
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
 			connection.setRequestProperty("Authorization", "Bearer " + token); // 요청 헤더
-																						// // 설정
+																				// // 설정
 
 			// 응답 코드 확인
 			int responseCode = connection.getResponseCode();
@@ -227,7 +226,6 @@ public class KakaoController<JSONElement> {
 		Map<String, Object> kakaoinfo = objectMapper.readValue(res, new TypeReference<Map<String, Object>>() {
 		});
 
-	
 		/*
 		 * System.out.println(kakaoinfo); System.out.println("유저 ID = " +
 		 * kakaoinfo.get("id")); System.out.println("유저 연동시간 = " +
@@ -393,5 +391,4 @@ public class KakaoController<JSONElement> {
 		return null;
 	}
 
-	
 }
