@@ -114,7 +114,8 @@
 										</div>
 									</div>
 								</td>
-								<td><button onclick="deleteReport(${report.rp_num})" class="btn-white-delete">신고 삭제</button></td>
+								<td><button onclick="deleteReport(${report.rp_num})"
+										class="btn-white-delete">신고 삭제</button></td>
 							</tr>
 						</tbody>
 					</c:forEach>
@@ -130,7 +131,8 @@
 									<option value="me_nick"
 										<c:if test="${pm.cri.type == 'me_nick' }">selected</c:if>>닉네임</option>
 									<option value="rp_key"
-										<c:if test="${pm.cri.type == 'rp_key' }">selected</c:if>>게시판 번호</option>
+										<c:if test="${pm.cri.type == 'rp_key' }">selected</c:if>>게시판
+										번호</option>
 									<option value="rp_info"
 										<c:if test="${pm.cri.type == 'rp_info' }">selected</c:if>>내용</option>
 								</select>
@@ -182,17 +184,21 @@
 		})
 		
 		function deleteReport(rp_num){
-  		let rp = {
-  				rp_num : rp_num
-  		}
-  		ajaxJsonToJson(false, "post", "/admin/report/delete", rp, (data)=>{
-  			if(data.res){
-  				alert('삭제 성공')
-	  			location.reload();
-  			}else{
-  				alert('삭제 실패')
-  			}
-  		});
+			if(confirm("삭제하시겠습니까??")){
+		  		let rp = {
+		  				rp_num : rp_num
+		  		}
+		  		ajaxJsonToJson(false, "post", "/admin/report/delete", rp, (data)=>{
+		  			if(data.res){
+		  				alert('삭제 성공')
+			  			location.reload();
+		  			}else{
+		  				alert('삭제 실패')
+		  			}
+		  		})
+			}else{
+				alert("삭제 취소")
+			}
   	}
 		
 

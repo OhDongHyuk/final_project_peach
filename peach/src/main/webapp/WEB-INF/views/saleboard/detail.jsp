@@ -493,6 +493,17 @@
 	color: grey;
 	font-size: 13px;
 }
+
+.admindelete {
+	margin-left: 5px;
+	margin-right: 5px;
+	width: 176px;
+	height: 56px;
+	font-weight: 700;
+	background: rgb(255, 164, 37);
+	border: 1px solid rgb(243, 150, 20);
+	color: rgb(255, 255, 255);
+}
 </style>
 </head>
 <body>

@@ -71,6 +71,7 @@ public class KakaoController<JSONElement> {
 
 			kakaoinfo = getKakaologin(res);
 			
+			kakaouser = getMember(kakaoinfo);
 			// 유저의 id를저장
 			KakaoMemberVO userid = new KakaoMemberVO();
 			userid.setTarget_id((Long) kakaoinfo.get("id"));
@@ -95,6 +96,7 @@ public class KakaoController<JSONElement> {
 			session.setAttribute("user", user);
 			System.out.println("유저정보" + user);
 			// 카카오톡에서 받은 토큰
+
 			session.setAttribute("token", token);
 			session.setAttribute("idnumber", idnumber);
 			return "redirect:/";
@@ -114,6 +116,11 @@ public class KakaoController<JSONElement> {
 			return "/member/kakaosignup";
 		}
 
+	}
+
+	private MemberVO getMember(Map<String, Object> kakaoinfo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@GetMapping("/kakao/logout")
