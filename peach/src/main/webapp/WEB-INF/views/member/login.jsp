@@ -8,7 +8,7 @@
 <head>
 <meta charset="EUC-KR">
 <style>
-.imsi-box{
+.imsi-box {
 	min-height: 500px;
 	padding-top: 50px;
 }
@@ -36,6 +36,10 @@
 							</label>
 						</div>
 						<button class="btn btn-outline-warning col-12">로그인</button>
+						<a class="btn-kakao mt-5"
+							href="https://kauth.kakao.com/oauth/authorize?client_id=48d34ab3779ba344d7b7d355a84f5660&redirect_uri=http://localhost:8080/peach/kakao/login&response_type=code">
+							<img alt="카카오로그인" src="<c:url value='/resources/img/kakao_login.png'/>">
+							</a>
 					</form>
 				</div>
 			</div>

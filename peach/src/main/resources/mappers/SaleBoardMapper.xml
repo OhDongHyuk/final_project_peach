@@ -96,6 +96,9 @@
 		where 
 			wi_sb_num = #{sb_num}
 	</delete>
+	<delete id="deleteAllWish">
+		delete from wish where wi_sb_num = #{sb_num}
+	</delete>
 	<update id="updateWish">
 		update sale_board
 		set
@@ -172,5 +175,14 @@
 		delete from sale_image 
 		where 
 			si_num = #{num}
+
+	<delete id="deleteFile">
+		delete from sale_image where si_num = #{num}
+	</delete>
+	<delete id="sb_num">
+		delete from sale_board where sb_num = #{sb_num}
+	</delete>
+	<delete id="adminDeleteBoard">
+			delete from sale_board where sb_num = #{sb_num}
 	</delete>
 </mapper>

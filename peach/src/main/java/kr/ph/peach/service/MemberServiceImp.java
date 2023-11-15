@@ -31,6 +31,9 @@ public class MemberServiceImp implements MemberService {
 	@Autowired
 	private JavaMailSender mailSender;
 
+	@Autowired
+	private JavaMailSender mailSender;
+
 	@Override
 	public boolean signup(MemberVO member) {
 		if (member == null) {
@@ -97,18 +100,18 @@ public class MemberServiceImp implements MemberService {
 
 	@Override
 	public void updateMemberSession(MemberVO user) {
-		
-		if(user == null || user.getMe_id() == null) {
+
+		if (user == null || user.getMe_id() == null) {
 			return;
 		}
-		
+
 		memberDao.updateMemberSession(user);
-		
+
 	}
 
 	@Override
 	public MemberVO getMemberBySession(String session_id) {
-		
+
 		return memberDao.selectMemberBySession(session_id);
 	}
 	
@@ -168,7 +171,6 @@ public class MemberServiceImp implements MemberService {
 		return memberDao.selectMediumCity(large);
 	}
 
-
 	@Override
 	public List<CityVO> getSmall(String medium) {
 		return memberDao.selectSmallCity(medium);
@@ -216,8 +218,6 @@ public class MemberServiceImp implements MemberService {
 	public MemberVO memberIdFind(MemberVO member) {
 		return memberDao.memberIdFind(member);
 	}
-
-
 
 	@Override
 	public boolean sendPw(String me_id, String me_name) {
@@ -292,4 +292,81 @@ public class MemberServiceImp implements MemberService {
 		return memberDao.selectCity(me_ci_num);
 	}
 	
+	private boolean checkPwRegex(String pw) {
+
+		// 비번은 영문,숫자,특수문자로 이루어지고 8~20자
+		String regexPw = "^[a-zA-Z0-9!@#$%^&*()_+|~]{8,20}$";
+		if (pw == null) {
+			return false;
+		}
+		return Pattern.matches(regexPw, pw);
+	}
+
+	@Override
+	public void withdrawMember(MemberVO user) {
+		if (user == null || user.getMe_id() == null) {
+			return;
+		}
+
+		memberDao.deleteMember(user);
+
+	}
+
+	@Override
+	public MemberVO kakaologin(String kakaoname) {
+		// 아이디와 일치하는 회원 정보를 가져옴
+		MemberVO user = memberDao.selectMemberID(kakaoname);
+		System.out.println("가져온 유저아이디확인" + kakaoname);
+		System.out.println("닉네임확인" + user);
+
+		return user;
+	}
+
+	@Override
+	public boolean signupforkakao(MemberVO member) {
+		if (member == null) {
+			return false;
+		}
+
+		// 아이디 중복 확인
+		MemberVO dbMember = memberDao.selectMember(member.getMe_id());
+		// 가입하려는 아이디가 이미 가입된 경우
+		if (dbMember != null) {
+			return false;
+		}
+		MemberVO dbMember2 = memberDao.selectMemberByNickName(member.getMe_nick());
+		if (dbMember2 != null) {
+			return false;
+		}
+		MemberVO dbMember3 = memberDao.selectMemberByPhoneNum(member.getMe_phone());
+		if (dbMember3 != null) {
+			return false;
+		}
+		MemberVO dbMember4 = memberDao.selectMemberByAcc(member.getMe_acc());
+		if (dbMember4 != null) {
+			return false;
+		}
+		// 아이디, 비번 null 체크 + 유효성 검사
+		// 아이디는 이메일 형식
+		String idRegex = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([\\-.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$";
+		// 비번은 영문,숫자,특수문자로 이루어지고 8~20자
+		String pwRegex = "^[a-zA-Z0-9!@#$%^&*()_+|~]{8,20}$";
+
+		// 아이디가 유효성에 맞지 않으면
+		if (!Pattern.matches(idRegex, member.getMe_id())) {
+			return false;
+		}
+		// 비번이 유효성에 맞지 않으면
+		if (!Pattern.matches(pwRegex, member.getMe_pw())) {
+			return false;
+		}
+
+		// 비번 암호화
+		String encPw = passwordEncoder.encode(member.getMe_pw());
+		member.setMe_pw(encPw);
+		System.out.println(member);
+		// 회원가입
+		return memberDao.insertMemberForKakao(member);
+	}
+
 }

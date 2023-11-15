@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import kr.ph.peach.pagination.SaleBoardCriteria;
+import kr.ph.peach.vo.ReportVO;
 import kr.ph.peach.vo.SaleBoardVO;
 
 import kr.ph.peach.vo.SaleCategoryVO;
@@ -57,5 +58,7 @@ public interface SaleBoardDAO {
 	SaleImageVO selectFile(Integer num);
 
 	void deleteFile(Integer num);
+
+	void adminDeleteBoard(@Param("sb_num")Integer sb_num);
 
 }

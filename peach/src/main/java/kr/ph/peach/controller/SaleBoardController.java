@@ -92,7 +92,7 @@ public class SaleBoardController {
 		//유저가 없으면 로그인 필요 메시지 보낸 
 		Message msg;
 		if(user == null) {
-			msg = new Message("member/login", "로그인이 필요합니다.");
+			msg = new Message("saleboard/" + saleBoard.getSb_sc_num(), "로그인이 필요합니다.");
 			model.addAttribute("msg", msg);
 			return "message";
 		}
@@ -111,6 +111,7 @@ public class SaleBoardController {
 		} else {
 			msg = new Message("saleboard/insert", "게시물 등록에 실패했습니다.");
 		}
+		//System.out.println(files);
 		model.addAttribute("msg", msg);
 		return "message";
 	}
@@ -120,7 +121,15 @@ public class SaleBoardController {
 	@GetMapping("/list")
 	public String list(Model model, SaleBoardCriteria cri, HttpSession session) {
 		List<SaleBoardVO> dbBoardList = saleBoardService.selectAllBoard2(cri);
-		
+		MemberVO user = (MemberVO) session.getAttribute("user");
+		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
+		if (user != null) {
+			List<WishVO> wishList = memberSerivce.getWishList(user.getMe_num());
+			System.out.println(wishList);
+			model.addAttribute("wishList", wishList);
+		}
+		model.addAttribute("categoryList", categoryList);
+
 		for(SaleBoardVO tmp : dbBoardList) {
 			//객체의 회원번호로 회원 닉네임을 가져온 후 해당 객체의 닉네임에 저장(db에서 게시물이 회원번호만 외래키로 가지고 있고 닉네임 정보는 가져와야함)
 			dbBoardList.get(dbBoardList.indexOf(tmp)).setSb_me_nickname(saleBoardService.selectMemberNickname(tmp.getSb_me_num()));
@@ -150,6 +159,14 @@ public class SaleBoardController {
 		board.setSb_me_nickname(saleBoardService.selectMemberNickname(board.getSb_me_num()));
 		board.setSb_sc_name(saleBoardService.selectCategoryName(board.getSb_sc_num()));
 		board.setSb_me_sugar(saleBoardService.selectMemberSugar(board.getSb_me_num()));
+		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
+		if (user != null) {
+			List<WishVO> wishList = memberSerivce.getWishList(user.getMe_num());
+			System.out.println(wishList);
+			model.addAttribute("wishList", wishList);
+		}
+		model.addAttribute("categoryList", categoryList);
+
 		if(user != null && board != null) {
 			WishVO dbWish = saleBoardService.selectWish(user.getMe_num(), board.getSb_num());			
 			int wishCheck = 0;
@@ -177,7 +194,7 @@ public class SaleBoardController {
 		board.setSb_sc_name(saleBoardService.selectCategoryName(board.getSb_sc_num()));
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		if(user == null || board == null || user.getMe_num() != board.getSb_me_num()) {
-			Message msg = new Message("saleboard/detail?sb_num=" + sb_num, "잘못된 접근입니다.");
+			Message msg = new Message("saleboard/" + board.getSb_sc_num(), "잘못된 접근입니다.");
 			model.addAttribute("msg", msg);
 			return "message";
 		}

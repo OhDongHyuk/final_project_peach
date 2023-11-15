@@ -60,6 +60,11 @@ public interface MemberDAO {
 
 	boolean updateState(@Param("me_num")int me_num, @Param("me_st_num")int me_st_num);
 
-	CityVO selectCity(int me_ci_num);
+	void deleteMember(@Param("user")MemberVO user);
+
+	MemberVO selectMemberID(@Param("kakaoname")String kakaoname);
+
+	boolean insertMemberForKakao(@Param("member")MemberVO member);
+
 	
 }
