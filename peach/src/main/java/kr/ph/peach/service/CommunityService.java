@@ -63,6 +63,8 @@ public interface CommunityService {
 
 	boolean deleteComImg(int co_num);
 
+	boolean replyDelete(Integer re_num);
+
 
 
 }

@@ -138,6 +138,9 @@
 	<delete id="deleteComImg">
 		delete From community_image where ci_co_num = #{co_num}
 	</delete>
+	<delete id="replyDelete">
+		delete From reply where re_num = #{re_num}
+	</delete>
 </mapper>
 
 

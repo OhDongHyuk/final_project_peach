@@ -266,6 +266,17 @@ public class CommunityServiceImp implements CommunityService{
 		
 		return communityDao.deleteComImg(co_num);
 	}
+
+	@Override
+	public boolean replyDelete(Integer re_num) {
+		if(re_num == null) {
+			return false;
+		}else {
+		
+		//게시글 삭제 
+		communityDao.replyDelete(re_num);}
+		return true;
+	}
 	
 
 

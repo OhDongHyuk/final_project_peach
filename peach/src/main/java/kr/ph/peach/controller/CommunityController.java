@@ -263,6 +263,20 @@ public class CommunityController {
 		model.addAttribute(msg);
 		return "Message";
 	}
+	
+	@ResponseBody
+	@PostMapping("/board/replyDelete")
+	public String replyDelete(Integer re_num, Model model) {
+	    System.out.println(re_num);
+	    Message msg;
+	    if (communityService.replyDelete(re_num)) {
+	        msg = new Message("/board/community", "게시글을 삭제했습니다.");
+	    } else {
+	        msg = new Message("/board/community", "잘못된 접근입니다.");
+	    }
+	    model.addAttribute(msg);
+	    return "Message";
+	}
 }
 
 

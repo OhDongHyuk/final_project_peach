@@ -298,6 +298,9 @@
 									</div>
 								</div>
 							</c:if>
+							<c:if test="${reList.replyWriter == user.me_nick}">
+							    <button type="button" onclick="delete_reply(${reList.re_num})">삭제</button>
+							</c:if>
 						</div>
 		            </div>
 		        </c:forEach>
@@ -527,7 +530,26 @@
 				});
 			}
 		}
-		
+	
+		function delete_reply(re_num) {
+		    var ans = confirm('삭제하시겠습니까?');
+		    if (ans) {
+		        $.ajax({
+		            type: 'POST',
+		            url: '<c:url value="/board/replyDelete"/>',
+		            data: { re_num: re_num },
+		            success: function (data) {
+		                alert('삭제 성공');
+		                location.reload();
+		            },
+		            error: function (a) {
+		                alert('삭제 실패');
+		                location.reload();
+		            }
+		        });
+		    }
+		}         
+
     </script>
 </body>
 </html>
