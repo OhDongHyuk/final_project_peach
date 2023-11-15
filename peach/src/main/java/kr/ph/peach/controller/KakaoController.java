@@ -51,16 +51,18 @@ public class KakaoController<JSONElement> {
 
 	@SuppressWarnings({ "unchecked", "unused" })
 	@GetMapping("/kakao/login")
-	public String loginKakao(Model model, String code, String state, MemberVO member, HttpSession session)
+	public String loginKakao(Model model, String code, HttpSession session)
 			throws IOException {
 
+		session.setAttribute("code", code);
+		
 		//유저의 엑세스토큰 저장
 		KakaoVO kakao = getKakaoAccessToken(code);
+		session.setAttribute("kakao", kakao);
+		if(kakao != null) {
+		String res = getUserForKakao(kakao.getAccess_token());
 		String token = kakao.getAccess_token();
 		
-		
-		String res = getUserForKakao(kakao.getAccess_token());
-
 		Map<String, Object> kakaoinfo = getKakaologin(res);
 		
 		//유저의 id를저장
@@ -78,20 +80,18 @@ public class KakaoController<JSONElement> {
 		String p = (String) ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("phone_number");
 		String R = p.replace("+82 ", "0");
 		kakaouser.setMe_phone(R);
-		System.out.println("카카오유저테스트"+kakaouser.getMe_id());
 		String kakaoname = (String)kakaouser.getMe_id();
-		System.out.println("유저이메일" + kakaoname);
 		MemberVO user = memberService.kakaologin(kakaoname);
-		System.out.println("테스트" + user);
 		
 		if (kakao != null && user != null) {
 			// 유저정보
 			session.setAttribute("user", user);
 			System.out.println("유저정보"+user);
 			// 카카오톡에서 받은 토큰
-			session.setAttribute("kakao", kakao);
+			
 			session.setAttribute("token", token);
 			session.setAttribute("idnumber", idnumber);
+			return "redirect:/";
 			/*
 			 * System.out.println(kakao); System.out.println(token);
 			 * System.out.println(idnumber);
@@ -106,8 +106,8 @@ public class KakaoController<JSONElement> {
 			model.addAttribute("R", R);
 			return "/member/kakaosignup";
 		}
-
-		return "redirect:/";
+		}
+		return "/member/login";
 
 //		session.setAttribute("user", user);
 
