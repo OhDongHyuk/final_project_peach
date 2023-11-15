@@ -14,29 +14,32 @@ public class ChatEmitter {
     private final ConcurrentHashMap<Integer, Boolean> isEmitterComplete = new ConcurrentHashMap<>();
     private static final Logger logger = LoggerFactory.getLogger(SSEController.class);
 
-    // 주 생성자에서 main sseEmitter 제거
+    // Updated constructor to remove the main sseEmitter
     public ChatEmitter(Integer userId, SseEmitter emitter) {
-        // 각 사용자의 emitter 초기화
+        // Initialize each user's emitter
         add(userId, emitter);
     }
 
-    // 추가된 각 emitter를 구성하기 위해 add 메소드 업데이트
+    // Updated add method to configure each emitter added
     public boolean add(Integer userId, SseEmitter emitter) {
         SseEmitter existingEmitter = emitters.putIfAbsent(userId, emitter);
         if (existingEmitter == null) {
-            configureSseEmitter(userId); // 새 emitter 구성
-            isEmitterComplete.put(userId, false); // 완료되지 않음으로 표시
+            configureSseEmitter(userId); // Configure the new emitter
+            isEmitterComplete.put(userId, false); // Mark as not completed
             return true;
         }
         return false;
     }
 
-    // 특정 사용자의 emitter에 연결 확인 이벤트 보내기
+    // Send the connection confirmation event to the specific user's emitter
     public void sendConnectEvent(Integer userId) throws IOException {
-        sendMessageToUser(userId, "connect", "Connected to user " + userId);
+        SseEmitter userEmitter = emitters.get(userId);
+        if (userEmitter != null) {
+            userEmitter.send(SseEmitter.event().name("connect").data("Connected to user " + userId));
+        }
     }
 
-    // 라이프사이클 이벤트를 위한 emitter 구성
+    // Configure the emitter for lifecycle events
     private void configureSseEmitter(Integer userId) {
         SseEmitter userEmitter = emitters.get(userId);
         if (userEmitter != null) {
@@ -46,69 +49,79 @@ public class ChatEmitter {
         }
     }
 
-    // 특정 사용자의 emitter 완료
+    // Complete the emitter for a specific user
     private void complete(Integer userId) {
         SseEmitter userEmitter = emitters.remove(userId);
         if (userEmitter != null) {
             userEmitter.complete();
-            isEmitterComplete.put(userId, true); // emitter를 완료로 표시
-            logger.info("Emitter for user {} has been completed.", userId);
+            isEmitterComplete.put(userId, true); // Mark the emitter as completed
+            logger.info("Emitter for user {} is completed.", userId);
         }
     }
 
-    // 특정 사용자에 대한 에러로 emitter 완료
+    // Complete the emitter with an error for a specific user
     private void completeWithError(Integer userId, Throwable throwable) {
-        logger.error("Emitter for user {} encountered an error: {}", userId, throwable.getMessage());
-        complete(userId); // 에러 후 emitter 완료
+        SseEmitter userEmitter = emitters.get(userId);
+        if (userEmitter != null) {
+            try {
+                logger.error("Emitter for user {} encountered error: {}", userId, throwable.getMessage());
+                userEmitter.completeWithError(throwable);
+            } finally {
+                emitters.remove(userId);
+            }
+        }
     }
-
-    // 주어진 사용자 ID에 대한 emitter 검색
     public SseEmitter get(Integer userId) {
-        return emitters.get(userId);
+    	SseEmitter emitter = emitters.get(userId);
+    	return emitter;
     }
     
-    // 모든 emitter 검색
     public ConcurrentHashMap<Integer, SseEmitter> getEmitters() {
         return emitters;
     }
 
-    // 주어진 사용자 ID에 대한 emitter 제거 및 완료
-    public void remove(Integer userId) {
-        SseEmitter emitter = emitters.get(userId);
-        if (emitter != null) {
-            emitter.complete();
-            emitters.remove(userId);
-        }
-    }
+	public void remove(Integer userId) {
+		
+		emitters.get(userId).complete();
+	}
+	
 
-    // 새 메시지를 방에 있는 모든 사용자에게 전송
-    public void sendNewMessage(Integer roomId) {
-        emitters.forEach((userId, userEmitter) -> {
-            if (!isEmitterComplete.getOrDefault(userId, false)) {
-                sendMessageToUser(userId, "newMessage", roomId);
-            }
-        });
-    }
+	public void sendNewMessage(Integer roomId) {
+	    emitters.forEach((userId, userEmitter) -> {
+	        // Check if the emitter has been marked as completed
+	        Boolean completed = isEmitterComplete.getOrDefault(userId, false);
+	        if (!completed) {
+	            try {
+	                userEmitter.send(SseEmitter.event().name("newMessage").data(roomId));
+	            } catch (IOException e) {
+	                logger.error("Error sending new message to user " + userId, e);
+	                complete(userId); // Make sure to complete if an error occurs
+	            } catch (IllegalStateException e) {
+	                logger.error("Emitter is already completed for user " + userId, e);
+	                // This catch block may not be necessary if you always ensure the map is up-to-date.
+	            }
+	        }
+	    });
+	}
+	
+	public void read(Integer roomId) {
+	    emitters.forEach((userId, userEmitter) -> {
+	        // Check if the emitter has been marked as completed
+	        Boolean completed = isEmitterComplete.getOrDefault(userId, false);
+	        if (!completed) {
+	            try {
+	                userEmitter.send(SseEmitter.event().name("read").data(roomId));
+	            } catch (IOException e) {
+	                logger.error("Error sending new message to user " + userId, e);
+	                complete(userId); // Make sure to complete if an error occurs
+	            } catch (IllegalStateException e) {
+	                logger.error("Emitter is already completed for user " + userId, e);
+	                // This catch block may not be necessary if you always ensure the map is up-to-date.
+	            }
+	        }
+	    });
+	}
+
+	
     
-    // 방에서 읽은 메시지를 모든 사용자에게 전송
-    public void read(Integer roomId) {
-        emitters.forEach((userId, userEmitter) -> {
-            if (!isEmitterComplete.getOrDefault(userId, false)) {
-                sendMessageToUser(userId, "read", roomId);
-            }
-        });
-    }
-
-    // 사용자에게 메시지 전송을 위한 중복 코드 리팩토링
-    private void sendMessageToUser(Integer userId, String eventName, Object data) {
-        SseEmitter emitter = emitters.get(userId);
-        if (emitter != null && !isEmitterComplete.getOrDefault(userId, false)) {
-            try {
-                emitter.send(SseEmitter.event().name(eventName).data(data));
-            } catch (IOException | IllegalStateException e) {
-            	logger.error("Error sending event to user {}: {}", userId, e.getMessage());
-                complete(userId);
-            }
-        }
-    }
 }

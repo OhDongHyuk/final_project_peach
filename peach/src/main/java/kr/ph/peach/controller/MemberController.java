@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.ph.peach.service.AuthService;
-
 import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.ProfileService;
 import kr.ph.peach.util.Message;
@@ -125,7 +124,9 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("/id/check")
 	public boolean idCheck(@RequestParam("id") String id){
+		System.out.println(id);
 		boolean res= memberService.checkId(id);
+		System.out.println(res);
 		return res;
 	}
 	
@@ -146,7 +147,9 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("/nick/check")
 	public boolean nickCheck(@RequestParam("nick") String nick){
+		System.out.println(nick);
 		boolean res= memberService.checkNick(nick);
+		System.out.println(res);
 		return res;
 	}
 	

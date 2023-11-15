@@ -53,7 +53,8 @@ public interface MemberDAO {
 
 	boolean updateState(@Param("me_num")int me_num, @Param("me_st_num")int me_st_num);
 
-	void addPoints(@Param("me_num")int me_num, @Param("paidAmount")int paidAmount);
+	void insertAuthCode(@Param("au_num")int me_num,@Param("au_code") int num);
+
 
 	int checkcode(@Param("code")String code, @Param("num")int num);
 	//-----------------------------------------------------------
@@ -65,6 +66,5 @@ public interface MemberDAO {
 
 	List<MemberVO> getMemberLists();
 	
-
 
 }

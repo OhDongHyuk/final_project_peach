@@ -1,6 +1,5 @@
 package kr.ph.peach.service;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,8 +19,6 @@ import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.SaleImageVO;
 import kr.ph.peach.vo.WishVO;
-import net.coobird.thumbnailator.Thumbnails;
-import net.coobird.thumbnailator.geometry.Positions;
 
 @Service
 public class SaleBoardServiceImp implements SaleBoardService {
@@ -86,25 +83,13 @@ public class SaleBoardServiceImp implements SaleBoardService {
 			try {
 				String si_table = "sale_board";
 				String si_name = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
-				String si_thb_name = UploadFileUtils.createThumbnail(uploadPath, si_name, file.getBytes());
-				SaleImageVO saleImage = new SaleImageVO(si_name, si_thb_name, si_table, sb_num);
+				SaleImageVO saleImage = new SaleImageVO(si_name, si_table, sb_num);
 				saleBoardDao.insertFile(saleImage);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		
-	}
-	
-	public File convertMultipartFileToFile(MultipartFile multipartFile) throws IOException {
-	    // Create a new File object using the original file name of the MultipartFile
-	    File file = new File(multipartFile.getOriginalFilename());
-	    
-	    // Transfer the contents of the MultipartFile to the new File
-	    multipartFile.transferTo(file);
-	    
-	    // Return the File
-	    return file;
 	}
 
 	@Override
@@ -222,7 +207,7 @@ public class SaleBoardServiceImp implements SaleBoardService {
 			if(fileVo == null) {
 				continue;
 			}
-			UploadFileUtils.deleteFile(uploadPath, fileVo.getSi_name(), fileVo.getSi_thb_name());
+			UploadFileUtils.deleteFile(uploadPath, fileVo.getSi_name());
 			//DB에서 제거 
 			saleBoardDao.deleteFile(num);
 		}

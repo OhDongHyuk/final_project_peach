@@ -8,11 +8,9 @@
 			<div class="row align-items-center">
 				<div class="col-lg-4 col-md-4 col-12">
 					<div class="top-left">
-						<c:if test="${user != null }">
-							<ul class="menu-top-link">
-								<img width="20px" height="20px" src="<c:url value='/resources/image/location.png'/>"> ${user.me_city_name}
-							</ul>
-						</c:if>
+						<ul class="menu-top-link">
+
+						</ul>
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-4 col-12">
@@ -23,8 +21,8 @@
 							<li><a href="<c:url value='/board/community'/>">피치 게시판</a></li>
 						</ul>
 					</div>
-				</div>				<div class="col-lg-4 col-md-4 col-12">
-
+				</div>
+				<div class="col-lg-4 col-md-4 col-12">
 					<div class="top-end">
 						<ul class="user-login">
 							<c:if test="${user == NULL}">
@@ -34,7 +32,7 @@
 									href="<c:url value='/member/login'/>">로그인</a></li>
 							</c:if>
 							<c:if test="${user != NULL }">
-								<li class="inner-item"><a href="#" id="notificationLink">거래 알림</a></li>
+								<li class="inner-item"><a href="#" id="notificationLink">알림</a></li>
 								<div class="notifi-alarm" id="notificationBox">
 								</div>
 								<li class="inner-item"><a href="<c:url value='/member/logout'/>">로그아웃</a></li>
@@ -68,15 +66,14 @@
 	                var notificationBoxContent = '';
 	
 	                $.each(notificationList, function(index, item) {
+	                	console.log(item);
+	                    console.log(item.saleBoardVO);
 	                    var imageSrc = item.saleBoardVO.saleImageVOList.length !== 0 ? item.saleBoardVO.saleImageVOList[0].si_name : '';
-	                    var tradeType = (item.tq_trade_type === 1) ? '직거래' : '피치거래';
-
+	                    console.log(imageSrc)
 	                    notificationBoxContent += '<div class="notifi-small">' +
 	                        '<img class="notifi-img"  src="/peach/resources/image/' + imageSrc + '">' +
 	                        '<h3>' + item.saleBoardVO.sb_name + '</h3>' + '</br>' +
 	                        '<h3 a>' + item.memberVO.me_id + '</h3>' +
-	                        '<h3>' + tradeType + '</h3>' +
-
 	                        '<div class="notifi-btnbox">' + 
 	                        '<button class="notifi-btn accept" onclick="acception(' + item.tq_num + ')">수락</button>' +
 	                        '<button class="notifi-btn reject" onclick="rejection(' + item.tq_num + ')">거절</button>' +
@@ -220,9 +217,6 @@
 	}
 	.notifi-small > * {
     border-right: 1px solid black; /* 각 자식 요소 사이에 오른쪽에 1px 두께의 검은색 선 추가 */
-	}
-	.menu-top-link {
-		color: #fff;
 	}
 
 </style>

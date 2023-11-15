@@ -91,7 +91,9 @@ public class MemberServiceImp implements MemberService {
 		
 		//아이디와 일치하는 회원 정보를 가져옴
 		MemberVO user = memberDao.selectMember(member.getMe_id());
+		System.out.println(user);
 		//아이디와 일치하는 회원 정보가 있고, 비번이 일치하면 
+		System.out.println("로그인테스트"+passwordEncoder.matches(member.getMe_pw(), user.getMe_pw()));
 		if(user != null && passwordEncoder.matches(member.getMe_pw(), user.getMe_pw())) {
 			return user;
 		}
@@ -137,6 +139,8 @@ public class MemberServiceImp implements MemberService {
 		}
 		return memberDao.getTotalCount(cri);
 	}
+
+	
 
 	@Override
 	public boolean updateState(int me_num, int me_st_num) {
@@ -192,7 +196,6 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public MemberVO selectMemberByPhoneNum(String phone) {
 		return memberDao.selectMemberByPhoneNum(phone) ;
-
 	}
 
 
@@ -203,6 +206,11 @@ public class MemberServiceImp implements MemberService {
 
 	}
 
+
+	//-------------아이디 찾기------------
+	@Override
+	public MemberVO memberIdFind(MemberVO member) {
+		return memberDao.memberIdFind(member);
 	}
 	
 	@Override
@@ -261,7 +269,6 @@ public class MemberServiceImp implements MemberService {
 	    memberDao.insertAuthCode(member.getMe_num(), num);
 
 	    return true;
-
 	}
 
 	private boolean checkIdRegex(String id) {
@@ -276,12 +283,16 @@ public class MemberServiceImp implements MemberService {
 	private boolean checkPwRegex(String pw) {
 		
 		//비번은 영문,숫자,특수문자로 이루어지고 8~20자 
-		String regexPw = "^[a-zA-Z0-9!@#$%^&*()_+|~]{8,20}$";
+
+		String regexPw = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_+|]).{8,20}$";
+
 		if(pw == null) {
 			return false;
 		}
 		return Pattern.matches(regexPw, pw);
 	}
+
+
 
 	@Override
 	public boolean checkcode(String code, int num) {
@@ -324,6 +335,8 @@ public class MemberServiceImp implements MemberService {
 	public List<MemberVO> getMemberLists() {
 		return memberDao.getMemberLists();
 	}
+
+	
 
 	
 }
