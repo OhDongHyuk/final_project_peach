@@ -51,35 +51,15 @@ public interface MemberService {
 
 	boolean updateState(int me_num, int me_st_num);
 
-	void addPoints(int me_num, int paidAmount);
+	boolean checkcode(String code, int num);
+	//---------------------------------------------------
+	boolean updatePassword(String code, String hashedPw);
 
-	MemberVO getMemberById(int me_num);
+	MemberVO getMemberByCode(String code);
 
-	List<CityVO> getMediumCity(String large);
-
-
-	List<CityVO> getSmall(String medium);
+	boolean checkMeIdAndMeName(String me_id, String me_name);
 	
-	List<BankVO> getBank();
+	List<MemberVO> getMemberLists();
 
-	MemberVO getMemberByNumber(int meNum);
-	
-	MemberVO selectMemberByPhoneNum(String me_phone);
-
-	MemberVO selectMemberByAcc(String me_acc);
-	//---------------아이디 찾기-----------------
-	MemberVO memberIdFind(MemberVO member);
-
-	boolean sendPw(String me_id, String me_name);
-	
-	List<WishVO> getWishList(int me_num);
-
-	List<MemberVO> getMemberList(MemberCriteria cri);
-
-	int getTotalCount(MemberCriteria cri);
-
-	boolean updateState(int me_num, int me_st_num);
-
-	CityVO selectCity(int me_ci_num);
 	
 }

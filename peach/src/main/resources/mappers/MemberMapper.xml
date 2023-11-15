@@ -50,12 +50,17 @@
 		<collection property="bankVO"
 			ofType="kr.ph.peach.vo.BankVO" column="me_bk_name"
 			select="selectBankList" />
+		<collection property="authVO"
+			ofType="kr.ph.peach.vo.AuthVO" column="me_num"
+			select="getMemberByCode" />
 	</resultMap>
 
 
 	<!-- <collection property="saleBoardVO" ofType="kr.ph.peach.vo.SaleBoardVO" 
 		column="wi_sb_num" select="selectsaleBoardWishList" /> -->
-
+	<select id="getMemberLists" resultType="MemberVO">
+		select * from member
+	</select>
 
 	<insert id="insertMember" useGeneratedKeys="true" keyProperty="member.me_num">
 		insert into
@@ -220,23 +225,27 @@
 	</select>
 	
 	<insert id="insertAuthCode">
-		insert into
-			auth_code(au_num,au_code,au_time)
-			select (#{au_num},#{au_code}, addtime(now(), "00:05"))
+	    insert into auth_code (au_num, au_code, au_time)
+	    values (#{au_num}, #{au_code}, DATE_ADD(NOW(), INTERVAL 5 MINUTE))
 	</insert>
   
 	<update id="updateState">
 		update member set me_st_num = #{me_st_num} where
 		me_num = #{me_num}
 	</update>
-	<select id="selectCity" resultType="kr.ph.peach.vo.CityVO">
-		select * from city where ci_num = #{me_ci_num}
+	<select id="checkcode" resultType="int">
+		select count(*) from auth_code where au_num = #{num} and au_code = #{code} and au_time > now() 
 	</select>
-	<update id="addPoints">
-		update member set me_point = me_point + #{paidAmount} where me_num = #{me_num}
-	</update>
-	<select id="getMemberById" resultType="kr.ph.peach.vo.MemberVO">
-		select * from member where me_num = #{me_num}
+	
+	<update id="pwUpdate">
+    update member set me_pw = #{hashedPw} where me_num = (
+        select me_num from auth_code where au_code = #{code}
+    )
+	</update>	
+	<select id="getMemberByCode" resultType="MemberVO">
+    SELECT me_pw FROM member join auth_code on me_num = au_num WHERE au_code = #{code} LIMIT 1
 	</select>
+    
+	
+</mapper> 
 
-</mapper>

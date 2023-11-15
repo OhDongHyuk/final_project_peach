@@ -1,5 +1,8 @@
 package kr.ph.peach.service;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Random;
 import java.util.regex.Pattern;
@@ -17,6 +20,7 @@ import kr.ph.peach.pagination.MemberCriteria;
 import kr.ph.peach.vo.BankVO;
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.TradingRequestVO;
 import kr.ph.peach.vo.WishVO;
 
 @Service
@@ -200,103 +204,64 @@ public class MemberServiceImp implements MemberService {
 	}
 
 	}
-	private boolean checkPwRegex(String pw) {
-		
-		//비번은 영문,숫자,특수문자로 이루어지고 8~20자 
-
-		String regexPw = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_+|]).{8,20}$";
-
-		if(pw == null) {
-			return false;
-		}
-		return Pattern.matches(regexPw, pw);
-	}
 	
 	@Override
 	public boolean sendPw(String me_id, String me_name) {
-		MemberVO member = memberDao.selectMember(me_id);
-		MemberVO member2 = memberDao.selectMemberByName(me_name);
-		//아이디(email)를 잘못 입력 
-		if(member == null) {
-			return false;
-		//이름 잘못 입력
-		}
-		
-		if(member2 == null) {
-			return false;
-		}
-		//같으면 
+	    MemberVO member = memberDao.selectMember(me_id);
 
-			
-		
-		Random r = new Random();
-		int num = r.nextInt(999999); // 랜덤난수설정
-		
-		
-		//인증 코드를 이메일로 전송
-		String setfrom = "rlatldbs4042@gmail.com";  
-		String tomail = me_id; //받는사람
+	    // 아이디(email)를 잘못 입력
+	    if (member == null) {
+	        return false;
+	    }
 
-		String title = "[피치마켓] 비밀번호변경 인증 이메일 입니다"; 
-		String content = System.getProperty("line.separator") + "안녕하세요 회원님" + System.getProperty("line.separator")
-				+ "피치마켓 비밀번호찾기(변경) 인증번호는 " + num + " 입니다." + System.getProperty("line.separator"); // 
+	    // 이름 잘못 입력
+	    if (!member.getMe_name().equals(me_name)) {
+	        return false;
+	    }
 
-	@Override
-	public MemberVO selectMemberByAcc(String acc) {
-		return memberDao.selectMemberByAcc(acc);
-	}
+	    Random r = new Random();
+	    int num = r.nextInt(999999); // 랜덤난수설정
 
+	    // 이메일 내용을 HTML 형식으로 구성
+	    String setfrom = "rlatldbs4042@gmail.com";
+	    String tomail = me_id;
 
-	//-------------아이디 찾기------------
-	@Override
-	public MemberVO memberIdFind(MemberVO member) {
-		return memberDao.memberIdFind(member);
-	}
+	    String title = "[피치마켓] 비밀번호 변경 인증 이메일";
+	    String content = "<html>"
+	    		 + "<body>"
+	             + "<table width='100%' bgcolor='#76076' style='margin: 0; padding: 0; font-family: Arial, sans-serif;'>"
+	             + "  <tr>"
+	             + "    <td align='center'>"
+	             + "      <img src='http://localhost:8080/peach/resources/image/피치.png' style='display: block; margin: 0 auto;'>"
+	             + "      <h1 style='text-align: center; color: #ffffff;'>비밀번호 변경</h1>"
+	             + "      <p style='text-align: center; color: #ffffff;'>안녕하세요 " + me_name + " 님,</p>"
+	             + "      <p style='text-align: center; color: #ffffff;'>비밀번호를 재설정하기 위해 아래 링크를 클릭하세요.</p>"
+	             + "      <p style='text-align: center; color: #ffffff;'><a href='http://localhost:8080/peach/member/pw_auth/check?num=" + member.getMe_num() + "&code=" + num + "' style='color: #cee13a; text-decoration: underline;'>비밀번호 변경하기</a></p>"
+	             + "    </td>"
+	             + "  </tr>"
+	             + "</table>"
+	             + "</body>"
+	             + "</html>";
 
+	    try {
+	        MimeMessage message = mailSender.createMimeMessage();
+	        MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "utf-8");
 
+	        messageHelper.setFrom(setfrom);
+	        messageHelper.setTo(tomail);
+	        messageHelper.setSubject(title);
+	        messageHelper.setText(content, true);
 
-	@Override
-	public boolean sendPw(String me_id, String me_name) {
-		MemberVO member = memberDao.selectMember(me_id);
-		MemberVO member2 = memberDao.selectMemberByName(me_name);
-		//아이디(email)를 잘못 입력 
-		if(member == null) {
-			return false;
-		//이름 잘못 입력
-		}else if(member2 == null) {
-			return false;
-		//같으면 
-		}else {
-			
-		
-		Random r = new Random();
-		int num = r.nextInt(999999); // 랜덤난수설정
-		
-		
-		//인증 코드를 이메일로 전송
-		String setfrom = "rlatldbs4042@gmail.com";  
-		String tomail = me_id; //받는사람
-		String title = "[삼삼하개] 비밀번호변경 인증 이메일 입니다"; 
-		String content = System.getProperty("line.separator") + "안녕하세요 회원님" + System.getProperty("line.separator")
-				+ "삼삼하개 비밀번호찾기(변경) 인증번호는 " + num + " 입니다." + System.getProperty("line.separator"); // 
-	
-		try {
-			MimeMessage message = mailSender.createMimeMessage();
-			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "utf-8");
-	
-			messageHelper.setFrom(setfrom); 
-			messageHelper.setTo(tomail); 
-			messageHelper.setSubject(title);
-			messageHelper.setText(content); 
+	        mailSender.send(message);
+	    } catch (Exception e) {
+	        System.out.println(e.getMessage());
+	        return false;
+	    }
 
-			mailSender.send(message);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return false;
-		}
-		
-		return true;
-		}
+	    memberDao.insertAuthCode(member.getMe_num(), num);
+
+	    return true;
+
 	}
 
 	private boolean checkIdRegex(String id) {
@@ -319,178 +284,46 @@ public class MemberServiceImp implements MemberService {
 	}
 
 	@Override
-	public void addPoints(int me_num, int paidAmount) {
-		memberDao.addPoints(me_num, paidAmount);
+	public boolean checkcode(String code, int num) {
 		
-	}
-
-	@Override
-	public MemberVO getMemberById(int me_num) {
-		return memberDao.getMemberById(me_num);
-	}
-
-	@Override
-	public List<MemberVO> getMemberList(MemberCriteria cri) {
-		if(cri == null) {
-			cri = new MemberCriteria();
-		}
-		return memberDao.getMemberList(cri);
-	}
-
-	@Override
-	public int getTotalCount(MemberCriteria cri) {
-		if(cri == null) {
-			cri = new MemberCriteria();
-		}
-		return memberDao.getTotalCount(cri);
-	}
-
-	
-
-	@Override
-	public boolean updateState(int me_num, int me_st_num) {
-		
-		return memberDao.updateState(me_num, me_st_num);
-	}
-
-	@Override
-	public boolean checkId(String id) {
-		return memberDao.selectMember(id) == null;
-	}
-
-	@Override
-	public boolean checkNick(String nick) {
-		return memberDao.selectMemberByNickName(nick) == null;
-		
-	}
-
-	@Override
-	public MemberVO getMemberBySessionId(String sId) {
-		return memberDao.selectMemberBySessionId(sId);
-	}
-
-
-	@Override
-	public List<CityVO> getLargeCity() {
-		// TODO Auto-generated method stub
-		return memberDao.selectLargeCity();
-	}
-
-
-	@Override
-	public List<CityVO> getMediumCity(String large) {
-		return memberDao.selectMediumCity(large);
-	}
-
-
-	@Override
-	public List<CityVO> getSmall(String medium) {
-		return memberDao.selectSmallCity(medium);
+		return memberDao.checkcode(code,num) != 0;
 	}
 	
+	//---------------------------------------------------------------
 	@Override
-	public List<BankVO> getBank() {
-		return  memberDao.selectBank();
-	}
+    public boolean updatePassword(String code, String pw) {
+		String encPw = passwordEncoder.encode(pw);
+        return memberDao.pwUpdate(code, encPw) > 0;
+    }
+
+
 
 	@Override
-	public MemberVO getMemberByNumber(int meNum) {
-		MemberVO member = memberDao.getMemberByNumber(meNum);
-		return member;
-	}
-
-	@Override
-	public MemberVO selectMemberByPhoneNum(String phone) {
-		return memberDao.selectMemberByPhoneNum(phone) ;
+	public MemberVO getMemberByCode(String code) {
+		return memberDao.getMemberByCode(code);
 	}
 
 
 
 	@Override
-	public MemberVO selectMemberByAcc(String acc) {
-		return memberDao.selectMemberByAcc(acc);
-	}
+	public boolean checkMeIdAndMeName(String me_id, String me_name) {
+	    List<MemberVO> MemberList = getMemberLists(); // 가정: 해당 메서드로 데이터를 가져옴
 
-
-	//-------------아이디 찾기------------
-	@Override
-	public MemberVO memberIdFind(MemberVO member) {
-		return memberDao.memberIdFind(member);
-	}
-
-
-
-	@Override
-	public boolean sendPw(String me_id, String me_name) {
-		MemberVO member = memberDao.selectMember(me_id);
-		MemberVO member2 = memberDao.selectMemberByName(me_name);
-		//아이디(email)를 잘못 입력 
-		if(member == null) {
-			return false;
-		//이름 잘못 입력
-		}else if(member2 == null) {
-			return false;
-		//같으면 
-		}else {
-			
-		
-		Random r = new Random();
-		int num = r.nextInt(999999); // 랜덤난수설정
-		
-		
-		//인증 코드를 이메일로 전송
-		String setfrom = "rlatldbs4042@gmail.com";  
-		String tomail = me_id; //받는사람
-		String title = "[삼삼하개] 비밀번호변경 인증 이메일 입니다"; 
-		String content = System.getProperty("line.separator") + "안녕하세요 회원님" + System.getProperty("line.separator")
-				+ "삼삼하개 비밀번호찾기(변경) 인증번호는 " + num + " 입니다." + System.getProperty("line.separator"); // 
-	
-		try {
-			MimeMessage message = mailSender.createMimeMessage();
-			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "utf-8");
-	
-			messageHelper.setFrom(setfrom); 
-			messageHelper.setTo(tomail); 
-			messageHelper.setSubject(title);
-			messageHelper.setText(content); 
-	
-			mailSender.send(message);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return false;
-		}
-
-			
-		
-		return true;
-		}
-	}
-
-	private boolean checkIdRegex(String id) {
-		//아이디는 영문,숫자,@._-로 이루어지고 8~20자 
-		String regexId = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([\\-.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$";
-		
-		if(id == null) {
-			return false;
-		}
-		return Pattern.matches(regexId, id);
-	}
-	private boolean checkPwRegex(String pw) {
-		
-		//비번은 영문,숫자,특수문자로 이루어지고 8~20자 
-		String regexPw = "^[a-zA-Z0-9!@#$%^&*()_+|~]{8,20}$";
-		if(pw == null) {
-			return false;
-		}
-		return Pattern.matches(regexPw, pw);
+	    // 반복문을 통해 리스트 내의 객체들을 확인
+	    for (MemberVO request : MemberList) {
+	        if (request.getMe_id().equals(me_id) && request.getMe_name().equals(me_name)) {
+	            
+	            return true;
+	        }
+	    }	   
+	    // 리스트를 모두 확인했지만 해당 데이터가 없는 경우 true 반환
+	    return false;
 	}
 
 	@Override
-	public CityVO selectCity(int me_ci_num) {
-		if(me_ci_num == 0) {
-			return null;
-		}
-		return memberDao.selectCity(me_ci_num);
+	public List<MemberVO> getMemberLists() {
+		return memberDao.getMemberLists();
 	}
+
 	
 }
