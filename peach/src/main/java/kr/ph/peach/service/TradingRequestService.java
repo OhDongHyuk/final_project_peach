@@ -37,4 +37,5 @@ public interface TradingRequestService {
 	void addPointToCustomer(int tq_num);
 
 	void reducePointToCustomer(int tq_num);
+
 }

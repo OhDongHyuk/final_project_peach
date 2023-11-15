@@ -68,11 +68,13 @@
 	                $.each(notificationList, function(index, item) {
 	                    var imageSrc = item.saleBoardVO.saleImageVOList.length !== 0 ? item.saleBoardVO.saleImageVOList[0].si_name : '';
 	                    var tradeType = (item.tq_trade_type === 1) ? '직거래' : '피치거래';
+
 	                    notificationBoxContent += '<div class="notifi-small">' +
 	                        '<img class="notifi-img"  src="/peach/resources/image/' + imageSrc + '">' +
 	                        '<h3>' + item.saleBoardVO.sb_name + '</h3>' + '</br>' +
 	                        '<h3 a>' + item.memberVO.me_id + '</h3>' +
 	                        '<h3>' + tradeType + '</h3>' +
+
 	                        '<div class="notifi-btnbox">' + 
 	                        '<button class="notifi-btn accept" onclick="acception(' + item.tq_num + ')">수락</button>' +
 	                        '<button class="notifi-btn reject" onclick="rejection(' + item.tq_num + ')">거절</button>' +

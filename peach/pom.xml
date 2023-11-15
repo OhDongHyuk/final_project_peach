@@ -290,7 +290,6 @@
 		    <artifactId>mail</artifactId>
 		    <version>1.4.3</version>
 		</dependency>  
-		<!-- 아임포트 REST API연동 모듈 -->
 	</dependencies>
 	<build>
 		<plugins>

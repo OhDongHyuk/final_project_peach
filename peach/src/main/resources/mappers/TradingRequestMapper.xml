@@ -80,6 +80,7 @@
 		insert into trading_request(tq_sb_num, tq_me_num, tq_trade_type) 
 		values(#{sb_num}, #{user.me_num}, 2);
 	</insert>
+
 	<update id="changeTradingState">
 		update trading_request join sale_board on tq_sb_num = sb_num
 		set tq_as_num = 2 ,sb_ss_num = 2 WHERE tq_num = #{tq_num};
@@ -112,4 +113,5 @@
 		update trading_request join member on tq_me_num = me_num join sale_board on tq_sb_num = sb_num 
 		set me_point =  me_point - sb_price where tq_num = #{tq_num} and tq_trade_type = 2
 	</update>
+
 </mapper>

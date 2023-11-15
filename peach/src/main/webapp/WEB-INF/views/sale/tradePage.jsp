@@ -107,6 +107,7 @@
 		.report-post:hover {
 			background-color: #ff4500; /* Change the background color on hover */
 		}
+
 		.modal {
 		  display: none;
 		  position: fixed;

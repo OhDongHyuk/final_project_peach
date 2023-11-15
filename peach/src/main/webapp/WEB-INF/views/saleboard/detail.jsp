@@ -823,7 +823,6 @@
 		        });
 		    });
 		});
-
 		
 		// 신고 모달
 		const reportPostModal = document.getElementById("reportPostModal");

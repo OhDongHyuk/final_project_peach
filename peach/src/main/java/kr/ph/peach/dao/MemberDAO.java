@@ -56,5 +56,5 @@ public interface MemberDAO {
 	void addPoints(@Param("me_num")int me_num, @Param("paidAmount")int paidAmount);
 
 	MemberVO getMemberById(@Param("me_num")int me_num);
-	
+
 }

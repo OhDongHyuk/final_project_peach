@@ -54,5 +54,6 @@ public interface MemberService {
 	void addPoints(int me_num, int paidAmount);
 
 	MemberVO getMemberById(int me_num);
+
 	
 }

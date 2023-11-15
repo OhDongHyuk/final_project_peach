@@ -75,6 +75,9 @@
 	<select id="selectMemberByAcc" resultType="MemberVO">
 		select * from member where me_acc= #{acc}
 	</select>
+	<select id="selectMemberByName" resultType="MemberVO">
+		select * from member where me_name= #{name}
+	</select>
 	<update id="updateMemberSession">
 		update
 			member
@@ -201,6 +204,27 @@
 		resultType="kr.ph.peach.vo.StatementVO">
 		select * from statement
 	</select>
+
+
+	<select id="memberIdFind"  resultType="MemberVO">
+	<![CDATA[
+	    select
+	        *
+	    from
+	        member
+	    where
+	        me_name = #{me_name}
+	    and
+	        me_phone = #{me_phone}
+	]]>    
+	</select>
+	
+	<insert id="insertAuthCode">
+		insert into
+			auth_code(au_num,au_code,au_time)
+			select (#{au_num},#{au_code}, addtime(now(), "00:05"))
+	</insert>
+  
 	<update id="updateState">
 		update member set me_st_num = #{me_st_num} where
 		me_num = #{me_num}
@@ -211,4 +235,5 @@
 	<select id="getMemberById" resultType="kr.ph.peach.vo.MemberVO">
 		select * from member where me_num = #{me_num}
 	</select>
+
 </mapper>
