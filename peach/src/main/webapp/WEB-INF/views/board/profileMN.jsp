@@ -7,26 +7,26 @@
 	<title>마이페이지 관리</title>
 </head>
 <style>
-	.insert-container {
+	.insert-container1 {
 		width: 1100px;
 		margin: auto;
 		margin-top: 20px;
 		margin-bottom: 20px;
 	}
 	
- 	li {
+ 	.upload {
       list-style: none;
       position: relative;
     }
-
-    img {
+	.image-list {
+	  list-style: none;
+      position: relative;
+	}
+    .pImg {
       width: 200px;
       height: 200px;
 		
     }
-	close {
-	
-	}
     .real-upload {
       display: none;
     }
@@ -83,7 +83,7 @@
 	<h1 class="qwe">마이페이지 관리</h1>
 
 	<br>
-	<div class="insert-container">
+	<div class="insert-container1">
 		<div class="wrapper">
 				<ul class="image-preview mb-3">
 				<c:if test="${pi_num == ''}">
@@ -92,7 +92,7 @@
 					<c:if test="${pi_num != ''}">
 						<li class="upload" style="background-image:url('<c:url value='/resources/image/upload.png' />'); display: none;"></li>
 						<li class="image-list" id="file0">
-							<img alt="" src="<c:url value='/img/${OriFileName}' />" >
+							<img class="pImg" alt="" src="<c:url value='/img/${OriFileName}' />" >
 							<button class="close-btn" type="button" onclick="deleteOriginal(0)"></button>
 						</li>
 					</c:if>

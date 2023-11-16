@@ -263,10 +263,10 @@ public class SaleBoardController {
         System.out.println(trade);
         if (trade) {
 	        map.put("status", "success");
-	        map.put("message", "직거래를 요청하였습니다.");
+	        map.put("message", "거래를 요청하였습니다.");
 	    } else {
 	        map.put("status", "error");
-	        map.put("message", "이미 직거래를 신청한 물품입니다.");
+	        map.put("message", "이미 거래를 신청한 물품입니다.");
 	    }
 
 	    System.out.println(map);
