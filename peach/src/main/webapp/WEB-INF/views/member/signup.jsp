@@ -31,7 +31,7 @@ label.error {
 <body>
 	<h2>회원가입</h2>
 	<div class="container">
-		<form action="<c:url value='/member/signup'/>" method="post">
+		<form action="<c:url value='/member/signup'/>" method="post" id="form">
 			<div class="form-group">
 				<label>아이디</label>
 				<input type="text" name="me_id" class="form-control" placeholder="아이디">
@@ -98,7 +98,8 @@ label.error {
 	</div>
 	<script type="text/javascript">
 		let checkId = false;
-	
+		const idRegex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([\-.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+		const pwRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_+|]).{8,20}$/;
 		$('#btn-check').click(function(){
 			//서버로 아이디를 전달=>Object로 id만 서버로 전송
 			let id = $('[name=me_id]').val();
@@ -106,7 +107,7 @@ label.error {
 				alert('아이디를 입력하세요.');
 				return;
 			}
-			let idRegex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([\-.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+
 			if(!idRegex.test(id)){
 				alert('이메일 형식이 아닙니다.')
 				return false;
@@ -189,7 +190,7 @@ label.error {
 		
 		
 		$(function(){
-		    $("form").validate({
+		    $("#form").validate({
 		        rules: {
 		            me_id: {
 		                required : true,
@@ -197,7 +198,7 @@ label.error {
 		            },
 		            me_pw: {
 		                required : true,
-		                regex: /^[a-zA-Z0-9!@#$%^&*()_+|~]{8,20}$/
+		                regex: pwRegex
 		            },
 		            me_pw2: {
 		                required : true,
@@ -247,7 +248,7 @@ label.error {
 		            },
 		            me_acc: {
 		                required : "필수로입력하세요.",
-		                regex : "-제외한 숫자만 입력하세요."
+		                regex : "10~20자로 -제외한 숫자만 입력하세요."
 		            },
 		            me_phone: {
 		                required : "필수로입력하세요",
@@ -267,10 +268,15 @@ label.error {
 		            
 		        },
 		  		submitHandler : function(){
-		  			if(!flag){
-		  				alert('아이디 중복검사를 하세요.');
-		  				return false;
-		  			}
+		  			
+		  			if(!checkId){
+						alert('아이디 중복 검사를 하세요.');
+						return false;
+					}
+					if(!checkNick){
+						alert('닉네임 중복 검사를 하세요.');
+						return false;
+					}
 		  			return true;
 		  		}
 		        
@@ -346,6 +352,57 @@ label.error {
 				}
 			});
 		})
+		
+		$('[name=me_phone]').focusout(function(){
+		    let phone = $(this).val().trim(); // 입력란의 값을 가져옴
+		
+		    if(phone == ''){
+		        alert('핸드폰 번호를 입력하세요.');
+		        return;
+		    }
+		
+		    $.ajax({
+		        url: '<c:url value="/member/phone"/>',
+		        type: 'POST',
+		        data: { phone: phone},
+		        success: function(data){
+		            if(!data){
+		                alert('이미 사용 중인 핸드폰 번호입니다.');
+		            }
+		        },
+		        error : function(a,b,c){
+					console.log(a);
+					console.log(b);
+					console.log(c);
+				}
+		    });
+		});
+		
+		$('[name=me_acc]').focusout(function(){
+		    let acc = $(this).val().trim(); // 입력란의 값을 가져옴
+		
+		    if(acc == ''){
+		        alert('계좌 번호를 입력하세요.');
+		        return;
+		    }
+		
+		    $.ajax({
+		        url: '<c:url value="/member/acc"/>',
+		        type: 'POST',
+		        data: { acc: acc},
+		        success: function(data){
+		            if(!data){
+		                alert('이미 사용 중인 계좌 번호입니다.');
+		            }
+		        },
+		        error : function(a,b,c){
+					console.log(a);
+					console.log(b);
+					console.log(c);
+				}
+		    });
+		});
+		
 		
 	</script>
 </body>

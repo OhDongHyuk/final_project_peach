@@ -22,6 +22,7 @@ import kr.ph.peach.service.SaleBoardService;
 import kr.ph.peach.service.SaleCategoryService;
 import kr.ph.peach.service.TradingRequestService;
 import kr.ph.peach.util.Message;
+import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
@@ -58,14 +59,22 @@ public class HomeController {
 
 	@RequestMapping(value = "/")
 	public String home(Model model, HttpSession session, SaleBoardCriteria cri) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user != null) {
+			CityVO userCity = memberSerivce.selectCity(user.getMe_ci_num());
+			user.setMe_city_name(userCity.getCi_large() + " " + userCity.getCi_medium() + " " + userCity.getCi_small());
+		}
+		cri.setPerPageNum(20);
 		List<SaleBoardVO> prList = saleBoardService.getSaleBoardList(cri);
+		for(SaleBoardVO tmp : prList) {
+			prList.get(prList.indexOf(tmp)).setSb_me_nickname(saleBoardService.selectMemberNickname(tmp.getSb_me_num()));
+		}
 		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
 		cri.setPerPageNum(8);
 		// 현재 페이지에 맞는 게시글을 가져와야함
 		List<SaleBoardVO> list = saleBoardService.getMainSaleBoardList(cri);
 		int totalCount = saleBoardService.getTotalCount(cri);
-		
-		MemberVO user = (MemberVO) session.getAttribute("user");
+	
 		if (user != null) {
 			List<WishVO> wishList = memberSerivce.getWishList(user.getMe_num());
 			System.out.println(wishList);
@@ -82,43 +91,47 @@ public class HomeController {
 
 		return "/main/home";
 	}
-
+	
 	@ResponseBody
 	@PostMapping("/common/header")
-	public Map<String, Object> updatePost(Model model, HttpSession session) {
+	public Map<String,Object> updatePost(Model model, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		MemberVO user = (MemberVO) session.getAttribute("user");
+		MemberVO user = (MemberVO)session.getAttribute("user");
 		List<TradingRequestVO> trList = tradingRequestService.getTradingRequestList(user);
 		map.put("trList", trList);
 		System.out.println(trList);
 		return map;
 	}
-
+	
 	@ResponseBody
 	@PostMapping("/common/reject")
-	public Map<String, Object> rejectPost(@RequestParam("tq_num") int tq_num, Model model, HttpSession session) {
+	public Map<String,Object> rejectPost(@RequestParam("tq_num") int tq_num, Model model, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		tradingRequestService.addPointToCustomer(tq_num);
 		boolean rejection = tradingRequestService.deleteTradingRequest(tq_num, model, session);
 		if (rejection) {
-			// 삭제 작업이 성공한 경우의 로직
-			map.put("status", "success");
-			map.put("message", "거래 요청이 삭제되었습니다.");
-		} else {
-			// 삭제 작업이 실패한 경우의 로직
-			map.put("status", "error");
-			map.put("message", "거래 요청 삭제에 실패했습니다.");
-		}
+	        // 삭제 작업이 성공한 경우의 로직			
+	        map.put("status", "success");
+	        map.put("message", "거래 요청이 삭제되었습니다.");
+	    } else {
+	        // 삭제 작업이 실패한 경우의 로직
+	    	tradingRequestService.reducePointToCustomer(tq_num);
+	        map.put("status", "error");
+	        map.put("message", "거래 요청 삭제에 실패했습니다.");
+	    }
 		return map;
 	}
-
+	
+	
 	@ResponseBody
 	@PostMapping("/common/accept")
-	public Map<String, Object> accdeptPost(@RequestParam("tq_num") int tq_num) {
+	public Map<String,Object> accdeptPost(@RequestParam("tq_num") int tq_num) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		tradingRequestService.changeTradingState(tq_num);
 		tradingRequestService.makingTrading(tq_num);
 		System.out.println(map);
 		return map;
 	}
+
 
 }

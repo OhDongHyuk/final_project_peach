@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import kr.ph.peach.util.Message;
@@ -34,7 +35,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 //			response.sendRedirect(request.getContextPath()+"/");
 			response.sendRedirect("/peach/main/message");
 			Message msg;
-			msg = new Message("", "접근 권한이 없습니다");
+			msg = new Message("/", "접근 권한이 없습니다");
 			session.setAttribute("msg", msg);
 			return false;
 		}

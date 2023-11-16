@@ -39,15 +39,30 @@
 						<a class="btn-kakao mt-5"
 							href="https://kauth.kakao.com/oauth/authorize?client_id=48d34ab3779ba344d7b7d355a84f5660&redirect_uri=http://localhost:8080/peach/kakao/login&response_type=code">
 							<img alt="카카오로그인" src="<c:url value='/resources/img/kakao_login.png'/>">
-							</a>
+						</a>
+						<a href="<c:url value='/member/find_id'/>" class="btn">아이디 찾기</a>
+						<a href="<c:url value='/member/pw_find'/>" class="btn">비밀번호 찾기</a>	
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-	<a href="<c:url value='/member/find_id'/>"
-		class="btn btn-facebook btn-user btn-block">아이디 찾기</a>
-	<a href="<c:url value='/member/pw_find'/>"
-		class="btn btn-warning btn-user btn-block">비밀번호찾기 찾기</a>
+	<a href="<c:url value='/member/find_id'/>" class="btn btn-facebook btn-user btn-block">아이디 찾기</a>
+	<a href="<c:url value='/member/pw_find'/>" class="btn btn-warning btn-user btn-block">비밀번호찾기 찾기</a>
 </body>
+<script>
+    // 페이지가 로드될 때 서버에서 전달된 메시지 확인
+    var successMessage = "${successMessage}";
+    var errorMessage = "${errorMessage}";
+
+    // 비밀번호 변경 성공 시
+    if (successMessage !== "") {
+        alert(successMessage);
+    }
+    
+    // 비밀번호 변경 실패 시
+    if (errorMessage !== "") {
+        alert(errorMessage);
+    }
+</script>
 </html>

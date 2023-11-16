@@ -11,7 +11,7 @@ public class CriteriaProfile {
 	
 	public CriteriaProfile() {
 		page = 1;
-		perPageNum = 5;
+		perPageNum = 10;
 		t = "all";
 		s = "";
 	}

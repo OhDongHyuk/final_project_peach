@@ -1,5 +1,6 @@
 package kr.ph.peach.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,6 +21,8 @@ import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.SaleImageVO;
 import kr.ph.peach.vo.WishVO;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 
 @Service
 public class SaleBoardServiceImp implements SaleBoardService {
@@ -30,7 +33,7 @@ public class SaleBoardServiceImp implements SaleBoardService {
 
 	@Autowired
 	SaleBoardDAO saleBoardDao;
-
+	
 	@Autowired
 	ChatDAO chatDao;
 
@@ -52,7 +55,7 @@ public class SaleBoardServiceImp implements SaleBoardService {
 
 	@Override
 	public boolean insertBoard(SaleBoardVO saleBoard, MemberVO user, MultipartFile[] files) {
-		if (user == null) {
+		if(user == null) {
 			return false;
 		}
 		if (saleBoard == null || saleBoard.getSb_name() == null) {
@@ -62,36 +65,48 @@ public class SaleBoardServiceImp implements SaleBoardService {
 		String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 		saleBoard.setSb_date(formatedNow);
 		saleBoard.setSb_me_num(user.getMe_num());
-
-		if (!saleBoardDao.insertBoard(saleBoard)) {
+		
+		if(!saleBoardDao.insertBoard(saleBoard)) {
 			return false;
 		}
-		if (files == null || files.length == 0) {
+		if(files == null || files.length == 0) {
 			return true;
 		}
 		uploadFileAndInsert(files, saleBoard.getSb_num());
-
+		
 		return true;
 	}
 
 	private void uploadFileAndInsert(MultipartFile[] files, int sb_num) {
-		if (files == null || files.length == 0) {
+		if(files == null || files.length == 0) {
 			return;
 		}
-		for (MultipartFile file : files) {
-			if (file == null || file.getOriginalFilename().length() == 0) {
+		for(MultipartFile file : files) {
+			if(file == null || file.getOriginalFilename().length() == 0) {
 				continue;
 			}
 			try {
 				String si_table = "sale_board";
 				String si_name = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
-				SaleImageVO saleImage = new SaleImageVO(si_name, si_table, sb_num);
+				String si_thb_name = UploadFileUtils.createThumbnail(uploadPath, si_name, file.getBytes());
+				SaleImageVO saleImage = new SaleImageVO(si_name, si_thb_name, si_table, sb_num);
 				saleBoardDao.insertFile(saleImage);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-
+		
+	}
+	
+	public File convertMultipartFileToFile(MultipartFile multipartFile) throws IOException {
+	    // Create a new File object using the original file name of the MultipartFile
+	    File file = new File(multipartFile.getOriginalFilename());
+	    
+	    // Transfer the contents of the MultipartFile to the new File
+	    multipartFile.transferTo(file);
+	    
+	    // Return the File
+	    return file;
 	}
 
 	@Override
@@ -146,14 +161,14 @@ public class SaleBoardServiceImp implements SaleBoardService {
 
 	@Override
 	public boolean updateBoard(SaleBoardVO board, MemberVO user, MultipartFile[] files, Integer[] delFiles) {
-		if (board == null || user == null) {
+		if(board == null || user == null) {
 			return false;
 		}
 		if (user.getMe_num() != board.getSb_me_num()) {
 			return false;
 		}
 		saleBoardDao.updateBoard(board);
-
+		
 		uploadFileAndInsert(files, board.getSb_num());
 		deleteFile(delFiles);
 		return true;
@@ -169,11 +184,11 @@ public class SaleBoardServiceImp implements SaleBoardService {
 		}
 		SaleBoardVO board = saleBoardDao.selectBoard(sb_num);
 		ChatVO chat = chatDao.selectChatBySbNum(sb_num);
-		if (chat != null) {
+		if(chat != null) {
 			chatDao.deleteMessages(chat.getCh_num());
 			chatDao.deleteChat(chat.getCh_num());
 		}
-		if (board == null || board.getSb_me_num() != user.getMe_num()) {
+		if(board == null || board.getSb_me_num() != user.getMe_num()) {
 			return false;
 		}
 		List<SaleImageVO> fileList = board.getSaleImageVOList();
@@ -184,36 +199,36 @@ public class SaleBoardServiceImp implements SaleBoardService {
 	}
 
 	private void deleteFile(List<SaleImageVO> fileList) {
-		if (fileList == null || fileList.size() == 0) {
+		if(fileList == null || fileList.size() == 0){
 			return;
 		}
-		Integer[] nums = new Integer[fileList.size()];
-		for (int i = 0; i < nums.length; i++) {
+		Integer [] nums = new Integer[fileList.size()];
+		for(int i = 0; i < nums.length; i++) {
 			nums[i] = fileList.get(i).getSi_num();
 		}
 		deleteFile(nums);
-
+		
 	}
 
 	private void deleteFile(Integer[] nums) {
-		if (nums == null || nums.length == 0) {
+		if(nums == null || nums.length == 0) {
 			return;
 		}
-
-		for (Integer num : nums) {
-			if (num == null) {
+		
+		for(Integer num : nums) {
+			if(num == null) {
 				continue;
 			}
-			// 첨부파일 정보를 가져옴
+			//첨부파일 정보를 가져옴
 			SaleImageVO fileVo = saleBoardDao.selectFile(num);
-			if (fileVo == null) {
+			if(fileVo == null) {
 				continue;
 			}
-			UploadFileUtils.deleteFile(uploadPath, fileVo.getSi_name());
-			// DB에서 제거
+			UploadFileUtils.deleteFile(uploadPath, fileVo.getSi_name(), fileVo.getSi_thb_name());
+			//DB에서 제거 
 			saleBoardDao.deleteFile(num);
 		}
-
+		
 	}
 
 	@Override
@@ -223,7 +238,6 @@ public class SaleBoardServiceImp implements SaleBoardService {
 		}
 		saleBoardDao.insertWish(wish);
 		saleBoardDao.updateWish(wish.getWi_sb_num(), 1);
-
 	}
 
 	@Override
@@ -255,7 +269,7 @@ public class SaleBoardServiceImp implements SaleBoardService {
 
 	@Override
 	public List<SaleImageVO> getFileList(Integer sb_num) {
-		if (sb_num == null) {
+		if(sb_num == null) {
 			return null;
 		}
 		String si_table = "sale_board";

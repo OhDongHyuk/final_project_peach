@@ -26,18 +26,6 @@ public interface MemberService {
 	
 	List<CityVO> getLargeCity();
 
-	List<CityVO> getMediumCity(String large);
-
-
-	List<CityVO> getSmall(String medium);
-	
-	List<BankVO> getBank();
-
-	MemberVO getMemberByNumber(int meNum);
-	
-	MemberVO selectMemberByPhoneNum(String me_phone);
-
-	MemberVO selectMemberByAcc(String me_acc);
 	//---------------아이디 찾기-----------------
 	MemberVO memberIdFind(MemberVO member);
 
@@ -57,5 +45,33 @@ public interface MemberService {
 
 	boolean signupforkakao(MemberVO member);
 
+	List<CityVO> getMediumCity(String large);
+
+
+	List<CityVO> getSmall(String medium);
 	
+	List<BankVO> getBank();
+
+	MemberVO getMemberByNumber(int meNum);
+	
+	MemberVO selectMemberByPhoneNum(String me_phone);
+
+	MemberVO selectMemberByAcc(String me_acc);
+	//---------------아이디 찾기-----------------
+
+	void addPoints(int me_num, int paidAmount);
+
+	MemberVO getMemberById(int me_num);
+	
+	CityVO selectCity(int me_ci_num);
+	
+	boolean checkcode(String code, int num);
+	//---------------------------------------------------
+	boolean updatePassword(String code, String hashedPw);
+
+	MemberVO getMemberByCode(String code);
+
+	boolean checkMeIdAndMeName(String me_id, String me_name);
+	
+	List<MemberVO> getMemberLists();
 }

@@ -7,26 +7,26 @@
 	<title>마이페이지 관리</title>
 </head>
 <style>
-	.insert-container {
+	.insert-container1 {
 		width: 1100px;
 		margin: auto;
 		margin-top: 20px;
 		margin-bottom: 20px;
 	}
 	
- 	li {
+ 	.upload {
       list-style: none;
       position: relative;
     }
-
-    img {
+	.image-list {
+	  list-style: none;
+      position: relative;
+	}
+    .pImg {
       width: 200px;
       height: 200px;
 		
     }
-	close {
-	
-	}
     .real-upload {
       display: none;
     }
@@ -83,16 +83,16 @@
 	<h1 class="qwe">마이페이지 관리</h1>
 
 	<br>
-	<div class="insert-container">
+	<div class="insert-container1">
 		<div class="wrapper">
-				<ul class="image-preview">
+				<ul class="image-preview mb-3">
 				<c:if test="${pi_num == ''}">
 				<li class="upload" style="background-image:url('<c:url value='/resources/image/upload.png' />')"></li>
 				</c:if>
 					<c:if test="${pi_num != ''}">
 						<li class="upload" style="background-image:url('<c:url value='/resources/image/upload.png' />'); display: none;"></li>
 						<li class="image-list" id="file0">
-							<img alt="" src="<c:url value='/img/${pi_num}' />" >
+							<img class="pImg" alt="" src="<c:url value='/img/${OriFileName}' />" >
 							<button class="close-btn" type="button" onclick="deleteOriginal(0)"></button>
 						</li>
 					</c:if>
@@ -233,7 +233,12 @@
 		</div>
 		<div class="form-group-e">
 			<label>비밀번호</label>
-			<input type="password" class="form-control" name="me_pw" value="${user.me_pw}" placeholder="변경할 비밀번호를 입력하세요.">
+			<input type="password" class="form-control" name="me_pw" placeholder="변경할 비밀번호를 입력하세요.">
+		<p>*비밀번호는 영문,숫자,특수문자를 사용하여 8~20자이내에 작성.</p>
+		</div>
+		<div class="form-group-e">
+			<label>비밀번호 확인</label>
+			<input type="password" class="form-control" name="me_pwr" placeholder="변경할 비밀번호를 입력하세요.">
 		</div>
 		<br>
 		<div class="form-group-e">
