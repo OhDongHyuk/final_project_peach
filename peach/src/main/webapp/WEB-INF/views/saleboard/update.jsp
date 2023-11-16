@@ -140,6 +140,11 @@
 						<div class="image-div">
 							<img src="<c:url value='/resources/image/${image.si_name}'/>" data-file="${image.si_name}">
 							<button class="close-btn" id="id${image.si_num }" onclick="deleteOriginal(${image.si_num})"type="button" data-num="${image.si_num}"></button>						
+						</div>
+					</li>
+					</c:forEach>
+				</ul>
+			<script>
 				//파일번호를 0으로 초기화
 				let fileNo = 0;
 				
@@ -178,7 +183,10 @@
 			        fi.setAttribute('id', "no" + (fileNo + 1));
 			        fi.setAttribute('name', 'files');
 			        fi.setAttribute('multiple', true);
+			        fileTag.after(fi);
 			    	
+			    }
+			    
 			    const realUpload = document.querySelector('.real-upload');
 			    const upload = document.querySelector('.upload');
 			    const list = document.getElementsByClassName('image-list');

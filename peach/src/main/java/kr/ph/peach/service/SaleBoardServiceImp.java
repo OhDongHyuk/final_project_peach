@@ -37,9 +37,6 @@ public class SaleBoardServiceImp implements SaleBoardService {
 	@Autowired
 	ChatDAO chatDao;
 
-	@Autowired
-	ChatDAO chatDao;
-
 	@Override
 	public List<SaleBoardVO> getSaleBoardList(SaleBoardCriteria cri) {
 		if (cri == null) {
