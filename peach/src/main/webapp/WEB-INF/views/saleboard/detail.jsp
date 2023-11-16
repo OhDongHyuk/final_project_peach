@@ -6,6 +6,15 @@
 <head>
 	<title>스프링</title>
 	<style>
+		a {
+			text-decoration: none;
+			color: #000;
+		}
+		a:hover {
+			text-decoration: none;
+			cursor: pointer;
+			color: #000;
+		}
 		.modal {
 		  display: none;
 		  position: fixed;
@@ -443,6 +452,84 @@
 			color: grey;
 			font-size: 13px;
 		}
+		/* Image Modal */
+		.image-modal {
+		  display: none;
+		  position: fixed;
+		  z-index: 2;
+		  left: 0;
+		  top: 0;
+		  width: 100%;
+		  height: 100%;
+		  background-color: rgba(0, 0, 0, 0.9);
+		}
+		
+		.image-modal-content {
+		  position: relative;
+		  text-align: center;
+		  margin: auto;
+		  top: 50%;
+		  transform: translateY(-50%);
+		  max-width: 80%;
+		  max-height: 80%;
+		  overflow: auto;
+		}
+		
+		#modalImage {
+		  width: auto;
+		  height: auto;
+		  max-width: 100%;
+		  max-height: 100%;
+		}
+		
+		/* Close button */
+		.close {
+		  position: absolute;
+		  top: 15px;
+		  right: 15px;
+		  font-size: 30px;
+		  color: white;
+		  cursor: pointer;
+		}
+		
+		.close:hover {
+		  color: #ccc;
+		}
+		
+		.image-modal .close {
+			opacity: 1;
+			font-size: 50px;
+		}
+		.image-modal .image-slide-left {
+			background-image: none;
+			width: 25px; /* 사이즈 */
+		    height: 25px; /* 사이즈 */
+		    border-top: 5px solid #fff; /* 선 두께 */
+		    border-right: 5px solid #fff; /* 선 두께 */
+		    transform: rotate(225deg) translateY(50%); /* 각도 */
+		}
+		.image-modal .image-slide-left:hover {
+			opacity: 0.75;
+			border-top: 5px solid #ccc; /* 선 두께 */
+		    border-right: 5px solid #ccc; /* 선 두께 */
+		}
+		.image-modal .image-slide-right {
+			background-image: none;
+			width: 25px; /* 사이즈 */
+		    height: 25px; /* 사이즈 */
+		    border-top: 5px solid #fff; /* 선 두께 */
+		    border-right: 5px solid #fff; /* 선 두께 */
+		    transform: rotate(45deg) translateY(-50%); /* 각도 */
+		}
+		.image-modal .image-slide-right:hover {
+			opacity: 0.75;
+			border-top: 5px solid #ccc; /* 선 두께 */
+		    border-right: 5px solid #ccc; /* 선 두께 */
+		}
+		span {
+			transition: none;
+			-webkit-transition: none;
+		}
 	</style>
 </head>
 <body>
@@ -453,7 +540,7 @@
 			    <c:choose>
 					<c:when test="${board.saleImageVOList.size() != 0 }">			    
 			        	<c:forEach items="${board.saleImageVOList}" var="saleImage">
-		       				 <li><img src="<c:url value='/resources/image/${saleImage.si_name }'/>"/></li>
+		       				 <li><img src="<c:url value='/resources/image/${saleImage.si_thb_name }'/>" data-src="<c:url value='/resources/image/${saleImage.si_name }'/>"></li>
 		      			</c:forEach>
 		      		</c:when>
 		      		<c:otherwise>
@@ -467,17 +554,28 @@
 		      <button class="image-slide-left"></button>
 		      <button class="image-slide-right"></button>
 		 	</div>
+		 	<div id="imageModal" class="image-modal">
+		        <span class="close" id="closeImageModal">&times;</span>
+		        <div class="image-modal-content">
+		            <img id="modalImage" src="" alt="Original Image">
+		            <!-- Add navigation buttons for scrolling through images -->
+		        </div>
+		            <button class="image-slide-left" id="prevImage"></button>
+		            <button class="image-slide-right" id="nextImage"></button>
+		    </div>
 		</div>
 		<div class="profile-box">
 			<div class="profile-left">
 				<div class="prifle-pic">
 					<img src="<c:url value='/resources/image/NoMainImage.png'/>">
 				</div>
+				<a href="<c:url value='/board/profile/${board.sb_me_num}'/>">
 				<div class="profile-name-sweetness">
 					<div class="profile-name">${board.sb_me_nickname}</div>
 					<span class="profile-sweetness-text">당도</span>
 					<span class="profile-sweetness">${board.sb_me_sugar}</span>				
 				</div>
+				</a>
 			</div>
 			<c:if test="${user.me_num != board.sb_me_num }">
 			<div class="profile-right">
@@ -891,6 +989,62 @@
 		function closeReportModal() {
 		  reportPostModal.style.display = "none";
 		}
+		
+		//이미지 클릭시 원본 이미지 표시 모달
+		document.addEventListener("DOMContentLoaded", function () {
+			  console.log("loaded");
+			  const imageModal = document.getElementById("imageModal");
+			  const modalImage = document.getElementById("modalImage");
+			  const closeImageModalBtn = document.getElementById("closeImageModal");
+			  const nextImageBtn = document.getElementById("nextImage");
+			  const prevImageBtn = document.getElementById("prevImage");
+			  const thumbnailImages = document.querySelectorAll(".slides li");
+
+			  let currentImageIndex = 0;
+
+			  // 모달 오픈 기능
+			  function openImageModal(imageIndex) {
+			    imageModal.style.display = "block";
+			    currentImageIndex = imageIndex;
+			    displayImage(currentImageIndex);
+			  }
+
+			  // 모달 닫기
+			  closeImageModalBtn.addEventListener("click", function () {
+			    imageModal.style.display = "none";
+			  });
+
+			  // 다음 버튼 클릭 시 다음 이미지 보여줌
+			  nextImageBtn.addEventListener("click", function () {
+			    currentImageIndex = (currentImageIndex + 1) % thumbnailImages.length;
+			    displayImage(currentImageIndex);
+			  });
+
+			  // 이전 버튼 클릭 시 이전 이미지 보여줌
+			  prevImageBtn.addEventListener("click", function () {
+			    currentImageIndex =
+			      (currentImageIndex - 1 + thumbnailImages.length) % thumbnailImages.length;
+			    displayImage(currentImageIndex);
+			  });
+
+			  // 해당 인덱의의 img 태그에서 data-src의 값(원본 이미지 주소)를 가져와서 이미지 표시
+			  function displayImage(index) {
+			    modalImage.src = thumbnailImages[index].querySelector("img").getAttribute("data-src");
+			  }
+
+			  // 각 이미지마다 이벤트리스너 생성
+			  thumbnailImages.forEach(function (thumbnail, index) {
+			    thumbnail.addEventListener("click", function () {
+			      openImageModal(index);
+			    });
+			  });
+			  // 이미지 범위 밖에 클릭 시 모달 빠져나오기
+			  window.addEventListener("click", function(event) {
+				  if (event.target === imageModal) {
+				    imageModal.style.display = "none";
+				  }
+				});
+			});
 	</script>
 </body>
 </html>
