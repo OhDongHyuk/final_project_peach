@@ -67,5 +67,9 @@ public interface ProfileDAO {
 
 	int selectPoint(@Param("me_num")int me_num);
 
+	List<String> selectBuy(@Param("me_num")int me_num);
+
+	List<String> selectSel(@Param("me_num")int me_num);
+
 	
 }

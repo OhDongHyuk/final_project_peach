@@ -206,6 +206,18 @@ public class ProfileServiceImp implements ProfileService{
 		return profileDao.selectPoint(me_num);
 	}
 
+	@Override
+	public List<String> selectBuy(int me_num) {
+		List<String> meNumBuy = profileDao.selectBuy(me_num);
+		return meNumBuy;
+	}
+
+	@Override
+	public List<String> selectSel(int me_num) {
+		List<String> meNumSel = profileDao.selectSel(me_num);
+		return meNumSel;
+	}
+
 	
 	
 }

@@ -125,6 +125,9 @@
 	.pftext{
 		font-size: 30px;
 	}
+	.sellComBox{
+		margin-left: 360px;
+	}
 	
 </style>
 <body>
@@ -174,11 +177,18 @@
 	<br>
 	<div class="sellbox">
 		<button onclick="sell()">판매중</button>
-		<button onclick="sellc()">판매완료</button>
+		<button onclick="sellc()">거래중</button>
+		<button onclick="sellCom()">거래완료</button>
+	</div>
+	<div id="sellComBox" class="sellComBox">
+		<br>
+		<button onclick="sellComBuy()">구매완료</button>
+		<button onclick="sellComSell()">판매완료</button>
+		<br>
 	</div>
 	<br>
 	<div id="sellbox">
-		<c:forEach var="salingAndTradingProducts" items="${salingAndTradingProducts}">
+		<c:forEach var="salingAndTradingProducts" items="${salingProducts}">
 		<div class="profile-product">
 			<div class="profile-product-list">
 				<img src="<c:url value='/resources/img/3.png'/>" class="example2">
@@ -200,7 +210,7 @@
 		</c:forEach>
 	</div>	
 	<div id="sellcbox">
-		<c:forEach var="finishedProducts" items="${finishedProducts}">
+		<c:forEach var="finishedProducts" items="${tradingProducts}">
 		<div class="profile-product2">
 			<div class="profile-product-list">
 				<img src="<c:url value='/resources/img/3.png'/>" class="example2">
@@ -214,6 +224,46 @@
 						<button onclick="dateUp(${finishedProducts.sb_num})">끌어올리기</button>
 						<button>수정</button>
 						<button onclick="deletePD(${finishedProducts.sb_num})">삭제</button>
+					</div>
+					</c:if>
+				</div>
+			</div>
+		</div>
+		</c:forEach>
+	</div>	
+	<div id="sellComBuy">
+		<c:forEach var="buy" items="${meNumBuy}">
+		<div class="profile-product">
+			<div class="profile-product-list">
+				<img src="<c:url value='/resources/img/3.png'/>" class="example2">
+				<div class="profile-product-detail">
+					
+					<div class="profile-product-detail-text">
+		    			[제품명 : ${buy['sb_name']}] [카테고리 : ${buy['sb_sc_num']}]  [게시일 : ${buy['sb_date']}] 
+		    		</div>
+		    		<c:if test="${user.me_num == member.me_num }">
+					<div class="profile-product-detail-btn">
+						
+					</div>
+					</c:if>
+				</div>
+			</div>
+		</div>
+		</c:forEach>
+	</div>	
+	<div id="sellComSell">
+		<c:forEach var="buy" items="${meNumSel}">
+		<div class="profile-product2">
+			<div class="profile-product-list">
+				<img src="<c:url value='/resources/img/3.png'/>" class="example2">
+				<div class="profile-product-detail">
+					
+					<div class="profile-product-detail-text">
+		    			[제품명 : ${buy['sb_name']}] [카테고리 : ${buy['sb_sc_num']}]  [게시일 : ${buy['sb_date']}] 
+		    		</div>
+		    		<c:if test="${user.me_num == member.me_num }">
+					<div class="profile-product-detail-btn">
+						
 					</div>
 					</c:if>
 				</div>
@@ -259,16 +309,41 @@ function deletePD(sb_num){
 }
 
 $("#sellcbox").hide();
-	
+$("#sellComBox").hide();
+$("#sellComBuy").hide();
+$("#sellComSell").hide();
+
 function sell() {
 	$("#sellcbox").hide();
 	$("#sellbox").show();
+	$("#sellComSell").hide();
+	$("#sellComBuy").hide();
+	$("#sellComBox").hide();
 }
 function sellc() {
 	$("#sellbox").hide();
 	$("#sellcbox").show();
+	$("#sellComSell").hide();
+	$("#sellComBuy").hide();
+	$("#sellComBox").hide();
 }
-
+function sellCom() {
+	$("#sellbox").hide();
+	$("#sellcbox").hide();
+	$("#sellComBox").show();
+}
+function sellComBuy() {
+	$("#sellbox").hide();
+	$("#sellcbox").hide();
+	$("#sellComBuy").show();
+	$("#sellComSell").hide();
+}
+function sellComSell() {
+	$("#sellbox").hide();
+	$("#sellcbox").hide();
+	$("#sellComBuy").hide();
+	$("#sellComSell").show();
+}
 
 </script>
 

@@ -102,6 +102,15 @@
 	<select id="selectPoint" resultType="int">
 		select me_point from member where me_num = ${me_num};
 	</select>
+	<select id="selectBuy" resultType="hashmap">
+		select * from trading_request join sale_board on tq_sb_num = sb_num
+		join member on tq_me_num = me_num where tq_me_num =  #{me_num};
+	</select>
+	<select id="selectSel" resultType="hashmap">
+		select * from sale_board join trading_request on sb_num = tq_sb_num
+		join member on sb_me_num = me_num where sb_me_num = #{me_num};
+	</select>
+
 </mapper>
 
 

@@ -57,6 +57,11 @@ public interface ProfileService {
 
 	int selectPoint(int me_num);
 
+	List<String> selectBuy(int me_num);
+
+	List<String> selectSel(int me_num);
+
+
 
 	
 }

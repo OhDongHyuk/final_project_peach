@@ -87,6 +87,15 @@ public class ProfileController {
     		ProfileImageVO proImg = profileService.selectImg(profile2.getPf_num());
     		model.addAttribute("proImg", proImg);
             
+    	
+    		int me_num = member.getMe_num();
+    		//글쓴이의 구매내역
+    		List<String> meNumBuy = profileService.selectBuy(me_num);
+    		model.addAttribute("meNumBuy", meNumBuy);
+    		
+    		List<String> meNumSel = profileService.selectSel(me_num);
+    		model.addAttribute("meNumSel", meNumSel);
+    		
 	        return "/board/profile"; 
 	    }
 
