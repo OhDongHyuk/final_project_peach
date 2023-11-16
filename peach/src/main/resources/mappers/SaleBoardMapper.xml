@@ -152,5 +152,4 @@
 	<delete id="deleteFile">
 		delete from sale_image where si_num = #{num}
 	</delete>
-
 </mapper>

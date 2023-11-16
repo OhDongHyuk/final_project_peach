@@ -12,18 +12,19 @@
 		min-width: 1000px;
 		max-width: 1000px;
 		display: flex;
-		border-style: dashed;
-		border-width: 1px;
-		border-color: gray;
+		border-style: outset;
+		border-width: 9px;
+		border-color: ffd9eb;
 		border-radius: 20px;
+		background-color: #ffc2e0;
 	}
 	.profile-imgbox {
 		flex: 00 310px;
-		background-color: aqua;
+		background-color: #ffe5f2;
 		text-align: center;
-		border-right: dashed;
-		border-width: 1px;
-		border-color: gray;
+		border-right: solid;
+		border-width: 7px;
+		border-color: ffd9eb;
 		border-radius: 20px 0 0 20px;
 	}
 	.btn-profile {
@@ -83,11 +84,12 @@
 	}
 	.pp-box {
 	  position: absolute;
-	  top: 140px;
-	  right: 50px;
+	  text-align: center;
 	  background-color: lightgray;
 	  padding: 5px;
 	  border-radius: 10px;
+	  display: flex;
+	  flex: 1;
 	}
 	.pp-balance {
 		display: inline;
@@ -107,7 +109,7 @@
 		padding-left: 15px;
 		padding-right: 10px;
 		flex: 1;
-		background-color: yellow;
+		background-color: #ffe2ed;
 		border-radius: 0 20px 20px 0;
 	}
 	.profile-product-detail-text {
@@ -123,15 +125,20 @@
 	.pftext{
 		font-size: 30px;
 	}
+	.sellComBox{
+		margin-left: 360px;
+	}
 	
 </style>
 <body>
 <div class="all-profile">
-	<c:if test="${user.me_num == member.me_num }">
+	<c:if test="${user.me_num == member.me_num }">	
 	<div class="pp-box">
-		<div class="pp-balance">피치페이 잔액 : </div>
+		<div class="pp-balance">피치페이 잔액 : '${user.me_point}' </div>
 		<button>피치페이 충전</button>
-		<button>피치페이 출금</button>
+		<form action="<c:url value='/board/profilePay'/>" method="get">
+			<button>피치페이 출금</button>
+		</form>
 	</div>
 	  </c:if>
 	<br/>
@@ -143,7 +150,7 @@
 	  <c:if test="${proImg != null}">
 	  	<img src="<c:url value='/img/${proImg.pi_name}'/>" class="example">
 	  </c:if>
-	  <div class="profile-name"><P>${member.me_id}</P></div>
+	  <div class="profile-name"><P style="color: black; font-weight: bold;">${member.me_nick}</P></div>
 	  <c:if test="${user.me_num == member.me_num}">
 		<li class="inner-item"><a href="<c:url value='/board/profilePass?pi_num=${proImg.pi_name}'/>">내 프로필 관리</a></li>
 	  </c:if>
@@ -151,7 +158,7 @@
 	 	<div class="profile-outDTbox">
 			 <div class="profile-Detail">
 			 	<div class="profile-namebox">
-			 		<div class="profile-name"><P>${member.me_id}</P></div>
+			 		<div class="profile-name"><P style="color: black; font-weight: bold;">${member.me_nick}</P></div>
 			 	</div>
 			 	<br/>
 			 	<div style="display:inline;">
@@ -170,11 +177,18 @@
 	<br>
 	<div class="sellbox">
 		<button onclick="sell()">판매중</button>
-		<button onclick="sellc()">판매완료</button>
+		<button onclick="sellc()">거래중</button>
+		<button onclick="sellCom()">거래완료</button>
+	</div>
+	<div id="sellComBox" class="sellComBox">
+		<br>
+		<button onclick="sellComBuy()">구매완료</button>
+		<button onclick="sellComSell()">판매완료</button>
+		<br>
 	</div>
 	<br>
 	<div id="sellbox">
-		<c:forEach var="salingAndTradingProducts" items="${salingAndTradingProducts}">
+		<c:forEach var="salingAndTradingProducts" items="${salingProducts}">
 		<div class="profile-product">
 			<div class="profile-product-list">
 				<img src="<c:url value='/resources/img/3.png'/>" class="example2">
@@ -196,7 +210,7 @@
 		</c:forEach>
 	</div>	
 	<div id="sellcbox">
-		<c:forEach var="finishedProducts" items="${finishedProducts}">
+		<c:forEach var="finishedProducts" items="${tradingProducts}">
 		<div class="profile-product2">
 			<div class="profile-product-list">
 				<img src="<c:url value='/resources/img/3.png'/>" class="example2">
@@ -210,6 +224,46 @@
 						<button onclick="dateUp(${finishedProducts.sb_num})">끌어올리기</button>
 						<button>수정</button>
 						<button onclick="deletePD(${finishedProducts.sb_num})">삭제</button>
+					</div>
+					</c:if>
+				</div>
+			</div>
+		</div>
+		</c:forEach>
+	</div>	
+	<div id="sellComBuy">
+		<c:forEach var="buy" items="${meNumBuy}">
+		<div class="profile-product">
+			<div class="profile-product-list">
+				<img src="<c:url value='/resources/img/3.png'/>" class="example2">
+				<div class="profile-product-detail">
+					
+					<div class="profile-product-detail-text">
+		    			[제품명 : ${buy['sb_name']}] [카테고리 : ${buy['sb_sc_num']}]  [게시일 : ${buy['sb_date']}] 
+		    		</div>
+		    		<c:if test="${user.me_num == member.me_num }">
+					<div class="profile-product-detail-btn">
+						
+					</div>
+					</c:if>
+				</div>
+			</div>
+		</div>
+		</c:forEach>
+	</div>	
+	<div id="sellComSell">
+		<c:forEach var="buy" items="${meNumSel}">
+		<div class="profile-product2">
+			<div class="profile-product-list">
+				<img src="<c:url value='/resources/img/3.png'/>" class="example2">
+				<div class="profile-product-detail">
+					
+					<div class="profile-product-detail-text">
+		    			[제품명 : ${buy['sb_name']}] [카테고리 : ${buy['sb_sc_num']}]  [게시일 : ${buy['sb_date']}] 
+		    		</div>
+		    		<c:if test="${user.me_num == member.me_num }">
+					<div class="profile-product-detail-btn">
+						
 					</div>
 					</c:if>
 				</div>
@@ -255,16 +309,41 @@ function deletePD(sb_num){
 }
 
 $("#sellcbox").hide();
-	
+$("#sellComBox").hide();
+$("#sellComBuy").hide();
+$("#sellComSell").hide();
+
 function sell() {
 	$("#sellcbox").hide();
 	$("#sellbox").show();
+	$("#sellComSell").hide();
+	$("#sellComBuy").hide();
+	$("#sellComBox").hide();
 }
 function sellc() {
 	$("#sellbox").hide();
 	$("#sellcbox").show();
+	$("#sellComSell").hide();
+	$("#sellComBuy").hide();
+	$("#sellComBox").hide();
 }
-
+function sellCom() {
+	$("#sellbox").hide();
+	$("#sellcbox").hide();
+	$("#sellComBox").show();
+}
+function sellComBuy() {
+	$("#sellbox").hide();
+	$("#sellcbox").hide();
+	$("#sellComBuy").show();
+	$("#sellComSell").hide();
+}
+function sellComSell() {
+	$("#sellbox").hide();
+	$("#sellcbox").hide();
+	$("#sellComBuy").hide();
+	$("#sellComSell").show();
+}
 
 </script>
 

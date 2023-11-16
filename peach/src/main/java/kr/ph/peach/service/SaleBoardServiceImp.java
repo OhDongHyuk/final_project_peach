@@ -33,6 +33,9 @@ public class SaleBoardServiceImp implements SaleBoardService {
 
 	@Autowired
 	SaleBoardDAO saleBoardDao;
+	
+	@Autowired
+	ChatDAO chatDao;
 
 	@Autowired
 	ChatDAO chatDao;
@@ -238,7 +241,6 @@ public class SaleBoardServiceImp implements SaleBoardService {
 		}
 		saleBoardDao.insertWish(wish);
 		saleBoardDao.updateWish(wish.getWi_sb_num(), 1);
-
 	}
 
 	@Override

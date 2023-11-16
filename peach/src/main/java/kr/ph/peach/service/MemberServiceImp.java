@@ -31,7 +31,6 @@ public class MemberServiceImp implements MemberService {
 	@Autowired
 	private JavaMailSender mailSender;
 
-
 	@Override
 	public boolean signup(MemberVO member) {
 		if (member == null) {
