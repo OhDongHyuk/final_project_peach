@@ -272,12 +272,13 @@ public class MemberServiceImp implements MemberService {
 		}
 		return Pattern.matches(regexId, id);
 	}
-	
 	private boolean checkPwRegex(String pw) {
 		
-		// 비번은 영문,숫자,특수문자로 이루어지고 8~20자
-		String regexPw = "^[a-zA-Z0-9!@#$%^&*()_+|~]{8,20}$";
-		if (pw == null) {
+		//비번은 영문,숫자,특수문자로 이루어지고 8~20자 
+
+		String regexPw = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_+|]).{8,20}$";
+
+		if(pw == null) {
 			return false;
 		}
 		return Pattern.matches(regexPw, pw);

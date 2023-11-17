@@ -51,12 +51,14 @@
 		<collection property="bankVO"
 			ofType="kr.ph.peach.vo.BankVO" column="me_bk_name"
 			select="selectBankList" />
+		<collection property="authVO"
+			ofType="kr.ph.peach.vo.AuthVO" column="me_num"
+			select="getMemberByCode" />
 	</resultMap>
 
 
 	<!-- <collection property="saleBoardVO" ofType="kr.ph.peach.vo.SaleBoardVO" 
 		column="wi_sb_num" select="selectsaleBoardWishList" /> -->
-
 
 	<insert id="insertMember" useGeneratedKeys="true" keyProperty="member.me_num">
 		insert into
