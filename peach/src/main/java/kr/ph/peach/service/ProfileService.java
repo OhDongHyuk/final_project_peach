@@ -10,6 +10,7 @@ import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.vo.SaleImageVO;
 
 public interface ProfileService {
 
@@ -61,6 +62,7 @@ public interface ProfileService {
 
 	List<String> selectSel(int me_num);
 
+	List<String> selectProceeding(int me_num);
 
 
 	

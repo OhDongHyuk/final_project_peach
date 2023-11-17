@@ -7,26 +7,26 @@
 	<title>마이페이지 관리</title>
 </head>
 <style>
-	.insert-container {
+	.insert-container1 {
 		width: 1100px;
 		margin: auto;
 		margin-top: 20px;
 		margin-bottom: 20px;
 	}
 	
- 	li {
+ 	.upload {
       list-style: none;
       position: relative;
     }
-
-    img {
+	.image-list {
+	  list-style: none;
+      position: relative;
+	}
+    .pImg {
       width: 200px;
       height: 200px;
 		
     }
-	close {
-	
-	}
     .real-upload {
       display: none;
     }
@@ -45,14 +45,12 @@
       margin-left: 40%;
     }
     .close-btn {
-    	width: 1.5rem;
-	    height: 1.5rem;
+    	width: 2.5rem;
+	    height: 2.5rem;
 	    background-position: center center;
 	    background-repeat: no-repeat;
-	    background-size: 12px 12px;
-	    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDEyIDEyIj4KICAgIDxwYXRoIGZpbGw9IiNGRkYiIGZpbGwtcnVsZT0iZXZlbm9kZCIKICAgICAgICBkPSJNNi44NDggNmwzLjc3Ni0zLjc3NmEuNi42IDAgMSAwLS44NDgtLjg0OEw2IDUuMTUgMi4yMjQgMS4zNzZhLjYuNiAwIDAgMC0uODQ4Ljg0OEw1LjE1MiA2IDEuMzc2IDkuNzc1YS42LjYgMCAxIDAgLjg0OC44NDlMNiA2Ljg0OGwzLjc3NiAzLjc3NmEuNTk4LjU5OCAwIDAgMCAxLjAyNC0uNDI1LjYuNiAwIDAgMC0uMTc2LS40MjRMNi44NDggNnoiIC8+Cjwvc3ZnPg==);
-	    background-color: rgb(25, 25, 25);
-	    opacity: 0.3;
+	    background-size: 40px 40px;
+	    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='red' class='bi bi-x-circle-fill' viewBox='0 0 16 16'%3E%3Cpath d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z'/%3E%3C/svg%3E%0A");
 	    border-radius: 50%;
 	    position: absolute;
 	    top: 0.5rem;
@@ -83,7 +81,7 @@
 	<h1 class="qwe">마이페이지 관리</h1>
 
 	<br>
-	<div class="insert-container">
+	<div class="insert-container1">
 		<div class="wrapper">
 				<ul class="image-preview mb-3">
 				<c:if test="${pi_num == ''}">
@@ -92,7 +90,7 @@
 					<c:if test="${pi_num != ''}">
 						<li class="upload" style="background-image:url('<c:url value='/resources/image/upload.png' />'); display: none;"></li>
 						<li class="image-list" id="file0">
-							<img alt="" src="<c:url value='/img/${OriFileName}' />" >
+							<img class="pImg" alt="" src="<c:url value='/img/${OriFileName}' />" >
 							<button class="close-btn" type="button" onclick="deleteOriginal(0)"></button>
 						</li>
 					</c:if>
@@ -105,17 +103,18 @@
 			      
 			      const li = document.createElement('li');
 			      const close = document.createElement('button');
-			      const img = document.createElement('img');
+			      const pImg = document.createElement('img');
 			      li.setAttribute('class', 'image-list');
 			      li.setAttribute('id', "file" + fileNo)
-			      img.setAttribute('src', e.target.result);
-			      img.setAttribute('data-file', file.name);
+			      pImg.setAttribute('src', e.target.result);
+			      pImg.setAttribute('data-file', file.name);
+			      pImg.setAttribute('class', 'pImg');
 			      close.setAttribute('class', 'close-btn');
 			      close.setAttribute('type', 'button');
 			      close.setAttribute('onclick', 'deleteFile('+fileNo+')')
 
 			      
-			      li.appendChild(img);
+			      li.appendChild(pImg);
 			      li.appendChild(close);
 			      
 			      fileNo++;

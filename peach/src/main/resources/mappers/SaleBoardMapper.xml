@@ -139,7 +139,9 @@
 		select * from sale_category where sc_num = #{sb_sc_num}
 	</select>
 	<insert id="insertFile">
-		insert into sale_image(si_name, si_table, si_key) values(#{saleImage.si_name}, #{saleImage.si_table}, #{saleImage.si_key})
+		insert 
+		into sale_image(si_name, si_thb_name, si_table, si_key) 
+		values(#{saleImage.si_name}, #{saleImage.si_thb_name}, #{saleImage.si_table}, #{saleImage.si_key})
 	</insert>
 	<select id="selectFileList" resultType="kr.ph.peach.vo.SaleImageVO">
 		select * from sale_image where si_table = #{si_table} and si_key = #{sb_num}
@@ -150,4 +152,5 @@
 	<delete id="deleteFile">
 		delete from sale_image where si_num = #{num}
 	</delete>
+
 </mapper>

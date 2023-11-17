@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.ph.peach.dao.ProfileDAO">
 	<select id="getProductsById" resultType="kr.ph.peach.vo.SaleBoardVO">
-    	SELECT * FROM sale_board WHERE sb_me_num = #{me_num} 
+    	SELECT * FROM sale_board join sale_image on sb_num = si_key WHERE sb_me_num = #{me_num} 
     	<if test="state != 0">
     		and sb_ss_num = #{state}
     	</if>
@@ -103,17 +103,18 @@
 		select me_point from member where me_num = ${me_num};
 	</select>
 	<select id="selectBuy" resultType="hashmap">
-		select * from trading_request join sale_board on tq_sb_num = sb_num
-		join member on tq_me_num = me_num where tq_me_num =  #{me_num};
+		select * from trading join trading_request on tr_tq_num = tq_num join sale_board on tq_sb_num = sb_num
+		join member on tq_me_num = me_num join sale_image on sb_num = si_key where tq_me_num = #{me_num} and tr_ts_state = '거래완료' ORDER BY sb_date DESC;
 	</select>
 	<select id="selectSel" resultType="hashmap">
-		select * from sale_board join trading_request on sb_num = tq_sb_num
-		join member on sb_me_num = me_num where sb_me_num = #{me_num};
+		select * from trading join trading_request on tr_tq_num = tq_num join sale_board on tq_sb_num = sb_num
+		join member on sb_me_num = me_num join sale_image on sb_num = si_key where sb_me_num = #{me_num} and tr_ts_state = '거래완료' ORDER BY sb_date DESC;
 	</select>
-
+	<select id="selectProceeding" resultType="hashmap">
+		select * from trading join trading_request on tr_tq_num = tq_num join sale_board on tq_sb_num = sb_num
+		join member on sb_me_num = me_num join sale_image on sb_num = si_key where sb_me_num = #{me_num} and tq_me_num = #{me_num} or tr_ts_state = '거래중' ORDER BY sb_date DESC;
+	</select>
 </mapper>
-
-
 
 
 

@@ -28,6 +28,7 @@ import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.vo.SaleImageVO;
 
 
 @Controller
@@ -44,10 +45,9 @@ public class ProfileController {
     public String showProfilePage(@PathVariable("me_num") int meNum, Model model, HttpSession session, Criteria cri) {
 	    	MemberVO user = (MemberVO) session.getAttribute("user");
 	    	user.setMe_point(profileService.selectPoint(user.getMe_num()));
-	    	System.out.println(user);
 	    	model.addAttribute("user",user);
             MemberVO member = memberService.getMemberByNumber(meNum);
-        
+            
             List<SaleBoardVO> products = profileService.getProductsById(meNum, 0);
             List<SaleBoardVO> salingProducts = profileService.getProductsById(meNum, 1);
             List<SaleBoardVO> tradingProducts = profileService.getProductsById(meNum, 2);
@@ -58,7 +58,7 @@ public class ProfileController {
             model.addAttribute("tradingProducts",tradingProducts);
             model.addAttribute("finishedProducts",finishedProducts);
             model.addAttribute("member",member);
-            
+            System.out.println("salingProducts"+salingProducts);
             List<SaleBoardVO> salingAndTradingProducts = new ArrayList<>();
             salingAndTradingProducts.addAll(salingProducts);
             salingAndTradingProducts.addAll(tradingProducts);
@@ -89,12 +89,15 @@ public class ProfileController {
             
     	
     		int me_num = member.getMe_num();
-    		//글쓴이의 구매내역
+    		//구매완료 내역
     		List<String> meNumBuy = profileService.selectBuy(me_num);
     		model.addAttribute("meNumBuy", meNumBuy);
-    		
+    		//판매완료 내역
     		List<String> meNumSel = profileService.selectSel(me_num);
     		model.addAttribute("meNumSel", meNumSel);
+    		
+    		List<String> proceeding = profileService.selectProceeding(me_num);
+    		model.addAttribute("proceeding", proceeding);
     		
 	        return "/board/profile"; 
 	    }
@@ -291,14 +294,3 @@ public class ProfileController {
 			return "message";
 	 }
 }
-
-
-
-
-
-
-
-
-
-
-

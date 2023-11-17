@@ -10,6 +10,7 @@ import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.vo.SaleImageVO;
 
 public interface ProfileDAO {
 
@@ -71,5 +72,8 @@ public interface ProfileDAO {
 
 	List<String> selectSel(@Param("me_num")int me_num);
 
+	List<String> selectProceeding(@Param("me_num")int me_num);
+
+	
 	
 }

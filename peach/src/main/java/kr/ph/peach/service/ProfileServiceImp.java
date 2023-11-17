@@ -15,6 +15,7 @@ import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.vo.SaleImageVO;
 
 @Service
 public class ProfileServiceImp implements ProfileService{
@@ -27,7 +28,8 @@ public class ProfileServiceImp implements ProfileService{
 	@Override
 	public List<SaleBoardVO> getProductsById(int me_num, int state) {
 		 List<SaleBoardVO> products = profileDao.getProductsById(me_num, state);
-		  return products;
+
+		 return products;
 	}
 
 	@Override
@@ -218,7 +220,11 @@ public class ProfileServiceImp implements ProfileService{
 		return meNumSel;
 	}
 
-	
+	@Override
+	public List<String> selectProceeding(int me_num) {
+		List<String> Proceeding = profileDao.selectProceeding(me_num);
+		return Proceeding;
+	}
 	
 }
 	

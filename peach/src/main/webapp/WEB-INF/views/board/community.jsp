@@ -63,6 +63,7 @@
 		height: auto;
 
 	}
+
 </style>
 <title>피치 게시판</title>
 </head>
@@ -89,13 +90,13 @@
 				<button class="btn btn-outline-dark">검색</button>
 			</div>
 		</form>
-	
+		
 		<div class="community_item">
 			<div class="community-list">
 				<table class="table table-Secondary table-hover">
 					<thead>
 						<tr class="CTR2">
-							<th>${communityALLList}</th>
+							<th>번호</th>
 							<th>제목</th>
 							<th>작성자</th>
 							<th>날짜</th>
@@ -106,18 +107,25 @@
 						</tr>
 					</thead>
 					<tbody>
-						 <c:forEach items="${list}" var="list">						
+						<c:if test="${not empty list}">
+							<c:forEach items="${list}" var="list">						
 							<tr class="CTR">
-								<td>${list.co_num}</td>
-								<td><a href="<c:url value='/board/communityDetail/${list.co_num}'/>">${list.co_title }</a></td>
-								<td><a href="<c:url value='/board/profile/+${list.co_me_num}'/>">${list.me_nick}</a></td>
-								<td>${list.co_date}</td>
-								<td>${list.co_like}</td>
-								<td>${list.co_views}</td>
-								<td>${list.co_reply}</td>
-								<th>${list.cc_name}</th>
+									<td>${list.co_num}</td>
+									<td><a href="<c:url value='/board/communityDetail/${list.co_num}'/>">${list.co_title }</a></td>
+									<td><a href="<c:url value='/board/profile/+${list.co_me_num}'/>">${list.me_nick}</a></td>
+									<td>${list.co_date}</td>
+									<td>${list.co_like}</td>
+									<td>${list.co_views}</td>
+									<td>${list.co_reply}</td>
+									<td>${list.cc_name}</td>
 							</tr>
-						</c:forEach>
+							</c:forEach>
+						</c:if>
+						<c:if test="${empty list}">
+							<tr class="CTR">
+								<td class="empty_list" colspan="8">게시글이 없습니다.</td>
+							<tr>
+					   </c:if>
 					</tbody>
 				</table>
 			</div>

@@ -239,6 +239,11 @@
 		  text-decoration: none;
 		  cursor: pointer;
 		}
+		.cImg{
+			width: 300px;
+			height: 300px;
+		}
+		
     </style>
     <title>커뮤니티 세부 정보</title>
 </head>
@@ -246,7 +251,7 @@
 	<br>
 	<div class="co_de CDdiv">
 	    <div class="co_de_title CDdiv">제목: ${detail.co_title}</div>
-	    <div class="co_de_info CDdiv"><a href="<c:url value='/board//profile/+${writer.me_num}'/>">작성자: ${writer.me_nick}</a> | 작성일: ${detail.co_date}</div>
+	    <div class="co_de_info CDdiv">작성자: <a href="<c:url value='/board//profile/+${writer.me_num}'/>">${writer.me_nick}</a> | 작성일: ${detail.co_date}</div>
 	
 	    <c:if test="${user.me_num == writer.me_num}">
 	    	<form action="<c:url value='/board/communityEdit/${detail.co_num}'/>" method="get">
@@ -266,7 +271,7 @@
 	    <div class="co_de_write">
 	 	  	<!-- 글 내용 -->
 	 	   <c:if test="${coImage != null}">
-	  		  <img src="<c:url value='/img/${coImage.ci_name}'/>" class="co_img">
+	  		  <img class="cImg" src="<c:url value='/img/${coImage.ci_name}'/>" class="co_img">
 	 	   </c:if>
 	 	   <c:if test="${empty detail.co_info}">
       		  <p>내용이 없습니다.</p>
