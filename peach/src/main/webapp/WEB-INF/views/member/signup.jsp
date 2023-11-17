@@ -5,52 +5,18 @@
 <html>
 <head>
 	<style>
-		/* 새로운 색상 스키마 */
-		body {
-			background-color: #f76076;
-			color: #fff;
-		}
+	.messages {
+    color: red; /* 실패 메시지의 텍스트 색상을 빨간색으로 설정 */
+}
 
-		.container2 {
-			margin: 0 auto;
-			width: 500px;
-			background-color: #fff;
-			border-radius: 10px;
-			padding: 20px;
-			margin-top: 20px;
-		}
-		
-		/* 폼 스타일 */
-		.form-group label {
-			color: black;
-		}
+/* 메시지가 표시되는 위치 및 스타일 지정 */
+label.error {
+    color: red; /* 실패 메시지의 텍스트 색상을 빨간색으로 설정 */
+}
 
-		.form-control {
-			border: 1px solid #f76076;
-			border-radius: 5px;
-		}
-
-		/* 버튼 스타일 */
-		.btn-outline,
-		.btn-success {
-			background-color: #f76076;
-			border: 1px solid black;
-			color: #fff;
-		}
-
-		.btn-outline:hover,
-		.btn-success:hover {
-			background-color: #f76076;
-			color: #fff;
-		}
-
-		/* 에러 메시지 */
-		.messages,
-		label.error,
-		.messages.error {
-			color: #f76076;
-		}
-		
+.messages.error {
+    color: red; /* 실패 메시지의 텍스트 색상을 빨간색으로 설정 */
+}
 	</style>
 	<title>Home</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,38 +29,38 @@
   
 </head>
 <body>
-	
-	<div class="container2" style="border: 3px solid #f76076;">
+	<h2>회원가입</h2>
+	<div class="container">
 		<form action="<c:url value='/member/signup'/>" method="post" id="form">
 			<div class="form-group">
 				<label>아이디</label>
-				<input style="border: 1px solid #f76076;" type="text" name="me_id" class="form-control" placeholder="아이디">
+				<input type="text" name="me_id" class="form-control" placeholder="아이디">
 			</div>
-			<button class="btn btn-outline col-12" style="border: 1px solid #f76076;" type="button" id="btn-check">아이디 중복체크</button>
+			<button class="btn btn-outline-dark col-12" type="button" id="btn-check">아이디 중복체크</button>
 			<div class="form-group">
 				<label>비밀번호</label>
-				<input style="border: 1px solid #f76076;" type="password" name="me_pw" class="form-control" placeholder="비밀번호" id="pw">
+				<input type="password" name="me_pw" class="form-control" placeholder="비밀번호" id="pw">
 			</div>
 			<div class="form-group">
 				<label>비밀번호 확인</label>
-				<input style="border: 1px solid #f76076;" type="password" name="me_pw2" class="form-control" placeholder="비밀번호 확인">
+				<input type="password" name="me_pw2" class="form-control" placeholder="비밀번호 확인">
 			</div>
 			<div class="form-group">
 				<label>이름</label>
-				<input style="border: 1px solid #f76076;" type="text" name="me_name" class="form-control" placeholder="이름">
+				<input type="text" name="me_name" class="form-control" placeholder="이름">
 			</div>
 			<div class="form-group">
 				<label>핸드폰 번호</label>
-				<input style="border: 1px solid #f76076;" type="text" name="me_phone" class="form-control" placeholder="핸드폰 번호">
+				<input type="text" name="me_phone" class="form-control" placeholder="핸드폰 번호">
 			</div>
 			<div class="form-group">
 				<label>닉네임</label>
-				<input style="border: 1px solid #f76076;" type="text" name="me_nick" class="form-control" placeholder="닉네임">
+				<input type="text" name="me_nick" class="form-control" placeholder="닉네임">
 			</div>
-			<button class="btn btn-outline col-12" style="border: 1px solid #f76076;" type="button" id="btn-check2">닉네임 중복체크</button>
+			<button class="btn btn-outline-dark col-12" type="button" id="btn-check2">닉네임 중복체크</button>
 			<div class="form-group">
 				<label>지역(시/도)</label>
-				<select style="border: 1px solid #f76076;" name="large" class="form-control">
+				<select name="large" class="form-control">
 					<option value="0">시/도를 선택하세요.</option>
 					<c:forEach items="${large}" var="name">
 						<option>${name.ci_large }</option>	
@@ -103,19 +69,19 @@
 			</div>
 			<div class="form-group">
 				<label>지역(시/군/구)</label>
-				<select style="border: 1px solid #f76076;" name="medium" class="form-control">
+				<select name="medium" class="form-control">
 					<option value="0">시/군/구를 선택하세요.</option>
 				</select>
 			</div>
 			<div class="form-group">
 				<label>지역(읍/면/동)</label>
-				<select style="border: 1px solid #f76076;" name="me_ci_num" class="form-control">
+				<select name="me_ci_num" class="form-control">
 					<option value="">읍/면/동을 선택하세요.</option>
 				</select>
 			</div>
 			<div class="form-group">
 				<label>은행</label>
-				<select style="border: 1px solid #f76076;" name="me_bk_name" class="form-control">
+				<select name="me_bk_name" class="form-control">
 					<option value="">은행을 선택하세요.</option>
 					<c:forEach items="${bankList }" var="bank">
 					<option >${bank.bk_name }</option>
@@ -124,10 +90,10 @@
 			</div>
 			<div class="form-group">
 				<label>계좌번호</label>
-				<input style="border: 1px solid #f76076;" type="text" name="me_acc" class="form-control" placeholder="계좌번호">
+				<input type="text" name="me_acc" class="form-control" placeholder="계좌번호">
 			</div>
 			
-			<button style="border: 1px solid #f76076; background-color:#f76076; " class="btn btn-success col-12">회원가입</button>
+			<button class="btn btn-success col-12">회원가입</button>
 		</form>
 	</div>
 	<script type="text/javascript">
@@ -166,6 +132,16 @@
 					console.log(c);
 				}
 			});
+		})
+		$('form').submit(function(){
+			if(!checkId){
+				alert('아이디 중복 검사를 하세요.');
+				return false;
+			}
+			if(!checkNick){
+				alert('닉네임 중복 검사를 하세요.');
+				return false;
+			}
 		})
 		$('[name=me_id]').change(function(){
 			checkId = false;
@@ -230,7 +206,7 @@
 		            },
 		            me_name: {
 		                required : true,
-		                regex : /^[가-힣]{2,}$/
+		                regex : /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,}$/
 		            },
 		            me_acc: {
 		                required : true,
@@ -319,17 +295,15 @@
 		
 		//ajax를 이용하여 시/도를 선택하면 해당하는 시/군/구가 셋팅되는 코드
 		$('[name=large]').change(function(){
-			console.log(123)
 			let largeName = $(this).val();
 			//medium태그에 넣을 option태그
-			let str = '<option value="">시/군/구를 선택하세요.</option>';
+			let str = '<option value="0">시/군/구를 선택하세요.</option>';
 			//시도를 선택하세요를 선택하면
-			if(largeName == ""){
+			if(largeName == 0){
 				$('[name=medium]').html(str);
-				$('[name=me_ci_num]').html('<option value="">읍/면/동을 선택하세요.</option>');
+				$('[name=me_ci_num]').html('<option value="0">읍/면/동을 선택하세요.</option>');
 				return;
 			}
-			console.log(largeName)
 			$.ajax({
 				async : false,
 				url : '<c:url value="/member/medium"/>', 
@@ -339,9 +313,8 @@
 					for(medium of data){
 						str += `<option>\${medium.ci_medium}</option>`
 					}
-					console.log(str)
 					$('[name=medium]').html(str);
-					$('[name=me_ci_num]').html('<option value="">읍/면/동을 선택하세요.</option>');
+					$('[name=me_ci_num]').html('<option value="0">읍/면/동을 선택하세요.</option>');
 				}, 
 				error : function(a,b,c){
 					console.log(a);
@@ -354,9 +327,9 @@
 		$('[name=medium]').change(function(){
 			let mediumName = $(this).val();
 			//medium태그에 넣을 option태그
-			let str = '<option value="">읍/면/동을 선택하세요.</option>';
+			let str = '<option value="0">읍/면/동을 선택하세요.</option>';
 			//시도를 선택하세요를 선택하면
-			if(mediumName == ""){
+			if(mediumName == 0){
 				$('[name=me_ci_num]').html(str);
 				return;
 			}

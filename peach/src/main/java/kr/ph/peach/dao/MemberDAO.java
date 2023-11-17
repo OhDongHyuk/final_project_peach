@@ -29,6 +29,13 @@ public interface MemberDAO {
 	
 	List<BankVO> selectBank();
 
+	//---------------------아이디 찾기 -------
+
+
+	void addPoints(@Param("me_num")int me_num, @Param("paidAmount")int paidAmount);
+
+	MemberVO getMemberById(@Param("me_num")int me_num);
+
 	MemberVO selectMemberByNickName(@Param("nick")String me_nick);
 	
 	MemberVO selectMemberByPhoneNum(@Param("phone")String me_phone);
@@ -53,8 +60,15 @@ public interface MemberDAO {
 
 	boolean updateState(@Param("me_num")int me_num, @Param("me_st_num")int me_st_num);
 
-	void insertAuthCode(@Param("au_num")int me_num,@Param("au_code") int num);
+	void deleteMember(@Param("user")MemberVO user);
 
+	MemberVO selectMemberID(@Param("kakaoname")String kakaoname);
+
+	boolean insertMemberForKakao(@Param("member")MemberVO member);
+
+	CityVO selectCity(@Param("me_ci_num")int me_ci_num);
+
+	void insertAuthCode(@Param("au_num")int me_num,@Param("au_code") int num);
 
 	int checkcode(@Param("code")String code, @Param("num")int num);
 	//-----------------------------------------------------------
@@ -66,5 +80,4 @@ public interface MemberDAO {
 
 	List<MemberVO> getMemberLists();
 	
-
 }

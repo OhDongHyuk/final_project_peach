@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.ph.peach.pagination.SaleBoardCriteria;
 
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.ReportVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.SaleImageVO;
@@ -47,6 +48,9 @@ public interface SaleBoardService {
 	List<SaleImageVO> getFileList(Integer sb_num);
 	
 	List<SaleBoardVO> selectAllBoard2(SaleBoardCriteria cri);
+	
+	boolean adminDeleteBoard(Integer sb_num, MemberVO user);
 
+	
 	
 }

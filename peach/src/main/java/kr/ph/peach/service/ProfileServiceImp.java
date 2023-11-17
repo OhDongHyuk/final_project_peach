@@ -179,6 +179,45 @@ public class ProfileServiceImp implements ProfileService{
 
 	}
 
+	@Override
+	public ProfileImageVO selectOriFile(MemberVO user) {
+		ProfileImageVO OriFile = profileDao.selectOriFile(user);
+		return OriFile;
+	}
+
+	@Override
+	public MemberVO getAccount(MemberVO user) {
+		MemberVO member = profileDao.getAccount(user);
+		return member;
+	}
+
+	@Override
+	public boolean updateWithdraw(int PPoint, MemberVO user) {
+		if(user != null) {
+		profileDao.updateWithdraw(PPoint, user);
+		return true;
+		}else {
+			return false;
+		}
+	}
+
+	@Override
+	public int selectPoint(int me_num) {
+		return profileDao.selectPoint(me_num);
+	}
+
+	@Override
+	public List<String> selectBuy(int me_num) {
+		List<String> meNumBuy = profileDao.selectBuy(me_num);
+		return meNumBuy;
+	}
+
+	@Override
+	public List<String> selectSel(int me_num) {
+		List<String> meNumSel = profileDao.selectSel(me_num);
+		return meNumSel;
+	}
+
 	
 	
 }

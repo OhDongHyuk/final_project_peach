@@ -49,6 +49,19 @@ public interface ProfileService {
 
 	void updateProductDate(SaleBoardVO saleBoard);
 
+	ProfileImageVO selectOriFile(MemberVO user);
+
+	MemberVO getAccount(MemberVO user);
+
+	boolean updateWithdraw(int PPoint, MemberVO user);
+
+	int selectPoint(int me_num);
+
+	List<String> selectBuy(int me_num);
+
+	List<String> selectSel(int me_num);
+
+
 
 	
 }

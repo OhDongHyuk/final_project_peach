@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -124,9 +123,7 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("/id/check")
 	public boolean idCheck(@RequestParam("id") String id){
-		System.out.println(id);
 		boolean res= memberService.checkId(id);
-		System.out.println(res);
 		return res;
 	}
 	
@@ -147,9 +144,7 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("/nick/check")
 	public boolean nickCheck(@RequestParam("nick") String nick){
-		System.out.println(nick);
 		boolean res= memberService.checkNick(nick);
-		System.out.println(res);
 		return res;
 	}
 	
@@ -199,7 +194,6 @@ public class MemberController {
 	}
 	
 	//---------------------------비번 찾기--------------------------------
-	
 	@RequestMapping(value = "/pw_auth.me")
 	public String pw_auth(Model model,String me_id, String me_name) throws IOException {
 		// 여기서 사용자 인증 프로세스 추가 (예: 회원 아이디와 코드를 비교하여 일치하는지 확인)
@@ -256,8 +250,6 @@ public class MemberController {
 	    	return "redirect:/member/pw_find"; // 변경 실패 메시지를 보여주는 페이지로 리다이렉트
 	    }
 	}
-	
-	
 	
 	
 }

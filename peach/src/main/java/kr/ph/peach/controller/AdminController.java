@@ -15,28 +15,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.pagination.MemberCriteria;
 import kr.ph.peach.pagination.PageMaker;
 import kr.ph.peach.service.MemberService;
+import kr.ph.peach.service.ReportService;
 import kr.ph.peach.service.SaleBoardService;
 import kr.ph.peach.service.SaleCategoryService;
 import kr.ph.peach.vo.CommunityCategoryVO;
 import kr.ph.peach.vo.MemberVO;
+import kr.ph.peach.vo.ReportVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.StatementVO;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-	
+
 	@Autowired
 	MemberService memberService;
-	
+
 	@Autowired
 	SaleBoardService saleBoardService;
-	
+
 	@Autowired
 	SaleCategoryService saleCategoryService;
+
+	@Autowired
+	ReportService reportService;
 
 	@GetMapping("/home")
 	public String home() {
@@ -54,13 +60,12 @@ public class AdminController {
 		List<MemberVO> mbList = memberService.getMemberList(cri);
 
 		List<StatementVO> StateTypeList = saleCategoryService.getMemberTypeList(user);
-			
-		
+
 		int totalCount = memberService.getTotalCount(cri);
-		
+
 		int displayPageNum = 8;
 		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
-	
+
 		System.out.println(cri);
 		model.addAttribute("pm", pm);
 		model.addAttribute("mbList", mbList);
@@ -123,10 +128,7 @@ public class AdminController {
 		map.put("res", res);
 		return map;
 	}
-	
-	
-	
-	
+		
 	/*
 	 * 커뮤니티 카테고리 관리
 	 * */
@@ -166,23 +168,47 @@ public class AdminController {
 		map.put("res", res);
 		return map;
 	}
-	
-	
 
-	
-	
-	
-	
-	
+	/* 신고페이지 관리 */
 	@GetMapping("/report")
-	public String report() {
+	public String report(Model model, HttpSession session, Criteria cri) {
+
+		List<ReportVO> report = reportService.getreportList(cri);
+		model.addAttribute("report", report);
+		
+		int totalCount = reportService.getTotalCount(cri);
+
+		int displayPageNum = 8;
+		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
+
+		System.out.println(cri);
+		model.addAttribute("pm", pm);
+		
+		return "/admin/report";
+	}
+
+	/* 삭제 메서드 */
+	@GetMapping("/delete")
+	public String reportDelete(Integer sb_num, HttpSession session, Model model, MemberCriteria cri, ReportVO report) {
+		MemberVO user = (MemberVO) session.getAttribute("user");
+
+		saleBoardService.adminDeleteBoard(sb_num, user);
+		
+		List<ReportVO> reportlist = reportService.getreportList(cri);
+		System.out.println(reportlist);
+		model.addAttribute("report", reportlist);
 
 		return "/admin/report";
 	}
-	
-	
-	
-	
+
+	@ResponseBody // ajax를 받기위해 필요
+	@PostMapping("/report/delete")
+	public Map<String, Object> reportDeleteNum(@RequestBody ReportVO report){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = reportService.deleteReport(report);
+		map.put("res", res);
+		return map;
+	}
 	
 	@GetMapping("/tradereport")
 	public String tradeReport() {

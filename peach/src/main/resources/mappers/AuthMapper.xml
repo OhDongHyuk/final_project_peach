@@ -9,4 +9,4 @@
     <delete id="deleteCodeByAuthNum">
     	delete from auth_code where au_num = (select me_num from member where me_id = #{me_id})
     </delete>
-</mapper> 
+</mapper>
