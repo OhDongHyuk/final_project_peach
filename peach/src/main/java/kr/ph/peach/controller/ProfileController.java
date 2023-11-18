@@ -58,7 +58,6 @@ public class ProfileController {
             model.addAttribute("tradingProducts",tradingProducts);
             model.addAttribute("finishedProducts",finishedProducts);
             model.addAttribute("member",member);
-            System.out.println("salingProducts"+salingProducts);
             List<SaleBoardVO> salingAndTradingProducts = new ArrayList<>();
             salingAndTradingProducts.addAll(salingProducts);
             salingAndTradingProducts.addAll(tradingProducts);
@@ -78,6 +77,7 @@ public class ProfileController {
             model.addAttribute("saleCategory", saleCategory);
           
             ProfileVO profile = profileService.getPfText(user);
+            System.out.println("profile"+profile);
             model.addAttribute("profile", profile);
             
           //유저 넘버로 프로파일(VO) 가져오기

@@ -324,7 +324,12 @@
 			 	<form action="<c:url value='/board/profile'/>" method="post" enctype="multipart/form-data">
 			 		<br>
 			 		<div class="form-group">
-			 			<p class="pftext">${profile.pf_text}소개글입니다.</p>
+			 			<c:if test="${!empty profile.pf_text && !empty profile.pf_text.replaceAll('<[^>]*>', '').replaceAll('&nbsp;', '').replaceAll(' ', '').trim()}">
+			 				<p class="pftext">${profile.pf_text}</p>
+			 			</c:if>
+			 			<c:if test="${empty profile.pf_text || empty profile.pf_text.replaceAll('<[^>]*>', '').replaceAll('&nbsp;', '').replaceAll(' ', '').trim()}">
+			 				<p class="pftext">소개글입니다.</p>
+			 			</c:if>
 					</div>
 			 	</form>
 			 </div>
@@ -339,13 +344,18 @@
 	</div>
 	<br>
 	<div id="sellbox">
-		<c:forEach var="sellAll" items="${salingProducts}">
+		<c:forEach var="sellAll" items="${salingProducts}" >
 			<div class="profile-product">
 				<div class="profile-product-list">
-					<img src="<c:url value='/trade/${sellAll.si_name}'/>" class="example2"/>
+					<c:if test="${not empty sellAll.si_name}">
+					    <img src="<c:url value='/trade/${sellAll.si_name}'/>" class="example2"/>
+					</c:if>
+					<c:if test="${empty sellAll.si_name}">
+					    <img src="<c:url value='/resources/img/3.png'/>" class="example">
+					</c:if>
 					<div class="profile-product-detail">
 						<div class="profile-product-detail-text">
-			    			[제품명 : ${sellAll.sb_name}] [카테고리 : ${sellAll.sb_sc_num}]  [게시일 : ${sellAll.sb_date}] 
+			    			[제품명 : <a href="<c:url value='/saleboard/detail?sb_num=${sellAll.sb_num}'/>">${sellAll.sb_name}</a>] [카테고리 : ${sellAll.sb_sc_num}]  [게시일 : ${sellAll.sb_date}] 
 			    		</div>
 			    		<c:if test="${user.me_num == member.me_num }">
 						<div class="profile-product-detail-btn">
@@ -372,9 +382,8 @@
 				<div class="profile-product-list">
 					<img src="<c:url value='/trade/${proceeding.si_name}'/>" class="example2"/>
 						<div class="profile-product-detail">
-						
 						<div class="profile-product-detail-text">
-			    			[제품명 : ${proceeding.sb_name}] [카테고리 : ${proceeding.sb_sc_num}]  [게시일 : ${proceeding.sb_date}] 
+			    			[제품명 : <a href="<c:url value='/saleboard/detail?sb_num=${proceeding.sb_num}'/>">${proceeding.sb_name}</a>] [카테고리 : ${proceeding.sb_sc_num}]  [게시일 : ${proceeding.sb_date}] 
 			    		</div>	
 					</div>
 					<c:if test="${proceeding.tq_me_num == user.me_num}">
@@ -404,7 +413,7 @@
 				<div class="profile-product-detail">
 					
 					<div class="profile-product-detail-text">
-		    			[제품명 : ${buy['sb_name']}] [카테고리 : ${buy['sb_sc_num']}]  [게시일 : ${buy['sb_date']}] 
+		    			[제품명 : <a href="<c:url value='/saleboard/detail?sb_num=${buy.sb_num}'/>">${buy['sb_name']}</a>] [카테고리 : ${buy['sb_sc_num']}]  [게시일 : ${buy['sb_date']}] 
 		    		</div>
 		    		<c:if test="${user.me_num == member.me_num }">
 					<div class="profile-product-detail-btn">
@@ -428,7 +437,7 @@
 				<div class="profile-product-detail">
 					
 					<div class="profile-product-detail-text">
-		    			[제품명 : ${buy['sb_name']}] [카테고리 : ${buy['sb_sc_num']}]  [게시일 : ${buy['sb_date']}] 
+		    			[제품명 : <a href="<c:url value='/saleboard/detail?sb_num=${buy.sb_num}'/>">${buy['sb_name']}</a>] [카테고리 : ${buy['sb_sc_num']}]  [게시일 : ${buy['sb_date']}] 
 		    		</div>
 		    		<c:if test="${user.me_num == member.me_num }">
 					<div class="profile-product-detail-btn">

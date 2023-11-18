@@ -3,12 +3,20 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.ph.peach.dao.ProfileDAO">
-	<select id="getProductsById" resultType="kr.ph.peach.vo.SaleBoardVO">
-    	SELECT * FROM sale_board join sale_image on sb_num = si_key WHERE sb_me_num = #{me_num} 
-    	<if test="state != 0">
-    		and sb_ss_num = #{state}
-    	</if>
-    	ORDER BY sb_date DESC
+    <select id="getProductsById" resultType="kr.ph.peach.vo.SaleBoardVO">
+    SELECT *
+		FROM (
+		    SELECT *,
+		           ROW_NUMBER() OVER (PARTITION BY sb_num ORDER BY si_num) as row_num
+		    FROM sale_board
+		    JOIN sale_image ON sb_num = si_key
+		    WHERE sb_me_num = #{me_num}
+		    <if test="state != 0">
+		     AND sb_ss_num = #{state}
+		    </if>
+		) AS ranked
+		WHERE row_num = 1
+		ORDER BY sb_date DESC 
     </select>
 	<update id="updateBoardViews" parameterType="kr.ph.peach.vo.SaleBoardVO">
 		UPDATE sale_board
@@ -103,17 +111,50 @@
 		select me_point from member where me_num = ${me_num};
 	</select>
 	<select id="selectBuy" resultType="hashmap">
-		select * from trading join trading_request on tr_tq_num = tq_num join sale_board on tq_sb_num = sb_num
-		join member on tq_me_num = me_num join sale_image on sb_num = si_key where tq_me_num = #{me_num} and tr_ts_state = '거래완료' ORDER BY sb_date DESC;
+    SELECT *
+	    FROM (
+	        SELECT *,
+	               ROW_NUMBER() OVER (PARTITION BY sb_num ORDER BY si_num) as row_num
+	        FROM trading
+	        JOIN trading_request ON tr_tq_num = tq_num
+	        JOIN sale_board ON tq_sb_num = sb_num
+	        JOIN member ON tq_me_num = me_num
+	        JOIN sale_image ON sb_num = si_key
+	        WHERE tq_me_num = #{me_num} AND tr_ts_state = '거래완료'
+	    ) AS ranked
+	    WHERE row_num = 1
+	    ORDER BY sb_date DESC;
 	</select>
 	<select id="selectSel" resultType="hashmap">
-		select * from trading join trading_request on tr_tq_num = tq_num join sale_board on tq_sb_num = sb_num
-		join member on sb_me_num = me_num join sale_image on sb_num = si_key where sb_me_num = #{me_num} and tr_ts_state = '거래완료' ORDER BY sb_date DESC;
+	SELECT *
+	    FROM (
+	        SELECT *,
+	               ROW_NUMBER() OVER (PARTITION BY sb_num ORDER BY si_num) as row_num
+		        FROM trading
+		        JOIN trading_request ON tr_tq_num = tq_num
+		        JOIN sale_board ON tq_sb_num = sb_num
+		        JOIN member ON sb_me_num = me_num
+		        JOIN sale_image ON sb_num = si_key
+		        WHERE sb_me_num = #{me_num} AND tr_ts_state = '거래완료'
+		    ) AS ranked
+		    WHERE row_num = 1
+		    ORDER BY sb_date DESC;
 	</select>
+	
 	<select id="selectProceeding" resultType="hashmap">
-		select * from trading join trading_request on tr_tq_num = tq_num join sale_board on tq_sb_num = sb_num
-		join member on sb_me_num = me_num join sale_image on sb_num = si_key where sb_me_num = #{me_num} and tq_me_num = #{me_num} or tr_ts_state = '거래중' ORDER BY sb_date DESC;
+	SELECT *
+		FROM (
+			select *,
+				ROW_NUMBER() OVER (PARTITION BY sb_num ORDER BY si_num) as row_num
+			from trading join trading_request on tr_tq_num = tq_num 
+			join sale_board on tq_sb_num = sb_num
+			join member on sb_me_num = me_num join sale_image on sb_num = si_key 
+			where sb_me_num = #{me_num} and tq_me_num = #{me_num} or tr_ts_state = '거래중' 
+			) AS ranked
+            WHERE row_num = 1
+			ORDER BY sb_date DESC;
 	</select>
+	
 </mapper>
 
 
