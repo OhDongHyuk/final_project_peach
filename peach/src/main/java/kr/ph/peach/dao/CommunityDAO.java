@@ -26,7 +26,7 @@ public interface CommunityDAO {
 
 	void insertCommunityImage(@Param("communityImage")CommunityImageVO communityImageVo);
 
-	List<CommunityVO> selectBoardList(@Param("cri")CriteriaCom cri);
+	List<CommunityVO> selectBoardList(@Param("cri")CriteriaCom cri,@Param("user") MemberVO user);
 
 	String selectMeNick(@Param("list")CommunityVO list);
 

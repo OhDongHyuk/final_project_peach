@@ -74,5 +74,7 @@ public interface ProfileDAO {
 
 	List<String> selectProceeding(@Param("me_num")int me_num);
 
+	MemberVO getUserById(String me_id);
+
 	
 }

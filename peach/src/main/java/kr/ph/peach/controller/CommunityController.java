@@ -41,13 +41,17 @@ public class CommunityController {
 	public String Community(Model model, HttpSession session, CriteriaCom cri) {
 		MemberVO user = (MemberVO) session.getAttribute("user");
 	    model.addAttribute("user", user);
-	
-	    List<CommunityVO> list = communityService.getBoardList(cri);
-	    /*
-	    for(CommunityVO tmp : list) {
-	    	list.get(list.indexOf(tmp)).setMe_nick(communityService.getMeNick(tmp));
-	    	//list.get(list.indexOf(tmp)).setCc_name(communityService.getCcName(tmp));//수정 후 삭제
-	    }*/
+	    
+	    Message msg;
+	    if(user == null) {
+    		msg = new Message("/member/login", "잘못된 접근입니다.");
+          	model.addAttribute("msg", msg);
+      		return "message";
+    	}
+	    
+	    List<CommunityVO> list = communityService.getBoardList(cri,user);
+	    
+	    session.setAttribute("list", list);
 	 
 	    model.addAttribute("list", list);
 	    int totalCount = communityService.getTotalCount(cri);

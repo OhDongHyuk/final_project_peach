@@ -64,6 +64,8 @@ public interface ProfileService {
 
 	List<String> selectProceeding(int me_num);
 
+	MemberVO getUserById(String me_id);
+
 
 	
 }

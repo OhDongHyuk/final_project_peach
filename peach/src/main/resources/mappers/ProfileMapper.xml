@@ -155,6 +155,9 @@
             WHERE row_num = 1
 			ORDER BY sb_date DESC;
 	</select>
+	<select id="getUserById" resultType="kr.ph.peach.vo.MemberVO">
+		select * from member where me_id = #{me_id}
+	</select>
 </mapper>
 
 

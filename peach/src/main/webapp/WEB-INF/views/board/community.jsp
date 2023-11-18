@@ -63,7 +63,9 @@
 		height: auto;
 
 	}
-
+	.co_city{
+		text-align: center;
+	}
 </style>
 <title>피치 게시판</title>
 </head>
@@ -72,6 +74,7 @@
 	<br>
 	<h1 class="community-title">피치 게시판</h1>
 	<br>
+	<p class="co_city">${list[0].ci_large}/${list[0].ci_medium}/${list[0].ci_small} 게시판</p>
 	<br>
 		<form action="<c:url value='/board/community'/>" method="get">
 			<div class="com-group mb-3 d-flex justify-content-center">
@@ -123,7 +126,7 @@
 						</c:if>
 						<c:if test="${empty list}">
 							<tr class="CTR">
-								<td class="empty_list" colspan="8">게시글이 없습니다.</td>
+								<td class="empty_list" colspan="8">등록된 게시물이 없습니다.</td>
 							<tr>
 					   </c:if>
 					</tbody>

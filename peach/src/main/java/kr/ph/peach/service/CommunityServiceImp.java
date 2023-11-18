@@ -86,12 +86,12 @@ public class CommunityServiceImp implements CommunityService{
 	}
 
 	@Override
-	public List<CommunityVO> getBoardList(CriteriaCom cri) {
+	public List<CommunityVO> getBoardList(CriteriaCom cri,MemberVO user) {
 		if(cri == null) {
 			cri = new CriteriaCom();
 		}
-	
-		return communityDao.selectBoardList(cri);
+
+		return communityDao.selectBoardList(cri,user);
 	}
 
 	@Override

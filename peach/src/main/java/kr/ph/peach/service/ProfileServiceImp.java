@@ -225,6 +225,12 @@ public class ProfileServiceImp implements ProfileService{
 		List<String> Proceeding = profileDao.selectProceeding(me_num);
 		return Proceeding;
 	}
+
+	@Override
+	public MemberVO getUserById(String me_id) {
+		MemberVO user = profileDao.getUserById(me_id);
+		return user;
+	}
 	
 }
 	

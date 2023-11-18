@@ -22,9 +22,10 @@
 	</insert>
 	<select id="selectBoardList" resultType="CommunityVO">
 		select * from community
-		INNER JOIN member ON community.co_me_num = member.me_num
+		left JOIN member ON community.co_me_num = member.me_num
 		join community_category on cc_num = co_cc_num
-		where 1 = 1
+		join city on me_ci_num = ci_num
+		where member.me_ci_num = #{user.me_ci_num}
 		<if test='cri.t == "all"'>
 		and 
 			(co_title like concat('%', #{cri.s}, '%')

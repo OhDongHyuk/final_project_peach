@@ -167,7 +167,6 @@ public class ProfileController {
  
     @GetMapping("/board/profileMN")
 	public String profileMNInsert(Model model, HttpSession session, SaleBoardVO saleBoard, String pi_num) {
-    	System.out.println("MN"+pi_num);
     	
     	MemberVO user = (MemberVO) session.getAttribute("user");
     	model.addAttribute("user",user);
@@ -177,7 +176,6 @@ public class ProfileController {
     	List<CityVO> list = profileService.getLargeCity();
     	model.addAttribute("large", list);
     	
-
 		Message msg;
 		if(user == null) {
     		msg = new Message("/member/login", "잘못된 접근입니다.");
@@ -229,8 +227,10 @@ public class ProfileController {
 		if(!pf_text.equals("")) {
 			profileService.updateText(user, pf_text);
 		}
-		System.out.println("@@@@@@@"+Original);
+	
 		if(profileService.updateProfile(user, files, Original)) {
+			user = profileService.getUserById(user.getMe_id());
+		    session.setAttribute("user", user);//세션 업데이트
 			msg = new Message("/board/profile/"+user.getMe_num(), "개인 프로필 정보 수정 성공.");
 		} else {
 			msg = new Message("/board/profileMN", "개인 프로필 정보 수정 실패.");

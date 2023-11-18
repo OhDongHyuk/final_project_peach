@@ -23,7 +23,7 @@ public interface CommunityService {
 	
 	 int selectCIname(String CICategory);
 
-	List<CommunityVO> getBoardList(CriteriaCom cri);
+	List<CommunityVO> getBoardList(CriteriaCom cri, MemberVO user);
 
 	String getMeNick(CommunityVO tmp);
 
