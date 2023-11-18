@@ -380,10 +380,10 @@
 		<c:forEach var="proceeding" items="${proceeding}">
 			<div class="profile-product">
 				<div class="profile-product-list">
-					<c:if test="${not empty sellAll.si_name}">
+					<c:if test="${not empty proceeding.si_name}">
 						<img src="<c:url value='/trade/${proceeding.si_name}'/>" class="example2"/>
 					</c:if>
-					<c:if test="${empty sellAll.si_name}">
+					<c:if test="${empty proceeding.si_name}">
 						<img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example">
 					</c:if>
 						<div class="profile-product-detail">
@@ -414,10 +414,10 @@
 		<c:forEach var="buy" items="${meNumBuy}">
 		<div class="profile-product">
 			<div class="profile-product-list">
-				<c:if test="${not empty sellAll.si_name}">
+				<c:if test="${not empty buy.si_name}">
 					<img src="<c:url value='/trade/${buy.si_name}'/>" class="example2"/>
 				</c:if>
-				<c:if test="${empty sellAll.si_name}">
+				<c:if test="${empty buy.si_name}">
 					 <img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example">
 				</c:if>
 				<div class="profile-product-detail">
@@ -443,10 +443,10 @@
 		<c:forEach var="buy" items="${meNumSel}">
 		<div class="profile-product2">
 			<div class="profile-product-list">
-				<c:if test="${not empty sellAll.si_name}">
+				<c:if test="${not empty buy.si_name}">
 					<img src="<c:url value='/trade/${buy.si_name}'/>" class="example2"/>
 				</c:if>
-				<c:if test="${empty sellAll.si_name}">
+				<c:if test="${empty buy.si_name}">
 					 <img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example">
 				</c:if>
 				<div class="profile-product-detail">
