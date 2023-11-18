@@ -301,7 +301,7 @@
 	<div class="profile-container">
 	 <div class="profile-imgbox">
 	 <c:if test="${proImg == null}">
-	  	<img src="<c:url value='/resources/img/3.png'/>" class="example">
+	  	<img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example">
 	  </c:if>
 	  <c:if test="${proImg != null}">
 	  	<img src="<c:url value='/img/${proImg.pi_name}'/>" class="example">
@@ -328,7 +328,7 @@
 			 				<p class="pftext">${profile.pf_text}</p>
 			 			</c:if>
 			 			<c:if test="${empty profile.pf_text || empty profile.pf_text.replaceAll('<[^>]*>', '').replaceAll('&nbsp;', '').replaceAll(' ', '').trim()}">
-			 				<p class="pftext">소개글입니다.</p>
+			 				<p class="pftext">소개글 내용이 없습니다.</p>
 			 			</c:if>
 					</div>
 			 	</form>
@@ -351,7 +351,7 @@
 					    <img src="<c:url value='/trade/${sellAll.si_name}'/>" class="example2"/>
 					</c:if>
 					<c:if test="${empty sellAll.si_name}">
-					    <img src="<c:url value='/resources/img/3.png'/>" class="example">
+					    <img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example">
 					</c:if>
 					<div class="profile-product-detail">
 						<div class="profile-product-detail-text">
@@ -380,7 +380,12 @@
 		<c:forEach var="proceeding" items="${proceeding}">
 			<div class="profile-product">
 				<div class="profile-product-list">
-					<img src="<c:url value='/trade/${proceeding.si_name}'/>" class="example2"/>
+					<c:if test="${not empty sellAll.si_name}">
+						<img src="<c:url value='/trade/${proceeding.si_name}'/>" class="example2"/>
+					</c:if>
+					<c:if test="${empty sellAll.si_name}">
+						<img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example">
+					</c:if>
 						<div class="profile-product-detail">
 						<div class="profile-product-detail-text">
 			    			[제품명 : <a href="<c:url value='/saleboard/detail?sb_num=${proceeding.sb_num}'/>">${proceeding.sb_name}</a>] [카테고리 : ${proceeding.sb_sc_num}]  [게시일 : ${proceeding.sb_date}] 
@@ -409,7 +414,12 @@
 		<c:forEach var="buy" items="${meNumBuy}">
 		<div class="profile-product">
 			<div class="profile-product-list">
-				<img src="<c:url value='/trade/${buy.si_name}'/>" class="example2"/>
+				<c:if test="${not empty sellAll.si_name}">
+					<img src="<c:url value='/trade/${buy.si_name}'/>" class="example2"/>
+				</c:if>
+				<c:if test="${empty sellAll.si_name}">
+					 <img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example">
+				</c:if>
 				<div class="profile-product-detail">
 					
 					<div class="profile-product-detail-text">
@@ -433,7 +443,12 @@
 		<c:forEach var="buy" items="${meNumSel}">
 		<div class="profile-product2">
 			<div class="profile-product-list">
-				<img src="<c:url value='/trade/${buy.si_name}'/>" class="example2"/>
+				<c:if test="${not empty sellAll.si_name}">
+					<img src="<c:url value='/trade/${buy.si_name}'/>" class="example2"/>
+				</c:if>
+				<c:if test="${empty sellAll.si_name}">
+					 <img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example">
+				</c:if>
 				<div class="profile-product-detail">
 					
 					<div class="profile-product-detail-text">

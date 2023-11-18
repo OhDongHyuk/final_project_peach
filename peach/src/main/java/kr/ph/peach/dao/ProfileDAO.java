@@ -40,7 +40,7 @@ public interface ProfileDAO {
 
 	void updateText(@Param("user")MemberVO user,@Param("pf_text") String pf_text);
 
-	ProfileVO selectPfText(MemberVO user);
+	ProfileVO selectPfText(int meNum);
 
 	List<ProfileVO> getPF(MemberVO user);
 
@@ -74,6 +74,5 @@ public interface ProfileDAO {
 
 	List<String> selectProceeding(@Param("me_num")int me_num);
 
-	
 	
 }

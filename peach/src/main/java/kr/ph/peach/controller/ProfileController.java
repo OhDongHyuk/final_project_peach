@@ -52,7 +52,8 @@ public class ProfileController {
             List<SaleBoardVO> salingProducts = profileService.getProductsById(meNum, 1);
             List<SaleBoardVO> tradingProducts = profileService.getProductsById(meNum, 2);
             List<SaleBoardVO> finishedProducts = profileService.getProductsById(meNum, 3);
-
+            System.out.println("salingProducts"+salingProducts);	
+            
             model.addAttribute("products",products);
             model.addAttribute("salingProducts",salingProducts);
             model.addAttribute("tradingProducts",tradingProducts);
@@ -76,8 +77,7 @@ public class ProfileController {
             }
             model.addAttribute("saleCategory", saleCategory);
           
-            ProfileVO profile = profileService.getPfText(user);
-            System.out.println("profile"+profile);
+            ProfileVO profile = profileService.getPfText(meNum);
             model.addAttribute("profile", profile);
             
           //유저 넘버로 프로파일(VO) 가져오기

@@ -9,7 +9,7 @@
 		    SELECT *,
 		           ROW_NUMBER() OVER (PARTITION BY sb_num ORDER BY si_num) as row_num
 		    FROM sale_board
-		    JOIN sale_image ON sb_num = si_key
+		    LEFT JOIN sale_image ON sale_board.sb_num = sale_image.si_key
 		    WHERE sb_me_num = #{me_num}
 		    <if test="state != 0">
 		     AND sb_ss_num = #{state}
@@ -67,7 +67,7 @@
 		UPDATE profile SET pf_text = #{pf_text} WHERE pf_me_num = #{user.me_num}
 	</update>
 	<select id="selectPfText" resultType="kr.ph.peach.vo.ProfileVO">
-  		select * from profile where pf_me_num = #{me_num}
+  		select * from profile where pf_me_num = #{meNum}
   	</select>
 	<select id="getPF" resultType="kr.ph.peach.vo.ProfileVO">
   		select * from profile where pf_me_num = #{me_num}
@@ -119,7 +119,7 @@
 	        JOIN trading_request ON tr_tq_num = tq_num
 	        JOIN sale_board ON tq_sb_num = sb_num
 	        JOIN member ON tq_me_num = me_num
-	        JOIN sale_image ON sb_num = si_key
+	        LEFT JOIN sale_image ON sb_num = si_key
 	        WHERE tq_me_num = #{me_num} AND tr_ts_state = '거래완료'
 	    ) AS ranked
 	    WHERE row_num = 1
@@ -134,7 +134,7 @@
 		        JOIN trading_request ON tr_tq_num = tq_num
 		        JOIN sale_board ON tq_sb_num = sb_num
 		        JOIN member ON sb_me_num = me_num
-		        JOIN sale_image ON sb_num = si_key
+		        LEFT JOIN sale_image ON sb_num = si_key
 		        WHERE sb_me_num = #{me_num} AND tr_ts_state = '거래완료'
 		    ) AS ranked
 		    WHERE row_num = 1
@@ -148,16 +148,14 @@
 				ROW_NUMBER() OVER (PARTITION BY sb_num ORDER BY si_num) as row_num
 			from trading join trading_request on tr_tq_num = tq_num 
 			join sale_board on tq_sb_num = sb_num
-			join member on sb_me_num = me_num join sale_image on sb_num = si_key 
+			join member on sb_me_num = me_num
+			LEFT join sale_image on sb_num = si_key 
 			where sb_me_num = #{me_num} and tq_me_num = #{me_num} or tr_ts_state = '거래중' 
 			) AS ranked
             WHERE row_num = 1
 			ORDER BY sb_date DESC;
 	</select>
-	
 </mapper>
-
-
 
 
 

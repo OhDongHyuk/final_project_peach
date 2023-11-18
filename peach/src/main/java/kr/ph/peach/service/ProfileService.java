@@ -34,7 +34,7 @@ public interface ProfileService {
 
 	void updateText(MemberVO user, String pf_text);
 
-	ProfileVO getPfText(MemberVO user);
+	ProfileVO getPfText(int meNum);
 
 	List<ProfileVO> getPF(MemberVO user);
 

@@ -130,9 +130,9 @@ public class ProfileServiceImp implements ProfileService{
 	}
 
 	@Override
-	public ProfileVO getPfText(MemberVO user) {
+	public ProfileVO getPfText(int meNum) {
 		
-		return profileDao.selectPfText(user);
+		return profileDao.selectPfText(meNum);
 	}
 
 	@Override
