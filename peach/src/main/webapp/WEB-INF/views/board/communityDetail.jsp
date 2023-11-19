@@ -296,15 +296,17 @@
 						<div class="report-button2">
 							<c:if test="${reList.replyWriter != user.me_nick}">
 								<div class="profile-right">
+									<!-- 댓글 신고 기능 삭제(파이널 이후 수정?)
 									<div class="profile-right-box">
 										<c:if test= "${user != null}">
 										<button type="button" class="report-post" id="openReportModalBtn2" data-num="${reList.re_num}">신고</button>
 										</c:if>
 									</div>
+									  -->
 								</div>
 							</c:if>
 							<c:if test="${reList.replyWriter == user.me_nick}">
-							    <button type="button" onclick="delete_reply(${reList.re_num})">삭제</button>
+							    <button type="button" onclick="delete_reply(${products.re_num})">삭제</button>
 							</c:if>
 						</div>
 		            </div>
@@ -427,9 +429,9 @@
 			}
 		  	
 			let data = {
-				key : '${co_num}',
-				info : reportReason,
-				table : 'community'
+				rp_key : '${co_num}',
+				rp_info : reportReason,
+				rp_table : '3'
 			};
 			ajaxJsonToJson(
 					  false,
@@ -451,7 +453,7 @@
 		function closeReportModal() {
 			  reportPostModal.style.display = "none";
 			}
-	
+		/* 댓글 신고 기능
 		let re_num = 0;
 		const reportPostModal2 = document.getElementById("reportPostModal2");
 		const openReportModalBtn2 = document.querySelectorAll("#openReportModalBtn2");
@@ -516,7 +518,7 @@
 		function closeReportModal2() {
 			  reportPostModal2.style.display = "none";
 			}
-		
+		*/
 		function deleteCom(co_num){
 			var ans = confirm('삭제하시겠습니까?');
 			if (ans) {

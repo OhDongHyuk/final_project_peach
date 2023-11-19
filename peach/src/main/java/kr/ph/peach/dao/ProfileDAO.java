@@ -11,6 +11,7 @@ import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.SaleImageVO;
+import kr.ph.peach.vo.SugarListVO;
 
 public interface ProfileDAO {
 
@@ -75,6 +76,11 @@ public interface ProfileDAO {
 	List<String> selectProceeding(@Param("me_num")int me_num);
 
 	MemberVO getUserById(String me_id);
+
+	CityVO selectUserCity(MemberVO user);
+
+	void insertReport(@Param("sugarList") SugarListVO sugarList,@Param("user") MemberVO user);
+
 
 	
 }

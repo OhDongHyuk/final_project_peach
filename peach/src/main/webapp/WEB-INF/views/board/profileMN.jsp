@@ -247,7 +247,9 @@
 			<div class="form-group">
 				<label>시/도</label>
 				<select name="large" class="form-control">
-					<option value="0">시/도 선택</option>
+					<c:if test="${not empty userCity.ci_large}">
+						<option selected>${userCity.ci_large}/${userCity.ci_medium}/${userCity.ci_small}</option>
+					</c:if>	
 					<c:forEach items="${large}" var="name">
 						<option>${name.ci_large}</option>	
 					</c:forEach>

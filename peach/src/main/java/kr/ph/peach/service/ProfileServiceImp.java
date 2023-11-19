@@ -1,6 +1,9 @@
 package kr.ph.peach.service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.SaleImageVO;
+import kr.ph.peach.vo.SugarListVO;
 
 @Service
 public class ProfileServiceImp implements ProfileService{
@@ -230,6 +234,22 @@ public class ProfileServiceImp implements ProfileService{
 		MemberVO user = profileDao.getUserById(me_id);
 		return user;
 	}
+
+	@Override
+	public CityVO selectUserCity(MemberVO user) {
+		CityVO userCity = profileDao.selectUserCity(user);
+		return userCity;
+	}
+
+	@Override
+	public boolean insertSugar(SugarListVO sugarList, MemberVO user) {
+		if(sugarList == null) {
+			return false;
+		}
+		profileDao.insertReport(sugarList, user);
+		return true;
+	}
+
 	
 }
 	

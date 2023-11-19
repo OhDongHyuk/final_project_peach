@@ -1,7 +1,9 @@
 package kr.ph.peach.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
@@ -13,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,9 +29,11 @@ import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
+import kr.ph.peach.vo.ReportVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.SaleImageVO;
+import kr.ph.peach.vo.SugarListVO;
 
 
 @Controller
@@ -52,7 +57,7 @@ public class ProfileController {
             List<SaleBoardVO> salingProducts = profileService.getProductsById(meNum, 1);
             List<SaleBoardVO> tradingProducts = profileService.getProductsById(meNum, 2);
             List<SaleBoardVO> finishedProducts = profileService.getProductsById(meNum, 3);
-            System.out.println("salingProducts"+salingProducts);	
+            model.addAttribute("products",products);
             
             model.addAttribute("products",products);
             model.addAttribute("salingProducts",salingProducts);
@@ -173,8 +178,14 @@ public class ProfileController {
     	
     	model.addAttribute("pi_num", pi_num);
     	
-    	List<CityVO> list = profileService.getLargeCity();
-    	model.addAttribute("large", list);
+    	List<CityVO> large = profileService.getLargeCity();
+    	model.addAttribute("large", large);
+    	
+    	//유저의 지역 정보를 불러와서 모델로 정보 전송
+    	CityVO userCity = profileService.selectUserCity(user);
+    	System.out.println("userCity"+userCity);
+    	
+    	model.addAttribute("userCity", userCity);
     	
 		Message msg;
 		if(user == null) {
@@ -261,7 +272,6 @@ public class ProfileController {
 	     model.addAttribute("user",user);
 	     
 	     MemberVO member = profileService.getAccount(user);
-	     System.out.println("member"+ member);
 	     model.addAttribute("member", member);
 	     
 	     
@@ -283,7 +293,6 @@ public class ProfileController {
 		 model.addAttribute("WMoney", WMoney);
 		 
 		 int PPoint = userMoney-WMoney;
-		 System.out.println("PPoint"+PPoint);
 		 
 		 if(profileService.updateWithdraw(PPoint, user)) {
 				msg = new Message("/board/profile/"+ user.getMe_num(), "출금 성공.");
@@ -293,4 +302,26 @@ public class ProfileController {
 			model.addAttribute("msg", msg);
 			return "message";
 	 }
+	 @ResponseBody
+		@PostMapping("/sugar")
+		public Map<String, Object> report(@RequestBody SugarListVO sugarList, Model model, HttpSession session) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			MemberVO user = (MemberVO) session.getAttribute("user");
+			String msg = "";
+			if(sugarList == null || user == null) {
+				msg = "잘못된 접근";
+				map.put("msg", msg);
+				return map;
+			}
+			System.out.println("sugarList"+sugarList);
+			sugarList.setSl_me_num(user.getMe_num());
+			if(profileService.insertSugar(sugarList,user)) {
+				msg = "성공";
+				map.put("msg", msg);
+				return map;			
+			}
+			msg = "실패";
+			map.put("msg", msg);
+			return map;
+		}
 }

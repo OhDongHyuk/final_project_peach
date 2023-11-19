@@ -67,12 +67,12 @@
 		text-align: center;
 	}
 </style>
-<title>피치 게시판</title>
+<title>우리동네 게시판</title>
 </head>
 <body>
 	<br>
 	<br>
-	<h1 class="community-title">피치 게시판</h1>
+	<h1 class="community-title">우리동네 게시판</h1>
 	<br>
 	<p class="co_city">${list[0].ci_large}/${list[0].ci_medium}/${list[0].ci_small} 게시판</p>
 	<br>

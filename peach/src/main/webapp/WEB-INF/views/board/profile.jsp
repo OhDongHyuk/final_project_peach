@@ -73,6 +73,7 @@
 	.example2 {
 		height: 100px;
 		width: 100px;
+		min-width : 100px; min-height : 100px;
 		margin-right: 40px;
 	}
 	.btn-pc {
@@ -214,6 +215,7 @@
 		height: 194px;
 	}
 	.image-holder img {
+
 		width: 194px; height: 194px;
 	}
 	.text-holder {
@@ -285,6 +287,97 @@
 		width: 200px;
 		text-align: center;
 	}
+	.empty_product_box{
+		margin-left: 150px;
+	}
+	.custom-modal {
+		  display: none;
+		  position: fixed;
+		  z-index: 1;
+		  left: 0;
+		  top: 0;
+		  width: 100%;
+		  height: 100%;
+		  overflow: auto;
+		  background-color: rgba(0, 0, 0, 0.4);
+		}
+		
+		.custom-modal .modal-content {
+		  background-color: rgb(247, 247, 247);
+		  margin: 15% auto;
+		  border: 1px solid #888;
+		  width: 420px;
+		  padding: 20px;
+		  text-align: center;
+		  border-radius: 8px;
+		  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+		}
+		
+		.custom-modal .modal-header h2 {
+		  font-size: 24px;
+		  font-weight: bold;
+		}
+		
+		.custom-modal .modal-body {
+		  margin-top: 20px;
+		}
+		
+		.custom-modal .report-reason {
+		  border: 1px solid #ccc;
+		  border-radius: 4px;
+		  resize: none;
+		}
+		
+		.custom-modal .report-button,
+		.custom-modal .cancel-button {
+		  padding: 10px 20px;
+		  font-size: 16px;
+		  cursor: pointer;
+		  border: none;
+		  border-radius: 5px;
+		  margin-right: 10px;
+		}
+		
+		.custom-modal .report-button {
+		  background-color: #ff5733;
+		  color: white;
+		}
+		
+		.custom-modal .report-button:hover {
+		  background-color: #ff4500;
+		}
+		
+		.custom-modal .cancel-button {
+		  background-color: #ccc;
+		  color: #333;
+		}
+		
+		.custom-modal .cancel-button:hover {
+		  background-color: #999;
+		}
+		
+		.custom-modal .close {
+		  position: absolute;
+		  top: 10px;
+		  right: 10px;
+		  cursor: pointer;
+		  font-size: 24px;
+		}
+		
+		.custom-modal .close:hover,
+		.custom-modal .close:focus {
+		  color: black;
+		  text-decoration: none;
+		  cursor: pointer;
+		}
+		.report-text-area {
+			text-align: left;
+			margin-top: 20px;
+		}
+		.modal-body{
+			margin-left: auto;
+			margin-right: auto;
+		}
 </style>
 <body>
 <div class="all-profile">
@@ -294,6 +387,9 @@
 		<button>피치페이 충전</button>
 		<form action="<c:url value='/board/profilePay'/>" method="get">
 			<button>피치페이 출금</button>
+		</form>
+		<form action="" method="get">
+			<button>피치페이 내역 조회</button>
 		</form>
 	</div>
 	  </c:if>
@@ -351,7 +447,7 @@
 					    <img src="<c:url value='/trade/${sellAll.si_name}'/>" class="example2"/>
 					</c:if>
 					<c:if test="${empty sellAll.si_name}">
-					    <img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example">
+					    <img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example2">
 					</c:if>
 					<div class="profile-product-detail">
 						<div class="profile-product-detail-text">
@@ -371,7 +467,7 @@
 			</div>	
 		</c:forEach>
 		<c:if test="${empty salingProducts}">
-			<div>
+			<div class="empty_product_box">
 				<p class="empty_product">판매중인 상품이 없습니다.</p>
 			</div>
 		</c:if>
@@ -384,7 +480,7 @@
 						<img src="<c:url value='/trade/${proceeding.si_name}'/>" class="example2"/>
 					</c:if>
 					<c:if test="${empty proceeding.si_name}">
-						<img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example">
+						<img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example2">
 					</c:if>
 						<div class="profile-product-detail">
 						<div class="profile-product-detail-text">
@@ -418,7 +514,7 @@
 					<img src="<c:url value='/trade/${buy.si_name}'/>" class="example2"/>
 				</c:if>
 				<c:if test="${empty buy.si_name}">
-					 <img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example">
+					 <img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example2">
 				</c:if>
 				<div class="profile-product-detail">
 					
@@ -447,7 +543,7 @@
 					<img src="<c:url value='/trade/${buy.si_name}'/>" class="example2"/>
 				</c:if>
 				<c:if test="${empty buy.si_name}">
-					 <img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example">
+					 <img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example2">
 				</c:if>
 				<div class="profile-product-detail">
 					
@@ -456,7 +552,7 @@
 		    		</div>
 		    		<c:if test="${user.me_num == member.me_num }">
 					<div class="profile-product-detail-btn">
-						
+						<button type="button" class="report-post" id="openReportModalBtn" data-num="${buy.sb_num}">당도 남기기</button>
 					</div>
 					</c:if>
 				</div>
@@ -470,9 +566,106 @@
 		</c:if>
 	</div>	
 </div>	
+<div id="reportPostModal" class="custom-modal">
+	  <div class="modal-content">
+	    <span class="close">&times;</span>
+	    <div class="modal-header">
+	      <h2>당도 남기기</h2>
+	    </div>
+	    <div class="modal-body">
+	      <p>당도는 1점부터 10점까지 매길 수 있습니다.</p>
+	      <div class="report-text-area">
+		      <textarea id="reportReason" class="report-reason" placeholder="1~10"></textarea>      
+	      </div>
+	    </div>
+	    <div class="modal-footer">
+	      <button class="report-button" onclick="reportPost()">확인</button>
+	      <button class="cancel-button" onclick="closeReportModal()">취소</button>
+	    </div>
+	  </div>
+	</div>
 <br>
 <br>
 <script>
+let sb_num = 0;
+const reportPostModal = document.getElementById("reportPostModal");
+const openReportModalBtns = document.querySelectorAll(".report-post");
+const closeReportModalBtn = document.querySelector(".custom-modal .close");
+
+[].forEach.call(openReportModalBtns, function(button){
+	 console.log("버튼 클릭됨");
+	button.addEventListener("click", function () {
+		console.log(button);
+		if('${user.me_id}' == '') {
+			if(confirm('로그인하시겠습니까?')){
+				location.href = '<c:url value="/member/login"/>'
+			}
+			return;
+		}
+	  	reportPostModal.style.display = "block";
+	  	sb_num = $(this).data('num');
+	});	
+});
+
+openReportModalBtn.addEventListener("click", function () {
+	if('${user.me_id}' == '') {
+		if(confirm('로그인하시겠습니까?')){
+			location.href = '<c:url value="/member/login"/>'
+		}
+		return;
+	}
+  	reportPostModal.style.display = "block";
+});
+
+closeReportModalBtn.addEventListener("click", function () {
+  reportPostModal.style.display = "none";
+});		
+
+window.addEventListener("click", function (event) {
+  if (event.target === reportPostModal) {
+    reportPostModal.style.display = "none";
+  }
+});
+
+function reportPost() {
+
+	const reportReason = document.getElementById("reportReason").value;
+
+  	if (reportReason.trim() === "") {
+   		alert("당도를 입력하세요.");
+   		return;
+	}
+  	
+	let data = {
+		sl_sb_num : sb_num,
+		sl_sugar : reportReason,
+	};
+	ajaxJsonToJson(
+			  false,
+			  'post',
+			  'sugar',
+			  data,
+			  (data) => {
+			    alert("당도를 매겼습니다.\n당도 점수: " + reportReason);
+			    console.log(data.msg);
+			    document.getElementById("reportReason").value = '';
+			    closeReportModal(); // Close the modal after reporting
+			  },
+			    () => {
+			    	
+			    	console.log("실패");
+			    }
+			);
+	}
+function closeReportModal() {
+	  reportPostModal.style.display = "none";
+	}
+
+
+
+
+
+
 function dateUp(sb_num){
 	$.ajax({
 	    type: 'POST',

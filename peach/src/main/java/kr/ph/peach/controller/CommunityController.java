@@ -44,7 +44,7 @@ public class CommunityController {
 	    
 	    Message msg;
 	    if(user == null) {
-    		msg = new Message("/member/login", "잘못된 접근입니다.");
+    		msg = new Message("/member/login", "로그인을 필요로 합니다.");
           	model.addAttribute("msg", msg);
       		return "message";
     	}
@@ -117,7 +117,12 @@ public class CommunityController {
 	    	MemberVO user = (MemberVO) session.getAttribute("user");
 	    	model.addAttribute("user",user);
 	    	
-	    	
+	    	Message msg;
+		    if(user == null) {
+	    		msg = new Message("/member/login", "로그인을 필요로 합니다.");
+	          	model.addAttribute("msg", msg);
+	      		return "message";
+	    	}
 	    	
 	    	communityService.updateCoView(co_num);
 	    	

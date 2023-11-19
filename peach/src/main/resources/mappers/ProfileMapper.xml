@@ -158,6 +158,14 @@
 	<select id="getUserById" resultType="kr.ph.peach.vo.MemberVO">
 		select * from member where me_id = #{me_id}
 	</select>
+	<select id="selectUserCity" resultType="kr.ph.peach.vo.CityVO">
+		select * from city where ci_num = #{me_ci_num}
+	</select>
+	<insert id="insertReport">
+		insert into sugar_list(sl_sugar, sl_me_num, sl_sb_num) values(#{sugarList.sl_sugar}, #{user.me_num},
+		#{sugarList.sl_sb_num})
+	</insert>
+	
 </mapper>
 
 
