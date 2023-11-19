@@ -81,6 +81,8 @@ public interface ProfileDAO {
 
 	void insertReport(@Param("sugarList") SugarListVO sugarList,@Param("user") MemberVO user);
 
+	SugarListVO selectSugar(@Param("sugarList") SugarListVO sugarList,@Param("user") MemberVO user);
+
 
 	
 }

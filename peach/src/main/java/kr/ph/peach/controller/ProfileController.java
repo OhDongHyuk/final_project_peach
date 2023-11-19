@@ -303,25 +303,34 @@ public class ProfileController {
 			return "message";
 	 }
 	 @ResponseBody
-		@PostMapping("/sugar")
-		public Map<String, Object> report(@RequestBody SugarListVO sugarList, Model model, HttpSession session) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			MemberVO user = (MemberVO) session.getAttribute("user");
-			String msg = "";
-			if(sugarList == null || user == null) {
-				msg = "잘못된 접근";
-				map.put("msg", msg);
-				return map;
-			}
-			System.out.println("sugarList"+sugarList);
-			sugarList.setSl_me_num(user.getMe_num());
-			if(profileService.insertSugar(sugarList,user)) {
-				msg = "성공";
-				map.put("msg", msg);
-				return map;			
-			}
-			msg = "실패";
-			map.put("msg", msg);
-			return map;
-		}
+	 @PostMapping("/sugar")
+	 public Map<String, Object> report(@RequestBody SugarListVO sugarList, Model model, HttpSession session) {
+	     Map<String, Object> result = new HashMap<>();
+	     MemberVO user = (MemberVO) session.getAttribute("user");
+
+	     if (sugarList == null || user == null) {
+	         result.put("success", false);
+	         result.put("msg", "로그인이 필요합니다.");
+	         return result;
+	     }
+	     System.out.println("sugarList"+sugarList);
+	     // 중복된 평가 확인
+	     SugarListVO sgRes = profileService.selectSugar(sugarList, user);
+	     System.out.println("sgRes"+sgRes);
+	     if (sgRes != null) {
+	         result.put("success", false);
+	         result.put("msg", "이미 평가한 상대입니다.");
+	         return result;
+	     }
+
+	     if (profileService.insertSugar(sugarList, user)) {
+	         result.put("success", true);
+	         result.put("msg", "평가가 성공적으로 등록되었습니다.");
+	         return result;
+	     }
+
+	     result.put("success", false);
+	     result.put("msg", "평가 등록에 실패했습니다.");
+	     return result;
+	 }
 }

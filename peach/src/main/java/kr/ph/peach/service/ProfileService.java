@@ -71,5 +71,7 @@ public interface ProfileService {
 
 	boolean insertSugar(SugarListVO sugarList, MemberVO user);
 
+	SugarListVO selectSugar(SugarListVO sugarList, MemberVO user);
+
 	
 }

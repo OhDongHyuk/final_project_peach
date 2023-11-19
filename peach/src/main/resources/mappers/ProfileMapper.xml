@@ -165,7 +165,9 @@
 		insert into sugar_list(sl_sugar, sl_me_num, sl_sb_num) values(#{sugarList.sl_sugar}, #{user.me_num},
 		#{sugarList.sl_sb_num})
 	</insert>
-	
+	<select id="selectSugar" resultType="kr.ph.peach.vo.SugarListVO">
+		SELECT * FROM sugar_list where sl_me_num = #{user.me_num} and sl_sb_num = #{sugarList.sl_sb_num};
+	</select>
 </mapper>
 
 

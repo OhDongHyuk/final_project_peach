@@ -523,6 +523,9 @@
 		    		</div>
 		    		<c:if test="${user.me_num == member.me_num }">
 					<div class="profile-product-detail-btn">
+						<c:if test="${user.me_num == member.me_num }">
+							<button type="button" class="report-post" id="openReportModalBtn" data-num="${buy.sb_num}">당도 남기기</button>
+						</c:if>
 					</div>
 					</c:if>
 				</div>
@@ -552,7 +555,9 @@
 		    		</div>
 		    		<c:if test="${user.me_num == member.me_num }">
 					<div class="profile-product-detail-btn">
-						<button type="button" class="report-post" id="openReportModalBtn" data-num="${buy.sb_num}">당도 남기기</button>
+						<c:if test="${user.me_num == member.me_num }">
+							<button type="button" class="report-post" id="openReportModalBtn" data-num="${buy.sb_num}">당도 남기기</button>
+						</c:if>
 					</div>
 					</c:if>
 				</div>
@@ -575,8 +580,9 @@
 	    <div class="modal-body">
 	      <p>당도는 1점부터 10점까지 매길 수 있습니다.</p>
 	      <div class="report-text-area">
-		      <textarea id="reportReason" class="report-reason" placeholder="1~10"></textarea>      
+		      <input id="reportReason" class="report-reason" placeholder="1~10" pattern="[1-9]|10"></input>      
 	      </div>
+	      	  <p id="errorMsg" style="color: red;"></p>
 	    </div>
 	    <div class="modal-footer">
 	      <button class="report-button" onclick="reportPost()">확인</button>
@@ -587,6 +593,14 @@
 <br>
 <br>
 <script>
+
+window.onload = function () {
+	$("#sellcbox").hide();
+	$("#sellComBox").hide();
+	$("#sellComBuy").hide();
+	$("#sellComSell").hide();
+}
+
 let sb_num = 0;
 const reportPostModal = document.getElementById("reportPostModal");
 const openReportModalBtns = document.querySelectorAll(".report-post");
@@ -624,11 +638,24 @@ closeReportModalBtn.addEventListener("click", function () {
 window.addEventListener("click", function (event) {
   if (event.target === reportPostModal) {
     reportPostModal.style.display = "none";
+    
   }
 });
 
 function reportPost() {
+	var input = document.getElementById("reportReason").value;
+    var errorMsg = document.getElementById("errorMsg");
 
+    // 숫자 범위 확인
+    var number = parseInt(input);
+	  if (!isNaN(number) && Number.isInteger(number) && number >= 1 && number <= 10) {
+	    errorMsg.textContent = ""; // 에러 메시지 초기화
+	    // 여기에 확인 버튼을 눌렀을 때 수행할 동작 추가
+	  } else {
+	    errorMsg.textContent = "1부터 10까지의 정수만 입력하세요.";
+	    return;
+	  }
+	
 	const reportReason = document.getElementById("reportReason").value;
 
   	if (reportReason.trim() === "") {
@@ -640,21 +667,26 @@ function reportPost() {
 		sl_sb_num : sb_num,
 		sl_sugar : reportReason,
 	};
+	
 	ajaxJsonToJson(
 			  false,
 			  'post',
 			  'sugar',
 			  data,
 			  (data) => {
-			    alert("당도를 매겼습니다.\n당도 점수: " + reportReason);
-			    console.log(data.msg);
-			    document.getElementById("reportReason").value = '';
-			    closeReportModal(); // Close the modal after reporting
-			  },
-			    () => {
-			    	
-			    	console.log("실패");
-			    }
+				    if (data.success) {
+				      alert("당도를 매겼습니다.\n당도 점수: " + reportReason);
+				      console.log(data.msg);
+				      document.getElementById("reportReason").value = '';
+				      closeReportModal(); // 신고 모달 닫기
+				    } else {
+				      alert("이미 평가한 상대입니다.");
+				      console.log(data.msg);
+				    }
+				  },
+				  () => {
+				    console.log("요청 실패");
+				  }
 			);
 	}
 function closeReportModal() {
@@ -698,11 +730,6 @@ function deletePD(sb_num){
 		});
 	}
 }
-
-$("#sellcbox").hide();
-$("#sellComBox").hide();
-$("#sellComBuy").hide();
-$("#sellComSell").hide();
 
 function sell() {
 	$("#sellcbox").hide();

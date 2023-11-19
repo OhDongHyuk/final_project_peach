@@ -250,6 +250,12 @@ public class ProfileServiceImp implements ProfileService{
 		return true;
 	}
 
+	@Override
+	public SugarListVO selectSugar(SugarListVO sugarList, MemberVO user) {
+		SugarListVO sgRes = profileDao.selectSugar(sugarList,user);
+		return sgRes;
+	}
+
 	
 }
 	
