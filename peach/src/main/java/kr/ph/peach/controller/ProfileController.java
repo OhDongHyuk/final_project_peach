@@ -24,21 +24,22 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.ProfileService;
+import kr.ph.peach.service.SaleBoardService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
-import kr.ph.peach.vo.ReportVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
-import kr.ph.peach.vo.SaleImageVO;
 import kr.ph.peach.vo.SugarListVO;
 
 
 @Controller
 public class ProfileController {
 	
+	@Autowired
+	SaleBoardService saleBoardService;
 	@Autowired
 	ProfileService profileService;
 	@Autowired
@@ -49,12 +50,18 @@ public class ProfileController {
     @GetMapping("/board/profile/{me_num}")
     public String showProfilePage(@PathVariable("me_num") int meNum, Model model, HttpSession session, Criteria cri) {
 	    	MemberVO user = (MemberVO) session.getAttribute("user");
-	    	user.setMe_point(profileService.selectPoint(user.getMe_num()));
+	    	if(user != null) {
+	    		user.setMe_point(profileService.selectPoint(user.getMe_num()));	    		
+	    	}
 	    	model.addAttribute("user",user);
             MemberVO member = memberService.getMemberByNumber(meNum);
             
             List<SaleBoardVO> products = profileService.getProductsById(meNum, 0);
             List<SaleBoardVO> salingProducts = profileService.getProductsById(meNum, 1);
+            for(SaleBoardVO tmp : salingProducts) {
+    			
+            	salingProducts.get(salingProducts.indexOf(tmp)).setSb_sc_name(saleBoardService.selectCategoryName(tmp.getSb_sc_num()));
+    		}
             List<SaleBoardVO> tradingProducts = profileService.getProductsById(meNum, 2);
             List<SaleBoardVO> finishedProducts = profileService.getProductsById(meNum, 3);
             model.addAttribute("products",products);
@@ -95,36 +102,38 @@ public class ProfileController {
     	
     		int me_num = member.getMe_num();
     		//구매완료 내역
-    		List<String> meNumBuy = profileService.selectBuy(me_num);
+    		List<SaleBoardVO> meNumBuy = profileService.selectBuy(me_num);
+    		for(SaleBoardVO tmp : meNumBuy) {
+    			
+    			meNumBuy.get(meNumBuy.indexOf(tmp)).setSb_sc_name(saleBoardService.selectCategoryName(tmp.getSb_sc_num()));
+    		}
     		model.addAttribute("meNumBuy", meNumBuy);
     		//판매완료 내역
-    		List<String> meNumSel = profileService.selectSel(me_num);
-    		model.addAttribute("meNumSel", meNumSel);
-    		List<String> proceeding = profileService.selectProceeding(meNum);
-    		model.addAttribute("proceeding", proceeding);
-    		/*
-    		List<SaleBoardVO>saleboard = profileService.saleboard(meNum);
-    				
-    		if(saleboard !=null) {
-				model.addAttribute("proceeding", proceeding);
-				System.out.println("meNum"+meNum);
-				//trading 테이블 정보 가져오기(본인이 거래한 상품이지만, 본인의 평가가 아닌 당도 평가 가져오기)
-				List<SaleBoardVO> sale = profileService.selectSale(meNum);
-				System.out.println("sale"+sale);
-				
-				List<SugarListVO> sugarList = profileService.selectSugarList(sale, meNum);
-				System.out.println("sugarList"+sugarList);
-				double sumSugar = 0.0;
-		
-				for (SugarListVO sugar : sugarList) {
-				    sumSugar += sugar.getSl_sugar();
-				}
-		
-				double averageSugar = sugarList.isEmpty() ? 0.0 : sumSugar / sugarList.size();
-		
-				System.out.println("averageSugar" + averageSugar);
+    		List<SaleBoardVO> meNumSel = profileService.selectSel(me_num);
+    		for(SaleBoardVO tmp : meNumSel) {
+    			
+    			meNumSel.get(meNumSel.indexOf(tmp)).setSb_sc_name(saleBoardService.selectCategoryName(tmp.getSb_sc_num()));
     		}
+    		model.addAttribute("meNumSel", meNumSel);
+    		
+    		List<SaleBoardVO> proceeding = profileService.selectProceeding(me_num);
+    		for(SaleBoardVO tmp : proceeding) {
+    			proceeding.get(proceeding.indexOf(tmp)).setTr_tq_num(profileService.selectTrTqNum(tmp.getSb_num()));
+    			proceeding.get(proceeding.indexOf(tmp)).setSb_sc_name(saleBoardService.selectCategoryName(tmp.getSb_sc_num()));
+    		}
+    		model.addAttribute("proceeding", proceeding);
+    		
+    		/*
+    		List<SugarListVO> sugarList = profileService.selectSugarList(products, meNum);
+    		double sumSugar = 0.0;
+
+    		for (SugarListVO sugar : sugarList) {
+    		    sumSugar += sugar.getSl_sugar();
+    		}
+
+    		double averageSugar = sugarList.isEmpty() ? 0.0 : sumSugar / sugarList.size();
     		*/
+ 
 	        return "/board/profile"; 
 	    }
 
@@ -148,7 +157,6 @@ public class ProfileController {
 	}
     @GetMapping("/board/profilePass")
 	public String ProfileMNlogin(Model model, HttpSession session, String pi_num) {
-    	System.out.println("Pass1"+pi_num);
     	
     	MemberVO user = (MemberVO) session.getAttribute("user");
         model.addAttribute("user", user);

@@ -69,11 +69,11 @@ public interface ProfileDAO {
 
 	int selectPoint(@Param("me_num")int me_num);
 
-	List<String> selectBuy(@Param("me_num")int me_num);
+	List<SaleBoardVO> selectBuy(@Param("me_num")int me_num);
 
-	List<String> selectSel(@Param("me_num")int me_num);
+	List<SaleBoardVO> selectSel(@Param("me_num")int me_num);
 
-	List<String> selectProceeding(@Param("me_num")int me_num);
+	List<SaleBoardVO> selectProceeding(@Param("me_num")int me_num);
 
 	MemberVO getUserById(String me_id);
 
@@ -83,11 +83,9 @@ public interface ProfileDAO {
 
 	SugarListVO selectSugar(@Param("sugarList") SugarListVO sugarList,@Param("user") MemberVO user);
 
-	List<SugarListVO> selectSugarList(@Param("sale")List<SaleBoardVO> sale,@Param("meNum") int meNum);
+	List<SugarListVO> selectSugarList(@Param("products")List<SaleBoardVO> products,@Param("meNum") int meNum);
 
-	List<SaleBoardVO> selectSale(@Param("meNum")int meNum);
-
-	List<SaleBoardVO> saleboard(@Param("meNum")int meNum);
+	int selectTrTqNum(int sb_num);
 
 
 	

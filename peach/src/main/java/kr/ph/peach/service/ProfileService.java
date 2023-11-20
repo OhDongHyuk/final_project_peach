@@ -59,11 +59,11 @@ public interface ProfileService {
 
 	int selectPoint(int me_num);
 
-	List<String> selectBuy(int me_num);
+	List<SaleBoardVO> selectBuy(int me_num);
 
-	List<String> selectSel(int me_num);
+	List<SaleBoardVO> selectSel(int me_num);
 
-	List<String> selectProceeding(int me_num);
+	List<SaleBoardVO> selectProceeding(int me_num);
 
 	MemberVO getUserById(String me_id);
 
@@ -73,11 +73,9 @@ public interface ProfileService {
 
 	SugarListVO selectSugar(SugarListVO sugarList, MemberVO user);
 
-	List<SugarListVO> selectSugarList(List<SaleBoardVO> sale, int meNum);
+	List<SugarListVO> selectSugarList(List<SaleBoardVO> products, int meNum);
 
-	List<SaleBoardVO> selectSale(int meNum);
-
-	List<SaleBoardVO> saleboard(int meNum);
+	int selectTrTqNum(int sb_num);
 
 	
 }

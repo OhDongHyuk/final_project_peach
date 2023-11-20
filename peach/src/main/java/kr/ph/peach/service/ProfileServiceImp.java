@@ -212,21 +212,21 @@ public class ProfileServiceImp implements ProfileService{
 	}
 
 	@Override
-	public List<String> selectBuy(int me_num) {
-		List<String> meNumBuy = profileDao.selectBuy(me_num);
+	public List<SaleBoardVO> selectBuy(int me_num) {
+		List<SaleBoardVO> meNumBuy = profileDao.selectBuy(me_num);
 		System.out.println("meNumBuy"+meNumBuy);
 		return meNumBuy;
 	}
 
 	@Override
-	public List<String> selectSel(int me_num) {
-		List<String> meNumSel = profileDao.selectSel(me_num);
+	public List<SaleBoardVO> selectSel(int me_num) {
+		List<SaleBoardVO> meNumSel = profileDao.selectSel(me_num);
 		return meNumSel;
 	}
 
 	@Override
-	public List<String> selectProceeding(int me_num) {
-		List<String> Proceeding = profileDao.selectProceeding(me_num);
+	public List<SaleBoardVO> selectProceeding(int me_num) {
+		List<SaleBoardVO> Proceeding = profileDao.selectProceeding(me_num);
 		return Proceeding;
 	}
 
@@ -258,32 +258,18 @@ public class ProfileServiceImp implements ProfileService{
 	}
 
 	@Override
-	public List<SugarListVO> selectSugarList(List<SaleBoardVO> sale, int meNum) {
-		List<SugarListVO> sugarList = profileDao.selectSugarList(sale, meNum);
+	public List<SugarListVO> selectSugarList(List<SaleBoardVO> products, int meNum) {
+		List<SugarListVO> sugarList = profileDao.selectSugarList(products, meNum);
 		return sugarList;
 	}
 
 	@Override
-	public List<SaleBoardVO> selectSale(int meNum) {
-		List<SaleBoardVO> sale = profileDao.selectSale(meNum);
-		return sale;
-	}
-
-	@Override
-	public List<SaleBoardVO> saleboard(int meNum) {
-		List<SaleBoardVO>saleboard = profileDao.saleboard(meNum);
-		return saleboard;
+	public int selectTrTqNum(int sb_num) {
+		if(sb_num == 0 ) {
+			return 0;
+		}
+		return profileDao.selectTrTqNum(sb_num);
 	}
 
 	
 }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

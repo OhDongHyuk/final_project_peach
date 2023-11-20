@@ -143,9 +143,3 @@
 		delete From reply where re_num = #{re_num}
 	</delete>
 </mapper>
-
-
-
-
-
-

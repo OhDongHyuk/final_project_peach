@@ -13,30 +13,22 @@
 		min-width: 1000px;
 		max-width: 1320px;
 		display: flex;
-		border-style: outset;
-		border-width: 9px;
-		border-color: ffd9eb;
-		border-radius: 20px;
-		background-color: #ffc2e0;
+		
+		color: #000;
 	}
 	.profile-imgbox {
 		flex: 00 310px;
-		background-color: #ffe5f2;
 		text-align: center;
-		border-right: solid;
-		border-width: 7px;
-		border-color: ffd9eb;
-		border-radius: 20px 0 0 20px;
 	}
 	.btn-profile {
 		width: 150px;
 		margin: 15px auto;
 	}
 	.example {
-		height: 120px;
-		width: 120px;
-		margin: 15px auto;
-		margin-top: 50px;
+		height: 150px;
+		width: 150px;
+		border-radius: 50%;
+		margin-bottom: 20px;
 	}
 	.profile-name {
 		margin: 5px 0;
@@ -73,24 +65,76 @@
 	.example2 {
 		height: 100px;
 		width: 100px;
-		min-width : 100px; min-height : 100px;
 		margin-right: 40px;
 	}
 	.btn-pc {
 		margin-top: 10px;
 	}
+	.profile-btn {
+		width: 100px;
+		height: 30px;
+		background: #f76076;
+		margin: auto;
+		border-radius: 5px;
+	}
+	.profile-btn a {
+		margin-top: 4px;
+		color: #fff;
+	}
+	.profile-btn a:hover {
+		color: #fff;
+	}
 	.pp-box {
-	  position: absolute;
-	  text-align: center;
-	  background-color: lightgray;
-	  padding: 5px;
-	  border-radius: 10px;
-	  display: flex;
-	  flex: 1;
+		position: absolute;
+		right: 100px;
+		width: 150px;
+		padding: 10px 10px;
+		display: block;
+		border: 1px solid #ccc;
 	}
-	.pp-balance {
-		display: inline;
+	.point {
+		font-size: 18px;
+		margin-bottom: 10px;
 	}
+	.pay-buttons {
+		display: flex;
+	}
+	.peachpay-button {
+		width: 60px;
+		height: 30px;
+		background: #ffc8d0; 
+		border:1px solid #ffc8d0; 
+		box-shadow:none; 
+		border-radius:5px; 
+		padding:0; 
+		overflow:visible; 
+		cursor:pointer;
+		color: #f76076;
+	}
+	.pay-history {
+		margin-top: 5px;
+		text-align: center;
+		justify-content:center;
+	}
+	.peachpay-history-button {
+		width: 128px;
+		height: 30px;
+		background: grey; 
+		border:1px solid grey; 
+		box-shadow:none; 
+		border-radius:5px; 
+		padding:0; 
+		overflow:visible; 
+		cursor:pointer;
+		color: #fff;
+	}
+	.charging {
+		margin-right: 9px;
+		background: #f76076;
+		border: 1px solid #f76076;
+		color: #fff;
+	}
+	.
 	.all-profile {
 		
 	}
@@ -107,8 +151,6 @@
 		padding-left: 15px;
 		padding-right: 10px;
 		flex: 1;
-		background-color: #ffe2ed;
-		border-radius: 0 20px 20px 0;
 	}
 	.profile-product-detail-text {
 		width: 630px;
@@ -147,20 +189,49 @@
 		color: rgb(136, 136, 136);
 	}
 	.myBtn {
+		margin-top: 5px;
 		background: inherit ; 
 		border:none; 
 		box-shadow:none; 
-		border-radius:0; 
+		border-radius:5px; 
 		padding:0; 
 		overflow:visible; 
 		cursor:pointer;
+		color: #fff;
 		margin-right: 5px;
+	}
+	.postup {
+		width: 70px;
+		height: 30px;
+		background: #fd7e14;
+	}
+	.postedit {
+		width: 40px;
+		height: 30px;
+		background: #0d6efd;
+	}
+	.postdelete {
+		width: 40px;
+		height: 30px;
+		background: #dc3545;
+	}
+	.report-post {
+		margin-top: 5px;
+		background: inherit ; 
+		border:none; 
+		box-shadow:none; 
+		border-radius:5px; 
+		padding:0; 
+		overflow:visible; 
+		cursor:pointer;
+		color: #fff;
+		margin-right: 5px;
+		width: 80px;
+		height: 30px;
+		background: #fd7e14;
 	}
 	.pftext{
 		font-size: 30px;
-	}
-	.sellComBox{
-		margin-left: 360px;
 	}
 	
 	::before, ::after {
@@ -180,6 +251,18 @@
 		align-items: stretch;
 	}
 	#sellcbox {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-start; /* 왼쪽 정렬 */
+		align-items: stretch;
+	}
+	#sellComSellBox {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-start; /* 왼쪽 정렬 */
+		align-items: stretch;
+	}
+	#sellComBuyBox {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: flex-start; /* 왼쪽 정렬 */
@@ -215,7 +298,6 @@
 		height: 194px;
 	}
 	.image-holder img {
-
 		width: 194px; height: 194px;
 	}
 	.text-holder {
@@ -280,119 +362,100 @@
 		font-size: 12px;
 		color: rgb(136, 136, 136);
 	}
-	.empty_product{
-		border: solid 1px;
-		border-color: black;
-		height: 50px;
-		width: 200px;
-		text-align: center;
-	}
-	.empty_product_box{
-		margin-left: 150px;
+	.form-group {
+		max-width: 700px;
 	}
 	.custom-modal {
-		  display: none;
-		  position: fixed;
-		  z-index: 1;
-		  left: 0;
-		  top: 0;
-		  width: 100%;
-		  height: 100%;
-		  overflow: auto;
-		  background-color: rgba(0, 0, 0, 0.4);
-		}
+	 	display: none;
+	 	position: fixed;
+		z-index: 1;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		overflow: auto;
+		background-color: rgba(0, 0, 0, 0.4);
+	}
 		
-		.custom-modal .modal-content {
-		  background-color: rgb(247, 247, 247);
-		  margin: 15% auto;
-		  border: 1px solid #888;
-		  width: 420px;
-		  padding: 20px;
-		  text-align: center;
-		  border-radius: 8px;
-		  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-		}
-		
-		.custom-modal .modal-header h2 {
-		  font-size: 24px;
-		  font-weight: bold;
-		}
-		
-		.custom-modal .modal-body {
-		  margin-top: 20px;
-		}
-		
-		.custom-modal .report-reason {
-		  border: 1px solid #ccc;
-		  border-radius: 4px;
-		  resize: none;
-		}
-		
-		.custom-modal .report-button,
-		.custom-modal .cancel-button {
-		  padding: 10px 20px;
-		  font-size: 16px;
-		  cursor: pointer;
-		  border: none;
-		  border-radius: 5px;
-		  margin-right: 10px;
-		}
-		
-		.custom-modal .report-button {
-		  background-color: #ff5733;
-		  color: white;
-		}
-		
-		.custom-modal .report-button:hover {
-		  background-color: #ff4500;
-		}
-		
-		.custom-modal .cancel-button {
-		  background-color: #ccc;
-		  color: #333;
-		}
-		
-		.custom-modal .cancel-button:hover {
-		  background-color: #999;
-		}
-		
-		.custom-modal .close {
-		  position: absolute;
-		  top: 10px;
-		  right: 10px;
-		  cursor: pointer;
-		  font-size: 24px;
-		}
-		
-		.custom-modal .close:hover,
-		.custom-modal .close:focus {
-		  color: black;
-		  text-decoration: none;
-		  cursor: pointer;
-		}
-		.report-text-area {
-			text-align: left;
-			margin-top: 20px;
-		}
-		.modal-body{
-			margin-left: auto;
-			margin-right: auto;
-		}
+	.custom-modal .modal-content {
+		background-color: rgb(247, 247, 247);
+		margin: 15% auto;
+		border: 1px solid #888;
+		width: 420px;
+		padding: 20px;
+		text-align: center;
+		border-radius: 8px;
+		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	}
+	
+	.custom-modal .modal-header h2 {
+		font-size: 24px;
+		font-weight: bold;
+	}
+	
+	.custom-modal .modal-body {
+		margin-top: 20px;
+	}
+	
+	.custom-modal .report-reason {
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		resize: none;
+	}
+	
+	.custom-modal .report-button,
+	.custom-modal .cancel-button {
+	 	padding: 10px 20px;
+	 	font-size: 16px;
+	 	cursor: pointer;
+	 	border: none;
+	 	border-radius: 5px;
+		margin-right: 10px;
+	}
+	
+	.custom-modal .report-button {
+	 	background-color: #ff5733;
+	  	color: white;
+	}
+	
+	.custom-modal .report-button:hover {
+	  	background-color: #ff4500;
+	}
+	
+	.custom-modal .cancel-button {
+	  	background-color: #ccc;
+	  	color: #333;
+	}
+	
+	.custom-modal .cancel-button:hover {
+	  	background-color: #999;
+	}
+	
+	.custom-modal .close {
+	  	position: absolute;
+	  	top: 10px;
+	  	right: 10px;
+	  	cursor: pointer;
+	  	font-size: 24px;
+	}
+	
+	.custom-modal .close:hover,
+	.custom-modal .close:focus {
+	  	color: black;
+	  	text-decoration: none;
+	  	cursor: pointer;
+	}
+	.report-text-area {
+		text-align: left;
+		margin-top: 20px;
+	}
+	.modal-body{
+		margin-left: auto;
+		margin-right: auto;
+	}
 </style>
 <body>
 <div class="all-profile">
-	<c:if test="${user.me_num == member.me_num }">	
-	<div class="pp-box">
-		<div class="pp-balance">피치페이 잔액 : '${user.me_point}' </div>
-		<button>피치페이 충전</button>
-		<form action="<c:url value='/board/profilePay'/>" method="get">
-			<button>피치페이 출금</button>
-		</form>
-		<form action="" method="get">
-			<button>피치페이 내역 조회</button>
-		</form>
-	</div>
-	  </c:if>
 	<br/>
 	<div class="profile-container">
 	 <div class="profile-imgbox">
@@ -402,20 +465,33 @@
 	  <c:if test="${proImg != null}">
 	  	<img src="<c:url value='/img/${proImg.pi_name}'/>" class="example">
 	  </c:if>
-	  <div class="profile-name"><P style="color: black; font-weight: bold;">${member.me_nick}</P></div>
+	  <div class="profile-name"><P>${member.me_nick}</P></div>
 	  <c:if test="${user.me_num == member.me_num}">
-		<li class="inner-item"><a href="<c:url value='/board/profilePass?pi_num=${proImg.pi_name}'/>">내 프로필 관리</a></li>
+		<li class="profile-btn"><a href="<c:url value='/board/profilePass?pi_num=${proImg.pi_name}'/>">내 프로필 관리</a></li>
 	  </c:if>
 	 </div>
 	 	<div class="profile-outDTbox">
 			 <div class="profile-Detail">
-			 	<div class="profile-namebox">
-			 		<div class="profile-name"><P style="color: black; font-weight: bold;">${member.me_nick}</P></div>
+			 	<div style="display:flex;">
+			 		<div style="margin-right: 15px;">가입일 : ${member.me_date} </div><div style="margin-right: 15px;">당도 : ${member.me_sugar}</div> 
 			 	</div>
-			 	<br/>
-			 	<div style="display:inline;">
-			 		가입일 : ${member.me_date} 판매 중 : <text>${salingProducts.size()}</text> 판매 완료 : ${meNumSel.size()}<text>${ss}</text> 당도 : <text>${user.me_sugar}</text> 
-			 	</div>
+			 	<c:if test="${user.me_num == member.me_num }">
+					<div class="pp-box">
+						<div class="pp-balance">피치페이 잔액</div>
+						<div class="point">${user.me_point } <span style="font-size: 14px;">원</span></div>
+						<div class="pay-buttons">
+							<button class="peachpay-button charging">충전</button>
+							<form action="<c:url value='/board/profilePay'/>" method="get">
+								<button class="peachpay-button">출금</button>
+							</form>					
+						</div>
+						<div class="pay-history">
+						<form action="<c:url value='/member/pointhistory?ph_me_num=${user.me_num}'/>" method="get">
+							<button class="peachpay-history-button">피치페이 내역 조회</button>
+						</form>	
+						</div>
+					</div>
+				</c:if>
 			 	<br/>
 			 	<form action="<c:url value='/board/profile'/>" method="post" enctype="multipart/form-data">
 			 		<br>
@@ -433,145 +509,230 @@
 	</div>
 	<br>
 	<div class="sellbox">
-		<button onclick="sell()">판매중</button>
-		<button onclick="sellc()">거래중</button>
-		<button onclick="sellComBuy()">구매완료</button>
-		<button onclick="sellComSell()">판매완료</button>
+		<button id="sellbtn" class="selected" onclick="sell()">판매중 ${salingProducts.size() == 0 ? 0 : salingProducts.size() }</button>
+		<button id="sellcbtn" class="sellbtn" onclick="sellc()">거래중 ${proceeding.size() == 0 ? 0 : proceeding.size() }</button>
+		<button id="sellComBuy" class="sellbtn" onclick="sellComBuy()">구매완료 ${meNumBuy.size() == 0 ? 0 : meNumBuy.size() }</button>
+		<button id="sellComSell" class="sellbtn" onclick="sellComSell()">판매완료 ${meNumSel.size() == 0 ? 0 : meNumSel.size() }</button>
 	</div>
-	<br>
-	<div id="sellbox">
-		<c:forEach var="sellAll" items="${salingProducts}" >
-			<div class="profile-product">
-				<div class="profile-product-list">
-					<c:if test="${not empty sellAll.si_name}">
-					    <img src="<c:url value='/trade/${sellAll.si_name}'/>" class="example2"/>
-					</c:if>
-					<c:if test="${empty sellAll.si_name}">
-					    <img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example2">
-					</c:if>
-					<div class="profile-product-detail">
-						<div class="profile-product-detail-text">
-			    			[제품명 : <a href="<c:url value='/saleboard/detail?sb_num=${sellAll.sb_num}'/>">${sellAll.sb_name}</a>] [카테고리 : ${sellAll.sb_sc_num}]  [게시일 : ${sellAll.sb_date}] 
-			    		</div>
-			    		<c:if test="${user.me_num == member.me_num }">
-						<div class="profile-product-detail-btn">
-							<button class="myBtn" onclick="dateUp(${sellAll.sb_num})">끌어올리기</button>
-							<a class="myBtn" href="/peach/saleboard/detail?sb_num=${sellAll.sb_num}">
-							    수정
-							</a>
-							<button class="myBtn" onclick="deletePD(${sellAll.sb_num})">삭제</button>
+		<div class="wrapper">
+		<div id="sellbox">
+		<c:if test="${salingProducts.size() != 0 }">
+		<c:forEach var="salingProducts" items="${salingProducts}">
+					<div class="item-main-holder">
+					<%-- a태그를 통해 해당 상품 번호의 상세정보로 경로 전달 --%>
+					<a href="<c:url value='/saleboard/detail?sb_num=${salingProducts.sb_num}' />" class="item-holder">
+						<div class="image-holder">
+							<c:choose>
+								<c:when test="${salingProducts.saleImageVOList.size() != 0 }">
+									<img class="item" src="<c:url value='/resources/image/${salingProducts.saleImageVOList.size() != 0 ? salingProducts.saleImageVOList.get(0).si_thb_name :\"\" }'/>">
+								</c:when>
+								<c:otherwise>
+									<img class="item" src="<c:url value='/resources/image/NoMainImage.png'/>">
+								</c:otherwise>
+							</c:choose>
 						</div>
-						</c:if>
-					</div>		
-				</div>
-			</div>	
-		</c:forEach>
-		<c:if test="${empty salingProducts}">
-			<div class="empty_product_box">
-				<p class="empty_product">판매중인 상품이 없습니다.</p>
-			</div>
-		</c:if>
-	</div>
-	<div id="sellcbox">
-		<c:forEach var="proceeding" items="${proceeding}">
-			<div class="profile-product">
-				<div class="profile-product-list">
-					<c:if test="${not empty proceeding.si_name}">
-						<img src="<c:url value='/trade/${proceeding.si_name}'/>" class="example2"/>
-					</c:if>
-					<c:if test="${empty proceeding.si_name}">
-						<img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example2">
-					</c:if>
-						<div class="profile-product-detail">
-						<div class="profile-product-detail-text">
-			    			[제품명 : <a href="<c:url value='/saleboard/detail?sb_num=${proceeding.sb_num}'/>">${proceeding.sb_name}</a>] [카테고리 : ${proceeding.sb_sc_num}]  [게시일 : ${proceeding.sb_date}] 
-			    		</div>	
+						<div class="text-holder">
+							<div class="title">
+								${salingProducts.sb_name}
+							</div>	
+							<div class="wish-name">
+								<div class="price-holder">
+									${salingProducts.get_sb_price()}
+								</div>			
+								<div class="wish">
+									<img src="<c:url value="/resources/image/wish-small.png"/>"> <span style="font-size:14px;">${salingProducts.sb_wish}</span>
+								</div>
+							</div>
+						</div>
+						<div class="profile-date">
+							<div class="profile">
+								${salingProducts.sb_sc_name}
+							</div>	
+							<div class="date">
+								${salingProducts.get_date()}
+							</div>
+						</div>
+					</a>
+					<c:if test="${user.me_num == member.me_num }">
+					<div class="profile-product-detail-btn">
+						<button class="myBtn postup" onclick="dateUp(${salingProducts.sb_num})">끌어올리기</button>
+						<button class="myBtn postedit">수정</button>
+						<button class="myBtn postdelete" onclick="deletePD(${salingProducts.sb_num})">삭제</button>
 					</div>
-					<c:if test="${proceeding.sb_me_num != user.me_num}">
-						<div>
+					</c:if>
+				</div>			
+				</c:forEach>
+				</c:if>
+				</div>
+	<div id="sellcbox">
+		<c:if test="${proceeding.size() != 0 }">
+		<c:forEach var="proceeding" items="${proceeding}">
+					<div class="item-main-holder">
+					<a href="<c:url value='/sale/tradePage?tq_num=${proceeding.tr_tq_num}' />" class="item-holder">
+						<div class="image-holder">
+							<c:choose>
+								<c:when test="${proceeding.saleImageVOList.size() != 0 }">
+									<img class="item" src="<c:url value='/resources/image/${proceeding.saleImageVOList.size() != 0 ? proceeding.saleImageVOList.get(0).si_thb_name :\"\" }'/>">
+								</c:when>
+								<c:otherwise>
+									<img class="item" src="<c:url value='/resources/image/NoMainImage.png'/>">
+								</c:otherwise>
+							</c:choose>
+						</div>
+						</a>
+						<div class="text-holder">
+							<div class="title">
+								${proceeding.sb_name}
+							</div>	
+							<div class="wish-name">
+								<div class="price-holder">
+									${proceeding.get_sb_price()}
+								</div>			
+								<div class="wish">
+									<img src="<c:url value="/resources/image/wish-small.png"/>"> <span style="font-size:14px;">${proceeding.sb_wish}</span>
+								</div>
+							</div>
+						</div>
+						<div class="profile-date">
+							<div class="profile">
+								${proceeding.sb_sc_name}
+							</div>	
+							<div class="date">
+								${proceeding.get_date()}
+							</div>
+						</div>
+						<c:if test="${proceeding.sb_me_num != member.me_num}">
+						<div style="text-align: center;">
 							<p>구매중</p>
 						</div>
 					</c:if>	
-					<c:if test="${proceeding.sb_me_num == user.me_num}">
-						<div>
+					<c:if test="${proceeding.sb_me_num == member.me_num}">
+						<div style="text-align: center;">
 							<p>판매중</p>
 						</div>
 					</c:if>			
-				</div>
-			</div>
-		</c:forEach>
-		<c:if test="${empty proceeding}">
-			<div>
-				<p class="empty_product">거래중인 상품이 없습니다.</p>
-			</div>
-		</c:if>
+				</div>	
+				</div>		
+				</c:forEach>
+				</c:if>
+				<c:if test="${empty proceeding}">
+					<div>
+						<p class="empty_product">거래중인 상품이 없습니다.</p>
+					</div>
+				</c:if>	
 	</div>	
-	<div id="sellComBuy">
-		<c:forEach var="buy" items="${meNumBuy}">
-		<div class="profile-product">
-			<div class="profile-product-list">
-				<c:if test="${not empty buy.si_name}">
-					<img src="<c:url value='/trade/${buy.si_name}'/>" class="example2"/>
-				</c:if>
-				<c:if test="${empty buy.si_name}">
-					 <img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example2">
-				</c:if>
-				<div class="profile-product-detail">
+	<div id="sellComBuyBox">
+		<c:if test="${meNumBuy.size() != 0 }">
+		<c:forEach var="meNumBuy" items="${meNumBuy}">
+					<div class="item-main-holder">
+					<div class="item-holder">
+						<div class="image-holder">
+							<c:choose>
+								<c:when test="${meNumBuy.saleImageVOList.size() != 0 }">
+									<img class="item" src="<c:url value='/resources/image/${meNumBuy.saleImageVOList.size() != 0 ? meNumBuy.saleImageVOList.get(0).si_thb_name :\"\" }'/>">
+								</c:when>
+								<c:otherwise>
+									<img class="item" src="<c:url value='/resources/image/NoMainImage.png'/>">
+								</c:otherwise>
+							</c:choose>
+						</div>
+						<div class="text-holder">
+							<div class="title">
+								${meNumBuy.sb_name}
+							</div>	
+							<div class="wish-name">
+								<div class="price-holder">
+									${meNumBuy.get_sb_price()}
+								</div>			
+								<div class="wish">
+									<img src="<c:url value="/resources/image/wish-small.png"/>"> <span style="font-size:14px;">${meNumBuy.sb_wish}</span>
+								</div>
+							</div>
+						</div>
+						<div class="profile-date">
+							<div class="profile">
+								${meNumBuy.sb_sc_name}
+							</div>	
+							<div class="date">
+								${meNumBuy.get_date()}
+							</div>
+						</div>
 					
-					<div class="profile-product-detail-text">
-		    			[제품명 : <a href="<c:url value='/saleboard/detail?sb_num=${buy.sb_num}'/>">${buy['sb_name']}</a>] [카테고리 : ${buy['sb_sc_num']}]  [게시일 : ${buy['sb_date']}] 
-		    		</div>
-		    		<c:if test="${user.me_num == member.me_num }">
+				</div>
+				</div>	
+				<c:if test="${user.me_num == member.me_num }">
 					<div class="profile-product-detail-btn">
 						<c:if test="${user.me_num == member.me_num }">
-							<button type="button" class="report-post" id="openReportModalBtn" data-num="${buy.sb_num}">당도 남기기</button>
+							<button type="button" class="report-post" id="openReportModalBtn" data-num="${meNumBuy.sb_num}">당도 남기기</button>
 						</c:if>
 					</div>
-					</c:if>
-				</div>
-			</div>
-		</div>
-		</c:forEach>
-		<c:if test="${empty meNumBuy}">
-			<div>
-				<p class="empty_product">거래완료된 상품이 없습니다.</p>
-			</div>
-		</c:if>
-	</div>	
-	<div id="sellComSell">
-		<c:forEach var="buy" items="${meNumSel}">
-		<div class="profile-product2">
-			<div class="profile-product-list">
-				<c:if test="${not empty buy.si_name}">
-					<img src="<c:url value='/trade/${buy.si_name}'/>" class="example2"/>
+				</c:if>	
+				</c:forEach>
 				</c:if>
-				<c:if test="${empty buy.si_name}">
-					 <img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example2">
+				<c:if test="${empty meNumBuy}">
+					<div>
+						<p class="empty_product">거래완료된 상품이 없습니다.</p>
+					</div>
 				</c:if>
-				<div class="profile-product-detail">
+	</div>
+	<div id="sellComSellBox">
+		<c:if test="${meNumSel.size() != 0 }">
+		<c:forEach var="meNumSel" items="${meNumSel}">
+					<div class="item-main-holder">
+					<div class="item-holder">
+						<div class="image-holder">
+							<c:choose>
+								<c:when test="${meNumSel.saleImageVOList.size() != 0 }">
+									<img class="item" src="<c:url value='/resources/image/${meNumSel.saleImageVOList.size() != 0 ? meNumSel.saleImageVOList.get(0).si_thb_name :\"\" }'/>">
+								</c:when>
+								<c:otherwise>
+									<img class="item" src="<c:url value='/resources/image/NoMainImage.png'/>">
+								</c:otherwise>
+							</c:choose>
+						</div>
+						<div class="text-holder">
+							<div class="title">
+								${meNumSel.sb_name}
+							</div>	
+							<div class="wish-name">
+								<div class="price-holder">
+									${meNumSel.get_sb_price()}
+								</div>			
+								<div class="wish">
+									<img src="<c:url value="/resources/image/wish-small.png"/>"> <span style="font-size:14px;">${meNumSel.sb_wish}</span>
+								</div>
+							</div>
+						</div>
+						<div class="profile-date">
+							<div class="profile">
+								${meNumSel.sb_sc_name}
+							</div>	
+							<div class="date">
+								${meNumSel.get_date()}
+							</div>
+						</div>
+						
 					
-					<div class="profile-product-detail-text">
-		    			[제품명 : <a href="<c:url value='/saleboard/detail?sb_num=${buy.sb_num}'/>">${buy['sb_name']}</a>] [카테고리 : ${buy['sb_sc_num']}]  [게시일 : ${buy['sb_date']}] 
-		    		</div>
-		    		<c:if test="${user.me_num == member.me_num }">
+				</div>	
+				<c:if test="${user.me_num == member.me_num }">
 					<div class="profile-product-detail-btn">
-						<c:if test="${user.me_num == member.me_num }">
-							<button type="button" class="report-post" id="openReportModalBtn" data-num="${buy.sb_num}">당도 남기기</button>
-						</c:if>
+						<button class="myBtn postedit">수정</button>
+						<button class="myBtn postdelete" onclick="deletePD(${meNumSel.sb_num})">삭제</button>
+						<button type="button" class="report-post" id="openReportModalBtn" data-num="${meNumSel.sb_num}">당도 남기기</button>
 					</div>
-					</c:if>
-				</div>
+				</c:if>
+				</div>		
+				</c:forEach>
+				</c:if>
+				<c:if test="${empty meNumSel}">
+					<div>
+						<p class="empty_product">판매완료된 상품이 없습니다.</p>
+					</div>
+				</c:if>
 			</div>
-		</div>
-		</c:forEach>
-		<c:if test="${empty meNumSel}">
-			<div>
-				<p class="empty_product">판매완료된 상품이 없습니다.</p>
-			</div>
-		</c:if>
+		</div>	
 	</div>	
-</div>	
-<div id="reportPostModal" class="custom-modal">
+	<div id="reportPostModal" class="custom-modal">
 	  <div class="modal-content">
 	    <span class="close">&times;</span>
 	    <div class="modal-header">
@@ -594,107 +755,93 @@
 <br>
 <script>
 
-window.onload = function () {
-	$("#sellcbox").hide();
-	$("#sellComBox").hide();
-	$("#sellComBuy").hide();
-	$("#sellComSell").hide();
-}
-
-let sb_num = 0;
-const reportPostModal = document.getElementById("reportPostModal");
-const openReportModalBtns = document.querySelectorAll(".report-post");
-const closeReportModalBtn = document.querySelector(".custom-modal .close");
-
-[].forEach.call(openReportModalBtns, function(button){
-	 console.log("버튼 클릭됨");
-	button.addEventListener("click", function () {
-		console.log(button);
-		if('${user.me_id}' == '') {
-			if(confirm('로그인하시겠습니까?')){
-				location.href = '<c:url value="/member/login"/>'
+if(${meNumSel.size() != 0 } || ${meNumBuy.size() != 0 }){
+	
+	let sb_num = 0;
+	const reportPostModal = document.getElementById("reportPostModal");
+	const openReportModalBtns = document.querySelectorAll(".report-post");
+	const closeReportModalBtn = document.querySelector(".custom-modal .close");
+	if(reportPostModal != null && openReportModalBtns != null && closeReportModalBtn != null){
+		
+	[].forEach.call(openReportModalBtns, function(button){
+		 console.log("버튼 클릭됨");
+		button.addEventListener("click", function () {
+			console.log(button);
+			if('${user.me_id}' == '') {
+				if(confirm('로그인하시겠습니까?')){
+					location.href = '<c:url value="/member/login"/>'
+				}
+				return;
 			}
-			return;
-		}
-	  	reportPostModal.style.display = "block";
-	  	sb_num = $(this).data('num');
-	});	
-});
-
-openReportModalBtn.addEventListener("click", function () {
-	if('${user.me_id}' == '') {
-		if(confirm('로그인하시겠습니까?')){
-			location.href = '<c:url value="/member/login"/>'
-		}
-		return;
-	}
-  	reportPostModal.style.display = "block";
-});
-
-closeReportModalBtn.addEventListener("click", function () {
-  reportPostModal.style.display = "none";
-});		
-
-window.addEventListener("click", function (event) {
-  if (event.target === reportPostModal) {
-    reportPostModal.style.display = "none";
-    
-  }
-});
-
-function reportPost() {
-	var input = document.getElementById("reportReason").value;
-    var errorMsg = document.getElementById("errorMsg");
-
-    // 숫자 범위 확인
-    var number = parseInt(input);
-	  if (!isNaN(number) && Number.isInteger(number) && number >= 1 && number <= 10) {
-	    errorMsg.textContent = ""; // 에러 메시지 초기화
-	    // 여기에 확인 버튼을 눌렀을 때 수행할 동작 추가
-	  } else {
-	    errorMsg.textContent = "1부터 10까지의 정수만 입력하세요.";
-	    return;
-	  }
+		  	reportPostModal.style.display = "block";
+		  	sb_num = $(this).data('num');
+		});	
+	});
 	
-	const reportReason = document.getElementById("reportReason").value;
-
-  	if (reportReason.trim() === "") {
-   		alert("당도를 입력하세요.");
-   		return;
-	}
-  	
-	let data = {
-		sl_sb_num : sb_num,
-		sl_sugar : reportReason,
-	};
-	
-	ajaxJsonToJson(
-			  false,
-			  'post',
-			  'sugar',
-			  data,
-			  (data) => {
-				    if (data.success) {
-				      alert("당도를 매겼습니다.\n당도 점수: " + reportReason);
-				      console.log(data.msg);
-				      document.getElementById("reportReason").value = '';
-				      closeReportModal(); // 신고 모달 닫기
-				    } else {
-				      alert("이미 평가한 상대입니다.");
-				      console.log(data.msg);
-				    }
-				  },
-				  () => {
-				    console.log("요청 실패");
-				  }
-			);
-	}
-function closeReportModal() {
+	closeReportModalBtn.addEventListener("click", function () {
 	  reportPostModal.style.display = "none";
+	});		
+	
+	window.addEventListener("click", function (event) {
+	  if (event.target === reportPostModal) {
+	    reportPostModal.style.display = "none";
+	    
+	  }
+	});
+	
+	function reportPost() {
+		var input = document.getElementById("reportReason").value;
+	    var errorMsg = document.getElementById("errorMsg");
+	
+	    // 숫자 범위 확인
+	    var number = parseInt(input);
+		  if (!isNaN(number) && Number.isInteger(number) && number >= 1 && number <= 10) {
+		    errorMsg.textContent = ""; // 에러 메시지 초기화
+		    // 여기에 확인 버튼을 눌렀을 때 수행할 동작 추가
+		  } else {
+		    errorMsg.textContent = "1부터 10까지의 정수만 입력하세요.";
+		    return;
+		  }
+		
+		const reportReason = document.getElementById("reportReason").value;
+	
+	  	if (reportReason.trim() === "") {
+	   		alert("당도를 입력하세요.");
+	   		return;
+		}
+	  	
+		let data = {
+			sl_sb_num : sb_num,
+			sl_sugar : reportReason,
+		};
+		
+		ajaxJsonToJson(
+				  false,
+				  'post',
+				  'sugar',
+				  data,
+				  (data) => {
+					    if (data.success) {
+					      alert("당도를 매겼습니다.\n당도 점수: " + reportReason);
+					      console.log(data.msg);
+					      document.getElementById("reportReason").value = '';
+					      closeReportModal(); // 신고 모달 닫기
+					    } else {
+					      alert("이미 평가한 상대입니다.");
+					      console.log(data.msg);
+					    }
+					  },
+					  () => {
+					    console.log("요청 실패");
+					  }
+				);
+		}
+	function closeReportModal() {
+		  reportPostModal.style.display = "none";
+		}
+		
 	}
-
-
-
+}
 
 
 
@@ -731,37 +878,51 @@ function deletePD(sb_num){
 	}
 }
 
-function sell() {
+window.onload = function () {
 	$("#sellcbox").hide();
+	$("#sellComBuyBox").hide();
+	$("#sellComSellBox").hide();
+}
+
+const sellbtn = document.querySelector("#sellbtn");
+const sellcbtn = document.querySelector("#sellcbtn");
+const sellComBuyBtn = document.querySelector("#sellComBuy");
+const sellComSellBtn = document.querySelector("#sellComSell");
+let currentBox = "#sellbox";
+	
+function sell() {
+	const selectedBtn = document.querySelector(".selected");
+	selectedBtn.setAttribute("class", "sellbtn");
+	sellbtn.setAttribute("class", "selected");
+	$(currentBox).hide();
 	$("#sellbox").show();
-	$("#sellComSell").hide();
-	$("#sellComBuy").hide();
-	$("#sellComBox").hide();
+	currentBox = "#sellbox";
 }
 function sellc() {
-	$("#sellbox").hide();
+	const selectedBtn = document.querySelector(".selected");
+	selectedBtn.setAttribute("class", "sellbtn");
+	sellcbtn.setAttribute("class", "selected");
+	$(currentBox).hide();
 	$("#sellcbox").show();
-	$("#sellComSell").hide();
-	$("#sellComBuy").hide();
-	$("#sellComBox").hide();
-}
-function sellCom() {
-	$("#sellbox").hide();
-	$("#sellcbox").hide();
-	$("#sellComBox").show();
+	currentBox = "#sellcbox";
 }
 function sellComBuy() {
-	$("#sellbox").hide();
-	$("#sellcbox").hide();
-	$("#sellComBuy").show();
-	$("#sellComSell").hide();
+	const selectedBtn = document.querySelector(".selected");
+	selectedBtn.setAttribute("class", "sellbtn");
+	sellComBuyBtn.setAttribute("class", "selected");
+	$(currentBox).hide();
+	$("#sellComBuyBox").show();
+	currentBox = "#sellComBuyBox";
 }
 function sellComSell() {
-	$("#sellbox").hide();
-	$("#sellcbox").hide();
-	$("#sellComBuy").hide();
-	$("#sellComSell").show();
+	const selectedBtn = document.querySelector(".selected");
+	selectedBtn.setAttribute("class", "sellbtn");
+	sellComSellBtn.setAttribute("class", "selected");
+	$(currentBox).hide();
+	$("#sellComSellBox").show();
+	currentBox = "#sellComSellBox";
 }
+
 
 </script>
 

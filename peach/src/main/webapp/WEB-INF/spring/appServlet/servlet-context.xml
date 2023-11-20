@@ -16,9 +16,9 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/resources/image/**" location="file:///C:/Users/user1/Documents/workspace-sts-3.9.1/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/peach/resources/image/" />
 	<resources mapping="/img/**" location="file:///C:/finalImg/img/" />
-	<!-- 임시 -->
+	
 	<resources mapping="/trade/**" location="file:///C:/Users/JeongSangHun/Documents/workspace-sts-3.9.18.RELEASE/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/peach/resources/image/" />
-														
+	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />

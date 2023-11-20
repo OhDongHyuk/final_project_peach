@@ -45,8 +45,8 @@
       margin-left: 40%;
     }
     .close-btn {
-    	width: 2.5rem;
-	    height: 2.5rem;
+    	width: 1.5rem;
+	    height: 1.5rem;
 	    background-position: center center;
 	    background-repeat: no-repeat;
 	    background-size: 40px 40px;

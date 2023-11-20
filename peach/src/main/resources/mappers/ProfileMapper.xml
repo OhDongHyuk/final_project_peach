@@ -3,7 +3,20 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.ph.peach.dao.ProfileDAO">
-    <select id="getProductsById" resultType="kr.ph.peach.vo.SaleBoardVO">
+	<resultMap type="kr.ph.peach.vo.SaleBoardVO" id="SaleBoardVO">
+		<id property="sb_num" column="sb_num"/>
+		<result property="sb_name" column="sb_name"/>
+		<result property="sb_price" column="sb_price"/>
+		<result property="sb_info" column="sb_info"/>
+		<result property="sb_date" column="sb_date"/>
+		<result property="sb_wish" column="sb_wish"/>
+		<result property="sb_me_num" column="sb_me_num"/>
+		<result property="sb_ss_num" column="sb_ss_num"/>
+		<result property="sb_sc_num" column="sb_sc_num"/>
+		<collection property="saleImageVOList" ofType="kr.ph.peach.vo.SaleImageVO" column="sb_num" select="selectSaleBoardImageList"/>
+		<collection property="saleCategoryVO" ofType="kr.ph.peach.vo.SaleCategoryVO" column="sb_sc_num" select="saleCategoryProduction"/>
+	</resultMap>
+    <select id="getProductsById" resultMap="SaleBoardVO">
     SELECT *
 		FROM (
 		    SELECT *,
@@ -110,7 +123,7 @@
 	<select id="selectPoint" resultType="int">
 		select me_point from member where me_num = ${me_num};
 	</select>
-	<select id="selectBuy" resultType="kr.ph.peach.vo.SaleBoardVO">
+	<select id="selectBuy" resultMap="SaleBoardVO">
     SELECT *
 	    FROM (
 	        SELECT *,
@@ -125,7 +138,7 @@
 	    WHERE row_num = 1
 	    ORDER BY sb_date DESC;
 	</select>
-	<select id="selectSel" resultType="kr.ph.peach.vo.SaleBoardVO">
+	<select id="selectSel" resultMap="SaleBoardVO">
 	SELECT *
 	    FROM (
 	        SELECT *,
@@ -141,7 +154,7 @@
 		    ORDER BY sb_date DESC;
 	</select>
 	
-	<select id="selectProceeding" resultType="kr.ph.peach.vo.SaleBoardVO">
+	<select id="selectProceeding" resultMap="SaleBoardVO">
 	SELECT *
 		FROM (
 			select *,
@@ -150,7 +163,7 @@
 			join sale_board on tq_sb_num = sb_num
 			join member on sb_me_num = me_num
 			LEFT join sale_image on sb_num = si_key 
-			where (sb_me_num = #{me_num} OR tq_me_num = #{me_num}) AND tr_ts_state = '거래중' 
+			where (sb_me_num = #{me_num} or tq_me_num = #{me_num}) and tr_ts_state = '거래중' 
 			) AS ranked
             WHERE row_num = 1
 			ORDER BY sb_date DESC;
@@ -172,22 +185,20 @@
 	  SELECT sl_sugar FROM sugar_list
 	  	  join member on sl_me_num = me_num
 	  	  join sale_board on me_num = sb_me_num
-		  WHERE sl_me_num != ${meNum}
+		  WHERE sl_me_num != #{meNum}
 		  AND sl_sb_num IN
-		  <foreach collection="sale" item="sale" open="(" separator="," close=")">
-		    #{sale.sb_num}
+		  <foreach collection="products" item="product" open="(" separator="," close=")">
+		    #{product.sb_num}
 		  </foreach>
 		  AND sb_ss_num = 3
 	</select>
-	<select id="selectSale" resultType="kr.ph.peach.vo.SaleBoardVO">
-		select * FROM sale_board join trading_request on sb_num = tq_sb_num where sb_me_num = #{meNum} or tq_me_num = #{meNum}
+	<select id="selectSaleBoardImageList" resultType="kr.ph.peach.vo.SaleImageVO">
+		select * from sale_image where si_key = #{sb_num} and si_table = "sale_board"
 	</select>
-	<select id="saleboard" resultType="kr.ph.peach.vo.SaleBoardVO">
-		select * FROM sale_board where sb_me_num = #{meNum}
+	<select id="saleCategoryProduction" resultType="kr.ph.peach.vo.SaleCategoryVO">
+		select * from sale_category where sc_num = #{sb_sc_num}
+	</select>
+	<select id="selectTrTqNum" resultType="Int">
+		select tq_num from trading_request where tq_sb_num = #{sb_num}
 	</select>
 </mapper>
-
-
-
-
-

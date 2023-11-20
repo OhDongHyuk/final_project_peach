@@ -287,6 +287,3 @@ public class CommunityController {
 	    return "Message";
 	}
 }
-
-
-
