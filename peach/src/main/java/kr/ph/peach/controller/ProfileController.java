@@ -104,6 +104,16 @@ public class ProfileController {
     		List<String> proceeding = profileService.selectProceeding(me_num);
     		model.addAttribute("proceeding", proceeding);
     		
+    		//trading 테이블 정보 가져오기(본인이 거래한 상품이지만, 본인의 평가가 아닌 당도 평가 가져오기)
+    		List<SugarListVO> sugarList = profileService.selectSugarList(products, meNum);
+    		double averageSugar = sugarList.stream()
+    		        .mapToDouble(SugarListVO::getSl_sugar)
+    		        .average()
+    		        .orElse(0.0); // 기본값은 0.0
+
+    		System.out.println("averageSugar: " + averageSugar);
+    		
+    		
 	        return "/board/profile"; 
 	    }
 

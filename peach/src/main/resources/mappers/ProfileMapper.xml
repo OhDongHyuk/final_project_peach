@@ -110,7 +110,7 @@
 	<select id="selectPoint" resultType="int">
 		select me_point from member where me_num = ${me_num};
 	</select>
-	<select id="selectBuy" resultType="hashmap">
+	<select id="selectBuy" resultType="kr.ph.peach.vo.SaleBoardVO">
     SELECT *
 	    FROM (
 	        SELECT *,
@@ -125,7 +125,7 @@
 	    WHERE row_num = 1
 	    ORDER BY sb_date DESC;
 	</select>
-	<select id="selectSel" resultType="hashmap">
+	<select id="selectSel" resultType="kr.ph.peach.vo.SaleBoardVO">
 	SELECT *
 	    FROM (
 	        SELECT *,
@@ -141,7 +141,7 @@
 		    ORDER BY sb_date DESC;
 	</select>
 	
-	<select id="selectProceeding" resultType="hashmap">
+	<select id="selectProceeding" resultType="kr.ph.peach.vo.SaleBoardVO">
 	SELECT *
 		FROM (
 			select *,
@@ -168,6 +168,14 @@
 	<select id="selectSugar" resultType="kr.ph.peach.vo.SugarListVO">
 		SELECT * FROM sugar_list where sl_me_num = #{user.me_num} and sl_sb_num = #{sugarList.sl_sb_num};
 	</select>
+	<select id="selectSugarList" resultType="kr.ph.peach.vo.SugarListVO">
+	  SELECT sl_sugar FROM sugar_list
+		  WHERE sl_me_num != #{meNum}
+		  AND sl_sb_num IN
+		  <foreach collection="products" item="product" open="(" separator="," close=")">
+		    #{product.sb_num}
+		  </foreach>
+</select>
 </mapper>
 
 

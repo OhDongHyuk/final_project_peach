@@ -414,7 +414,7 @@
 			 	</div>
 			 	<br/>
 			 	<div style="display:inline;">
-			 		가입일 : ${user.me_date} 판매 중 : <text>${salingAndTradingProducts.size()}</text> 판매 완료 : ${finishedProducts.size()}<text>${ss}</text> 당도 : <text>${user.me_sugar}</text> 
+			 		가입일 : ${user.me_date} 판매 중 : <text>${salingProducts.size()}</text> 판매 완료 : ${meNumSel.size()}<text>${ss}</text> 당도 : <text>${user.me_sugar}</text> 
 			 	</div>
 			 	<br/>
 			 	<form action="<c:url value='/board/profile'/>" method="post" enctype="multipart/form-data">
@@ -487,7 +487,7 @@
 			    			[제품명 : <a href="<c:url value='/saleboard/detail?sb_num=${proceeding.sb_num}'/>">${proceeding.sb_name}</a>] [카테고리 : ${proceeding.sb_sc_num}]  [게시일 : ${proceeding.sb_date}] 
 			    		</div>	
 					</div>
-					<c:if test="${proceeding.tq_me_num == user.me_num}">
+					<c:if test="${proceeding.sb_me_num != user.me_num}">
 						<div>
 							<p>구매중</p>
 						</div>

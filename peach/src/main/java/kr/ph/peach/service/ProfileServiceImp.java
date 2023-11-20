@@ -214,6 +214,7 @@ public class ProfileServiceImp implements ProfileService{
 	@Override
 	public List<String> selectBuy(int me_num) {
 		List<String> meNumBuy = profileDao.selectBuy(me_num);
+		System.out.println("meNumBuy"+meNumBuy);
 		return meNumBuy;
 	}
 
@@ -254,6 +255,12 @@ public class ProfileServiceImp implements ProfileService{
 	public SugarListVO selectSugar(SugarListVO sugarList, MemberVO user) {
 		SugarListVO sgRes = profileDao.selectSugar(sugarList,user);
 		return sgRes;
+	}
+
+	@Override
+	public List<SugarListVO> selectSugarList(List<SaleBoardVO> products, int meNum) {
+		List<SugarListVO> sugarList = profileDao.selectSugarList(products, meNum);
+		return sugarList;
 	}
 
 	
