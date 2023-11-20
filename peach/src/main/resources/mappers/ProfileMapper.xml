@@ -150,7 +150,7 @@
 			join sale_board on tq_sb_num = sb_num
 			join member on sb_me_num = me_num
 			LEFT join sale_image on sb_num = si_key 
-			where sb_me_num = #{me_num} and tq_me_num = #{me_num} or tr_ts_state = '거래중' 
+			where (sb_me_num = #{me_num} OR tq_me_num = #{me_num}) AND tr_ts_state = '거래중' 
 			) AS ranked
             WHERE row_num = 1
 			ORDER BY sb_date DESC;
@@ -172,13 +172,19 @@
 	  SELECT sl_sugar FROM sugar_list
 	  	  join member on sl_me_num = me_num
 	  	  join sale_board on me_num = sb_me_num
-		  WHERE sl_me_num != #{meNum}
+		  WHERE sl_me_num != ${meNum}
 		  AND sl_sb_num IN
-		  <foreach collection="products" item="product" open="(" separator="," close=")">
-		    #{product.sb_num}
+		  <foreach collection="sale" item="sale" open="(" separator="," close=")">
+		    #{sale.sb_num}
 		  </foreach>
 		  AND sb_ss_num = 3
-</select>
+	</select>
+	<select id="selectSale" resultType="kr.ph.peach.vo.SaleBoardVO">
+		select * FROM sale_board join trading_request on sb_num = tq_sb_num where sb_me_num = #{meNum} or tq_me_num = #{meNum}
+	</select>
+	<select id="saleboard" resultType="kr.ph.peach.vo.SaleBoardVO">
+		select * FROM sale_board where sb_me_num = #{meNum}
+	</select>
 </mapper>
 
 

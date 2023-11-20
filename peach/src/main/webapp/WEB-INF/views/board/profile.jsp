@@ -414,7 +414,7 @@
 			 	</div>
 			 	<br/>
 			 	<div style="display:inline;">
-			 		가입일 : ${user.me_date} 판매 중 : <text>${salingProducts.size()}</text> 판매 완료 : ${meNumSel.size()}<text>${ss}</text> 당도 : <text>${user.me_sugar}</text> 
+			 		가입일 : ${member.me_date} 판매 중 : <text>${salingProducts.size()}</text> 판매 완료 : ${meNumSel.size()}<text>${ss}</text> 당도 : <text>${user.me_sugar}</text> 
 			 	</div>
 			 	<br/>
 			 	<form action="<c:url value='/board/profile'/>" method="post" enctype="multipart/form-data">

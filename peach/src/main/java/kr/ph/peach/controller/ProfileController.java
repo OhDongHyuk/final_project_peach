@@ -100,26 +100,31 @@ public class ProfileController {
     		//판매완료 내역
     		List<String> meNumSel = profileService.selectSel(me_num);
     		model.addAttribute("meNumSel", meNumSel);
-    		
-    		List<String> proceeding = profileService.selectProceeding(me_num);
+    		List<String> proceeding = profileService.selectProceeding(meNum);
     		model.addAttribute("proceeding", proceeding);
-    		
-    		//trading 테이블 정보 가져오기(본인이 거래한 상품이지만, 본인의 평가가 아닌 당도 평가 가져오기)
-    		List<SaleBoardVO> sale = profileService.selectSale(meNum);
-    		System.out.println("sale"+sale);
-    		List<SugarListVO> sugarList = profileService.selectSugarList(products, meNum);
-    		System.out.println("sugarList"+sugarList);
-    		double sumSugar = 0.0;
-
-    		for (SugarListVO sugar : sugarList) {
-    		    sumSugar += sugar.getSl_sugar();
+    		/*
+    		List<SaleBoardVO>saleboard = profileService.saleboard(meNum);
+    				
+    		if(saleboard !=null) {
+				model.addAttribute("proceeding", proceeding);
+				System.out.println("meNum"+meNum);
+				//trading 테이블 정보 가져오기(본인이 거래한 상품이지만, 본인의 평가가 아닌 당도 평가 가져오기)
+				List<SaleBoardVO> sale = profileService.selectSale(meNum);
+				System.out.println("sale"+sale);
+				
+				List<SugarListVO> sugarList = profileService.selectSugarList(sale, meNum);
+				System.out.println("sugarList"+sugarList);
+				double sumSugar = 0.0;
+		
+				for (SugarListVO sugar : sugarList) {
+				    sumSugar += sugar.getSl_sugar();
+				}
+		
+				double averageSugar = sugarList.isEmpty() ? 0.0 : sumSugar / sugarList.size();
+		
+				System.out.println("averageSugar" + averageSugar);
     		}
-
-    		double averageSugar = sugarList.isEmpty() ? 0.0 : sumSugar / sugarList.size();
-
-    		System.out.println("averageSugar" + averageSugar);
-    		
-    		
+    		*/
 	        return "/board/profile"; 
 	    }
 
