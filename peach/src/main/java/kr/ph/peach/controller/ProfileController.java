@@ -105,13 +105,19 @@ public class ProfileController {
     		model.addAttribute("proceeding", proceeding);
     		
     		//trading 테이블 정보 가져오기(본인이 거래한 상품이지만, 본인의 평가가 아닌 당도 평가 가져오기)
+    		List<SaleBoardVO> sale = profileService.selectSale(meNum);
+    		System.out.println("sale"+sale);
     		List<SugarListVO> sugarList = profileService.selectSugarList(products, meNum);
-    		double averageSugar = sugarList.stream()
-    		        .mapToDouble(SugarListVO::getSl_sugar)
-    		        .average()
-    		        .orElse(0.0); // 기본값은 0.0
+    		System.out.println("sugarList"+sugarList);
+    		double sumSugar = 0.0;
 
-    		System.out.println("averageSugar: " + averageSugar);
+    		for (SugarListVO sugar : sugarList) {
+    		    sumSugar += sugar.getSl_sugar();
+    		}
+
+    		double averageSugar = sugarList.isEmpty() ? 0.0 : sumSugar / sugarList.size();
+
+    		System.out.println("averageSugar" + averageSugar);
     		
     		
 	        return "/board/profile"; 
@@ -343,4 +349,5 @@ public class ProfileController {
 	     result.put("msg", "평가 등록에 실패했습니다.");
 	     return result;
 	 }
+	 
 }

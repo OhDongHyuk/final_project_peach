@@ -75,5 +75,7 @@ public interface ProfileService {
 
 	List<SugarListVO> selectSugarList(List<SaleBoardVO> products, int meNum);
 
+	List<SaleBoardVO> selectSale(int meNum);
+
 	
 }

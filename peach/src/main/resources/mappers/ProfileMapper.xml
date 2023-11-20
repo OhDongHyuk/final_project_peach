@@ -170,11 +170,14 @@
 	</select>
 	<select id="selectSugarList" resultType="kr.ph.peach.vo.SugarListVO">
 	  SELECT sl_sugar FROM sugar_list
+	  	  join member on sl_me_num = me_num
+	  	  join sale_board on me_num = sb_me_num
 		  WHERE sl_me_num != #{meNum}
 		  AND sl_sb_num IN
 		  <foreach collection="products" item="product" open="(" separator="," close=")">
 		    #{product.sb_num}
 		  </foreach>
+		  AND sb_ss_num = 3
 </select>
 </mapper>
 
