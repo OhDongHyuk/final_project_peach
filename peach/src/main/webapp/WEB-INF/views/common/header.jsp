@@ -18,8 +18,8 @@
 				<div class="col-lg-4 col-md-4 col-12">
 					<div class="top-middle">
 						<ul class="useful-links">
-							<li><a href="<c:url value='/'/>">중고 거래</a></li>
-							<li><a href="<c:url value='/board/community'/>">피치 게시판</a></li>
+							<li><a href="<c:url value='/'/>">피치 마켓</a></li>
+							<li><a href="<c:url value='/board/community'/>">우리동네 생활</a></li>
 						</ul>
 					</div>
 				</div>				<div class="col-lg-4 col-md-4 col-12">
