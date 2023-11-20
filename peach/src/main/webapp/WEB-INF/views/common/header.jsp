@@ -18,8 +18,8 @@
 				<div class="col-lg-4 col-md-4 col-12">
 					<div class="top-middle">
 						<ul class="useful-links">
-							<li><a href="<c:url value='/'/>">피치 마켓</a></li>
-							<li><a href="<c:url value='/board/community'/>">우리동네 게시판</a></li>
+							<li><a href="<c:url value='/'/>">중고 거래</a></li>
+							<li><a href="<c:url value='/board/community'/>">피치 게시판</a></li>
 						</ul>
 					</div>
 				</div>				<div class="col-lg-4 col-md-4 col-12">
@@ -89,13 +89,17 @@
 													console.log(imageSrc)
 													notificationBoxContent += '<div class="notifi-small">'
 															+ '<img class="notifi-img"  src="/peach/resources/image/' + imageSrc + '">'
-															+ '<h3>'
+															+ '<a href="<c:url value="/saleboard/detail?sb_num=' + item.saleBoardVO.sb_num + '"/>">'
+															+ '<div class="productName">'
 															+ item.saleBoardVO.sb_name
-															+ '</h3>'
+															+ '</div>'
+															+ '</a>'
 															+ '</br>'
-															+ '<h3 a>'
-															+ item.memberVO.me_id
-															+ '</h3>'
+															+ '<a href="<c:url value="/board/profile/' + item.memberVO.me_num + '"/>">'
+															+ '<div class="userNick">'
+															+ item.memberVO.me_nick
+															+ '</div>'
+															+ '</a>'
 															+ '<div class="notifi-btnbox">'
 															+ '<button class="notifi-btn accept" onclick="acception('
 															+ item.tq_num
@@ -183,28 +187,27 @@
 </header>
 <style>
 	.notifi-alarm {
-	   position: absolute;
-	   width: 400px;
-	   height: 300px;
-	   overflow-y: auto;
-	   top: 100%;
-	   left: calc(50% - 200px);
-	   border: 1px solid black;
-	   background: rgb(249, 249, 249);
-	   display: none;
+		position: absolute;
+		width: 400px;
+		max-height: 300px;
+		overflow-y: auto;
+		top: 100%;
+		left: calc(50% - 200px);
+		border: 1px solid #ccc;
+		background: #fff;
+		display: none;
 		flex-wrap: nowrap; /* 요소가 넘치는 경우 줄 바꿈 방지 */
 		align-items: center; /* 수직 가운데 정렬 */
-		justify-content: flex-start; /		
+		justify-content: flex-start;	
 	}
 	.notifi-small{
 		width: 100%;
-		height: 100px;
 		display: flex;
-		border-bottom: 1px solid #000;
+		border-bottom: 1px solid #ccc;
 	}
 	.notifi-img{
-		width: 25%;
-		height: 99px;
+		width: 50px;
+		height: 50px;
 		flex: 0 0 auto; /* Flex 아이템의 크기를 유지 */ 		
 	}
 	header.a{z-index: 99}
@@ -213,42 +216,62 @@
 	    text-align: center;
 	}
 	.notifi-btnbox {
-	    height: calc((100% - 10px) / 3);
-	    margin-top: 5px;
 	    display: flex;
-	    flex-direction: column; /* 요소를 세로(위아래)로 배치합니다 */
+	    justify-content: flex-end;
     	align-items: center; 
 	}
 	.notifi-btn.accept{
 		background-color: #4CAF50; /* 자연스러운 초록색 */
+		margin-right: 5px;
 	    color: white; /* 글자색을 밝게 설정 */
 	    border: none; /* 테두리 제거 */
-	    padding: 10px 20px; /* 내부 여백 설정 */
+	    padding: 5px 10px; /* 내부 여백 설정 */
 	    text-align: center; /* 텍스트 중앙 정렬 */
 	    text-decoration: none; /* 링크의 밑줄 제거 */
 	    display: inline-block; /* 인라인 요소로 표시 */
-	    font-size: 16px; /* 폰트 크기 조정 */
+	    font-size: 14px; /* 폰트 크기 조정 */
 	    border-radius: 5px; /* 둥근 모서리 설정 */
 	    transition-duration: 0.4s; /* 변경에 애니메이션 효과 추가 */
 	    cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능하게 함 */
 	}
 	.notifi-btn.reject{
 		background-color: #b30000;
+		margin-right: 5px;
 	    color: white; /* 글자색을 밝게 설정 */
 	    border: none; /* 테두리 제거 */
-	    padding: 10px 20px; /* 내부 여백 설정 */
+	    padding: 5px 10px; /* 내부 여백 설정 */
 	    text-align: center; /* 텍스트 중앙 정렬 */
 	    text-decoration: none; /* 링크의 밑줄 제거 */
 	    display: inline-block; /* 인라인 요소로 표시 */
-	    font-size: 16px; /* 폰트 크기 조정 */
+	    font-size: 14px; /* 폰트 크기 조정 */
 	    border-radius: 5px; /* 둥근 모서리 설정 */
 	    transition-duration: 0.4s; /* 변경에 애니메이션 효과 추가 */
 	    cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능하게 함 */
 	}
 	.notifi-small > * {
-    border-right: 1px solid black; /* 각 자식 요소 사이에 오른쪽에 1px 두께의 검은색 선 추가 */
+   
 	}
 	.menu-top-link {
 		color: #fff;
+	}
+	.productName {
+		width: 140px;
+		height: 50px;
+		line-height: 50px;
+		margin: 0 5px;
+		text-align: center;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space:nowrap;
+	}
+	.userNick {
+		width: 90px;
+		height: 50px;
+		line-height: 50px;
+		padding: 0 5px;
+		text-align: center;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space:nowrap;
 	}
 </style>

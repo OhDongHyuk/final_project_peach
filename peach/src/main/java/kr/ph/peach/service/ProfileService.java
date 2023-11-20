@@ -10,6 +10,8 @@ import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.vo.SaleImageVO;
+import kr.ph.peach.vo.SugarListVO;
 
 public interface ProfileService {
 
@@ -33,7 +35,7 @@ public interface ProfileService {
 
 	void updateText(MemberVO user, String pf_text);
 
-	ProfileVO getPfText(MemberVO user);
+	ProfileVO getPfText(int meNum);
 
 	List<ProfileVO> getPF(MemberVO user);
 
@@ -49,6 +51,29 @@ public interface ProfileService {
 
 	void updateProductDate(SaleBoardVO saleBoard);
 
+	ProfileImageVO selectOriFile(MemberVO user);
+
+	MemberVO getAccount(MemberVO user);
+
+	boolean updateWithdraw(int PPoint, MemberVO user);
+
+	int selectPoint(int me_num);
+
+	List<SaleBoardVO> selectBuy(int me_num);
+
+	List<SaleBoardVO> selectSel(int me_num);
+
+	List<SaleBoardVO> selectProceeding(int me_num);
+
+	MemberVO getUserById(String me_id);
+
+	CityVO selectUserCity(MemberVO user);
+
+	boolean insertSugar(SugarListVO sugarList, MemberVO user);
+
+	SugarListVO selectSugar(SugarListVO sugarList, MemberVO user);
+
+	List<SugarListVO> selectSugarList(List<SaleBoardVO> products, int meNum);
 
 	
 }

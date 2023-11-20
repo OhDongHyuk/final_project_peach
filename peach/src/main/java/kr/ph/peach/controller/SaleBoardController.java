@@ -162,7 +162,6 @@ public class SaleBoardController {
 		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
 		if (user != null) {
 			List<WishVO> wishList = memberService.getWishList(user.getMe_num());
-			System.out.println(wishList);
 			model.addAttribute("wishList", wishList);
 		}
 		model.addAttribute("categoryList", categoryList);
@@ -263,10 +262,10 @@ public class SaleBoardController {
         System.out.println(trade);
         if (trade) {
 	        map.put("status", "success");
-	        map.put("message", "직거래를 요청하였습니다.");
+	        map.put("message", "거래를 요청하였습니다.");
 	    } else {
 	        map.put("status", "error");
-	        map.put("message", "이미 직거래를 신청한 물품입니다.");
+	        map.put("message", "이미 거래를 신청한 물품입니다.");
 	    }
 
 	    System.out.println(map);
@@ -323,5 +322,5 @@ public class SaleBoardController {
         return map;
 		
 	}
-
+	
 }

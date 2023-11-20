@@ -3,13 +3,13 @@ package kr.ph.peach.pagination;
 import lombok.Data;
 
 @Data
-public class PageMakerProfile {
+public class PageMakerCom {
 	private int startPage;//현재 페이지네이션에서 시작 페이지 번호
 	private int endPage;//현재 페이지네이션에서 마지막 페이지 번호
 	private boolean prev;//이전 버튼 활성화 여부
 	private boolean next;//다음 버튼 활성화 여부
 	private int displayPageNum; //한 페이지네이션에서 최대 페이지 개수 
-	private CriteriaProfile cri;//현재 페이지네이션에서 현재 페이지 번호
+	private CriteriaCom cri;//현재 페이지네이션에서 현재 페이지 번호
 	private int totalCount;//마지막페이지네이션에서 마지막 페이지번호를 위한 전체 컨텐츠 개수
 	
 	public void calculate() {
@@ -31,7 +31,7 @@ public class PageMakerProfile {
 		next = endPage == tmpEndPage ? false : true;
 	}
 
-	public PageMakerProfile(int displayPageNum, CriteriaProfile cri, int totalCount) {
+	public PageMakerCom(int displayPageNum, CriteriaCom cri, int totalCount) {
 		this.displayPageNum = displayPageNum;
 		this.cri = cri;
 		this.totalCount = totalCount;

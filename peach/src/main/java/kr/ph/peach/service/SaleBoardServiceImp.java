@@ -238,7 +238,6 @@ public class SaleBoardServiceImp implements SaleBoardService {
 		}
 		saleBoardDao.insertWish(wish);
 		saleBoardDao.updateWish(wish.getWi_sb_num(), 1);
-
 	}
 
 	@Override
