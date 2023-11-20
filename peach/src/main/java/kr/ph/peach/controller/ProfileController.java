@@ -118,7 +118,7 @@ public class ProfileController {
     		
     		List<SaleBoardVO> proceeding = profileService.selectProceeding(me_num);
     		for(SaleBoardVO tmp : proceeding) {
-    			
+    			proceeding.get(proceeding.indexOf(tmp)).setTr_tq_num(profileService.selectTrTqNum(tmp.getSb_num()));
     			proceeding.get(proceeding.indexOf(tmp)).setSb_sc_name(saleBoardService.selectCategoryName(tmp.getSb_sc_num()));
     		}
     		model.addAttribute("proceeding", proceeding);

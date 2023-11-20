@@ -11,12 +11,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import kr.ph.peach.service.ChatService;
+import kr.ph.peach.service.ProfileService;
 import kr.ph.peach.service.SaleBoardService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.ChatVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.MessageVO;
+import kr.ph.peach.vo.ProfileImageVO;
+import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 
 
@@ -26,6 +30,9 @@ public class ChatController {
 	
 	@Autowired
 	SaleBoardService saleBoardService;
+	
+	@Autowired
+	ProfileService profileService;
 	
 	@Autowired
 	ChatService chatService;	
@@ -64,7 +71,19 @@ public class ChatController {
 			chatList.get(chatList.indexOf(tmp)).setCh_buyer_nickname(chatService.selectbuyerNickName(tmp.getCh_me_num()));
 			chatList.get(chatList.indexOf(tmp)).setCh_sb_name(chatService.selectSbName(tmp.getCh_sb_num()));
 			chatList.get(chatList.indexOf(tmp)).setMessageVO(messageVO);
+			if(tmp.getCh_me_num() == user.getMe_num()) {
+				ProfileVO profile = profileService.selectProfile(tmp.getCh_sel_me_num());
+				ProfileImageVO proImg = profileService.selectImg(profile.getPf_num());
+				chatList.get(chatList.indexOf(tmp)).setPi_name(proImg == null ? null : proImg.getPi_name());				
+			} else {
+				ProfileVO profile = profileService.selectProfile(tmp.getCh_me_num());
+				ProfileImageVO proImg = profileService.selectImg(profile.getPf_num());
+				chatList.get(chatList.indexOf(tmp)).setPi_name(proImg == null ? null : proImg.getPi_name());	
+			}
 		}
+		
+		System.out.println("chatList " + chatList);
+		//프로파일 넘버로 프로파일 이미지 가져오기
 		model.addAttribute("chatList", chatList);
 		model.addAttribute("user", user);
 		model.addAttribute("sb_num", sb_num);
@@ -94,6 +113,15 @@ public class ChatController {
 				chatList.get(chatList.indexOf(tmp)).setCh_buyer_nickname(chatService.selectbuyerNickName(tmp.getCh_me_num()));
 				chatList.get(chatList.indexOf(tmp)).setCh_sb_name(chatService.selectSbName(tmp.getCh_sb_num()));
 				chatList.get(chatList.indexOf(tmp)).setMessageVO(messageVO);
+				if(tmp.getCh_me_num() == user.getMe_num()) {
+					ProfileVO profile = profileService.selectProfile(tmp.getCh_sel_me_num());
+					ProfileImageVO proImg = profileService.selectImg(profile.getPf_num());
+					chatList.get(chatList.indexOf(tmp)).setPi_name(proImg == null ? null : proImg.getPi_name());				
+				} else {
+					ProfileVO profile = profileService.selectProfile(tmp.getCh_me_num());
+					ProfileImageVO proImg = profileService.selectImg(profile.getPf_num());
+					chatList.get(chatList.indexOf(tmp)).setPi_name(proImg == null ? null : proImg.getPi_name());	
+				}
 			}		
 			model.addAttribute("chatList", chatList);
 		}

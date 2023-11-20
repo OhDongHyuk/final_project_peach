@@ -198,4 +198,7 @@
 	<select id="saleCategoryProduction" resultType="kr.ph.peach.vo.SaleCategoryVO">
 		select * from sale_category where sc_num = #{sb_sc_num}
 	</select>
+	<select id="selectTrTqNum" resultType="Int">
+		select tq_num from trading_request where tq_sb_num = #{sb_num}
+	</select>
 </mapper>

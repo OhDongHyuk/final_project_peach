@@ -256,6 +256,18 @@
 		justify-content: flex-start; /* 왼쪽 정렬 */
 		align-items: stretch;
 	}
+	#sellComBuyBox {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-start; /* 왼쪽 정렬 */
+		align-items: stretch;
+	}
+	#sellComSellBox {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-start; /* 왼쪽 정렬 */
+		align-items: stretch;
+	}
 	.item-main-holder{
        flex: 0 0 196px; /* 고정 너비 */
        margin-right: 12px;
@@ -451,7 +463,7 @@
 	  	<img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example">
 	  </c:if>
 	  <c:if test="${proImg != null}">
-	  	<img src="<c:url value='/img/${proImg.pi_name}'/>" class="example">
+	  	<img src="<c:url value='/resources/image/${proImg.pi_name}'/>" class="example">
 	  </c:if>
 	  <div class="profile-name"><P>${member.me_nick}</P></div>
 	  <c:if test="${user.me_num == member.me_num}">
@@ -484,7 +496,12 @@
 			 	<form action="<c:url value='/board/profile'/>" method="post" enctype="multipart/form-data">
 			 		<br>
 			 		<div class="form-group">
-			 			<p class="pftext">${profile.pf_text}소개글입니다.</p>
+			 			<c:if test="${!empty profile.pf_text && !empty profile.pf_text.replaceAll('<[^>]*>', '').replaceAll('&nbsp;', '').replaceAll(' ', '').trim()}">
+			 				<p class="pftext">${profile.pf_text}</p>
+			 			</c:if>
+			 			<c:if test="${empty profile.pf_text || empty profile.pf_text.replaceAll('<[^>]*>', '').replaceAll('&nbsp;', '').replaceAll(' ', '').trim()}">
+			 				<p class="pftext">소개글 내용이 없습니다.</p>
+			 			</c:if>
 					</div>
 			 	</form>
 			 </div>
@@ -539,7 +556,7 @@
 					<c:if test="${user.me_num == member.me_num }">
 					<div class="profile-product-detail-btn">
 						<button class="myBtn postup" onclick="dateUp(${salingProducts.sb_num})">끌어올리기</button>
-						<button class="myBtn postedit">수정</button>
+						<button class="myBtn postedit" onclick="location.href='<c:url value='/saleboard/update?sb_num=${salingProducts.sb_num}'/>'">수정</button>
 						<button class="myBtn postdelete" onclick="deletePD(${salingProducts.sb_num})">삭제</button>
 					</div>
 					</c:if>
@@ -551,49 +568,49 @@
 		<c:if test="${proceeding.size() != 0 }">
 		<c:forEach var="proceeding" items="${proceeding}">
 					<div class="item-main-holder">
-					<div class="item-holder">
-						<div class="image-holder">
-							<c:choose>
-								<c:when test="${proceeding.saleImageVOList.size() != 0 }">
-									<img class="item" src="<c:url value='/resources/image/${proceeding.saleImageVOList.size() != 0 ? proceeding.saleImageVOList.get(0).si_thb_name :\"\" }'/>">
-								</c:when>
-								<c:otherwise>
-									<img class="item" src="<c:url value='/resources/image/NoMainImage.png'/>">
-								</c:otherwise>
-							</c:choose>
-						</div>
-						<div class="text-holder">
-							<div class="title">
-								${proceeding.sb_name}
-							</div>	
-							<div class="wish-name">
-								<div class="price-holder">
-									${proceeding.get_sb_price()}
-								</div>			
-								<div class="wish">
-									<img src="<c:url value="/resources/image/wish-small.png"/>"> <span style="font-size:14px;">${proceeding.sb_wish}</span>
+						<a href="<c:url value='/sale/tradePage?tq_num=${proceeding.tr_tq_num}' />" class="item-holder">
+							<div class="image-holder">
+								<c:choose>
+									<c:when test="${proceeding.saleImageVOList.size() != 0 }">
+										<img class="item" src="<c:url value='/resources/image/${proceeding.saleImageVOList.size() != 0 ? proceeding.saleImageVOList.get(0).si_thb_name :\"\" }'/>">
+									</c:when>
+									<c:otherwise>
+										<img class="item" src="<c:url value='/resources/image/NoMainImage.png'/>">
+									</c:otherwise>
+								</c:choose>
+							</div>
+							<div class="text-holder">
+								<div class="title">
+									${proceeding.sb_name}
+								</div>	
+								<div class="wish-name">
+									<div class="price-holder">
+										${proceeding.get_sb_price()}
+									</div>			
+									<div class="wish">
+										<img src="<c:url value="/resources/image/wish-small.png"/>"> <span style="font-size:14px;">${proceeding.sb_wish}</span>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="profile-date">
-							<div class="profile">
-								${proceeding.sb_sc_name}
-							</div>	
-							<div class="date">
-								${proceeding.get_date()}
+							<div class="profile-date">
+								<div class="profile">
+									${proceeding.sb_sc_name}
+								</div>	
+								<div class="date">
+									${proceeding.get_date()}
+								</div>
 							</div>
-						</div>
-						<c:if test="${proceeding.sb_me_num != user.me_num}">
-						<div style="text-align: center;">
-							<p>구매중</p>
-						</div>
-					</c:if>	
-					<c:if test="${proceeding.sb_me_num == user.me_num}">
-						<div style="text-align: center;">
-							<p>판매중</p>
-						</div>
-					</c:if>			
-				</div>	
+							<c:if test="${proceeding.sb_me_num != member.me_num}">
+							<div style="text-align: center;">
+								<p>구매중</p>
+							</div>
+						</c:if>	
+						<c:if test="${proceeding.sb_me_num == member.me_num}">
+							<div style="text-align: center;">
+								<p>판매중</p>
+							</div>
+						</c:if>			
+					</a>	
 				</div>		
 				</c:forEach>
 				</c:if>
@@ -641,14 +658,14 @@
 						</div>
 					
 				</div>
-				</div>	
 				<c:if test="${user.me_num == member.me_num }">
 					<div class="profile-product-detail-btn">
 						<c:if test="${user.me_num == member.me_num }">
-							<button type="button" class="report-post" id="openReportModalBtn" data-num="${buy.sb_num}">당도 남기기</button>
+							<button type="button" class="report-post" id="openReportModalBtn" data-num="${meNumBuy.sb_num}">당도 남기기</button>
 						</c:if>
 					</div>
 				</c:if>	
+				</div>	
 				</c:forEach>
 				</c:if>
 				<c:if test="${empty meNumBuy}">
@@ -698,9 +715,8 @@
 				</div>	
 				<c:if test="${user.me_num == member.me_num }">
 					<div class="profile-product-detail-btn">
-						<button class="myBtn postedit">수정</button>
 						<button class="myBtn postdelete" onclick="deletePD(${meNumSel.sb_num})">삭제</button>
-						<button type="button" class="report-post" id="openReportModalBtn" data-num="${buy.sb_num}">당도 남기기</button>
+						<button type="button" class="report-post" id="openReportModalBtn" data-num="${meNumSel.sb_num}">당도 남기기</button>
 					</div>
 				</c:if>
 				</div>		

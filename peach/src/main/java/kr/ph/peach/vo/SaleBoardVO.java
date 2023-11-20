@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class SaleBoardVO {
-	private int sb_num, sb_wish, sb_price, sb_me_num, sb_ss_num, sb_sc_num, sb_me_sugar;
+	private int sb_num, sb_wish, sb_price, sb_me_num, sb_ss_num, sb_sc_num, sb_me_sugar, tr_tq_num;
 	private String sb_name, sb_info, sb_me_nickname, sb_sc_name;
 	private String sb_date;
 	private SaleCategoryVO saleCategoryVO;
