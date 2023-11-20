@@ -24,21 +24,22 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.ProfileService;
+import kr.ph.peach.service.SaleBoardService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
-import kr.ph.peach.vo.ReportVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
-import kr.ph.peach.vo.SaleImageVO;
 import kr.ph.peach.vo.SugarListVO;
 
 
 @Controller
 public class ProfileController {
 	
+	@Autowired
+	SaleBoardService saleBoardService;
 	@Autowired
 	ProfileService profileService;
 	@Autowired
@@ -57,6 +58,10 @@ public class ProfileController {
             
             List<SaleBoardVO> products = profileService.getProductsById(meNum, 0);
             List<SaleBoardVO> salingProducts = profileService.getProductsById(meNum, 1);
+            for(SaleBoardVO tmp : salingProducts) {
+    			
+            	salingProducts.get(salingProducts.indexOf(tmp)).setSb_sc_name(saleBoardService.selectCategoryName(tmp.getSb_sc_num()));
+    		}
             List<SaleBoardVO> tradingProducts = profileService.getProductsById(meNum, 2);
             List<SaleBoardVO> finishedProducts = profileService.getProductsById(meNum, 3);
             model.addAttribute("products",products);
@@ -98,12 +103,24 @@ public class ProfileController {
     		int me_num = member.getMe_num();
     		//구매완료 내역
     		List<SaleBoardVO> meNumBuy = profileService.selectBuy(me_num);
+    		for(SaleBoardVO tmp : meNumBuy) {
+    			
+    			meNumBuy.get(meNumBuy.indexOf(tmp)).setSb_sc_name(saleBoardService.selectCategoryName(tmp.getSb_sc_num()));
+    		}
     		model.addAttribute("meNumBuy", meNumBuy);
     		//판매완료 내역
     		List<SaleBoardVO> meNumSel = profileService.selectSel(me_num);
+    		for(SaleBoardVO tmp : meNumSel) {
+    			
+    			meNumSel.get(meNumSel.indexOf(tmp)).setSb_sc_name(saleBoardService.selectCategoryName(tmp.getSb_sc_num()));
+    		}
     		model.addAttribute("meNumSel", meNumSel);
     		
     		List<SaleBoardVO> proceeding = profileService.selectProceeding(me_num);
+    		for(SaleBoardVO tmp : proceeding) {
+    			
+    			proceeding.get(proceeding.indexOf(tmp)).setSb_sc_name(saleBoardService.selectCategoryName(tmp.getSb_sc_num()));
+    		}
     		model.addAttribute("proceeding", proceeding);
     		
     		List<SugarListVO> sugarList = profileService.selectSugarList(products, meNum);

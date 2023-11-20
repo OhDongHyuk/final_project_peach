@@ -732,7 +732,8 @@ if(${meNumSel.size() != 0 } || ${meNumBuy.size() != 0 }){
 	const reportPostModal = document.getElementById("reportPostModal");
 	const openReportModalBtns = document.querySelectorAll(".report-post");
 	const closeReportModalBtn = document.querySelector(".custom-modal .close");
-	
+	if(reportPostModal != null && openReportModalBtns != null && closeReportModalBtn != null){
+		
 	[].forEach.call(openReportModalBtns, function(button){
 		 console.log("버튼 클릭됨");
 		button.addEventListener("click", function () {
@@ -746,16 +747,6 @@ if(${meNumSel.size() != 0 } || ${meNumBuy.size() != 0 }){
 		  	reportPostModal.style.display = "block";
 		  	sb_num = $(this).data('num');
 		});	
-	});
-	
-	openReportModalBtn.addEventListener("click", function () {
-		if('${user.me_id}' == '') {
-			if(confirm('로그인하시겠습니까?')){
-				location.href = '<c:url value="/member/login"/>'
-			}
-			return;
-		}
-	  	reportPostModal.style.display = "block";
 	});
 	
 	closeReportModalBtn.addEventListener("click", function () {
@@ -819,6 +810,8 @@ if(${meNumSel.size() != 0 } || ${meNumBuy.size() != 0 }){
 	function closeReportModal() {
 		  reportPostModal.style.display = "none";
 		}
+		
+	}
 }
 
 
