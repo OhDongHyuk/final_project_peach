@@ -306,7 +306,7 @@
 								</div>
 							</c:if>
 							<c:if test="${reList.replyWriter == user.me_nick}">
-							    <button type="button" onclick="delete_reply(${products.re_num})">삭제</button>
+							    <button type="button" onclick="delete_reply(${reList.re_num})">삭제</button>
 							</c:if>
 						</div>
 		            </div>
