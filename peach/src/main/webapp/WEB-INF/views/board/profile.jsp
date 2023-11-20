@@ -215,6 +215,21 @@
 		height: 30px;
 		background: #dc3545;
 	}
+	.report-post {
+		margin-top: 5px;
+		background: inherit ; 
+		border:none; 
+		box-shadow:none; 
+		border-radius:5px; 
+		padding:0; 
+		overflow:visible; 
+		cursor:pointer;
+		color: #fff;
+		margin-right: 5px;
+		width: 80px;
+		height: 30px;
+		background: #fd7e14;
+	}
 	.pftext{
 		font-size: 30px;
 	}
@@ -480,7 +495,7 @@
 		<button id="sellbtn" class="selected" onclick="sell()">판매중 ${salingProducts.size() == 0 ? 0 : salingProducts.size() }</button>
 		<button id="sellcbtn" class="sellbtn" onclick="sellc()">거래중 ${proceeding.size() == 0 ? 0 : proceeding.size() }</button>
 		<button id="sellComBuy" class="sellbtn" onclick="sellComBuy()">구매완료 ${meNumBuy.size() == 0 ? 0 : meNumBuy.size() }</button>
-		<button id="sellComSell" class="sellbtn" onclick="sellComSell()">판매완료 ${meNumSell.size() == 0 ? 0 : meNumSell.size() }</button>
+		<button id="sellComSell" class="sellbtn" onclick="sellComSell()">판매완료 ${meNumSel.size() == 0 ? 0 : meNumSel.size() }</button>
 	</div>
 		<div class="wrapper">
 		<div id="sellbox">
@@ -599,7 +614,7 @@
 							</div>	
 							<div class="wish-name">
 								<div class="price-holder">
-									${meNumBuy.sb_price}
+									${meNumBuy.get_sb_price()}
 								</div>			
 								<div class="wish">
 									<img src="<c:url value="/resources/image/wish-small.png"/>"> <span style="font-size:14px;">${meNumBuy.sb_wish}</span>
@@ -611,7 +626,7 @@
 								${meNumBuy.sb_sc_name}
 							</div>	
 							<div class="date">
-								${meNumBuy.date}
+								${meNumBuy.get_date()}
 							</div>
 						</div>
 					
@@ -653,7 +668,7 @@
 							</div>	
 							<div class="wish-name">
 								<div class="price-holder">
-									${meNumSel.sb_price}
+									${meNumSel.get_sb_price()}
 								</div>			
 								<div class="wish">
 									<img src="<c:url value="/resources/image/wish-small.png"/>"> <span style="font-size:14px;">${meNumSel.sb_wish}</span>
@@ -665,7 +680,7 @@
 								${meNumSel.sb_sc_name}
 							</div>	
 							<div class="date">
-								${meNumSel.date}
+								${meNumSel.get_date()}
 							</div>
 						</div>
 					
