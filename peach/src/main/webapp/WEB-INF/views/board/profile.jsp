@@ -473,7 +473,7 @@
 	 	<div class="profile-outDTbox">
 			 <div class="profile-Detail">
 			 	<div style="display:flex;">
-			 		<div style="margin-right: 15px;">가입일 : ${member.me_date} </div><div style="margin-right: 15px;">당도 : ${member.me_sugar}</div> 
+			 		<div style="margin-right: 15px;">가입일 : ${member.me_date} </div><div style="margin-right: 15px;">당도 : <c:if test="${not empty sugarContent[0].sl_sugar}">${sugarContent[0].sl_sugar}</c:if><c:if test="${empty sugarContent[0].sl_sugar}">0</c:if></div> 
 			 	</div>
 			 	<c:if test="${user.me_num == member.me_num }">
 					<div class="pp-box">
@@ -556,7 +556,7 @@
 					<c:if test="${user.me_num == member.me_num }">
 					<div class="profile-product-detail-btn">
 						<button class="myBtn postup" onclick="dateUp(${salingProducts.sb_num})">끌어올리기</button>
-						<button class="myBtn postedit">수정</button>
+						<button class="myBtn postedit" onclick="redirectToDetailPage(${salingProducts.sb_num})">수정</button>
 						<button class="myBtn postdelete" onclick="deletePD(${salingProducts.sb_num})">삭제</button>
 					</div>
 					</c:if>
@@ -657,16 +657,16 @@
 								${meNumBuy.get_date()}
 							</div>
 						</div>
-					
-				</div>
-				</div>	
-				<c:if test="${user.me_num == member.me_num }">
+					</div>
+					<c:if test="${user.me_num == member.me_num }">
 					<div class="profile-product-detail-btn">
 						<c:if test="${user.me_num == member.me_num }">
 							<button type="button" class="report-post" id="openReportModalBtn" data-num="${meNumBuy.sb_num}">당도 남기기</button>
 						</c:if>
 					</div>
-				</c:if>	
+					</c:if>	
+					</div>	
+				
 				</c:forEach>
 				</c:if>
 				<c:if test="${empty meNumBuy}">
@@ -711,13 +711,9 @@
 								${meNumSel.get_date()}
 							</div>
 						</div>
-						
-					
 				</div>	
 				<c:if test="${user.me_num == member.me_num }">
 					<div class="profile-product-detail-btn">
-						<button class="myBtn postedit">수정</button>
-						<button class="myBtn postdelete" onclick="deletePD(${meNumSel.sb_num})">삭제</button>
 						<button type="button" class="report-post" id="openReportModalBtn" data-num="${meNumSel.sb_num}">당도 남기기</button>
 					</div>
 				</c:if>
@@ -923,7 +919,10 @@ function sellComSell() {
 	currentBox = "#sellComSellBox";
 }
 
-
+function redirectToDetailPage(sbNum) {
+    var url = "/peach/saleboard/update?sb_num=" + sbNum;
+    window.location.href = url;
+  }
 </script>
 
 </body>

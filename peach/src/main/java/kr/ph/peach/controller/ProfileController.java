@@ -123,17 +123,9 @@ public class ProfileController {
     		}
     		model.addAttribute("proceeding", proceeding);
     		
-    		/*
-    		List<SugarListVO> sugarList = profileService.selectSugarList(products, meNum);
-    		double sumSugar = 0.0;
-
-    		for (SugarListVO sugar : sugarList) {
-    		    sumSugar += sugar.getSl_sugar();
-    		}
-
-    		double averageSugar = sugarList.isEmpty() ? 0.0 : sumSugar / sugarList.size();
-    		*/
- 
+    		List<SugarListVO> sugarContent = profileService.selectSugarContent(meNum);
+    		model.addAttribute("sugarContent", sugarContent);
+    		
 	        return "/board/profile"; 
 	    }
 
@@ -173,14 +165,12 @@ public class ProfileController {
 
     @PostMapping("/board/profilePass")
     public String showProfileMNPage(@RequestParam String Ppassword, Model model, HttpSession session, String pi_num) {
-    	System.out.println("Pass2"+pi_num);
+  
     	
     	MemberVO user = (MemberVO) session.getAttribute("user");
         model.addAttribute("user", user);
         Message msg;
 
-        System.out.println("입력한 비밀번호: " + Ppassword);
-        
         if (Ppassword == null) {
             return "/board/profilePass";
         }
@@ -212,7 +202,6 @@ public class ProfileController {
     	
     	//유저의 지역 정보를 불러와서 모델로 정보 전송
     	CityVO userCity = profileService.selectUserCity(user);
-    	System.out.println("userCity"+userCity);
     	
     	model.addAttribute("userCity", userCity);
     	
@@ -259,8 +248,6 @@ public class ProfileController {
 			}
 		} 
 
-		System.out.println(pf_text);
-		
 		List<ProfileVO> pfList = profileService.getPF(user);	
     	model.addAttribute("pfList", pfList);
 		
@@ -342,10 +329,8 @@ public class ProfileController {
 	         result.put("msg", "로그인이 필요합니다.");
 	         return result;
 	     }
-	     System.out.println("sugarList"+sugarList);
 	     // 중복된 평가 확인
 	     SugarListVO sgRes = profileService.selectSugar(sugarList, user);
-	     System.out.println("sgRes"+sgRes);
 	     if (sgRes != null) {
 	         result.put("success", false);
 	         result.put("msg", "이미 평가한 상대입니다.");

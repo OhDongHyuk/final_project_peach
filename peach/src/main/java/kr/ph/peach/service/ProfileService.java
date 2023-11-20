@@ -73,9 +73,9 @@ public interface ProfileService {
 
 	SugarListVO selectSugar(SugarListVO sugarList, MemberVO user);
 
-	List<SugarListVO> selectSugarList(List<SaleBoardVO> products, int meNum);
-
 	int selectTrTqNum(int sb_num);
+
+	List<SugarListVO> selectSugarContent(int meNum);
 
 	
 }
