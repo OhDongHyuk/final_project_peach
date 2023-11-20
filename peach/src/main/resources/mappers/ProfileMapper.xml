@@ -163,7 +163,7 @@
 			join sale_board on tq_sb_num = sb_num
 			join member on sb_me_num = me_num
 			LEFT join sale_image on sb_num = si_key 
-			where sb_me_num = #{me_num} and tq_me_num = #{me_num} or tr_ts_state = '거래중' 
+			where (sb_me_num = #{me_num} or tq_me_num = #{me_num}) and tr_ts_state = '거래중' 
 			) AS ranked
             WHERE row_num = 1
 			ORDER BY sb_date DESC;

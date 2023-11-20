@@ -583,6 +583,16 @@
 								${proceeding.get_date()}
 							</div>
 						</div>
+						<c:if test="${proceeding.sb_me_num != user.me_num}">
+						<div style="text-align: center;">
+							<p>구매중</p>
+						</div>
+					</c:if>	
+					<c:if test="${proceeding.sb_me_num == user.me_num}">
+						<div style="text-align: center;">
+							<p>판매중</p>
+						</div>
+					</c:if>			
 				</div>	
 				</div>		
 				</c:forEach>
@@ -683,6 +693,7 @@
 								${meNumSel.get_date()}
 							</div>
 						</div>
+						
 					
 				</div>	
 				<c:if test="${user.me_num == member.me_num }">
