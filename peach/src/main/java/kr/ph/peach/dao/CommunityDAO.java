@@ -74,5 +74,7 @@ public interface CommunityDAO {
 
 	void replyDelete(Integer re_num);
 
+	void adminDeleteBoard(@Param("co_num")Integer co_num);
+
 
 }

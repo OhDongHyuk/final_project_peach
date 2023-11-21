@@ -18,8 +18,7 @@
 						<div class="collapse navbar-collapse sub-menu-bar"
 							id="navbarSupportedContent">
 							<ul id="nav" class="navbar-nav ms-auto">
-								<li class="nav-item"><a href="<c:url value='/admin/home'/>"
-									class="active" aria-label="Toggle navigation">메인페이지로</a></li>
+								
 								<li class="nav-item"><a class="dd-menu collapsed"
 									href="<c:url value='/admin/manager'/>"
 									aria-label="Toggle navigation">회원관리</a></li>

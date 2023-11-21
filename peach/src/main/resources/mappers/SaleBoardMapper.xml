@@ -197,4 +197,7 @@
 		where
 			sb_num = #{rp_key}
 	</update>
+	<delete id="adminDeleteBoard">
+		delete from sale_board where sb_num = #{sb_num}
+	</delete>
 </mapper>

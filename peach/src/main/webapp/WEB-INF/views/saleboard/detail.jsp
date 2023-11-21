@@ -443,6 +443,17 @@
 			color: grey;
 			font-size: 13px;
 		}
+		
+.admindelete {
+	margin-left: 5px;
+	margin-right: 5px;
+	width: 176px;
+	height: 56px;
+	font-weight: 700;
+	background: rgb(255, 164, 37);
+	border: 1px solid rgb(243, 150, 20);
+	color: rgb(255, 255, 255);
+}
 	</style>
 </head>
 <body>
@@ -500,6 +511,11 @@
 					<button type="button" onClick="location.href='<c:url value='/saleboard/update?sb_num=${board.sb_num }'/>'" class="chat">수정하기</button>
 					<button type="button" onClick="location.href='<c:url value='/saleboard/delete?sb_num=${board.sb_num }'/>'" class="pay">삭제하기</button>
 				</c:when>
+				<c:when test="${user != null && user.me_au == 'admin' }">
+					<button type="button"
+							onClick="location.href='<c:url value='javascript:void(0)'/>'"
+							class="admindelete">게시글 삭제</button>
+				</c:when>
 				<c:otherwise>
 					<c:choose>
 						<c:when test="${wishCheck == 1 }">
@@ -515,6 +531,7 @@
 					<c:if test="">
 					<button id="openModalBtn" type="button" class="pay">거래취소</button>
 					</c:if>
+					
 					<div id="myModal" class="modal">
 					  <div class="modal-content">
 					    <span class="close">&times;</span>
@@ -895,6 +912,20 @@
 		function closeReportModal() {
 		  reportPostModal.style.display = "none";
 		}
+		
+		//관리자 전용 게시글삭제
+		 $('.admindelete').click(function(){
+			if('${user.me_au}' == 'admin') {
+				//alert('관리자만이 사용가능');
+				if(confirm('삭제하시겠습니까?')){
+					let sb_num = '${board.sb_num}'
+					location.href = '<c:url value="/admin/delete?sb_num="/>'+sb_num
+				}
+					
+				return;
+			}
+					
+		}) 
 	</script>
 </body>
 </html>

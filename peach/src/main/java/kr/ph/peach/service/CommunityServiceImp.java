@@ -277,10 +277,8 @@ public class CommunityServiceImp implements CommunityService{
 		communityDao.replyDelete(re_num);}
 		return true;
 	}
+
 	
-
-
-
 
 }
 	

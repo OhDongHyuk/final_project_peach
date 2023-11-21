@@ -82,7 +82,7 @@
 	<section class="hero-area">
 		<div class="container admin">
 			<div class="row">
-				
+
 				<table class="table">
 					<thead style="height: 50px">
 						<tr>
@@ -102,7 +102,8 @@
 									<td>${report.rp_date}</td>
 									<td>${report.memberVO.me_nick}</td>
 									<td><a
-										href="<c:url value='/saleboard/detail?sb_num=${report.rp_key}' />">${report.rp_key}</a></td>
+										href="<c:url value='/board/communityDetail/${report.rp_key}' />">${report.rp_key}</a></td>
+
 									<td>
 										<div class="btnWrap">
 											<button type="button" class="popupBtn">신고내용보기</button>

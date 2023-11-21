@@ -51,7 +51,7 @@
 								</c:if>
 							<c:if test="${user != null && user.me_au == 'admin' }">
 								<li class="inner-item"><a
-									href="<c:url value='/admin/home'/>">관리자 메뉴</a></li>
+									href="<c:url value='/admin/manager'/>">관리자 메뉴</a></li>
 							</c:if>
 						</ul>
 					</div>

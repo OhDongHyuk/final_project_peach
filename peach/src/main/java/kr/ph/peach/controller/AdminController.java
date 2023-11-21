@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.pagination.MemberCriteria;
 import kr.ph.peach.pagination.PageMaker;
+import kr.ph.peach.service.CommunityService;
 import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.ReportService;
 import kr.ph.peach.service.SaleBoardService;
@@ -31,7 +32,6 @@ import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.StatementVO;
 import kr.ph.peach.vo.TradingRequestVO;
 import kr.ph.peach.vo.TradingStateVO;
-import kr.ph.peach.vo.TradingVO;
 
 @Controller
 @RequestMapping("/admin")
@@ -54,11 +54,14 @@ public class AdminController {
 	
 	@Autowired
 	TradingRequestService tradingRequestService;
+	
+	@Autowired
+	CommunityService communityService;
 
 	@GetMapping("/home")
 	public String home() {
 
-		return "/admin/home";
+		return "/admin/manager";
 	}
 
 	@GetMapping("/manager")
@@ -204,6 +207,7 @@ public class AdminController {
 		MemberVO user = (MemberVO) session.getAttribute("user");
 
 		saleBoardService.adminDeleteBoard(sb_num, user);
+		System.out.println(sb_num);
 		
 		List<ReportVO> reportlist = reportService.getreportList(cri);
 		System.out.println(reportlist);
@@ -241,6 +245,8 @@ public class AdminController {
 	
 	
 	
+	
+	
 	@GetMapping("/tradereport")
 	public String tradeReport(Model model, HttpSession session, Criteria cri) {
 
@@ -267,6 +273,7 @@ public class AdminController {
 	public Map<String, Object> reportTradeDelete(@RequestBody ReportVO report){
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean res = reportService.deleteTradeReport(report);
+		
 		map.put("res", res);
 		
 		return map;

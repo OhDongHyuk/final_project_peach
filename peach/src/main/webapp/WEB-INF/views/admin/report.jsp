@@ -101,7 +101,6 @@
 									<td>${report.rp_num}</td>
 									<td>${report.rp_date}</td>
 									<td>${report.memberVO.me_nick}</td>
-									<td>${report.rp_table == '1'}</td>
 									<td><a
 										href="<c:url value='/saleboard/detail?sb_num=${report.rp_key}' />">${report.rp_key}</a></td>
 									<td>
