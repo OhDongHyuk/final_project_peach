@@ -62,6 +62,8 @@ public class CommunityServiceImp implements CommunityService{
 				String fi_name = UploadFileUtils.uploadFile(uploadPath, ci_ori_name, file.getBytes());
 				//파일 객체
 				CommunityImageVO CommunityImageVo = new CommunityImageVO(community.getCo_num(), fi_name, ci_ori_name);
+				System.out.println(community);
+				System.out.println(CommunityImageVo);
 				communityDao.insertCommunityImage(CommunityImageVo);
 			}catch(Exception e) {
 				e.printStackTrace();

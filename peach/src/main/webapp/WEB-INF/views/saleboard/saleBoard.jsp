@@ -42,6 +42,9 @@
 							<div class="wish-name">
 								<div class="price-holder">
 									${pr.get_sb_price()}
+								</div>		
+								<div class="title1">
+									${pr.memberVO.cityVO.ci_small}
 								</div>			
 								<div class="wish">
 									<img src="<c:url value="/resources/image/wish-small.png"/>"> <span style="font-size:14px;">${pr.sb_wish}</span>
@@ -257,6 +260,14 @@
 			text-align: center;
 			margin-top: 20px;
 			margin-left: 12px;
+		}
+		.title1 {
+			font-size: 14px;
+			font-weight: 400;
+			padding-bottom: 15px;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
 		}
 	</style>
 </html>

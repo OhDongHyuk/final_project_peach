@@ -27,8 +27,7 @@ public class ProfileServiceImp implements ProfileService{
 	@Autowired
 	private ProfileDAO profileDao;
 	
-	//String uploadPath = "C:\\Users\\user1\\Documents\\workspace-sts-3.9.1\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\peach\\resources\\image";
-	String uploadPath = "/Users/hojunlee/Documents/workspace-sts-3.9.18.RELEASE/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/peach/resources/image";
+	String uploadPath = "C:\\finalImg\\img";
 	
 	@Override
 	public List<SaleBoardVO> getProductsById(int me_num, int state) {

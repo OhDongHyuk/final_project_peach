@@ -41,7 +41,7 @@
 								</c:if>
 								<c:if test="${user.me_social != 'normal' }">
 									<li class="inner-item"><a
-										href="<c:url value='/kakao/logout'/>"> 소셜로그아웃하기</a></li>
+										href="<c:url value='/kakao/logout'/>"> 로그아웃</a></li>
 									<li class="inner-item"><a
 										href="<c:url value='/kakao/withdraw'/>" onclick="return confirm('회원탈퇴시 계정정보가 전부 없어집니다.');">회원탈퇴</a></li>
 								</c:if>
@@ -62,8 +62,7 @@
 
 	<script type="text/javascript">
 		function reloadNotifications() {
-			$
-					.ajax({
+			$.ajax({
 						method : 'post',
 						url : '<c:url value="/common/header"/>',
 						contentType : 'application/json; charset=utf-8',
@@ -77,8 +76,7 @@
 								var notificationList = map.trList;
 								var notificationBoxContent = '';
 
-								$
-										.each(
+								$.each(
 												notificationList,
 												function(index, item) {
 													console.log(item);

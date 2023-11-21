@@ -547,29 +547,6 @@
 							}
 						})
 						
-						//채팅 입력 칸 생성
-						let send_msg = "";
-						send_msg += "	<div class='message-sender-box'>";
-						send_msg += "		<div class='message-typing' id='message'>";
-						send_msg += "			<input type='text' placeholder='메시지를 입력하세요.' class='message-typing-box'></input>";
-						send_msg += "		</div>";
-						send_msg += "		<button type='button' class='message-send-button'></button>";
-						send_msg += "			</div>";
-						send_msg += "		</div>";
-		
-						// 채팅 입력 칸을 보이게함.
-						$('.message-sender').html(send_msg);
-						// 메세지 전송버튼을 눌렀을 때
-						$('.message-send-button').on('click',function(){
-							
-							// 메세지 전송 함수 호출
-							SendMessage();
-							
-						});
-						//엔터키로 메시지 전송
-						const handler = createKeydownHandler();
-						$("#message").off('keypress').on('keypress', handler);
-						
 						MessageList();
 						
 						

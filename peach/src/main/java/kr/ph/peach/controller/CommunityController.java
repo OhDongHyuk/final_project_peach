@@ -275,11 +275,11 @@ public class CommunityController {
 	
 	@ResponseBody
 	@PostMapping("/board/replyDelete")
-	public String replyDelete(Integer re_num, Model model) {
-	    System.out.println(re_num);
+	public String replyDelete(@RequestParam("re_num")int re_num, Model model) {
+	    System.out.println("re_num"+re_num);
 	    Message msg;
 	    if (communityService.replyDelete(re_num)) {
-	        msg = new Message("/board/community", "게시글을 삭제했습니다.");
+	        msg = new Message("/board/community", "댓글을 삭제했습니다.");
 	    } else {
 	        msg = new Message("/board/community", "잘못된 접근입니다.");
 	    }

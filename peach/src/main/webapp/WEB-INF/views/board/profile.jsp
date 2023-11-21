@@ -463,7 +463,7 @@
 	  	<img src="<c:url value='/resources/image/NoMainImage.png'/>" class="example">
 	  </c:if>
 	  <c:if test="${proImg != null}">
-	  	<img src="<c:url value='/resources/image/${proImg.pi_name}'/>" class="example">
+	  	<img src="<c:url value='/img/${proImg.pi_name}'/>" class="example">
 	  </c:if>
 	  <div class="profile-name"><P>${member.me_nick}</P></div>
 	  <c:if test="${user.me_num == member.me_num}">
@@ -486,7 +486,7 @@
 							</form>					
 						</div>
 						<div class="pay-history">
-						<form action="" method="get">
+						<form action="<c:url value='/member/pointhistory'/>" method="get">
 							<button class="peachpay-history-button">피치페이 내역 조회</button>
 						</form>	
 						</div>
@@ -818,6 +818,7 @@ if(${meNumSel.size() != 0 } || ${meNumBuy.size() != 0 }){
 				  'sugar',
 				  data,
 				  (data) => {
+					  console.log(data);
 					    if (data.success) {
 					      alert("당도를 매겼습니다.\n당도 점수: " + reportReason);
 					      console.log(data.msg);

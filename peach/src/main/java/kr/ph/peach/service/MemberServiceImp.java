@@ -31,7 +31,6 @@ public class MemberServiceImp implements MemberService {
 	@Autowired
 	private JavaMailSender mailSender;
 
-
 	@Override
 	public boolean signup(MemberVO member) {
 		if (member == null) {
@@ -406,6 +405,25 @@ public class MemberServiceImp implements MemberService {
 	public List<MemberVO> getMemberLists() {
 		return memberDao.getMemberLists();
 	}
+
+	@Override
+	public void addPointHistory(int me_num, int paidAmount) {
+		memberDao.addPointHistory(me_num, paidAmount);
+		
+	}
+
+	@Override
+	public void reducePointHistory(int me_num, int pp_point) {
+		memberDao.reducePointHistory(me_num, pp_point);
+		
+	}
+
+	@Override
+	public void deleteReducePointHistory(int tq_num) {
+		memberDao.deleteReducePointHistory(tq_num);
+		
+	}
+
 	
 	
 

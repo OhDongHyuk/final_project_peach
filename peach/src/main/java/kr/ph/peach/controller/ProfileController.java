@@ -167,7 +167,6 @@ public class ProfileController {
     	
     	MemberVO user = (MemberVO) session.getAttribute("user");
         model.addAttribute("user", user);
-        
         Message msg;
 
         if (Ppassword == null) {
@@ -193,13 +192,6 @@ public class ProfileController {
     	
     	MemberVO user = (MemberVO) session.getAttribute("user");
     	model.addAttribute("user",user);
-    	Message msg;
-    	if(user == null) {
-    		msg = new Message("/member/login", "잘못된 접근입니다.");
-    		model.addAttribute("msg", msg);
-    		return "message";
-    	}
-  
     	
     	model.addAttribute("pi_num", pi_num);
     	
@@ -211,8 +203,12 @@ public class ProfileController {
     	
     	model.addAttribute("userCity", userCity);
     	
-		ProfileVO profile = profileService.getPfText(user.getMe_num());
-    	model.addAttribute("profile", profile);
+		Message msg;
+		if(user == null) {
+    		msg = new Message("/member/login", "잘못된 접근입니다.");
+          	model.addAttribute("msg", msg);
+      		return "message";
+    	}
 		ProfileImageVO OriFile = profileService.selectOriFile(user);
 		if(OriFile != null) {
 		String OriFileName = OriFile.getPi_name();
