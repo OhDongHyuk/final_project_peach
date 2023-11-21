@@ -43,5 +43,11 @@ public interface TradingRequestDAO {
 
 	void changeTradingCuStateCancel(@Param("tq_num")int tq_num);
 
+	void changeTrTqState(@Param("tq_num")int tq_num);
+
+	TradingRequestVO getTradingRequestThat(@Param("tq_num")int tq_num);
+
+	/* void deleteTradingRequest(@Param("tq_num")int tq_num); */
+
 
 }

@@ -16,7 +16,7 @@ import kr.ph.peach.vo.WishVO;
 
 public interface SaleBoardService {
 
-	List<SaleBoardVO> getSaleBoardList(SaleBoardCriteria cri);
+	List<SaleBoardVO> getSaleBoardList(SaleBoardCriteria cri, MemberVO user);
 	int getTotalCount(SaleBoardCriteria cri);
 
 	boolean insertBoard(SaleBoardVO saleBoard, MemberVO user, MultipartFile[] files);

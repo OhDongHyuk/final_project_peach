@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import kr.ph.peach.pagination.SaleBoardCriteria;
+import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.ReportVO;
 import kr.ph.peach.vo.SaleBoardVO;
 
@@ -17,7 +18,7 @@ public interface SaleBoardDAO {
 
 	boolean insertBoard(@Param("saleBoard")SaleBoardVO saleBoard);
 
-	List<SaleBoardVO> selectSaleBoardList(@Param("cri")SaleBoardCriteria cri);
+	List<SaleBoardVO> selectSaleBoardList(@Param("cri")SaleBoardCriteria cri, @Param("user")MemberVO user);
 	
 	List<SaleCategoryVO> selectAllCategory();
 

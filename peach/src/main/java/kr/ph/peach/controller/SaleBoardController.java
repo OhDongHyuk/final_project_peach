@@ -27,6 +27,7 @@ import kr.ph.peach.service.SaleBoardService;
 import kr.ph.peach.service.SaleCategoryService;
 import kr.ph.peach.service.TradingRequestService;
 import kr.ph.peach.util.Message;
+import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
@@ -54,9 +55,9 @@ public class SaleBoardController {
 	//메인페이지 API
 	@GetMapping("/{sc_num}")
 	public String productsList(@PathVariable("sc_num") int categoryId, Model model, HttpSession session, SaleBoardCriteria cri) {
-		List<SaleBoardVO> prList = saleBoardService.getSaleBoardList(cri);
-		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
 		MemberVO user = (MemberVO) session.getAttribute("user");
+		List<SaleBoardVO> prList = saleBoardService.getSaleBoardList(cri, user);
+		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
 		if (user != null) {
 			List<WishVO> wishList = memberService.getWishList(user.getMe_num());
 			model.addAttribute("wishList", wishList);
@@ -79,6 +80,7 @@ public class SaleBoardController {
 		model.addAttribute("pm", pm);
 		model.addAttribute("prList",prList);
 		model.addAttribute("categoryList", categoryList);
+		System.out.println(prList);
 		return "/saleboard/saleBoard";
 	}
 	
@@ -279,9 +281,23 @@ public class SaleBoardController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		SaleBoardVO saleBoard = saleBoardService.selectBoard(sb_num);
+		if (user != null) {
+			// 사용자의 ID를 이용해서 DB에서 새로운 맴버 정보를 가져온다
+			MemberVO refreshedUser = memberService.getMemberById(user.getMe_num());
+			
+			// 가져온 정보를 세션에 업데이트한다
+			session.setAttribute("user", refreshedUser);
+			
+			// 반환할 맵에 정보 추가
+			map.put("user", refreshedUser);
+			map.put("message", "맴버 정보가 성공적으로 갱신되었습니다.");
+		} else {	
+			// 로그인되지 않은 경우
+			map.put("message", "로그인이 필요합니다.");
+		}
+		user = (MemberVO)session.getAttribute("user");
 		System.out.println(user);
 		System.out.println(saleBoard);
-		map.put("user", user);
 		map.put("saleBoard", saleBoard);
         return map;
 		
@@ -301,9 +317,12 @@ public class SaleBoardController {
 	
 	@ResponseBody
 	@PostMapping("/reducePoint")
-	public Map<String, Object> reducePoint(@RequestParam("me_num") int me_num, @RequestParam("me_point") int me_point, HttpSession session) {
+	public Map<String, Object> reducePoint(@RequestParam("me_num") int me_num, @RequestParam("me_point") int me_point, @RequestParam("pp_point") int pp_point, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println(me_num);
+		System.out.println(pp_point);
 		tradingRequestService.reducePoint(me_num, me_point);
+		memberService.reducePointHistory(me_num, pp_point);
         return map;
 		
 	}
@@ -313,6 +332,7 @@ public class SaleBoardController {
 	public Map<String, Object> addPoints(@RequestParam("me_num") int me_num, @RequestParam("paidAmount") int paidAmount, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		memberService.addPoints(me_num, paidAmount);
+		memberService.addPointHistory(me_num, paidAmount);
 	    MemberVO updatedUser = memberService.getMemberById(me_num);
 
 	    // 세션에 업데이트된 회원 정보 저장
