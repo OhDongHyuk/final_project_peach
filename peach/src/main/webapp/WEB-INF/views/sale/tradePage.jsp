@@ -509,10 +509,10 @@
 										<c:otherwise>																						
 											<c:choose>
 												<c:when test="${user.me_num == tr.tq_me_num && tr.tradingVO.tr_cu == 2}">
-													<button id="underTakeCancel" type="button" class="pay" data-tq-num="${tr.tq_num}">인수취소</button>
+													<p>인수가 완료되었습니다. 상대방이 인계를 완료하면 거래가 종료됩니다.</p>
 												</c:when>
 												<c:otherwise>
-													<button id="giveItemCancel" type="button" class="pay" data-tq-num="${tr.tq_num}">인계취소</button>
+													<p>인계가 완료되었습니다. 상대방이 인수를 완료하면 거래가 종료됩니다.</p>
 												</c:otherwise>
 											</c:choose>
 										</c:otherwise>
@@ -569,9 +569,9 @@
 	                    alert("제품 인수를 완료하였습니다");
 	                    location.reload();
 	                },
-	                error: function(xhr, status, error) {
+	                error: function(xhr, status, error1) {
 	                    // 오류 발생 시 실행될 코드
-	                    console.log("요청 오류", error);
+	                    console.log(xhr);
 	                    // 여기서 오류 시 할 작업을 수행
 	                }
 	            });
@@ -722,9 +722,9 @@
 		}
 	  	
 		let data = {
-				rp_key : '${board.sb_num}',
-				rp_info : reportReason,
-				rp_table : 'sale_board'
+			key : '${board.sb_num}',
+			info : reportReason,
+			table : 'sale_board'
 		};
 		ajaxJsonToJson(
 				  false,
