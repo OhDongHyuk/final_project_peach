@@ -135,4 +135,12 @@
 	<select id="getTradingRequestThat" resultMap="TradingRequestVO">
 		select * from trading_request where tq_num = #{tq_num}
 	</select>
+	<select id="getTradingNowList" resultMap="TradingRequestVO">
+		select * from trading_request join sale_board on tq_sb_num = sb_num;
+	</select>
+	<delete id="deleteTradeReportNum">
+		delete from trading_request where tq_sb_num = #{rp_key}
+	</delete>
+	
+	
 </mapper>

@@ -135,6 +135,11 @@ public class TradingRequestServiceImp implements TradingRequestService{
 		return tradingRequestDao.getTradingRequestThat(tq_num);
 	}
 
+	@Override
+	public List<TradingRequestVO> getTradingRequestsList() {
+		return tradingRequestDao.getTradingNowList();
+	}
+
 
 
 	

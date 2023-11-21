@@ -82,46 +82,49 @@
 	<section class="hero-area">
 		<div class="container admin">
 			<div class="row">
-				<h2>거래신고게시판</h2>
+				
 				<table class="table">
 					<thead style="height: 50px">
 						<tr>
 							<th>신고 번호</th>
 							<th>신고 날짜</th>
 							<th>신고자 닉네임</th>
-							<th>신고된 테이블</th>
-							<th>신고 게시글번호</th>
+							<th>거래상태</th>
 							<th>거래상태전환</th>
 							<th>신고 사유 보기</th>
 							<th>신고 삭제</th>
 						</tr>
 					</thead>
 					<c:forEach items="${report}" var="report">
-						<tbody>
-							<tr>
-								<td>${report.rp_num}</td>
-								<td>${report.rp_date}</td>
-								<td>${report.memberVO.me_nick}</td>
-								<td>${report.rp_table == '2'}</td>
-								<td><a
-									href="<c:url value='/saleboard/detail?sb_num=${report.rp_key}' />">${report.rp_key}</a></td>
-								<td>
-									<button>거래상태전환</button>
-								</td>
-								<td>
-									<div class="btnWrap">
-										<button type="button" class="popupBtn">신고내용보기</button>
+						<c:if test="${report.rp_table == '3'}">
+							<tbody>
+								<tr>
+									<td>${report.rp_num}</td>
+									<td>${report.rp_date}</td>
+									<td>${report.memberVO.me_nick}</td>
+									<td><c:forEach items="${trList }" var="tr">
+											<c:if test="${report.rp_key == tr.tq_sb_num }">${tr.tradingVO.tr_ts_state}</c:if>
+										</c:forEach></td>
+									<td>									
+										<div class="btnWrap">
+										<button onclick="deleteTradeReport(${report.rp_key})" class="popupBtn">거래상태전환</button>
 									</div>
-									<div class="modalWrap">
-										<div class="modalBody">
-											<span class="closeBtn"></span> ${report.rp_info }
+									</td>
+									<td>
+										<div class="btnWrap">
+											<button type="button" class="popupBtn">신고내용보기</button>
 										</div>
-									</div>
-								</td>
-								<td><button onclick="deleteReport(${report.rp_num})"
-										class="btn-white-delete">신고 삭제</button></td>
-							</tr>
-						</tbody>
+										<div class="modalWrap">
+											<div class="modalBody">
+												<span class="closeBtn"></span> ${report.rp_info }
+											</div>
+										</div>
+									</td>
+									<td><button onclick="deleteReport(${report.rp_num})"
+											class="btn-white-delete">신고 삭제</button></td>
+								</tr>
+							</tbody>
+						</c:if>
 					</c:forEach>
 				</table>
 
@@ -186,6 +189,23 @@
 				$(this).hide()
 			}
 		})
+		function deleteTradeReport(rp_key){
+			if(confirm("거래상태를 취소하시겠습니까??")){
+		  		let rp = {
+		  				rp_key : rp_key
+		  		}
+		  		ajaxJsonToJson(false, "post", "/admin/report/tradedelete", rp, (data)=>{
+		  			if(data.res){
+		  				alert('거래가 취소되었습니다')
+			  			location.reload();
+		  			}else{
+		  				alert('거래취소 실패')
+		  			}
+		  		})
+			}else{
+				alert("삭제 취소")
+			}
+		}
 		
 		function deleteReport(rp_num){
 			if(confirm("삭제하시겠습니까??")){

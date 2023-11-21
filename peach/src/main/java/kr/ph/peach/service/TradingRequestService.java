@@ -44,4 +44,6 @@ public interface TradingRequestService {
 
 	TradingRequestVO getTradingRequestThat(int tq_num);
 
+	List<TradingRequestVO> getTradingRequestsList();
+
 }

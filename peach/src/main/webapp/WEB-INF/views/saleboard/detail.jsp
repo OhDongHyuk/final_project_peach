@@ -512,6 +512,9 @@
 					
 					<button type="button" onClick="location.href='<c:url value='/chat/chat?sb_num=${board.sb_num}'/>'" class="chat">대화하기</button>
 					<button id="openModalBtn" type="button" class="pay">거래신청</button>
+					<c:if test="">
+					<button id="openModalBtn" type="button" class="pay">거래취소</button>
+					</c:if>
 					<div id="myModal" class="modal">
 					  <div class="modal-content">
 					    <span class="close">&times;</span>

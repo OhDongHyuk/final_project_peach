@@ -22,11 +22,16 @@ import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.ReportService;
 import kr.ph.peach.service.SaleBoardService;
 import kr.ph.peach.service.SaleCategoryService;
+import kr.ph.peach.service.TradingRequestService;
+import kr.ph.peach.service.TradingService;
 import kr.ph.peach.vo.CommunityCategoryVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.ReportVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.StatementVO;
+import kr.ph.peach.vo.TradingRequestVO;
+import kr.ph.peach.vo.TradingStateVO;
+import kr.ph.peach.vo.TradingVO;
 
 @Controller
 @RequestMapping("/admin")
@@ -43,6 +48,12 @@ public class AdminController {
 
 	@Autowired
 	ReportService reportService;
+	
+	@Autowired
+	TradingService tradingService;
+	
+	@Autowired
+	TradingRequestService tradingRequestService;
 
 	@GetMapping("/home")
 	public String home() {
@@ -210,9 +221,54 @@ public class AdminController {
 		return map;
 	}
 	
-	@GetMapping("/tradereport")
-	public String tradeReport() {
+	
+	@GetMapping("/communityreport")
+	public String communityReport(Model model, HttpSession session, Criteria cri) {
 
+		List<ReportVO> report = reportService.getreportList(cri);
+		model.addAttribute("report", report);
+		
+		int totalCount = reportService.getTotalCount(cri);
+
+		int displayPageNum = 8;
+		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
+
+		System.out.println(cri);
+		model.addAttribute("pm", pm);
+		
+		return "/admin/communityreport";
+	}
+	
+	
+	
+	@GetMapping("/tradereport")
+	public String tradeReport(Model model, HttpSession session, Criteria cri) {
+
+		
+		List<TradingRequestVO> trList = tradingRequestService.getTradingRequestsList();
+		model.addAttribute("trList", trList);
+		List<ReportVO> report = reportService.getreportList(cri);
+		model.addAttribute("report", report);
+
+		List<TradingStateVO> StateTypeList = tradingService.getTradeTypeList();
+		model.addAttribute("StateTypeList", StateTypeList);
+		int totalCount = reportService.getTotalCount(cri);
+
+		int displayPageNum = 8;
+		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
+
+		model.addAttribute("pm", pm);
+		
 		return "/admin/tradereport";
+	}
+	
+	@ResponseBody // ajax를 받기위해 필요
+	@PostMapping("/report/tradedelete")
+	public Map<String, Object> reportTradeDelete(@RequestBody ReportVO report){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = reportService.deleteTradeReport(report);
+		map.put("res", res);
+		
+		return map;
 	}
 }

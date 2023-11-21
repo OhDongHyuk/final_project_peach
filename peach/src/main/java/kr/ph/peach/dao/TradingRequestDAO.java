@@ -47,6 +47,10 @@ public interface TradingRequestDAO {
 
 	TradingRequestVO getTradingRequestThat(@Param("tq_num")int tq_num);
 
+	List<TradingRequestVO> getTradingNowList();
+
+	boolean deleteTradeReportNum(@Param("rp_key")int rp_key);
+
 	/* void deleteTradingRequest(@Param("tq_num")int tq_num); */
 
 

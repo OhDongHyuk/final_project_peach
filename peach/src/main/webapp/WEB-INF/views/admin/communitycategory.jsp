@@ -20,7 +20,7 @@
 	<section class="hero-area">
 		<div class="container admin">
 			<div class="row">
-				<h1>커뮤니티 카테고리 관리</h1>
+				
 				<div class="input-group mb-3 mt-3">
 					<div class="input-group-prepend">
 						<select class="form-control" id="authority">
