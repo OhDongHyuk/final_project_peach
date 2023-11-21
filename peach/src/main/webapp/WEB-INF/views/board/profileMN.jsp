@@ -91,7 +91,7 @@
 					<c:if test="${pi_num != ''}">
 						<li class="upload" style="background-image:url('<c:url value='/resources/image/upload.png' />'); display: none;"></li>
 						<li class="image-list" id="file0">
-							<img class="pImg" alt="" src="<c:url value='/img/${OriFileName}' />" >
+							<img class="pImg" alt="" src="<c:url value='/resources/image/${OriFileName}' />" >
 							<button class="close-btn" type="button" onclick="deleteOriginal(0)"></button>
 						</li>
 					</c:if>
@@ -272,7 +272,7 @@
 		</div>
 		<div class="form-group">
 			<label>소개글</label>
-			<textarea id="summernote" name="pf_text" class="form-control" rows="10"></textarea>
+			<textarea id="summernote" name="pf_text" class="form-control" rows="10">${profile.pf_text }</textarea>
 		</div>
 		<button class="btn btn-outline-success col-12">등록</button>
 	</form>

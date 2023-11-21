@@ -123,19 +123,7 @@ public class ProfileController {
     		}
     		model.addAttribute("proceeding", proceeding);
     		
-    		List<SugarListVO> sugarList = profileService.selectSugarList(products, meNum);
-    		double sumSugar = 0.0;
-
-    		for (SugarListVO sugar : sugarList) {
-    		    sumSugar += sugar.getSl_sugar();
-    		}
-
-    		double averageSugar = sugarList.isEmpty() ? 0.0 : sumSugar / sugarList.size();
     		
-    		System.out.println("salingProducts " + salingProducts);
-    		System.out.println("proceeding " + proceeding);
-    		System.out.println("meNumSel " + meNumSel);
-    		System.out.println("meNumBuy " + meNumBuy);
 	        return "/board/profile"; 
 	    }
 
@@ -175,14 +163,13 @@ public class ProfileController {
 
     @PostMapping("/board/profilePass")
     public String showProfileMNPage(@RequestParam String Ppassword, Model model, HttpSession session, String pi_num) {
-    	System.out.println("Pass2"+pi_num);
+  
     	
     	MemberVO user = (MemberVO) session.getAttribute("user");
         model.addAttribute("user", user);
+        
         Message msg;
 
-        System.out.println("입력한 비밀번호: " + Ppassword);
-        
         if (Ppassword == null) {
             return "/board/profilePass";
         }
@@ -194,7 +181,7 @@ public class ProfileController {
         	model.addAttribute("msg", msg);
         	return "message";
         } else {
-        	msg = new Message("/board/profilePass", "비밀번호 불일치");
+        	msg = new Message("/board/profilePass?pi_num="+pi_num, "비밀번호 불일치");
         	model.addAttribute("msg", msg);
     		return "message";
         }
@@ -206,6 +193,13 @@ public class ProfileController {
     	
     	MemberVO user = (MemberVO) session.getAttribute("user");
     	model.addAttribute("user",user);
+    	Message msg;
+    	if(user == null) {
+    		msg = new Message("/member/login", "잘못된 접근입니다.");
+    		model.addAttribute("msg", msg);
+    		return "message";
+    	}
+  
     	
     	model.addAttribute("pi_num", pi_num);
     	
@@ -214,16 +208,11 @@ public class ProfileController {
     	
     	//유저의 지역 정보를 불러와서 모델로 정보 전송
     	CityVO userCity = profileService.selectUserCity(user);
-    	System.out.println("userCity"+userCity);
     	
     	model.addAttribute("userCity", userCity);
     	
-		Message msg;
-		if(user == null) {
-    		msg = new Message("/member/login", "잘못된 접근입니다.");
-          	model.addAttribute("msg", msg);
-      		return "message";
-    	}
+		ProfileVO profile = profileService.getPfText(user.getMe_num());
+    	model.addAttribute("profile", profile);
 		ProfileImageVO OriFile = profileService.selectOriFile(user);
 		if(OriFile != null) {
 		String OriFileName = OriFile.getPi_name();
@@ -261,8 +250,6 @@ public class ProfileController {
 			}
 		} 
 
-		System.out.println(pf_text);
-		
 		List<ProfileVO> pfList = profileService.getPF(user);	
     	model.addAttribute("pfList", pfList);
 		
@@ -338,16 +325,14 @@ public class ProfileController {
 	 public Map<String, Object> report(@RequestBody SugarListVO sugarList, Model model, HttpSession session) {
 	     Map<String, Object> result = new HashMap<>();
 	     MemberVO user = (MemberVO) session.getAttribute("user");
-
+	     System.out.println("sugarList"+sugarList);
 	     if (sugarList == null || user == null) {
 	         result.put("success", false);
 	         result.put("msg", "로그인이 필요합니다.");
 	         return result;
 	     }
-	     System.out.println("sugarList"+sugarList);
 	     // 중복된 평가 확인
 	     SugarListVO sgRes = profileService.selectSugar(sugarList, user);
-	     System.out.println("sgRes"+sgRes);
 	     if (sgRes != null) {
 	         result.put("success", false);
 	         result.put("msg", "이미 평가한 상대입니다.");
@@ -357,6 +342,14 @@ public class ProfileController {
 	     if (profileService.insertSugar(sugarList, user)) {
 	         result.put("success", true);
 	         result.put("msg", "평가가 성공적으로 등록되었습니다.");
+	         
+		     int sellUser = profileService.selectSellUser(sugarList);
+		     System.out.println("sellUser"+sellUser);
+		     
+		     Integer sugarContent = profileService.selectSugarContent(sellUser);
+		     System.out.println("sugarContent"+sugarContent);
+	 		 profileService.updateSugar(sugarContent, sellUser);
+	         
 	         return result;
 	     }
 

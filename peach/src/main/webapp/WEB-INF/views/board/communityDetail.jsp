@@ -11,6 +11,16 @@
             margin: 20px auto;
             width: 750px;
         }
+        
+        a {
+        	color: #000;
+        	
+        }
+        a:hover {
+        	text-decoration: none;
+        	color: #000;
+        	cursor: pointer;
+        }
 
         .CDdiv {
             margin-bottom: 10px;
@@ -19,6 +29,7 @@
         .co_de_title {
             font-size: 24px;
             font-weight: bold;
+            color: #000;
         }
 
         .co_de_info {
@@ -27,9 +38,8 @@
         }
 
         .co_de_write {
-            border: 1px solid black;
             margin-bottom: 20px;
-            height: 500px;
+            max-height: 500px;
         }
 
         .co_de_comment {
@@ -50,9 +60,9 @@
 			justify-content: center;
 			align-items: center;
         }
-        .co_edit{
-      	    height: 30px;
-        	width: 50px;
+        .edit-delete-btns{
+      	    padding: 5px 10px;
+      	    font-size: 14px;
         }
         .report-button1{
         	height: 30px;
@@ -74,6 +84,13 @@
 		  height: 100%;
 		  overflow: auto;
 		  background-color: rgba(0, 0, 0, 0.4);
+		}
+		
+		.modify-delete {
+			display: flex;
+		}
+		.btn-primary {
+			margin-right: 10px;
 		}
 		
 		.custom-modal .modal-content {
@@ -271,10 +288,12 @@
 		</div>
 	
 	    <c:if test="${user.me_num == writer.me_num}">
-	    	<form action="<c:url value='/board/communityEdit/${detail.co_num}'/>" method="get">
-        		<button class="co_edit" type="submit">수정</button>
-   			 </form>
-   			 <button onclick="deleteCom(${detail.co_num})">삭제</button>
+	    	<div class="modify-delete">
+		    	<form action="<c:url value='/board/communityEdit/${detail.co_num}'/>" method="get">
+	        		<button class="edit-delete-btns btn btn-primary" type="submit">수정</button>
+	   			 </form>
+	   			 <button class="edit-delete-btns btn btn-danger" onclick="deleteCom(${detail.co_num})">삭제</button>	    	
+	    	</div>
 	    </c:if>
 	    <c:if test="${user != null}">
 	    <c:if test="${user.me_num != writer.me_num}">
@@ -372,9 +391,7 @@
 	</div>
 
     <script>
-        $(document).ready(function() {
-            $('#summernote').summernote();
-        });
+        
         
         function likeCommunity() {
             // 게시물 번호
@@ -401,65 +418,70 @@
 		const openReportModalBtn = document.getElementById("openReportModalBtn");
 		const closeReportModalBtn = document.querySelector(".custom-modal .close");
 		
-		openReportModalBtn.addEventListener("click", function () {
-			if('${user.me_id}' == '') {
-				if(confirm('로그인하시겠습니까?')){
-					location.href = '<c:url value="/member/login"/>'
-				}
-				return;
-			}
-		  	reportPostModal.style.display = "block";
-		});
-		
-		closeReportModalBtn.addEventListener("click", function () {
-		  reportPostModal.style.display = "none";
-		});		
-
-		window.addEventListener("click", function (event) {
-		  if (event.target === reportPostModal) {
-		    reportPostModal.style.display = "none";
-		  }
-		});
-		
-		function reportPost() {
-
-			if('${user.me_num}' == '${writer_me_num}'){
-				alert("본인의 게시물은 신고가 불가합니다.");
-				return;
-			}
+		if(reportPostModal != null && openReportModalBtn != null && closeReportModalBtn != null){
 			
-			const reportReason = document.getElementById("reportReason").value;
-
-		  	if (reportReason.trim() === "") {
-		   		alert("신고 이유를 입력하세요.");
-		   		return;
-			}
-		  	
-			let data = {
-				rp_key : '${co_num}',
-				rp_info : reportReason,
-				rp_table : '3'
-			};
-			ajaxJsonToJson(
-					  false,
-					  'post',
-					  'report',
-					  data,
-					  (data) => {
-					    alert("게시물을 신고했습니다.\n신고 사유: " + reportReason);
-					    console.log(data.msg);
-					    document.getElementById("reportReason").value = '';
-					    closeReportModal(); // Close the modal after reporting
-					  },
-					    () => {
-					    	
-					    	console.log("실패");
-					    }
-					);
-			}
-		function closeReportModal() {
+			openReportModalBtn.addEventListener("click", function () {
+				if('${user.me_id}' == '') {
+					if(confirm('로그인하시겠습니까?')){
+						location.href = '<c:url value="/member/login"/>'
+					}
+					return;
+				}
+			  	reportPostModal.style.display = "block";
+			});
+			
+			closeReportModalBtn.addEventListener("click", function () {
 			  reportPostModal.style.display = "none";
-			}
+			});		
+	
+			window.addEventListener("click", function (event) {
+			  if (event.target === reportPostModal) {
+			    reportPostModal.style.display = "none";
+			  }
+			});
+			
+			function reportPost() {
+	
+				if('${user.me_num}' == '${writer_me_num}'){
+					alert("본인의 게시물은 신고가 불가합니다.");
+					return;
+				}
+				
+				const reportReason = document.getElementById("reportReason").value;
+	
+			  	if (reportReason.trim() === "") {
+			   		alert("신고 이유를 입력하세요.");
+			   		return;
+				}
+			  	
+				let data = {
+					rp_key : '${co_num}',
+					rp_info : reportReason,
+					rp_table : '3'
+				};
+				ajaxJsonToJson(
+						  false,
+						  'post',
+						  'report',
+						  data,
+						  (data) => {
+						    alert("게시물을 신고했습니다.\n신고 사유: " + reportReason);
+						    console.log(data.msg);
+						    document.getElementById("reportReason").value = '';
+						    closeReportModal(); // Close the modal after reporting
+						  },
+						    () => {
+						    	
+						    	console.log("실패");
+						    }
+						);
+				}
+			function closeReportModal() {
+				  reportPostModal.style.display = "none";
+				}
+			
+		}
+		
 		/* 댓글 신고 기능
 		let re_num = 0;
 		const reportPostModal2 = document.getElementById("reportPostModal2");

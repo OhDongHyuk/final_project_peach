@@ -181,17 +181,6 @@
 	<select id="selectSugar" resultType="kr.ph.peach.vo.SugarListVO">
 		SELECT * FROM sugar_list where sl_me_num = #{user.me_num} and sl_sb_num = #{sugarList.sl_sb_num};
 	</select>
-	<select id="selectSugarList" resultType="kr.ph.peach.vo.SugarListVO">
-	  SELECT sl_sugar FROM sugar_list
-	  	  join member on sl_me_num = me_num
-	  	  join sale_board on me_num = sb_me_num
-		  WHERE sl_me_num != #{meNum}
-		  AND sl_sb_num IN
-		  <foreach collection="products" item="product" open="(" separator="," close=")">
-		    #{product.sb_num}
-		  </foreach>
-		  AND sb_ss_num = 3
-	</select>
 	<select id="selectSaleBoardImageList" resultType="kr.ph.peach.vo.SaleImageVO">
 		select * from sale_image where si_key = #{sb_num} and si_table = "sale_board"
 	</select>
@@ -200,5 +189,17 @@
 	</select>
 	<select id="selectTrTqNum" resultType="Int">
 		select tq_num from trading_request where tq_sb_num = #{sb_num}
+	</select>
+	<select id="selectSugarContent" resultType="Integer">
+		SELECT AVG(sl_sugar)
+			FROM peach.sugar_list
+		    JOIN sale_board ON sl_sb_num = sb_num
+		    WHERE sb_me_num = #{meNum};
+	</select>
+	<update id="updateSugar">
+		update member set me_sugar = #{sugarContent} where me_num = #{meNum}
+	</update>	
+	<select id="selectSellUser" resultType="int">
+		select sb_me_num from sale_board where sb_num = #{sugarList.sl_sb_num}
 	</select>
 </mapper>

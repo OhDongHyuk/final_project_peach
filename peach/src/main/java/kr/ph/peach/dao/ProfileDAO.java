@@ -83,10 +83,12 @@ public interface ProfileDAO {
 
 	SugarListVO selectSugar(@Param("sugarList") SugarListVO sugarList,@Param("user") MemberVO user);
 
-	List<SugarListVO> selectSugarList(@Param("products")List<SaleBoardVO> products,@Param("meNum") int meNum);
-
 	int selectTrTqNum(int sb_num);
 
+	Integer selectSugarContent(int meNum);
 
+	void updateSugar(@Param("sugarContent")Integer sugarContent,@Param("meNum") int meNum);
+
+	int selectSellUser(@Param("sugarList")SugarListVO sugarList);
 	
 }

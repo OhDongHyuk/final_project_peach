@@ -716,7 +716,6 @@
 				<c:if test="${user.me_num == member.me_num }">
 					<div class="profile-product-detail-btn">
 						<button class="myBtn postdelete" onclick="deletePD(${meNumSel.sb_num})">삭제</button>
-						<button type="button" class="report-post" id="openReportModalBtn" data-num="${meNumSel.sb_num}">당도 남기기</button>
 					</div>
 				</c:if>
 				</div>		
