@@ -33,7 +33,7 @@ public class SaleBoardServiceImp implements SaleBoardService {
 
 	@Autowired
 	SaleBoardDAO saleBoardDao;
-	
+
 	@Autowired
 	ChatDAO chatDao;
 
