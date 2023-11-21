@@ -22,7 +22,7 @@
 			<div class="row">
 				<div class="col-lg-8 col-12 custom-padding-right">
 					<h1>관리자페이지 메인</h1>
-					<h2>풀리퀘스트용메시지</h2>
+					<h2>없앨예정</h2>
 				</div>
 
 			</div>

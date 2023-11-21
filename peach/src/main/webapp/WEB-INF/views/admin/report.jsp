@@ -82,7 +82,7 @@
 	<section class="hero-area">
 		<div class="container admin">
 			<div class="row">
-				<h2>신고관리</h2>
+				<h2>게시글 신고관리</h2>
 				<table class="table">
 					<thead style="height: 50px">
 						<tr>
@@ -91,12 +91,13 @@
 							<th>신고자 닉네임</th>
 							<th>신고된 테이블</th>
 							<th>신고 게시글번호</th>
+							<th>거래상태 변경</th>
 							<th>신고 사유 보기</th>
 							<th>신고 삭제</th>
 						</tr>
 					</thead>
 						<c:forEach items="${report}" var="report">
-						<c:if test="${report.rp_table == 'sale_board'}">
+						<c:if test="${report.rp_table == '1'}">
 							<tbody>
 								<tr>
 									<td>${report.rp_num}</td>

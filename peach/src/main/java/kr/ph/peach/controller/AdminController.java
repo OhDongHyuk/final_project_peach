@@ -212,8 +212,20 @@ public class AdminController {
 	}
 	
 	@GetMapping("/tradereport")
-	public String tradeReport() {
+	public String tradeReport(Model model, HttpSession session, Criteria cri) {
 
+		List<ReportVO> report = reportService.getreportList(cri);
+		model.addAttribute("report", report);
+		System.out.println(report);
+		
+		int totalCount = reportService.getTotalCount(cri);
+
+		int displayPageNum = 8;
+		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
+
+		System.out.println(cri);
+		model.addAttribute("pm", pm);
+		
 		return "/admin/tradereport";
 	}
 }

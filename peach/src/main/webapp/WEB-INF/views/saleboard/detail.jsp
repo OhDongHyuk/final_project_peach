@@ -866,7 +866,7 @@
 			let data = {
 					rp_key : '${board.sb_num}',
 					rp_info : reportReason,
-					rp_table : 'sale_board'
+					rp_table : '1'
 			};
 			ajaxJsonToJson(
 					  false,
