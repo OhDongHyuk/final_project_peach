@@ -711,6 +711,7 @@
 		    	return response.json();	
 		    }).then(json => {
 		    	alert(json.message)
+		    	window.location.href = '/peach/saleboard/detail?sb_num=' + ${board.sb_num};
 		    })
 		    .catch(error => {
 		        console.error("로그인이 필요합니다:", error);
@@ -723,7 +724,7 @@
 		    $('#peachTrade').on('click', function() {		    	
 		        var sb_num = $(this).data('sb-num');
 		        var me_num = $(this).data('me-num');
-		
+				//회원정보 업데이트
 		        $.ajax({
 		            method: 'GET',
 		            url: '<c:url value="/saleboard/peachTrade"/>',
@@ -746,13 +747,14 @@
 		                                console.log('거래가 성공적으로 처리되었습니다.');
 		                                alert('거래가 성공적으로 처리되었습니다.');
 		                                
-		                                var updatedPoints = userPoints - productPrice;
+		                                var updatedPoints = userPoints - productPrice;		                                
 		                                $.ajax({
 		                                    method: 'POST',
 		                                    url: '<c:url value="/saleboard/reducePoint"/>', // 사용자 포인트 감소를 처리하는 엔드포인트
-		                                    data: { me_num: me_num, me_point: updatedPoints },
+		                                    data: { me_num: me_num, me_point: updatedPoints, pp_point: productPrice},
 		                                    success: function(response) {
 		                                        console.log('포인트가 감소되었습니다.');
+		                                        window.location.href = '/peach/saleboard/detail?sb_num=' + ${board.sb_num};
 		                                    }
 		                                });  
 		                            } else {

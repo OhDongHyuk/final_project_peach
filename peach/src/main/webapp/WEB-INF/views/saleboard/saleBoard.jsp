@@ -42,11 +42,14 @@
 										</div>
 										<div class="title">
 											${pr.sb_name}
-										</div>				
+										</div>
 									</div>
 									<div class="price-holder">
 										${pr.get_sb_price()}
 									</div>
+									<div class="title1">
+										${pr.memberVO.cityVO.ci_small}
+									</div>														
 								</div>
 								<div class="profile-date">
 									<div class="profile">
@@ -166,7 +169,7 @@
 		}
 		.text-holder {
 			padding: 15px 15px;
-			height: 80px;
+			height: 90px;
 			text-align: left;
 		}
 		.wish-name {
@@ -188,6 +191,14 @@
 		}
 		.title {
 			position: relative;
+			font-size: 14px;
+			font-weight: 400;
+			padding-bottom: 15px;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		.title1 {
 			font-size: 14px;
 			font-weight: 400;
 			padding-bottom: 15px;

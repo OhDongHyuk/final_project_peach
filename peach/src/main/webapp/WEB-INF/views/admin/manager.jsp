@@ -78,6 +78,8 @@
 						<tr>
 							<th>회원 번호</th>
 							<th>ID</th>
+							<th>이름</th>
+							<th>전화번호</th>
 							<th>닉네임</th>
 							<th>포인트</th>
 							<th>권한</th>
@@ -95,6 +97,8 @@
 							<tr>
 								<td>${mbList.me_num}</td>
 								<td>${mbList.me_id}</td>
+								<td>${mbList.me_name}</td>
+								<td>${mbList.me_phone}</td>
 								<td>${mbList.me_nick}</td>
 								<td>${mbList.me_point}</td>
 								<td>${mbList.me_au}</td>

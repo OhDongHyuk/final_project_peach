@@ -100,7 +100,10 @@ public class KakaoController<JSONElement> {
 			session.setAttribute("token", token);
 			session.setAttribute("idnumber", idnumber);
 			return "redirect:/";
-			
+			/*
+			 * System.out.println(kakao); System.out.println(token);
+			 * System.out.println(idnumber);
+			 */
 		} else {
 			model.addAttribute("kakaoinfo", kakaoinfo);
 			List<CityVO> list = memberService.getLargeCity();

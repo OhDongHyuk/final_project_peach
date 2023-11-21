@@ -20,6 +20,7 @@ import kr.ph.peach.pagination.SaleBoardCriteria;
 import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.SaleBoardService;
 import kr.ph.peach.service.SaleCategoryService;
+import kr.ph.peach.service.TradeMessageService;
 import kr.ph.peach.service.TradingRequestService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.CityVO;
@@ -43,6 +44,9 @@ public class HomeController {
 	
 	@Autowired
 	TradingRequestService tradingRequestService;
+	
+	@Autowired
+	TradeMessageService tradeMessageService;
 
 	/*
 	 * 권한이 관리자가 아닌 회원이 /admin/* 으로 접근할시 경고메세지가 나오도록 출력
@@ -65,7 +69,7 @@ public class HomeController {
 			user.setMe_city_name(userCity.getCi_large() + " " + userCity.getCi_medium() + " " + userCity.getCi_small());
 		}
 		cri.setPerPageNum(20);
-		List<SaleBoardVO> prList = saleBoardService.getSaleBoardList(cri);
+		List<SaleBoardVO> prList = saleBoardService.getSaleBoardList(cri, user);
 		for(SaleBoardVO tmp : prList) {
 			prList.get(prList.indexOf(tmp)).setSb_me_nickname(saleBoardService.selectMemberNickname(tmp.getSb_me_num()));
 		}
@@ -107,7 +111,10 @@ public class HomeController {
 	@PostMapping("/common/reject")
 	public Map<String,Object> rejectPost(@RequestParam("tq_num") int tq_num, Model model, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		TradingRequestVO trv = tradingRequestService.getTradingRequestThat(tq_num);
+		tradeMessageService.rejectMessageToCustomer(trv);
 		tradingRequestService.addPointToCustomer(tq_num);
+		memberSerivce.deleteReducePointHistory(tq_num);
 		boolean rejection = tradingRequestService.deleteTradingRequest(tq_num, model, session);
 		if (rejection) {
 	        // 삭제 작업이 성공한 경우의 로직			
@@ -132,6 +139,5 @@ public class HomeController {
 		System.out.println(map);
 		return map;
 	}
-
 
 }
