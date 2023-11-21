@@ -74,4 +74,11 @@ public interface MemberService {
 	boolean checkMeIdAndMeName(String me_id, String me_name);
 	
 	List<MemberVO> getMemberLists();
+
+	void addPointHistory(int me_num, int paidAmount);
+
+	void reducePointHistory(int me_num, int pp_point);
+
+	void deleteReducePointHistory(int tq_num);
+
 }

@@ -9,16 +9,23 @@
 <style>
 	.profile-container {
 		margin:0 auto; 
-		padding-bottom: 50px;
 		min-width: 1000px;
-		max-width: 1320px;
+		max-width: 1000px;
 		display: flex;
-		
-		color: #000;
+		border-style: outset;
+		border-width: 9px;
+		border-color: ffd9eb;
+		border-radius: 20px;
+		background-color: #ffc2e0;
 	}
 	.profile-imgbox {
 		flex: 00 310px;
+		background-color: #ffe5f2;
 		text-align: center;
+		border-right: solid;
+		border-width: 7px;
+		border-color: ffd9eb;
+		border-radius: 20px 0 0 20px;
 	}
 	.btn-profile {
 		width: 150px;
@@ -31,10 +38,10 @@
 		margin-bottom: 20px;
 	}
 	.profile-name {
-		margin: 5px 0;
+		margin: 15px 0;
 	}
 	.profile-Detail {
-		margin-top: 20px;
+		
 		flex: 1;
 	
 	}
@@ -42,7 +49,12 @@
 		margin:0 auto; 
 		min-width: 1000px;
 		max-width: 1000px;
+		background-color: green;
 		display: flex;
+		border-style: dashed;
+		border-width: 1px;
+		border-color: gray;
+		border-radius: 20px;
 	}
 	.profile-product2 {
 		margin:0 auto; 
@@ -144,13 +156,14 @@
 	}
 	.profile-product-detail-btn{
 		position: relative;
-		width: 196px;
-		text-align: center;
+		width: 200px;
 	}
 	.profile-outDTbox {
 		padding-left: 15px;
 		padding-right: 10px;
 		flex: 1;
+		background-color: #ffe2ed;
+		border-radius: 0 20px 20px 0;
 	}
 	.profile-product-detail-text {
 		width: 630px;
@@ -465,7 +478,7 @@
 	  <c:if test="${proImg != null}">
 	  	<img src="<c:url value='/resources/image/${proImg.pi_name}'/>" class="example">
 	  </c:if>
-	  <div class="profile-name"><P>${member.me_nick}</P></div>
+	  <div class="profile-name"><P style="color: black; font-weight: bold;">${member.me_nick}</P></div>
 	  <c:if test="${user.me_num == member.me_num}">
 		<li class="profile-btn"><a href="<c:url value='/board/profilePass?pi_num=${proImg.pi_name}'/>">내 프로필 관리</a></li>
 	  </c:if>
@@ -920,7 +933,6 @@ function sellComSell() {
 	$("#sellComSellBox").show();
 	currentBox = "#sellComSellBox";
 }
-
 
 </script>
 

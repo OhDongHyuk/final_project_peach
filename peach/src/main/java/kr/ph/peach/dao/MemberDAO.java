@@ -79,5 +79,11 @@ public interface MemberDAO {
 	void deleteCode(@Param("member")MemberVO member);
 
 	List<MemberVO> getMemberLists();
+
+	void addPointHistory(@Param("me_num")int me_num, @Param("paidAmount")int paidAmount);
+
+	void reducePointHistory(@Param("me_num")int me_num, @Param("pp_point")int pp_point);
+
+	void deleteReducePointHistory(@Param("tq_num")int tq_num);
 	
 }

@@ -18,11 +18,52 @@
 	
 	.community-title{
 		text-align: center;
+		color: #ff007f; /* 분홍색 계열의 글자색 */
 	}
 	
 	.community-list{
          width: 800px;
          margin: 0 auto;
+         background-color: #ffe6f7; /* 분홍색 계열의 배경색 */
+	}
+	.form-control{
+		width: 400px;
+		height: auto;
+	}
+	.Cbtn{
+		width: 60px;
+		height: 30px;
+		text-align: center;
+		line-height: 30px;
+		border-radius: 5px;
+		margin-left: 1020px;
+		margin-top: 10px;
+		margin-bottom: 20px;
+		background-color: #ff007f; /* 분홍색 계열의 배경색 */
+		color: white;
+	}
+	.CTR{
+		text-align: center;
+		 background-color: #ffd9eb; /* 분홍색 계열의 배경색 */
+	}
+	.CTR2{
+		text-align: center;
+		 background-color: #ffccdd; /* 분홍색 계열의 배경색 */
+	}
+
+	.community_item{
+		 display: flex;
+  		 justify-content: center;
+	}
+	.comList{
+		display: flex;
+    	padding-left: 0;
+   	    list-style: none;
+   	    border-radius: 0.25rem;
+	}
+	.cc-control{
+		height: auto;
+
 	}
 	.form-control{
 		width: 400px;

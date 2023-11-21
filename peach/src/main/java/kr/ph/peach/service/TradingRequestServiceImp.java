@@ -70,13 +70,15 @@ public class TradingRequestServiceImp implements TradingRequestService{
 	@Override
 	public void changeTradingCuState(int tq_num) {
 		tradingRequestDao.changeTradingCuState(tq_num);
-		
+		tradingRequestDao.changeTrTqState(tq_num);	
+		/* tradingRequestDao.deleteTradingRequest(tq_num); */	
 	}
 
 	@Override
 	public void changeTradingSeState(int tq_num) {
 		tradingRequestDao.changeTradingSeState(tq_num);
-		
+		tradingRequestDao.changeTrTqState(tq_num);
+		/* tradingRequestDao.deleteTradingRequest(tq_num); */
 	}
 
 	@Override
@@ -126,6 +128,11 @@ public class TradingRequestServiceImp implements TradingRequestService{
 	public void changeTradingCuStateCancel(int tq_num) {
 		tradingRequestDao.changeTradingCuStateCancel(tq_num);
 		
+	}
+
+	@Override
+	public TradingRequestVO getTradingRequestThat(int tq_num) {
+		return tradingRequestDao.getTradingRequestThat(tq_num);
 	}
 
 

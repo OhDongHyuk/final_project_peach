@@ -6,15 +6,6 @@
 <head>
 	<title>스프링</title>
 	<style>
-		a {
-			text-decoration: none;
-			color: #000;
-		}
-		a:hover {
-			text-decoration: none;
-			cursor: pointer;
-			color: #000;
-		}
 		.modal {
 		  display: none;
 		  position: fixed;
@@ -452,84 +443,6 @@
 			color: grey;
 			font-size: 13px;
 		}
-		/* Image Modal */
-		.image-modal {
-		  display: none;
-		  position: fixed;
-		  z-index: 2;
-		  left: 0;
-		  top: 0;
-		  width: 100%;
-		  height: 100%;
-		  background-color: rgba(0, 0, 0, 0.9);
-		}
-		
-		.image-modal-content {
-		  position: relative;
-		  text-align: center;
-		  margin: auto;
-		  top: 50%;
-		  transform: translateY(-50%);
-		  max-width: 80%;
-		  max-height: 80%;
-		  overflow: auto;
-		}
-		
-		#modalImage {
-		  width: auto;
-		  height: auto;
-		  max-width: 100%;
-		  max-height: 100%;
-		}
-		
-		/* Close button */
-		.close {
-		  position: absolute;
-		  top: 15px;
-		  right: 15px;
-		  font-size: 30px;
-		  color: white;
-		  cursor: pointer;
-		}
-		
-		.close:hover {
-		  color: #ccc;
-		}
-		
-		.image-modal .close {
-			opacity: 1;
-			font-size: 50px;
-		}
-		.image-modal .image-slide-left {
-			background-image: none;
-			width: 25px; /* 사이즈 */
-		    height: 25px; /* 사이즈 */
-		    border-top: 5px solid #fff; /* 선 두께 */
-		    border-right: 5px solid #fff; /* 선 두께 */
-		    transform: rotate(225deg) translateY(50%); /* 각도 */
-		}
-		.image-modal .image-slide-left:hover {
-			opacity: 0.75;
-			border-top: 5px solid #ccc; /* 선 두께 */
-		    border-right: 5px solid #ccc; /* 선 두께 */
-		}
-		.image-modal .image-slide-right {
-			background-image: none;
-			width: 25px; /* 사이즈 */
-		    height: 25px; /* 사이즈 */
-		    border-top: 5px solid #fff; /* 선 두께 */
-		    border-right: 5px solid #fff; /* 선 두께 */
-		    transform: rotate(45deg) translateY(-50%); /* 각도 */
-		}
-		.image-modal .image-slide-right:hover {
-			opacity: 0.75;
-			border-top: 5px solid #ccc; /* 선 두께 */
-		    border-right: 5px solid #ccc; /* 선 두께 */
-		}
-		span {
-			transition: none;
-			-webkit-transition: none;
-		}
 	</style>
 </head>
 <body>
@@ -540,7 +453,7 @@
 			    <c:choose>
 					<c:when test="${board.saleImageVOList.size() != 0 }">			    
 			        	<c:forEach items="${board.saleImageVOList}" var="saleImage">
-		       				 <li><img src="<c:url value='/resources/image/${saleImage.si_thb_name }'/>" data-src="<c:url value='/resources/image/${saleImage.si_name }'/>"></li>
+		       				 <li><img src="<c:url value='/resources/image/${saleImage.si_name }'/>"/></li>
 		      			</c:forEach>
 		      		</c:when>
 		      		<c:otherwise>
@@ -554,28 +467,17 @@
 		      <button class="image-slide-left"></button>
 		      <button class="image-slide-right"></button>
 		 	</div>
-		 	<div id="imageModal" class="image-modal">
-		        <span class="close" id="closeImageModal">&times;</span>
-		        <div class="image-modal-content">
-		            <img id="modalImage" src="" alt="Original Image">
-		            <!-- Add navigation buttons for scrolling through images -->
-		        </div>
-		            <button class="image-slide-left" id="prevImage"></button>
-		            <button class="image-slide-right" id="nextImage"></button>
-		    </div>
 		</div>
 		<div class="profile-box">
 			<div class="profile-left">
 				<div class="prifle-pic">
 					<img src="<c:url value='/resources/image/NoMainImage.png'/>">
 				</div>
-				<a href="<c:url value='/board/profile/${board.sb_me_num}'/>">
 				<div class="profile-name-sweetness">
 					<div class="profile-name">${board.sb_me_nickname}</div>
 					<span class="profile-sweetness-text">당도</span>
 					<span class="profile-sweetness">${board.sb_me_sugar}</span>				
 				</div>
-				</a>
 			</div>
 			<c:if test="${user.me_num != board.sb_me_num }">
 			<div class="profile-right">
@@ -796,146 +698,135 @@
 		        	tq_sb_num: tq_sb_num,
 		        	tq_me_num: tq_me_num,
 		        })
-			    fetch('/peach/saleboard/detail?sb_num=' + ${board.sb_num}, {
-			        method: 'POST',
-			        headers: {
-			            'Content-Type': 'application/json'
-			        },
-			        body: JSON.stringify({
-			        	tq_sb_num: tq_sb_num,
-			        	tq_me_num: tq_me_num
-			        })
-			    })
-			    .then(response => {
-			    	return response.json();	
-			    }).then(json => {
-			    	alert(json.message)
-			    })
-			    .catch(error => {
-			        console.error("로그인이 필요합니다:", error);
-			        alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
-			        window.location.href = '/peach/member/login';
-			    });
-			}
+		    })
+		    .then(response => {
+		    	return response.json();	
+		    }).then(json => {
+		    	alert(json.message)
+		    	window.location.href = '/peach/saleboard/detail?sb_num=' + ${board.sb_num};
+		    })
+		    .catch(error => {
+		        console.error("로그인이 필요합니다:", error);
+		        alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+		        window.location.href = '/peach/member/login';
+		    });
+		}
+		//피치페이 거래
+		$(document).ready(function() {
+		    $('#peachTrade').on('click', function() {		    	
+		        var sb_num = $(this).data('sb-num');
+		        var me_num = $(this).data('me-num');
+				//회원정보 업데이트
+		        $.ajax({
+		            method: 'GET',
+		            url: '<c:url value="/saleboard/peachTrade"/>',
+		            data: { sb_num: sb_num },
+		            success: function(map) {
+		            	console.log(map)
+		                var userPoints = map.user.me_point;
+		                var productPrice = map.saleBoard.sb_price;
 		
-			//피치페이 거래
-			$(document).ready(function() {
-			    $('#peachTrade').on('click', function() {		    	
-			        var sb_num = $(this).data('sb-num');
-			        var me_num = $(this).data('me-num');
-			
-			        $.ajax({
-			            method: 'GET',
-			            url: '<c:url value="/saleboard/peachTrade"/>',
-			            data: { sb_num: sb_num },
-			            success: function(map) {
-			            	console.log(map)
-			                var userPoints = map.user.me_point;
-			                var productPrice = map.saleBoard.sb_price;
-			
-			                $('#userPoints').text(userPoints);
-			                $('#productPrice').text(productPrice);
-			
-			                if (userPoints >= productPrice) {
-			                    $.ajax({
-			                        method: 'POST',
-			                        url: '<c:url value="/saleboard/peachTrade"/>',
-			                        data: { sb_num: sb_num },
-			                        success: function(map) {
-			                            if (map.trade) {
-			                                console.log('거래가 성공적으로 처리되었습니다.');
-			                                alert('거래가 성공적으로 처리되었습니다.');
-			                                
-			                                var updatedPoints = userPoints - productPrice;
-			                                $.ajax({
-			                                    method: 'POST',
-			                                    url: '<c:url value="/saleboard/reducePoint"/>', // 사용자 포인트 감소를 처리하는 엔드포인트
-			                                    data: { me_num: me_num, me_point: updatedPoints },
-			                                    success: function(response) {
-			                                        console.log('포인트가 감소되었습니다.');
-			                                    }
-			                                });  
-			                            } else {
-			                                console.log('이미 직거래를 신청한 물품입니다.');
-			                                alert('이미 직거래를 신청한 물품입니다.');
-			                            }
-			                        }
-			                    });
-			                } else {
-			                    if (confirm('포인트가 부족합니다. 추가 결제를 진행하시겠습니까?')) {
-			                        var IMP = window.IMP; 
-			                        IMP.init("imp41345184"); 
-			                        var inputAmount = map.saleBoard.sb_price - map.user.me_point; // 사용자가 입력한 결제할 금액 (임의로 '1111'로 설정)
-			                        var minimumAmount = '1111'; // 최소 결제 금액 (예시로 5000원으로 설정)
-	
-			                        if (parseInt(inputAmount) < minimumAmount) {
-			                            // 최소 결제 금액 미만인 경우 최소 금액으로 설정
-			                            inputAmount = minimumAmount.toString();
-			                            alert('최소 결제 금액 이하입니다. 최소 금액(' + minimumAmount + '원)으로 결제합니다.');
-			                        }
-		                            IMP.request_pay({
-		                                pg : 'danal_tpay',
-		                                pay_method : 'card',
-		                                merchant_uid: 'merchant_' + new Date().getTime(), 
-		                                name : map.saleBoard.sb_name,
-		                                amount : inputAmount,
-		                                buyer_email : map.user.me_id,
-		                                buyer_name : map.user.me_name,
-		                                buyer_tel : map.user.me_phone,
-		                            }, function (rsp) { // callback
-		                                //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
-		                            	if(rsp.success) {
-		                                    console.log("결제가 성공했습니다.");
-		                                    console.log("결제한 금액:", rsp.paid_amount); // 실제 결제된 금액
-		                                    // me_point에 결제된 금액을 추가하는 요청을 서버로 보냄
-		                                    $.ajax({
-		                                    	async: false,//비동기는 이렇게
-		                                        type: 'POST',
-		                                        url: '/peach/saleboard/addPoints', // 해당 엔드포인트는 서버에서 처리하고 me_point를 업데이트하는 데 사용
-		                                        data: { 
-		                                        	paidAmount: rsp.paid_amount,
-		                                        	me_num: map.user.me_num
-		                                        },
-		                                        success: function (data) {
-		                                            //console.log('서버 응답:', data); // Check the server response in the console
-		                                            alert('포인트가 충전되었습니다.');
-		                                        },
-		                                        error: function () {
-		                                            console.error('포인트 충전에 실패했습니다.');
-		                                            // 실패시 처리
-		                                        }
-		                                    });
-		                            	} else {
-		                            		console.log(rsp);
-		                            	}            	
-		                            });		                        
-			                    } else {
-			                        // 사용자가 '취소'를 선택한 경우
-			                        console.log('추가 결제가 취소되었습니다.');
-			                        // 원하는 작업 수행 (예: 다른 동작 수행 또는 경고창 등)
-			                    }
-			                }
-			            },
-			            error: function(error) {
-			                console.log('데이터를 불러오는 중 오류가 발생했습니다.');
-			                // 오류 발생 시 추가 작업 수행
-			            }
-			        });
-			    });
-			});
-			
-			// 신고 모달
-			const reportPostModal = document.getElementById("reportPostModal");
-			const openReportModalBtn = document.getElementById("openReportModalBtn");
-			const closeReportModalBtn = document.querySelector(".custom-modal .close");
-			
-			openReportModalBtn.addEventListener("click", function () {
-				if('${user.me_id}' == '') {
-					//alert('로그인한 회원만 이용이 가능합니다.');
-					if(confirm('로그인하시겠습니까?')){
-						location.href = '<c:url value="/member/login"/>'
-					}
-					return;
+		                $('#userPoints').text(userPoints);
+		                $('#productPrice').text(productPrice);
+		
+		                if (userPoints >= productPrice) {
+		                    $.ajax({
+		                        method: 'POST',
+		                        url: '<c:url value="/saleboard/peachTrade"/>',
+		                        data: { sb_num: sb_num },
+		                        success: function(map) {
+		                            if (map.trade) {
+		                                console.log('거래가 성공적으로 처리되었습니다.');
+		                                alert('거래가 성공적으로 처리되었습니다.');
+		                                
+		                                var updatedPoints = userPoints - productPrice;		                                
+		                                $.ajax({
+		                                    method: 'POST',
+		                                    url: '<c:url value="/saleboard/reducePoint"/>', // 사용자 포인트 감소를 처리하는 엔드포인트
+		                                    data: { me_num: me_num, me_point: updatedPoints, pp_point: productPrice},
+		                                    success: function(response) {
+		                                        console.log('포인트가 감소되었습니다.');
+		                                        window.location.href = '/peach/saleboard/detail?sb_num=' + ${board.sb_num};
+		                                    }
+		                                });  
+		                            } else {
+		                                alert('이미 거래를 신청한 물품입니다.');
+		                            }
+		                        }
+		                    });
+		                } else {
+		                    if (confirm('포인트가 부족합니다. 추가 결제를 진행하시겠습니까?')) {
+		                        var IMP = window.IMP; 
+		                        IMP.init("imp41345184"); 
+		                        var inputAmount = map.saleBoard.sb_price - map.user.me_point; // 사용자가 입력한 결제할 금액 (임의로 '1111'로 설정)
+		                        var minimumAmount = '1111'; // 최소 결제 금액 (예시로 5000원으로 설정)
+
+		                        if (parseInt(inputAmount) < minimumAmount) {
+		                            // 최소 결제 금액 미만인 경우 최소 금액으로 설정
+		                            inputAmount = minimumAmount.toString();
+		                            alert('최소 결제 금액 이하입니다. 최소 금액(' + minimumAmount + '원)으로 결제합니다.');
+		                        }
+	                            IMP.request_pay({
+	                                pg : 'danal_tpay',
+	                                pay_method : 'card',
+	                                merchant_uid: 'merchant_' + new Date().getTime(), 
+	                                name : map.saleBoard.sb_name,
+	                                amount : inputAmount,
+	                                buyer_email : map.user.me_id,
+	                                buyer_name : map.user.me_name,
+	                                buyer_tel : map.user.me_phone,
+	                            }, function (rsp) { // callback
+	                                //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+	                            	if(rsp.success) {
+	                                    console.log("결제가 성공했습니다.");
+	                                    console.log("결제한 금액:", rsp.paid_amount); // 실제 결제된 금액
+	                                    // me_point에 결제된 금액을 추가하는 요청을 서버로 보냄
+	                                    $.ajax({
+	                                    	async: false,//비동기는 이렇게
+	                                        type: 'POST',
+	                                        url: '/peach/saleboard/addPoints', // 해당 엔드포인트는 서버에서 처리하고 me_point를 업데이트하는 데 사용
+	                                        data: { 
+	                                        	paidAmount: rsp.paid_amount,
+	                                        	me_num: map.user.me_num
+	                                        },
+	                                        success: function (data) {
+	                                            //console.log('서버 응답:', data); // Check the server response in the console
+	                                            alert('포인트가 충전되었습니다.');
+	                                        },
+	                                        error: function () {
+	                                            console.error('포인트 충전에 실패했습니다.');
+	                                            // 실패시 처리
+	                                        }
+	                                    });
+	                            	} else {
+	                            		console.log(rsp);
+	                            	}            	
+	                            });		                        
+		                    } else {
+		                        // 사용자가 '취소'를 선택한 경우
+		                        console.log('추가 결제가 취소되었습니다.');
+		                        // 원하는 작업 수행 (예: 다른 동작 수행 또는 경고창 등)
+		                    }
+		                }
+		            },
+		            error: function(error) {
+		                console.log('데이터를 불러오는 중 오류가 발생했습니다.');
+		                // 오류 발생 시 추가 작업 수행
+		            }
+		        });
+		    });
+		});
+		
+		// 신고 모달
+		const reportPostModal = document.getElementById("reportPostModal");
+		const openReportModalBtn = document.getElementById("openReportModalBtn");
+		const closeReportModalBtn = document.querySelector(".custom-modal .close");
+		
+		openReportModalBtn.addEventListener("click", function () {
+			if('${user.me_id}' == '') {
+				//alert('로그인한 회원만 이용이 가능합니다.');
+				if(confirm('로그인하시겠습니까?')){
+					location.href = '<c:url value="/member/login"/>'
 				}
 			  	reportPostModal.style.display = "block";
 			});

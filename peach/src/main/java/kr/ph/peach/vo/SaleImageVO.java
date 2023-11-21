@@ -27,5 +27,6 @@ public class SaleImageVO {
 		this.si_table = si_table;
 		this.si_key = si_key;
 	}
+
 	
 }

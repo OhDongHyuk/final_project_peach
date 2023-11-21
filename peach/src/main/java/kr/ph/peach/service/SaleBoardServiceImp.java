@@ -32,16 +32,16 @@ public class SaleBoardServiceImp implements SaleBoardService {
 
 	@Autowired
 	SaleBoardDAO saleBoardDao;
-
+	
 	@Autowired
 	ChatDAO chatDao;
 
 	@Override
-	public List<SaleBoardVO> getSaleBoardList(SaleBoardCriteria cri) {
+	public List<SaleBoardVO> getSaleBoardList(SaleBoardCriteria cri, MemberVO user) {
 		if (cri == null) {
 			cri = new SaleBoardCriteria();
 		}
-		return saleBoardDao.selectSaleBoardList(cri);
+		return saleBoardDao.selectSaleBoardList(cri, user);
 	}
 
 	@Override
