@@ -190,12 +190,16 @@
 	<select id="selectTrTqNum" resultType="Int">
 		select tq_num from trading_request where tq_sb_num = #{sb_num}
 	</select>
-	<select id="selectSugarContent" resultType="kr.ph.peach.vo.SugarListVO">
-		SELECT AVG(sl_sugar) AS sl_sugar
+	<select id="selectSugarContent" resultType="Integer">
+		SELECT AVG(sl_sugar)
 			FROM peach.sugar_list
-			JOIN member ON sl_me_num = me_num 
-		    JOIN sale_board ON me_num = sb_me_num
-		    JOIN trading_request ON sb_num = tq_sb_num
-		    WHERE sl_me_num != #{meNum} AND (sb_me_num = #{meNum} OR tq_me_num = #{meNum} OR sb_me_num IS NULL OR tq_me_num IS NULL);
+		    JOIN sale_board ON sl_sb_num = sb_num
+		    WHERE sb_me_num = #{meNum};
+	</select>
+	<update id="updateSugar">
+		update member set me_sugar = #{sugarContent} where me_num = #{meNum}
+	</update>	
+	<select id="selectSellUser" resultType="int">
+		select sb_me_num from sale_board where sb_num = #{sugarList.sl_sb_num}
 	</select>
 </mapper>

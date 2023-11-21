@@ -266,9 +266,25 @@ public class ProfileServiceImp implements ProfileService{
 	}
 
 	@Override
-	public List<SugarListVO> selectSugarContent(int meNum) {
-		List<SugarListVO> sugarContent = profileDao.selectSugarContent(meNum);
+	public Integer selectSugarContent(int meNum) {
+		Integer sugarContent = profileDao.selectSugarContent(meNum);
 		return sugarContent;
+	}
+
+	@Override
+	public void updateSugar(Integer sugarContent, int meNum) {
+		if(sugarContent == null) {
+			return;
+		}
+		
+		profileDao.updateSugar(sugarContent, meNum);
+		
+	}
+
+	@Override
+	public int selectSellUser(SugarListVO sugarList) {
+		int sellUser = profileDao.selectSellUser(sugarList);
+		return sellUser;
 	}
 
 	

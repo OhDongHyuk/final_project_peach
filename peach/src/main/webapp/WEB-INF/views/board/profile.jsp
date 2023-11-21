@@ -473,7 +473,7 @@
 	 	<div class="profile-outDTbox">
 			 <div class="profile-Detail">
 			 	<div style="display:flex;">
-			 		<div style="margin-right: 15px;">가입일 : ${member.me_date} </div><div style="margin-right: 15px;">당도 : <c:if test="${not empty sugarContent[0].sl_sugar}">${sugarContent[0].sl_sugar}</c:if><c:if test="${empty sugarContent[0].sl_sugar}">0</c:if></div> 
+			 		<div style="margin-right: 15px;">가입일 : ${member.me_date} </div><div style="margin-right: 15px;">당도 : ${member.me_sugar}</div> 
 			 	</div>
 			 	<c:if test="${user.me_num == member.me_num }">
 					<div class="pp-box">

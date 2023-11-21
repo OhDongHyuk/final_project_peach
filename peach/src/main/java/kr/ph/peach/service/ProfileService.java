@@ -75,7 +75,11 @@ public interface ProfileService {
 
 	int selectTrTqNum(int sb_num);
 
-	List<SugarListVO> selectSugarContent(int meNum);
+	Integer selectSugarContent(int meNum);
+
+	void updateSugar(Integer sugarContent, int meNum);
+
+	int selectSellUser(SugarListVO sugarList);
 
 	
 }

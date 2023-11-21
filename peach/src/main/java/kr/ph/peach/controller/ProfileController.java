@@ -123,8 +123,6 @@ public class ProfileController {
     		}
     		model.addAttribute("proceeding", proceeding);
     		
-    		List<SugarListVO> sugarContent = profileService.selectSugarContent(meNum);
-    		model.addAttribute("sugarContent", sugarContent);
     		
 	        return "/board/profile"; 
 	    }
@@ -323,7 +321,7 @@ public class ProfileController {
 	 public Map<String, Object> report(@RequestBody SugarListVO sugarList, Model model, HttpSession session) {
 	     Map<String, Object> result = new HashMap<>();
 	     MemberVO user = (MemberVO) session.getAttribute("user");
-
+	     System.out.println("sugarList"+sugarList);
 	     if (sugarList == null || user == null) {
 	         result.put("success", false);
 	         result.put("msg", "로그인이 필요합니다.");
@@ -340,6 +338,14 @@ public class ProfileController {
 	     if (profileService.insertSugar(sugarList, user)) {
 	         result.put("success", true);
 	         result.put("msg", "평가가 성공적으로 등록되었습니다.");
+	         
+		     int sellUser = profileService.selectSellUser(sugarList);
+		     System.out.println("sellUser"+sellUser);
+		     
+		     Integer sugarContent = profileService.selectSugarContent(sellUser);
+		     System.out.println("sugarContent"+sugarContent);
+	 		 profileService.updateSugar(sugarContent, sellUser);
+	         
 	         return result;
 	     }
 
