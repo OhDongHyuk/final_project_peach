@@ -22,18 +22,29 @@
 	            <c:otherwise>
 					<%-- forEach를 통해 판매상품 리스트를 컨트롤러에서 가져와서 출력 --%>
 					<c:forEach items="${prList}" var="pr">
-						<div class="item">
-							<%-- a태그를 통해 해당 상품 번호의 상세정보로 경로 전달 --%>
-							<a href="<c:url value='/saleboard/detail?sb_num=${pr.sb_num}' />" class="item-holder">
-								<div class="image-holder">
-									<c:choose>
-										<c:when test="${pr.saleImageVOList.size() != 0 }">
-											<img class="item" width="100%" height="194" src="<c:url value='/resources/image/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_name :\"\" }'/>">
-										</c:when>
-										<c:otherwise>
-											<img class="item" width="100%" height="194" src="<c:url value='/resources/image/NoMainImage.png'/>">
-										</c:otherwise>
-									</c:choose>
+					<div class="item-main-holder">
+					<%-- a태그를 통해 해당 상품 번호의 상세정보로 경로 전달 --%>
+					<a href="<c:url value='/saleboard/detail?sb_num=${pr.sb_num}' />" class="item-holder">
+						<div class="image-holder">
+							<c:choose>
+								<c:when test="${pr.saleImageVOList.size() != 0 }">
+									<img class="item" src="<c:url value='/resources/image/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_thb_name :\"\" }'/>">
+								</c:when>
+								<c:otherwise>
+									<img class="item" src="<c:url value='/resources/image/NoMainImage.png'/>">
+								</c:otherwise>
+							</c:choose>
+						</div>
+						<div class="text-holder">
+							<div class="title">
+								${pr.sb_name}
+							</div>	
+							<div class="wish-name">
+								<div class="price-holder">
+									${pr.get_sb_price()}
+								</div>			
+								<div class="wish">
+									<img src="<c:url value="/resources/image/wish-small.png"/>"> <span style="font-size:14px;">${pr.sb_wish}</span>
 								</div>
 								<div class="text-holder">
 									<div class="wish-name">
@@ -129,10 +140,9 @@
 			margin-left: 12px;
 		}
 		.containerboard {
-			width: 100%;
-			height: 800px;
 			display: flex;
 			flex-wrap: wrap;
+			justify-content: flex-start; /* 왼쪽 정렬 */
 			align-items: stretch;
 		}
 		.item-main-holder{

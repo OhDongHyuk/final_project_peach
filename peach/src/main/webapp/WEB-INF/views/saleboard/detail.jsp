@@ -6,6 +6,15 @@
 <head>
 	<title>스프링</title>
 	<style>
+		a {
+			text-decoration: none;
+			color: #000;
+		}
+		a:hover {
+			text-decoration: none;
+			cursor: pointer;
+			color: #000;
+		}
 		.modal {
 		  display: none;
 		  position: fixed;
@@ -467,17 +476,28 @@
 		      <button class="image-slide-left"></button>
 		      <button class="image-slide-right"></button>
 		 	</div>
+		 	<div id="imageModal" class="image-modal">
+		        <span class="close" id="closeImageModal">&times;</span>
+		        <div class="image-modal-content">
+		            <img id="modalImage" src="" alt="Original Image">
+		            <!-- Add navigation buttons for scrolling through images -->
+		        </div>
+		            <button class="image-slide-left" id="prevImage"></button>
+		            <button class="image-slide-right" id="nextImage"></button>
+		    </div>
 		</div>
 		<div class="profile-box">
 			<div class="profile-left">
 				<div class="prifle-pic">
 					<img src="<c:url value='/resources/image/NoMainImage.png'/>">
 				</div>
+				<a href="<c:url value='/board/profile/${board.sb_me_num}'/>">
 				<div class="profile-name-sweetness">
 					<div class="profile-name">${board.sb_me_nickname}</div>
 					<span class="profile-sweetness-text">당도</span>
 					<span class="profile-sweetness">${board.sb_me_sugar}</span>				
 				</div>
+				</a>
 			</div>
 			<c:if test="${user.me_num != board.sb_me_num }">
 			<div class="profile-right">
@@ -840,6 +860,58 @@
 			}
 		  	reportPostModal.style.display = "block";
 		});
+		
+		closeReportModalBtn.addEventListener("click", function () {
+		  reportPostModal.style.display = "none";
+		});		
+
+		window.addEventListener("click", function (event) {
+		  if (event.target === reportPostModal) {
+		    reportPostModal.style.display = "none";
+		  }
+		});
+		
+		function reportPost() {
+			
+			if('${user.me_num}' == '${board.sb_me_num}'){
+				alert("본인의 게시물은 신고가 불가합니다.");
+				return;
+			}
+			
+			const reportReason = document.getElementById("reportReason").value;
+
+		  	if (reportReason.trim() === "") {
+		   		alert("신고 이유를 입력하세요.");
+		   		return;
+			}
+		  	
+			let data = {
+					rp_key : '${board.sb_num}',
+					rp_info : reportReason,
+					rp_table : 'sale_board'
+			};
+			ajaxJsonToJson(
+					  false,
+					  'post',
+					  'report',
+					  data,
+					  (data) => {
+					    alert("게시물을 신고했습니다.\n신고 사유: " + reportReason);
+					    console.log(data.msg);
+					    document.getElementById("reportReason").value = '';
+					    closeReportModal(); // Close the modal after reporting
+					  },
+					    () => {
+					    	
+					    	console.log("실패");
+					    }
+					);
+			}
+			
+		// Function to close the modal
+		function closeReportModal() {
+		  reportPostModal.style.display = "none";
+		}
 		
 		closeReportModalBtn.addEventListener("click", function () {
 		  reportPostModal.style.display = "none";
