@@ -39,6 +39,7 @@
 		<result property="tq_sb_num" column="tq_sb_num"/>
 		<result property="tq_me_num" column="tq_me_num"/>
 		<result property="tq_as_num" column="tq_as_num"/>
+		<result property="tq_trade_type" column="tq_trade_type"/>
 		<collection property="saleBoardVO" resultMap="SaleBoardVO" column="tq_sb_num"/>
 		<collection property="memberVO" resultMap="MemberVO" column="tq_me_num"/>
 		<collection property="saleCategoryVO" ofType="kr.ph.peach.vo.SaleCategoryVO" column="sb_sc_num" select="saleCategoryProduction"/>
