@@ -712,12 +712,7 @@
 						</div>
 						
 					
-				</div>	
-				<c:if test="${user.me_num == member.me_num }">
-					<div class="profile-product-detail-btn">
-						<button class="myBtn postdelete" onclick="deletePD(${meNumSel.sb_num})">삭제</button>
-					</div>
-				</c:if>
+				</div>
 				</div>		
 				</c:forEach>
 				</c:if>

@@ -10,7 +10,6 @@ import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
-import kr.ph.peach.vo.SaleImageVO;
 import kr.ph.peach.vo.SugarListVO;
 
 public interface ProfileDAO {
@@ -90,5 +89,5 @@ public interface ProfileDAO {
 	void updateSugar(@Param("sugarContent")Integer sugarContent,@Param("meNum") int meNum);
 
 	int selectSellUser(@Param("sugarList")SugarListVO sugarList);
-	
+
 }

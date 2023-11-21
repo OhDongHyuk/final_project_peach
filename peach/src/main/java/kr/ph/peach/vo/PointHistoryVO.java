@@ -14,7 +14,7 @@ public class PointHistoryVO {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date ph_date;
 	private String formattedPhDate;
-	
+
 	public void setFormattedPhDate(String formattedDate) {
 		this.formattedPhDate = formattedDate;
 	}

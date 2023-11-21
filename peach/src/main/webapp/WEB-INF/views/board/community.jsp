@@ -148,7 +148,7 @@
 					</div>
 					<div class="item-others-box">
 						<div class="item-others">
-							${list.me_nick } · 2일전 · 조회 ${list.co_views}						
+							${list.me_nick } · ${list.get_date() } · 조회 ${list.co_views}						
 						</div>
 						<div class="item-like-comment">
 							추천 ${list.co_like} · 댓글 ${list.co_reply}

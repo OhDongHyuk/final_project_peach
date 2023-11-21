@@ -10,7 +10,6 @@ import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
-import kr.ph.peach.vo.SaleImageVO;
 import kr.ph.peach.vo.SugarListVO;
 
 public interface ProfileService {
@@ -18,13 +17,13 @@ public interface ProfileService {
 	List<SaleBoardVO> getProductsById(int me_num, int state);
 
 	List<SaleCategoryVO> getProductsByCTNum(int sb_sc_num);
-	
+
 	void dateUp(Integer sb_num);
 
 	boolean deletePD(Integer sb_num);
 
 	List<CityVO> getLargeCity();
-	
+
 	List<CityVO> getMediumCity(String large);
 
 	List<CityVO> getSmall(String medium);
@@ -81,5 +80,5 @@ public interface ProfileService {
 
 	int selectSellUser(SugarListVO sugarList);
 
-	
+
 }

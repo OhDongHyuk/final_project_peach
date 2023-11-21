@@ -28,13 +28,13 @@ import kr.ph.peach.vo.MemberVO;
 @Controller
 @RequestMapping("/member")
 public class MemberController {
-	
+
 	@Autowired
 	private MemberService memberService;
-	
+
 	@Autowired
 	private ProfileService profileService;
-	
+
 	@Autowired
 	private AuthService authService;
 
@@ -48,11 +48,11 @@ public class MemberController {
 		model.addAttribute("bankList", bankList);
 		return "/member/signup";
 	}
-	
+
 	@PostMapping("/signup")
 	public String signupPost(MemberVO member,Model model) {
 		System.out.println(member);
-		
+
 		MemberVO dbMemberByPhone = memberService.selectMemberByPhoneNum(member.getMe_phone());
         if (dbMemberByPhone != null) {
             model.addAttribute("msg", "핸드폰 번호가 이미 존재합니다.");
@@ -60,14 +60,14 @@ public class MemberController {
             return "main/message";
         }
 
-       
+
         MemberVO dbMemberByAcc = memberService.selectMemberByAcc(member.getMe_acc());
         if (dbMemberByAcc != null) {
             model.addAttribute("msg", "계좌 번호가 이미 존재합니다.");
             model.addAttribute("url", "/member/signup");
             return "main/message";
         }
-		
+
 		//서비스에게 회원가입 시켜야 함 => 회원정보를 주면서 => 가입여부를 알려달라고 함
 		boolean res = memberService.signup(member);
 		if(res) {
@@ -83,30 +83,30 @@ public class MemberController {
 
 	@GetMapping("/login")
 	public String login() {
-		
+
 		return "/member/login";
 	}
 	@PostMapping("/login")
 	public String loginPost(MemberVO member, Model model) {
-		
+
 		Message msg = new Message("/member/login", "로그인에 실패했습니다.");
 		//DB에서 로그인 정보를 이용하여 가져온 회원정보. 자동로그인 여부가 없음
 		MemberVO user = memberService.login(member);
 		if(user != null) {
 			msg = new Message("", "로그인에 성공했습니다.");
-			//화면에서 선택/미선택한 자동로그인 여부를 user에 저장해서 인터셉터에게 전달 
+			//화면에서 선택/미선택한 자동로그인 여부를 user에 저장해서 인터셉터에게 전달
 			user.setAutoLogin(member.isAutoLogin());
 		}
 		model.addAttribute("user", user);
 		model.addAttribute("msg", msg);
 		return "message";
-		
+
 	}
-	
+
 	@GetMapping("/logout")
 	public String logout(HttpServletRequest request, Model model){
-		
-		
+
+
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		user.setMe_session_limit(null);
@@ -119,80 +119,80 @@ public class MemberController {
 		model.addAttribute("msg", msg);
 		return "message";
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/id/check")
 	public boolean idCheck(@RequestParam("id") String id){
 		boolean res= memberService.checkId(id);
 		return res;
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/phone")
 	public boolean phone(@RequestParam("phone") String phone){
 		MemberVO dbMemberByPhone = memberService.selectMemberByPhoneNum(phone);
         return dbMemberByPhone == null;
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/acc")
 	public boolean acc(@RequestParam("acc") String acc){
 		MemberVO dbMemberByAcc = memberService.selectMemberByAcc(acc);
         return dbMemberByAcc == null;
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/nick/check")
 	public boolean nickCheck(@RequestParam("nick") String nick){
 		boolean res= memberService.checkNick(nick);
 		return res;
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/medium")
 	public List<CityVO> medium(@RequestParam("large") String large){
-		
+
 		List<CityVO> res= memberService.getMediumCity(large);
-		
+
 		return res;
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/small")
 	public List<CityVO> small(@RequestParam("medium") String medium){
-		
+
 		List<CityVO> res= memberService.getSmall(medium);
-		
+
 		return res;
 	}
-	
+
 	//----------------------아이디 찾기---------------------------------
 	@GetMapping("/find_id")
 	public String find_id(HttpServletRequest request, Model model,
 	        MemberVO member) {
-	    
-	    
+
+
 	    return "/member/find_id";
 	}
-	
+
 	@RequestMapping(value = "/find_result_id")
 	public String find_result_id(HttpServletRequest request, Model model,  MemberVO member) {
-	 
-	 
+
+
 	try {
-	    
+
 	    MemberVO memberFind = memberService.memberIdFind(member);
-	    
+
 	    model.addAttribute("member", memberFind);
-	 
+
 	} catch (Exception e) {
 	    System.out.println(e.toString());
 	    model.addAttribute("msg", "오류가 발생되었습니다.");
 	}
-	 
+
 	return "/member/find_result_id";
 	}
-	
+
 	//---------------------------비번 찾기--------------------------------
 	@RequestMapping(value = "/pw_auth.me")
 	public String pw_auth(Model model,String me_id, String me_name) throws IOException {
@@ -210,13 +210,13 @@ public class MemberController {
 		}
 		model.addAttribute("msg", msg);
 		return "message";
-		
-		
+
+
 	}
 	@GetMapping("/pw_find")
 	public String pw_find() {
-	    
-	    
+
+
 	    return "/member/pw_find";
 	}
 	//---
@@ -229,10 +229,10 @@ public class MemberController {
 		}
         Message msg = new Message("/member/pw_find", "잘못된 링크이거나 인증 시간이 지났습니다.");
         model.addAttribute("msg", msg);
-        
+
 		return "message";
 	}
-	
+
 	//----------------------------------------------------------------------------
 	@RequestMapping(value = "/pwUpdate", method = RequestMethod.POST)
 	public String pwUpdate(String code, Model model,String me_pw, RedirectAttributes redirectAttributes) {
@@ -250,6 +250,6 @@ public class MemberController {
 	    	return "redirect:/member/pw_find"; // 변경 실패 메시지를 보여주는 페이지로 리다이렉트
 	    }
 	}
-	
-	
+
+
 }

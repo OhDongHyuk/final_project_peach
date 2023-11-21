@@ -11,12 +11,12 @@ public class TradeMessageServiceImp implements TradeMessageService {
 
 	@Autowired
 	TradeMessageDAO tradeMessageDao;
-	
+
 	@Override
 	public void rejectMessageToCustomer(TradingRequestVO trv) {
 		tradeMessageDao.rejectMessageToCustomer(trv);
 	}
 
 
-	
+
 }

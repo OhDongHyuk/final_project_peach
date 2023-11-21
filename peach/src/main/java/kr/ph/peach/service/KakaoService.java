@@ -3,7 +3,6 @@ package kr.ph.peach.service;
 import java.util.Map;
 
 import kr.ph.peach.vo.KakaoVO;
-import kr.ph.peach.vo.MemberVO;
 
 public interface KakaoService {
 

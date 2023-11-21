@@ -8,5 +8,5 @@ public interface TradeMessageDAO {
 
 	void rejectMessageToCustomer(@Param("trv")TradingRequestVO trv);
 
-	
+
 }

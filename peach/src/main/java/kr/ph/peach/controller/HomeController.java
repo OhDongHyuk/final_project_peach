@@ -41,10 +41,10 @@ public class HomeController {
 
 	@Autowired
 	MemberService memberSerivce;
-	
+
 	@Autowired
 	TradingRequestService tradingRequestService;
-	
+
 	@Autowired
 	TradeMessageService tradeMessageService;
 
@@ -78,7 +78,7 @@ public class HomeController {
 		// 현재 페이지에 맞는 게시글을 가져와야함
 		List<SaleBoardVO> list = saleBoardService.getMainSaleBoardList(cri);
 		int totalCount = saleBoardService.getTotalCount(cri);
-	
+
 		if (user != null) {
 			List<WishVO> wishList = memberSerivce.getWishList(user.getMe_num());
 			System.out.println(wishList);
@@ -95,29 +95,29 @@ public class HomeController {
 
 		return "/main/home";
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/common/header")
 	public Map<String,Object> updatePost(Model model, HttpSession session) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		List<TradingRequestVO> trList = tradingRequestService.getTradingRequestList(user);
 		map.put("trList", trList);
 		System.out.println(trList);
 		return map;
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/common/reject")
 	public Map<String,Object> rejectPost(@RequestParam("tq_num") int tq_num, Model model, HttpSession session) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		TradingRequestVO trv = tradingRequestService.getTradingRequestThat(tq_num);
 		tradeMessageService.rejectMessageToCustomer(trv);
 		tradingRequestService.addPointToCustomer(tq_num);
 		memberSerivce.deleteReducePointHistory(tq_num);
 		boolean rejection = tradingRequestService.deleteTradingRequest(tq_num, model, session);
 		if (rejection) {
-	        // 삭제 작업이 성공한 경우의 로직			
+	        // 삭제 작업이 성공한 경우의 로직
 	        map.put("status", "success");
 	        map.put("message", "거래 요청이 삭제되었습니다.");
 	    } else {
@@ -128,12 +128,12 @@ public class HomeController {
 	    }
 		return map;
 	}
-	
-	
+
+
 	@ResponseBody
 	@PostMapping("/common/accept")
 	public Map<String,Object> accdeptPost(@RequestParam("tq_num") int tq_num) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		tradingRequestService.changeTradingState(tq_num);
 		tradingRequestService.makingTrading(tq_num);
 		System.out.println(map);

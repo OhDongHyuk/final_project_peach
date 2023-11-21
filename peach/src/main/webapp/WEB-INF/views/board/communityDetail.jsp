@@ -22,10 +22,10 @@
         	cursor: pointer;
         }
 
-        .CDdiv {
-            margin-bottom: 10px;
-        }
-
+		.nick-and-date {
+			display: flex;
+			margin-bottom: 15px;
+		}
         .co_de_title {
             font-size: 24px;
             font-weight: bold;
@@ -43,26 +43,35 @@
         }
 
         .co_de_comment {
-            border: 1px solid black;
-            height: 60px;
             display: flex;
+			margin-top: 10px;
         }
 
         .CDbtn {
             width: 80px;
             height: 40px;
+            border: none;
+            background: #f76076;
+            color: #fff;
             /* 필요한 스타일 추가 */
         }
         .reply_writer{
-        	border-right: 1px solid black;
         	width: 100px;
-        	display: flex;
-			justify-content: center;
-			align-items: center;
+        	overflow: hidden;
+        	text-overflow: ellipsis;
+        	white-space: nowrap;
+        	
         }
         .edit-delete-btns{
       	    padding: 5px 10px;
       	    font-size: 14px;
+        }
+        .reply-delete {
+        	color: #f76076;
+        	border: none;
+        	background: none;
+        	margin-left: auto;
+        	margin-right: 15px;
         }
         .report-button1{
         	height: 30px;
@@ -72,7 +81,6 @@
         	height: 30px;
         	width: 50px;
         	margin-left: auto;
-        	margin-top:10px;
         }
         	.custom-modal {
 		  display: none;
@@ -85,6 +93,21 @@
 		  overflow: auto;
 		  background-color: rgba(0, 0, 0, 0.4);
 		}
+		
+		.reply-input {
+			border: none;
+			width: 700px;
+			padding: 0px 15px;
+			background: inherit;
+		}
+		
+		.reply-input-area {
+			display: flex;
+			border: 1px solid #ccc;
+			border-radius: 15px;
+			overflow: hidden;
+		}
+		
 		
 		.modify-delete {
 			display: flex;
@@ -260,7 +283,43 @@
 			width: 300px;
 			height: 300px;
 		}
-		
+		.title-area {
+			position:relative;
+			display: flex;
+		}
+		.title-menu {
+			border: none;
+			width: 36px;
+			height: 36px;
+			background-size: 36px;
+			background-color: inherit;
+			margin-left: auto;
+			background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAE4AAABOCAYAAACOqiAdAAAACXBIWXMAAAsTAAALEwEAmpwYAAABs0lEQVR4nO3bz04TURiG8ad6BwKyEdwLLpQQwgplQ2LUSyBgvAwJknAbCAkpYYl3IuyMuFO8AyHhnzlwGsbmzHSmm5nS55d8SZOeLz150+mcmZ4BSZIkSZIk6V6YB3aAo1jbwFzdk2q6TeA6UVfARt2Ta6qPOaFla7XuSTbNQ+BPieB+x7GKZkqE1qkXnSbBUoXgwlhF0xWCe9ZpErSAHyVC+x7HKuNdXHbkhXYJvMk26M4H4DQR2l9gJTNOCRPAGnAQ6xPwJDVQkiRJjTMKvIoVXquHx8A+cJG5agiv94CxXs3Dahz4WXCtemx4afsl7o60c3qH1mjX4ZlX58BI3ZNtksUKNzLDCUPR6wrBLXSaRKVD9ZGB/W+vRHC7XT3idp12XBBa+E/CxXBBeO2uw/Y8ftMMrYSReBII5W+aJEnSYHgKfAa+xloHJuue1CDsAz5LXG6dxg05SnjfY5tXeO9tqnGYtdxY2J/nFW5kTvX5GffSkpun+/OyQnBu188ID32clAjtF/Ag2yhulhu9gls2qLSNnCXJVVwIq0B4xPILcAh8A7aA2aIGSZIkSZIkicHwD8lpBngbmb5qAAAAAElFTkSuQmCC");
+		}
+		.menu-box {
+			flex-direction: column;
+			text-align: center;
+			justify-content: space-around;
+			width: 40px;
+			height: 60px;
+			position: absolute;
+			display:none;
+			border: 1px solid #ccc;
+			right: 0px;
+			top: 35px;
+		}
+		.menu-btn {
+			border: none;
+			background: none;
+		}
+		.item-category{
+		background: #f76076;
+		padding: 1px 5px;
+		border-radius: 5px;
+		width: max-content;
+		color: #fff;
+		font-size: 13px;
+	}
     </style>
     <title>커뮤니티 세부 정보</title>
 </head>
@@ -270,12 +329,33 @@
 		<div class="user-box">	
 			<div class="profile-pic">
 			</div>
-			<div class="nick-and-date">
-			    <div class="co_de_info CDdiv"><a href="<c:url value='/board//profile/+${writer.me_num}'/>">${writer.me_nick}</a></div>
-			    <div class="post-date"></div>	
-			</div>
+			
 		</div>
-	    <div class="co_de_title CDdiv">${detail.co_title}</div>
+		<div class="item-category">
+					${detail.cc_name}
+		</div>
+		<div class="title-area">
+		    <div class="co_de_title CDdiv">${detail.co_title}</div>
+		    <c:if test="${user != null && user.me_num == writer.me_num}">
+			    <button class="title-menu" onclick="menu_popup()" type="button"></button>
+			    <div id="menu_box" class="menu-box">
+			    	<form action="<c:url value='/board/communityEdit/${detail.co_num}'/>" method="get">
+		        		<button class="menu-btn" type="submit">수정</button>
+		   			 </form>
+		   			 <button class="menu-btn" onclick="deleteCom(${detail.co_num})">삭제</button>	 
+			    </div>
+		    </c:if>
+		    <c:if test="${user != null && user.me_num != writer.me_num}">
+			    <button class="title-menu" onclick="menu_popup()" type="button"></button>
+			    <div id="menu_box" class="menu-box">
+			    	<button type="button" class="menu-btn" id="openReportModalBtn">신고</button>
+		  			<button class="menu-btn" onclick="likeCommunity()">추천</button>
+			    </div>
+		    </c:if>
+		</div>
+		<div class="nick-and-date">
+			    <div class="co_de_info CDdiv"><a href="<c:url value='/board//profile/+${writer.me_num}'/>">${writer.me_nick}</a> · ${detail.get_date() }</div>
+			</div>
 	    <div class="co_de_write">
 	 	  	<!-- 글 내용 -->
 	 	   <c:if test="${coImage != null}">
@@ -284,32 +364,11 @@
 	 	   <c:if test="${empty detail.co_info}">
       		  <p>내용이 없습니다.</p>
    		   </c:if>
-	   	 		<div class="co_de_content CDdiv">${detail.co_info}</div>
+	   	 	<div class="co_de_content CDdiv">${detail.co_info}</div>
 		</div>
-	
-	    <c:if test="${user.me_num == writer.me_num}">
-	    	<div class="modify-delete">
-		    	<form action="<c:url value='/board/communityEdit/${detail.co_num}'/>" method="get">
-	        		<button class="edit-delete-btns btn btn-primary" type="submit">수정</button>
-	   			 </form>
-	   			 <button class="edit-delete-btns btn btn-danger" onclick="deleteCom(${detail.co_num})">삭제</button>	    	
-	    	</div>
-	    </c:if>
-	    <c:if test="${user != null}">
-	    <c:if test="${user.me_num != writer.me_num}">
-			<div class="profile-right">
-				<div class="profile-right-box">
-					<button type="button" class="report-post" id="openReportModalBtn">게시물 신고하기</button>
-				</div>
-			</div>
-		</c:if>
-		</c:if>
-		<c:if test="${user.me_num != writer.me_num}">
-		<c:if test="${user.me_num != null}">
-			<button class="co_like" onclick="likeCommunity()">추천</button>
-		</c:if>
-		</c:if>
-		<br>
+		<div class="recommend-reply">
+			추천 ${detail.co_like } · 댓글 ${detail.co_reply }
+		</div>
 		<br>
 		<c:if test="${not empty reList}">
 		    <div class="co_de_comments">
@@ -319,33 +378,21 @@
 		            		<a href="<c:url value='/board//profile/+${reList.re_me_num}'/>">${reList.replyWriter}</a>
 		            	</div>
 		                	${reList.re_info}
-						<div class="report-button2">
-							<c:if test="${reList.replyWriter != user.me_nick}">
-								<div class="profile-right">
-									<!-- 댓글 신고 기능 삭제(파이널 이후 수정?)
-									<div class="profile-right-box">
-										<c:if test= "${user != null}">
-										<button type="button" class="report-post" id="openReportModalBtn2" data-num="${reList.re_num}">신고</button>
-										</c:if>
-									</div>
-									  -->
-								</div>
-							</c:if>
+							
 							<c:if test="${reList.replyWriter == user.me_nick}">
-							    <button type="button" onclick="delete_reply(${reList.re_num})">삭제</button>
+							    <button type="button" class="reply-delete" onclick="delete_reply(${reList.re_num})">X</button>
 							</c:if>
-						</div>
 		            </div>
 		        </c:forEach>
 		    </div>
 		</c:if>
 		<br>
 		<form action="<c:url value='/board/communityDetail'/>" method="post" enctype="multipart/form-data">
-		    <div class="form-group">
-				<textarea id="summernote" name="re_info" class="form-control" rows="4"></textarea>
+		    <div class="form-group reply-input-area">
+				<input id="summernote" class="reply-input" name="re_info" class="form-control" rows="4"></input>
+				<input type="hidden" name="co_num" value="${detail.co_num}">
+				<button class="CDbtn">댓글 등록</button>
 			</div>
-			<input type="hidden" name="co_num" value="${detail.co_num}">
-			<button class="CDbtn">등록</button>
 		</form>
 	</div>
 	
@@ -584,7 +631,23 @@
 		            }
 		        });
 		    }
-		}         
+		}    
+		
+		const menu_box = document.querySelector('#menu_box');
+		function menu_popup(){
+			setTimeout(function() {
+				console.log('Works!');
+				menu_box.style.display = 'flex';
+			}, 100);
+		}
+		
+		
+		
+		window.addEventListener("click", function(event) {
+			if (event.target != menu_box && menu_box.style.display == "flex") {
+				    menu_box.style.display = "none";
+			}
+		});
 
     </script>
 </body>

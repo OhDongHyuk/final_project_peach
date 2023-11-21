@@ -18,7 +18,7 @@ public interface MemberDAO {
 	MemberVO selectMember(@Param("id")String id);
 
 	void updateMemberSession(@Param("user")MemberVO user);
-	
+
 	MemberVO selectMemberBySessionId(@Param("session_id")String sId);
 
 	List<CityVO> selectLargeCity();
@@ -26,7 +26,7 @@ public interface MemberDAO {
 	List<CityVO> selectMediumCity(@Param("large")String large);
 
 	List<CityVO> selectSmallCity(@Param("medium")String medium);
-	
+
 	List<BankVO> selectBank();
 
 	//---------------------아이디 찾기 -------
@@ -37,9 +37,9 @@ public interface MemberDAO {
 	MemberVO getMemberById(@Param("me_num")int me_num);
 
 	MemberVO selectMemberByNickName(@Param("nick")String me_nick);
-	
+
 	MemberVO selectMemberByPhoneNum(@Param("phone")String me_phone);
-	
+
 	MemberVO selectMemberByAcc(@Param("acc")String me_acc);
 
 	MemberVO getMemberByNumber(@Param("meNum")int meNum);
@@ -49,7 +49,7 @@ public interface MemberDAO {
 	MemberVO memberIdFind(MemberVO member);
 
 	MemberVO selectMemberBySession(@Param("session_id")String session_id);
-	
+
 	List<WishVO> getsaleBoardWishList(@Param("me_num")int me_num);
 
 	List<MemberVO> getMemberList(@Param("cri")MemberCriteria cri);
@@ -85,5 +85,5 @@ public interface MemberDAO {
 	void reducePointHistory(@Param("me_num")int me_num, @Param("pp_point")int pp_point);
 
 	void deleteReducePointHistory(@Param("tq_num")int tq_num);
-	
+
 }
