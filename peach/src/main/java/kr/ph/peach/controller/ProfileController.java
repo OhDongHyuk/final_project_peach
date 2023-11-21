@@ -180,7 +180,7 @@ public class ProfileController {
         	model.addAttribute("msg", msg);
         	return "message";
         } else {
-        	msg = new Message("/board/profilePass", "비밀번호 불일치");
+        	msg = new Message("/board/profilePass?pi_num="+pi_num, "비밀번호 불일치");
         	model.addAttribute("msg", msg);
     		return "message";
         }
