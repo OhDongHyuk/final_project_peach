@@ -67,6 +67,7 @@ public class HomeController {
 		if(user != null) {
 			CityVO userCity = memberSerivce.selectCity(user.getMe_ci_num());
 			user.setMe_city_name(userCity.getCi_large() + " " + userCity.getCi_medium() + " " + userCity.getCi_small());
+			model.addAttribute("user", user);
 		}
 		cri.setPerPageNum(20);
 		List<SaleBoardVO> prList = saleBoardService.getSaleBoardList(cri, user);

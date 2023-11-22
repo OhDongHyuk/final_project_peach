@@ -34,11 +34,14 @@
 		text-align: center;
 		line-height: 30px;
 		border-radius: 5px;
-		margin-left: 1020px;
+		margin-left: auto;
 		margin-top: 10px;
-		margin-bottom: 20px;
-		background-color: #ff007f; /* 분홍색 계열의 배경색 */
+		margin-bottom: 10px;
+		background-color: #f76076; /* 분홍색 계열의 배경색 */
 		color: white;
+	}
+	.Cbtn:hover{
+		color:#fff;
 	}
 	.CTR{
 		text-align: center;
@@ -102,6 +105,9 @@
 		cursor: pointer;
 		color: #000;
 	}
+	.button-write {
+		text-align:center;
+	}
 </style>
 <title>피치 게시판</title>
 </head>
@@ -162,8 +168,11 @@
 							<h1>등록된 게시물이 없습니다.</h1>
 				</c:if>
 			</div>
+		</div>
+		<div class="button-write">
+			<a href="<c:url value='/board/communityInsert'/>" class="Cbtn">글쓰기</a>
 		</div>			
-	<ul class="pagination justify-content-center comList">
+	<ul class="pagination justify-content-center comList mb-4">
 		<c:if test="${cpm.prev}">
 			<li class="page-item">
 				<a class="page-link" 
@@ -183,7 +192,6 @@
 			</li>
 		</c:if>
 	</ul>
-	<a href="<c:url value='/board/communityInsert'/>" class="Cbtn">글쓰기</a>
 </body>
 <script>
 	<!-- 

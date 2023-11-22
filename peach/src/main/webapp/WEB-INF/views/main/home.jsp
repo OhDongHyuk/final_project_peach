@@ -236,6 +236,16 @@
 		font-size: 12px;
 		color: rgb(136, 136, 136);
 	}
+	.city-text {
+			text-align: center;
+			font-size: 14px;
+			font-weight: 400;
+			color: #888888;
+			padding-bottom: 10px;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+		}
 </style>
 </head>
 <body>
@@ -291,10 +301,7 @@
 							<div class="wish-name">
 								<div class="price-holder">
 									${pr.get_sb_price()}
-								</div>	
-								<div class="title1">
-									${pr.memberVO.cityVO.ci_small}
-								</div>		
+								</div>				
 								<div class="wish">
 									<img src="<c:url value="/resources/image/wish-small.png"/>"> <span style="font-size:14px;">${pr.sb_wish}</span>
 								</div>
@@ -307,6 +314,9 @@
 							<div class="date">
 								${pr.get_date()}
 							</div>
+						</div>
+						<div class="city-text">
+									${pr.memberVO.cityVO.ci_small}
 						</div>
 					</a>
 				</div>			
@@ -321,30 +331,8 @@
 
 	<script src="resources/js/bootstrap.min.js"></script>
 	<script src="resources/js/glightbox.min.js"></script>
-	<script src="resources/js/main.js?version1.3"></script>
+	<script src="resources/js/main.js?version2"></script>
 	<script type="text/javascript">
-		
-		$('.wish').click(function(){
-			let data = {
-				wi_me_num : '${user.me_num}',
-				wi_sb_num : '${board.sb_num}',
-			};
-			ajaxJsonToJson(false, 'post', '/saleboard/wish', data, (data)=>{
-				if(data.isWish == 0){
-					alert('찜을 취소하였습니다.');		
-				}
-				diplayWishBtn(data.isWish);
-				$('.wish-text').text("찜 " + data.board.sb_wish);
-			})
-		})
-		function diplayWishBtn(isWish){
-			
-				$('.wish-type').text("찜취소");
-				$('.wish').removeClass("add");
-				$('.wish').addClass("cancel");
-				$('.wish img').attr("src", "<c:url value='/resources/image/wish-filled.png'/>");
-			
-		}
 		
 		// 슬라이크 전체 크기(width 구하기)
 		const slide = document.querySelector(".slide");
