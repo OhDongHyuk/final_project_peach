@@ -26,5 +26,5 @@ public interface CategoryService {
 	boolean deleteCommunityCategoryType(CommunityCategoryVO communityCategory);
 
 	boolean updateCommunityCategoryType(CommunityCategoryVO communityCategory);
-	
+
 }

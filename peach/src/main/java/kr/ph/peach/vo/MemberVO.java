@@ -17,13 +17,13 @@ public class MemberVO {
 	private String me_social;
 	private String me_session_id;
 	private Date me_session_limit;
-	
+
 	private CityVO cityVO;
 	private StatementVO statementVO;
 	private BankVO bankVO;
-	
+
 	private boolean autoLogin;
-	
+
 	@JsonIgnore
 	public String getme_date_str() {
 		if(me_date == null) {

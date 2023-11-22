@@ -9,5 +9,5 @@ public class LikesVO {
 
 	private int lk_num, lk_co_num, lk_me_num;
 
-	
+
 }

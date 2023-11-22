@@ -3,7 +3,7 @@
 	pageEncoding="utf-8"%>
 <header class="header navbar-area">
 	<!-- 헤더 탑-->
-	<div class="topbar">
+	<div class="topbar navbar-area">
 		<div class="container">
 			<div class="row align-items-center">
 				<div class="col-lg-4 col-md-4 col-12">
@@ -306,8 +306,5 @@
 		overflow: hidden;
 		text-overflow:ellipsis;
 		white-space:nowrap;
-	}
-	.btnR{
-		color: red;
 	}
 </style>

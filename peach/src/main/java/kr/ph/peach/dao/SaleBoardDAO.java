@@ -6,9 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import kr.ph.peach.pagination.SaleBoardCriteria;
 import kr.ph.peach.vo.MemberVO;
-import kr.ph.peach.vo.ReportVO;
 import kr.ph.peach.vo.SaleBoardVO;
-
 import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.SaleImageVO;
 import kr.ph.peach.vo.WishVO;
@@ -19,11 +17,11 @@ public interface SaleBoardDAO {
 	boolean insertBoard(@Param("saleBoard")SaleBoardVO saleBoard);
 
 	List<SaleBoardVO> selectSaleBoardList(@Param("cri")SaleBoardCriteria cri, @Param("user")MemberVO user);
-	
+
 	List<SaleCategoryVO> selectAllCategory();
 
 	List<SaleBoardVO> selectAllBoard();
-	
+
 	List<SaleBoardVO> selectAllBoard2(@Param("cri")SaleBoardCriteria cri);
 
 	String selectMemberNickname(int sb_me_num);
@@ -35,7 +33,7 @@ public interface SaleBoardDAO {
 	int selectMemberSugar(int sb_me_num);
 
 	int getTotalCount(@Param("cri")SaleBoardCriteria cri);
-	
+
 	void updateBoard(@Param("board")SaleBoardVO board);
 
 	void deleteBoard(Integer sb_num);

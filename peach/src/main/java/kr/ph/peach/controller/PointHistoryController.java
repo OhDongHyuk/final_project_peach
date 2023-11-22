@@ -19,23 +19,23 @@ import kr.ph.peach.vo.PointHistoryVO;
 
 @Controller
 public class PointHistoryController {
-	
+
 	@Autowired
 	PointHistoryService pointHistoryService;
-	
+
 	@RequestMapping(value = "/member/pointhistory")
 	public String home(Model model,
 			HttpSession session, PointHistoryCriteria cri) {
-		MemberVO user = (MemberVO)session.getAttribute("user");	
+		MemberVO user = (MemberVO)session.getAttribute("user");
 		List<PointHistoryVO> phList = pointHistoryService.getPointHistoryList(cri, user);
-		//전체 게시글 수 
+		//전체 게시글 수
 		int totalCount = pointHistoryService.getTotalCount(cri, user);
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	    for (PointHistoryVO pointHistory : phList) {
 	        String formattedDate = dateFormat.format(pointHistory.getPh_date());
 	        pointHistory.setFormattedPhDate(formattedDate);
 	    }
-		//페이지네이션에서 최대 페이지 개수 
+		//페이지네이션에서 최대 페이지 개수
 		int displayPageNum = 20;
 		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
 		model.addAttribute("pm", pm);

@@ -24,12 +24,12 @@ public class KakaoServiceImp implements KakaoService {
 
 	@Override
 	public boolean kakaosighup(Map<String, Object> kakaoinfo) {
-		
-		
-		
+
+
+
 		return false;
 	}
-	
+
 
 
 }

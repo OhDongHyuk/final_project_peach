@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.ui.Model;
 
 import kr.ph.peach.vo.MemberVO;
-import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.TradingRequestVO;
 
 public interface TradingRequestDAO {

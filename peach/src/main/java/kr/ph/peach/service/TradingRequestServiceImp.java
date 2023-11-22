@@ -16,7 +16,7 @@ import kr.ph.peach.vo.TradingRequestVO;
 public class TradingRequestServiceImp implements TradingRequestService{
 
 	String uploadPath = "C:\\Users\\user1\\Documents\\workspace-sts-3.9.1\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\peach\\resources\\image";
-	
+
 	@Autowired
 	TradingRequestDAO tradingRequestDao;
 
@@ -41,7 +41,7 @@ public class TradingRequestServiceImp implements TradingRequestService{
 	            // 두 값이 모두 일치하는 데이터가 리스트에 존재하면 false 반환
 	            return false;
 	        }
-	    }	   
+	    }
 	    // 리스트를 모두 확인했지만 해당 데이터가 없는 경우 true 반환
 	    return tradingRequestDao.tradePost(tq_sb_num, tq_me_num);
 	}
@@ -59,7 +59,7 @@ public class TradingRequestServiceImp implements TradingRequestService{
 	@Override
 	public void makingTrading(int tq_num) {
 		tradingRequestDao.makingTrading(tq_num);
-		
+
 	}
 
 	@Override
@@ -70,8 +70,8 @@ public class TradingRequestServiceImp implements TradingRequestService{
 	@Override
 	public void changeTradingCuState(int tq_num) {
 		tradingRequestDao.changeTradingCuState(tq_num);
-		tradingRequestDao.changeTrTqState(tq_num);	
-		/* tradingRequestDao.deleteTradingRequest(tq_num); */	
+		tradingRequestDao.changeTrTqState(tq_num);
+		/* tradingRequestDao.deleteTradingRequest(tq_num); */
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public class TradingRequestServiceImp implements TradingRequestService{
 	            return false;
 	        }
 	    }
-	    
+
 	    // 반복문을 모두 확인했는데 일치하는 값이 없으면 다른 처리를 해야할 수 있음
 	    tradingRequestDao.getTradingRequestPeach(user, sb_num);
 
@@ -103,31 +103,31 @@ public class TradingRequestServiceImp implements TradingRequestService{
 	@Override
 	public void reducePoint(int me_num, int me_point) {
 		tradingRequestDao.reducePoint(me_num, me_point);
-		
+
 	}
 
 	@Override
 	public void addPointToCustomer(int tq_num) {
 		tradingRequestDao.addPointToCustomer(tq_num);
-		
+
 	}
 
 	@Override
 	public void reducePointToCustomer(int tq_num) {
 		tradingRequestDao.reducePointToCustomer(tq_num);
-		
+
 	}
 
 	@Override
 	public void changeTradingSeStateCancel(int tq_num) {
 		tradingRequestDao.changeTradingSeStateCancel(tq_num);
-		
+
 	}
 
 	@Override
 	public void changeTradingCuStateCancel(int tq_num) {
 		tradingRequestDao.changeTradingCuStateCancel(tq_num);
-		
+
 	}
 
 	@Override
@@ -140,5 +140,5 @@ public class TradingRequestServiceImp implements TradingRequestService{
 		return tradingRequestDao.getTradingNowList();
 	}
 
-	
+
 }

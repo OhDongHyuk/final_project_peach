@@ -7,7 +7,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 
 import kr.ph.peach.vo.MemberVO;
-import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.TradingRequestVO;
 
 public interface TradingRequestService {

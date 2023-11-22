@@ -51,10 +51,8 @@
 	</style>
 	<title>Home</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-  	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
   	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/additional-methods.min.js"></script>
   
@@ -103,7 +101,7 @@
 					<option value="0">시/군/구를 선택하세요.</option>
 				</select>
 			</div>
-			<div class="form-group">
+			<div class="form-group mb-4">
 				<label>지역(읍/면/동)</label>
 				<select style="border: 1px solid #f76076;" name="me_ci_num" class="form-control">
 					<option value="">읍/면/동을 선택하세요.</option>

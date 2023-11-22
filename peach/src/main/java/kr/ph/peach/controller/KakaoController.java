@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,22 +54,22 @@ public class KakaoController<JSONElement> {
 	public String loginKakao(Model model, String code, HttpSession session) throws IOException {
 
 		MemberVO kakaouser = (MemberVO) session.getAttribute("kakao");
-		
+
 		String token = null;
 		Map<String, Object> kakaoinfo = null;
 		Long idnumber = 0L;
-		
+
 		if (kakaouser == null) {
-			
+
 			KakaoVO kakao = getKakaoAccessToken(code);
 			session.setAttribute("kakao", kakao);
-			
+
 			String res = getUserForKakao(kakao.getAccess_token());
 
 			token = kakao.getAccess_token();
 
 			kakaoinfo = getKakaologin(res);
-			
+
 			kakaouser = getMember(kakaoinfo);
 			// 유저의 id를저장
 			KakaoMemberVO userid = new KakaoMemberVO();
@@ -84,12 +83,12 @@ public class KakaoController<JSONElement> {
 			String p = (String) ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("phone_number");
 			String R = p.replace("+82 ", "0");
 			kakaouser.setMe_phone(R);
-			String kakaoname = (String) kakaouser.getMe_id();
+			String kakaoname = kakaouser.getMe_id();
 			kakaouser.setMe_nick((String) ((Map<String, Object>) kakaoinfo.get("properties")).get("nickname"));
 			kakaouser.setMe_name((String) ((Map<String, Object>) kakaoinfo.get("kakao_account")).get("name"));
-			
+
 		}
-		
+
 		MemberVO user = memberService.kakaologin(kakaouser.getMe_id());
 		if (user != null) {
 			// 유저정보
@@ -152,9 +151,9 @@ public class KakaoController<JSONElement> {
 
 		try {
 			String apiUrl = "https://kapi.kakao.com/v1/user/unlink";
-			Map<String, String> params = new HashMap<String, String>();
+			Map<String, String> params = new HashMap<>();
 			params.put("target_id_type", "user_id");
-			Map<String, Long> idnum = new HashMap<String, Long>();
+			Map<String, Long> idnum = new HashMap<>();
 			idnum.put("target_id", idnumber);
 			apiUrl = addParams(apiUrl, params);
 
@@ -284,7 +283,7 @@ public class KakaoController<JSONElement> {
 	private KakaoVO getKakaoAccessToken(String code) {
 		try {
 			String apiUrl = "https://kauth.kakao.com/oauth/token";
-			Map<String, String> params = new HashMap<String, String>();
+			Map<String, String> params = new HashMap<>();
 			params.put("client_id", clientId);
 			params.put("redirect_url", "Http://localhost:8080/spring/login/kakao");
 			params.put("grant_type", "authorization_code");

@@ -2,7 +2,6 @@ package kr.ph.peach.dao;
 
 import java.util.List;
 
-
 import org.apache.ibatis.annotations.Param;
 
 import kr.ph.peach.vo.CommunityCategoryVO;
@@ -14,8 +13,8 @@ public interface CategoryDAO {
 	List<SaleCategoryVO> selectSaleCategoryList();
 
 	List<CommunityCategoryVO> selectCommunityCategoryList();
-	
-	
+
+
 	/*
 	 * 물품 카테고리 관련
 	 * */
@@ -29,12 +28,12 @@ public interface CategoryDAO {
 	boolean deleteSaleCategoryType(@Param("sc_num")int sc_num);
 
 	boolean updateSaleCategoryType(@Param("sc")SaleCategoryVO saleCategory);
-	
-	
+
+
 	/*
 	 * 커뮤니티 카테고리 관련
 	 * */
-	
+
 
 	boolean insertCommunityCategoryType(@Param("cc")CommunityCategoryVO communityCategory);
 

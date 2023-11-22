@@ -34,11 +34,14 @@
 		text-align: center;
 		line-height: 30px;
 		border-radius: 5px;
-		margin-left: 1020px;
+		margin-left: auto;
 		margin-top: 10px;
-		margin-bottom: 20px;
-		background-color: #ff007f; /* 분홍색 계열의 배경색 */
+		margin-bottom: 10px;
+		background-color: #f76076; /* 분홍색 계열의 배경색 */
 		color: white;
+	}
+	.Cbtn:hover{
+		color:#fff;
 	}
 	.CTR{
 		text-align: center;
@@ -102,6 +105,15 @@
 		cursor: pointer;
 		color: #000;
 	}
+	.button-write {
+		text-align:center;
+	}
+    .message-container {
+       	width: 100%;
+		margin-bottom: 50px;
+          text-align: center;
+          padding: 20px;
+	}
 </style>
 <title>피치 게시판</title>
 </head>
@@ -115,13 +127,13 @@
 	<br>
 		<form action="<c:url value='/board/community'/>" method="get">
 			<div class="com-group mb-5 d-flex justify-content-center">
-				<select class="cc-control" name="c">
+				<select style="text-align: center;" class="cc-control" name="c">
 					<option value="선택">선택</option>
 					<option value="소모임" <c:if test="${cpm.cri.c == 'small'}">selected</c:if>>소모임</option>
 					<option value="맛집탐방" <c:if test="${cpm.cri.c == 'restaurant'}">selected</c:if>>맛집탐방</option>
 					<option value="무료나눔" <c:if test="${cpm.cri.c == 'share'}">selected</c:if>>무료나눔</option>
 				</select>
-				<select class="cc-control" name="t">
+				<select style="text-align: center;" class="cc-control" name="t">
 					<option value="all" <c:if test="${cpm.cri.t == 'all'}">selected</c:if>>전체</option>
 					<option value="total" <c:if test="${cpm.cri.t == 'total'}">selected</c:if>>제목 + 내용</option>
 					<option value="writer" <c:if test="${cpm.cri.t == 'writer'}">selected</c:if>>작성자</option>
@@ -148,7 +160,7 @@
 					</div>
 					<div class="item-others-box">
 						<div class="item-others">
-							${list.me_nick } · 2일전 · 조회 ${list.co_views}						
+							${list.me_nick } · ${list.get_date() } · 조회 ${list.co_views}						
 						</div>
 						<div class="item-like-comment">
 							추천 ${list.co_like} · 댓글 ${list.co_reply}
@@ -159,11 +171,17 @@
 				</c:forEach>
 				</c:if>
 				<c:if test="${empty list}">
-							<h1>등록된 게시물이 없습니다.</h1>
+					<div class="message-container">
+	            		<img class="no-items-img" width="100px" height="100px" src="<c:url value='/img/RESISTX.gif'/>">
+	                	<p class="no-items-message">등록된 게시글이 없습니다.</p>
+	            	</div>
 				</c:if>
 			</div>
+		</div>
+		<div class="button-write">
+			<a href="<c:url value='/board/communityInsert'/>" class="Cbtn">글쓰기</a>
 		</div>			
-	<ul class="pagination justify-content-center comList">
+	<ul class="pagination justify-content-center comList mb-4">
 		<c:if test="${cpm.prev}">
 			<li class="page-item">
 				<a class="page-link" 
@@ -183,7 +201,6 @@
 			</li>
 		</c:if>
 	</ul>
-	<a href="<c:url value='/board/communityInsert'/>" class="Cbtn">글쓰기</a>
 </body>
 <script>
 	<!-- 
