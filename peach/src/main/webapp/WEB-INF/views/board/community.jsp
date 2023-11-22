@@ -108,6 +108,12 @@
 	.button-write {
 		text-align:center;
 	}
+    .message-container {
+       	width: 100%;
+		margin-bottom: 50px;
+          text-align: center;
+          padding: 20px;
+	}
 </style>
 <title>피치 게시판</title>
 </head>
@@ -165,7 +171,10 @@
 				</c:forEach>
 				</c:if>
 				<c:if test="${empty list}">
-							<h1>등록된 게시물이 없습니다.</h1>
+					<div class="message-container">
+	            		<img class="no-items-img" width="100px" height="100px" src="<c:url value='/img/RESISTX.gif'/>">
+	                	<p class="no-items-message">등록된 게시글이 없습니다.</p>
+	            	</div>
 				</c:if>
 			</div>
 		</div>
