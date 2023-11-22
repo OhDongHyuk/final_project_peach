@@ -11,18 +11,18 @@
 	 	justify-content: center;
 	 	width: 100px;
 	}
-
+	
+	.co_city {
+		text-align: center;
+	}
+	
 	.community-title{
 		text-align: center;
-		color: #ff007f; /* 분홍색 계열의 글자색 */
 	}
 	
 	.community-list{
-		 display: flex;
          width: 800px;
-         border: 1px solid black;
          margin: 0 auto;
-         background-color: #ffe6f7; /* 분홍색 계열의 배경색 */
 	}
 	.form-control{
 		width: 400px;
@@ -63,17 +63,58 @@
 		height: auto;
 
 	}
+	.post-item{
+		width: 800px;
+		border-bottom: 1px solid #ccc;
+		color: grey;
+		margin-bottom: 15px;
+	}
+	.item-category{
+		background: #f76076;
+		padding: 1px 5px;
+		border-radius: 5px;
+		width: max-content;
+		color: #fff;
+		font-size: 13px;
+	}
+	.item-title{
+		color: #000;
+		font-size: 18px;
+	}
+	.item-content{
+		font-size: 16px;
+	}
+	.item-like-comment{
+	}
+	.item-others-box{
+		margin-bottom: 10px;
+		display: flex;
+	}
+	.item-others{
+		margin-right: auto;
+	}
+	a {
+		text-decoration: none;
+		color: #000;
+	}
+	a:hover {
+		text-decoration: none;
+		cursor: pointer;
+		color: #000;
+	}
 </style>
 <title>피치 게시판</title>
 </head>
 <body>
 	<br>
 	<br>
-	<h1 class="community-title">피치 게시판</h1>
+	<h1 class="community-title">우리동네 게시판</h1>
+	<br>
+	<p class="co_city">${list[0].ci_large} ${list[0].ci_medium} ${list[0].ci_small}</p>
 	<br>
 	<br>
 		<form action="<c:url value='/board/community'/>" method="get">
-			<div class="com-group mb-3 d-flex justify-content-center">
+			<div class="com-group mb-5 d-flex justify-content-center">
 				<select class="cc-control" name="c">
 					<option value="선택">선택</option>
 					<option value="소모임" <c:if test="${cpm.cri.c == 'small'}">selected</c:if>>소모임</option>
@@ -92,34 +133,34 @@
 	
 		<div class="community_item">
 			<div class="community-list">
-				<table class="table table-Secondary table-hover">
-					<thead>
-						<tr class="CTR2">
-							<th>${communityALLList}</th>
-							<th>제목</th>
-							<th>작성자</th>
-							<th>날짜</th>
-							<th>추천</th>
-							<th>조회수</th>
-							<th>댓글수</th>
-							<th>카테고리</th>
-						</tr>
-					</thead>
-					<tbody>
-						 <c:forEach items="${list}" var="list">						
-							<tr class="CTR">
-								<td>${list.co_num}</td>
-								<td><a href="<c:url value='/board/communityDetail/${list.co_num}'/>">${list.co_title }</a></td>
-								<td><a href="<c:url value='/board/profile/+${list.co_me_num}'/>">${list.me_nick}</a></td>
-								<td>${list.co_date}</td>
-								<td>${list.co_like}</td>
-								<td>${list.co_views}</td>
-								<td>${list.co_reply}</td>
-								<th>${list.cc_name}</th>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
+			<c:if test="${not empty list}">
+			<c:forEach items="${list}" var="list">	
+				<a href="<c:url value='communityDetail/${list.co_num }'/>">
+				<div class="post-item">
+					<div class="item-category">
+						${list.cc_name}
+					</div>
+					<div class="item-title">
+						${list.co_title }
+					</div>
+					<div class="item-content">
+						${list.co_info }
+					</div>
+					<div class="item-others-box">
+						<div class="item-others">
+							${list.me_nick } · 2일전 · 조회 ${list.co_views}						
+						</div>
+						<div class="item-like-comment">
+							추천 ${list.co_like} · 댓글 ${list.co_reply}
+						</div>
+					</div>
+				</div>
+				</a>
+				</c:forEach>
+				</c:if>
+				<c:if test="${empty list}">
+							<h1>등록된 게시물이 없습니다.</h1>
+				</c:if>
 			</div>
 		</div>			
 	<ul class="pagination justify-content-center comList">

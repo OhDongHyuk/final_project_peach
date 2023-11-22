@@ -4,12 +4,9 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.ph.peach.dao.CommunityDAO">
 	<insert id="insertCommunity" keyProperty="community.co_num" useGeneratedKeys="true">
-    <selectKey keyProperty="community.co_num" resultType="int" order="BEFORE">
-        SELECT IFNULL(MAX(co_num), 0) + 1 AS co_num FROM community
-    </selectKey>
     INSERT INTO community(co_title, co_info, co_me_num, co_cc_num)
     VALUES (#{community.co_title}, #{community.co_info}, #{user.me_num}, #{cc_num})
-</insert>
+	</insert>
     <select id="selectCCategory" resultType="kr.ph.peach.vo.CommunityCategoryVO">
     	SELECT cc_name FROM community_category;
     </select>
@@ -22,9 +19,10 @@
 	</insert>
 	<select id="selectBoardList" resultType="CommunityVO">
 		select * from community
-		INNER JOIN member ON community.co_me_num = member.me_num
+		left JOIN member ON community.co_me_num = member.me_num
 		join community_category on cc_num = co_cc_num
-		where 1 = 1
+		join city on me_ci_num = ci_num
+		where member.me_ci_num = #{user.me_ci_num}
 		<if test='cri.t == "all"'>
 		and 
 			(co_title like concat('%', #{cri.s}, '%')
@@ -141,14 +139,4 @@
 	<delete id="replyDelete">
 		delete From reply where re_num = #{re_num}
 	</delete>
-
-	
-	
 </mapper>
-
-
-
-
-
-
-

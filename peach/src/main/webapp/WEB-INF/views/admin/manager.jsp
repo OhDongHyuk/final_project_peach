@@ -78,8 +78,7 @@
 						<tr>
 							<th>회원 번호</th>
 							<th>ID</th>
-							<th>이름</th>
-							<th>전화번호</th>
+						
 							<th>닉네임</th>
 							<th>포인트</th>
 							<th>권한</th>
@@ -97,8 +96,7 @@
 							<tr>
 								<td>${mbList.me_num}</td>
 								<td>${mbList.me_id}</td>
-								<td>${mbList.me_name}</td>
-								<td>${mbList.me_phone}</td>
+							
 								<td>${mbList.me_nick}</td>
 								<td>${mbList.me_point}</td>
 								<td>${mbList.me_au}</td>
@@ -151,8 +149,6 @@
 										<c:if test="${pm.cri.type == '0' }">selected</c:if>>전체</option>
 									<option value="me_num"
 										<c:if test="${pm.cri.type == 'me_num' }">selected</c:if>>회원번호</option>
-									<option value="me_name"
-										<c:if test="${pm.cri.type == 'me_name' }">selected</c:if>>이름</option>
 									<option value="me_nick"
 										<c:if test="${pm.cri.type == 'me_nick' }">selected</c:if>>닉네임</option>
 									<option value="me_au"

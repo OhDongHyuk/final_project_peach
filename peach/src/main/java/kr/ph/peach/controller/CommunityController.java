@@ -41,13 +41,17 @@ public class CommunityController {
 	public String Community(Model model, HttpSession session, CriteriaCom cri) {
 		MemberVO user = (MemberVO) session.getAttribute("user");
 	    model.addAttribute("user", user);
-	
-	    List<CommunityVO> list = communityService.getBoardList(cri);
-	    /*
-	    for(CommunityVO tmp : list) {
-	    	list.get(list.indexOf(tmp)).setMe_nick(communityService.getMeNick(tmp));
-	    	//list.get(list.indexOf(tmp)).setCc_name(communityService.getCcName(tmp));//수정 후 삭제
-	    }*/
+	    
+	    Message msg;
+	    if(user == null) {
+    		msg = new Message("/member/login", "로그인을 필요로 합니다.");
+          	model.addAttribute("msg", msg);
+      		return "message";
+    	}
+	    
+	    List<CommunityVO> list = communityService.getBoardList(cri,user);
+	    
+	    session.setAttribute("list", list);
 	 
 	    model.addAttribute("list", list);
 	    int totalCount = communityService.getTotalCount(cri);
@@ -113,7 +117,12 @@ public class CommunityController {
 	    	MemberVO user = (MemberVO) session.getAttribute("user");
 	    	model.addAttribute("user",user);
 	    	
-	    	
+	    	Message msg;
+		    if(user == null) {
+	    		msg = new Message("/member/login", "로그인을 필요로 합니다.");
+	          	model.addAttribute("msg", msg);
+	      		return "message";
+	    	}
 	    	
 	    	communityService.updateCoView(co_num);
 	    	
@@ -266,11 +275,11 @@ public class CommunityController {
 	
 	@ResponseBody
 	@PostMapping("/board/replyDelete")
-	public String replyDelete(Integer re_num, Model model) {
-	    System.out.println(re_num);
+	public String replyDelete(@RequestParam("re_num")int re_num, Model model) {
+	    System.out.println("re_num"+re_num);
 	    Message msg;
 	    if (communityService.replyDelete(re_num)) {
-	        msg = new Message("/board/community", "게시글을 삭제했습니다.");
+	        msg = new Message("/board/community", "댓글을 삭제했습니다.");
 	    } else {
 	        msg = new Message("/board/community", "잘못된 접근입니다.");
 	    }
@@ -278,6 +287,3 @@ public class CommunityController {
 	    return "Message";
 	}
 }
-
-
-

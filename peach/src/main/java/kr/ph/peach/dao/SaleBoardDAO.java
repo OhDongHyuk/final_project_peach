@@ -61,7 +61,6 @@ public interface SaleBoardDAO {
 	void deleteFile(@Param("num")Integer num);
 
 	void adminDeleteBoard(@Param("sb_num")Integer sb_num);
-
+	
 	void updateSaleboardTrade(@Param("rp_key")int rp_key);
-
 }

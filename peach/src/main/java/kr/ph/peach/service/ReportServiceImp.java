@@ -18,13 +18,13 @@ public class ReportServiceImp implements ReportService {
 
 	@Autowired
 	ReportDAO reportDao;
-	
+
 	@Autowired
 	TradingRequestDAO tradingRequestDao;
-	
+
 	@Autowired
 	SaleBoardDAO saleBoardDao;
-
+	
 	@Override
 	public boolean insertReport(ReportVO reportVo) {
 		if(reportVo == null) {
@@ -64,12 +64,10 @@ public class ReportServiceImp implements ReportService {
 
 	@Override
 	public boolean deleteTradeReport(ReportVO report) {
-		
+
 		System.out.println(report.getRp_key());
 		saleBoardDao.updateSaleboardTrade(report.getRp_key());
-		
+
 		return tradingRequestDao.deleteTradeReportNum(report.getRp_key());
 	}
-
-	
 }

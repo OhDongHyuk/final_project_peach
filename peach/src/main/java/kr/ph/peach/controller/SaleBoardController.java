@@ -164,7 +164,6 @@ public class SaleBoardController {
 		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
 		if (user != null) {
 			List<WishVO> wishList = memberService.getWishList(user.getMe_num());
-			System.out.println(wishList);
 			model.addAttribute("wishList", wishList);
 		}
 		model.addAttribute("categoryList", categoryList);

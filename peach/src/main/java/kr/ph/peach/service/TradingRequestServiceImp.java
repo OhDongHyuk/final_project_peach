@@ -140,7 +140,5 @@ public class TradingRequestServiceImp implements TradingRequestService{
 		return tradingRequestDao.getTradingNowList();
 	}
 
-
-
 	
 }

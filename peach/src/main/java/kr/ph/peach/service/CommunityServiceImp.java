@@ -62,6 +62,8 @@ public class CommunityServiceImp implements CommunityService{
 				String fi_name = UploadFileUtils.uploadFile(uploadPath, ci_ori_name, file.getBytes());
 				//파일 객체
 				CommunityImageVO CommunityImageVo = new CommunityImageVO(community.getCo_num(), fi_name, ci_ori_name);
+				System.out.println(community);
+				System.out.println(CommunityImageVo);
 				communityDao.insertCommunityImage(CommunityImageVo);
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -86,12 +88,12 @@ public class CommunityServiceImp implements CommunityService{
 	}
 
 	@Override
-	public List<CommunityVO> getBoardList(CriteriaCom cri) {
+	public List<CommunityVO> getBoardList(CriteriaCom cri,MemberVO user) {
 		if(cri == null) {
 			cri = new CriteriaCom();
 		}
-	
-		return communityDao.selectBoardList(cri);
+
+		return communityDao.selectBoardList(cri,user);
 	}
 
 	@Override
@@ -277,8 +279,10 @@ public class CommunityServiceImp implements CommunityService{
 		communityDao.replyDelete(re_num);}
 		return true;
 	}
-
 	
+
+
+
 
 }
 	

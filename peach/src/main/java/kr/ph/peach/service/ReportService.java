@@ -5,7 +5,6 @@ import java.util.List;
 import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.pagination.MemberCriteria;
 import kr.ph.peach.vo.ReportVO;
-import kr.ph.peach.vo.TradingRequestVO;
 
 public interface ReportService {
 
@@ -19,7 +18,5 @@ public interface ReportService {
 	int getTotalCount(Criteria cri);
 
 	boolean deleteTradeReport(ReportVO report);
-
-	
 	
 }

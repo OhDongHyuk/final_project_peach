@@ -8,11 +8,25 @@
 <style>
 	.profile-withdraw{
 		margin: 0 auto;
-		text-align: center;
 		width: 500px;
 	}	
 	.error{
 		color: red;
+	}
+	.button-box {
+		text-align: center;
+	}
+	.withdraw {
+		width: 60px;
+		height: 30px;
+		box-shadow:none; 
+		border-radius:5px; 
+		padding:0; 
+		overflow:visible; 
+		cursor:pointer;
+		background: #f76076;
+		border: 1px solid #f76076;
+		color: #fff;
 	}
 </style>
 <title>게시글 등록</title>
@@ -24,18 +38,23 @@
 		<br>
 		<br>
 			<form action="<c:url value='/board/profilePay'/>" method="post">
-				<input type="text" class="form-control" name="PBank_name" value="${member.me_acc}" disabled>
-				<br>
+				<label>은행명</label>
 				<input type="text" class="form-control" name="PAccount_name" value="${member.me_bk_name}" disabled>
 				<br>
+				<label>계좌번호</label>
+				<input type="text" class="form-control" name="PBank_name" value="${member.me_acc}" disabled>
+				<br>
+				<label>예금주</label>
 				<input type="text" class="form-control" name="PReal_name" value="${member.me_name}" disabled>
 				<p>*본인명과 일치하지 않는 계좌는 출금되지 않습니다.</p>
 				<br>
 				<input type="text" class="form-control" name="me_point" placeholder="출금액" id="PPoint">
-				<p class="error">포인트 이상의 금액은 출금 할 수 없습니다.</p>
+				<p class="error">잔여 포인트 이상의 금액은 출금 할 수 없습니다.</p>
 				<p>*현재 잔액은 <span>${member.me_point}</span>원입니다.</p>
 				<br>
-				<button>출금</button>
+				<div class="button-box">
+					<button class="withdraw">출금</button>
+				</div>
 			</form>
 		<br>
 	</div>
