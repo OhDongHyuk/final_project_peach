@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.ph.peach.pagination.Criteria;
@@ -201,18 +202,14 @@ public class AdminController {
 		return "/admin/report";
 	}
 
-	/* 삭제 메서드 */
 	@GetMapping("/delete")
 	public String reportDelete(Integer sb_num, HttpSession session, Model model, MemberCriteria cri, ReportVO report) {
 		MemberVO user = (MemberVO) session.getAttribute("user");
-
+		System.out.println("sbnum=" + sb_num);
 		saleBoardService.adminDeleteBoard(sb_num, user);
-		System.out.println(sb_num);
-		
 		List<ReportVO> reportlist = reportService.getreportList(cri);
 		System.out.println(reportlist);
 		model.addAttribute("report", reportlist);
-
 		return "/admin/report";
 	}
 
