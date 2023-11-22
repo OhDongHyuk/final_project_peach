@@ -9,22 +9,25 @@
 	.Cinsert{
 		height: 800px;
 		width: 750px;
-		text-align: center;
-		margin-left: 280px;
+		margin: 0 auto;
 		margin-top: 30px
+	}
+	.maintext {
+		font-size: 26px;
+		color: #000;
 	}
 </style>
 <title>게시글 등록</title>
 </head>
 <body>
 	<div class="Cinsert">
-	<h1>게시글 등록</h1>
+	<div class="maintext">게시글 등록</div>
 		<br>
 		<form action="<c:url value='/board/communityInsert'/>" method="post" enctype="multipart/form-data">
 			<div class="form-group">
 				<input class="form-control" placeholder="제목" name="co_title">
-			</div>
 			<p>*제목은 반드시 입력해야 합니다.</p>
+			</div>
 			<select name="CICategory" class="form-control">
 			<option value="0">카테고리 선택</option>
 			<c:forEach var="CCNames" items="${CCNames}" varStatus="status">
@@ -38,7 +41,9 @@
 			</div>
 			<input type="file" class="form-control" name="fileList">
 			<br>
-			<button class="btn btn-danger">게시글 등록</button>
+			<div style="text-align: center;">
+				<button class="btn btn-danger">게시글 등록</button>
+			</div>
 		</form>
 	</div>
 </body>

@@ -121,13 +121,13 @@
 	<br>
 		<form action="<c:url value='/board/community'/>" method="get">
 			<div class="com-group mb-5 d-flex justify-content-center">
-				<select class="cc-control" name="c">
+				<select style="text-align: center;" class="cc-control" name="c">
 					<option value="선택">선택</option>
 					<option value="소모임" <c:if test="${cpm.cri.c == 'small'}">selected</c:if>>소모임</option>
 					<option value="맛집탐방" <c:if test="${cpm.cri.c == 'restaurant'}">selected</c:if>>맛집탐방</option>
 					<option value="무료나눔" <c:if test="${cpm.cri.c == 'share'}">selected</c:if>>무료나눔</option>
 				</select>
-				<select class="cc-control" name="t">
+				<select style="text-align: center;" class="cc-control" name="t">
 					<option value="all" <c:if test="${cpm.cri.t == 'all'}">selected</c:if>>전체</option>
 					<option value="total" <c:if test="${cpm.cri.t == 'total'}">selected</c:if>>제목 + 내용</option>
 					<option value="writer" <c:if test="${cpm.cri.t == 'writer'}">selected</c:if>>작성자</option>
