@@ -25,7 +25,6 @@ import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.ProfileService;
 import kr.ph.peach.service.SaleBoardService;
-import kr.ph.peach.service.SaleCategoryService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;

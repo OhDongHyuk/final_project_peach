@@ -208,7 +208,6 @@ public class AdminController {
 		System.out.println("sbnum=" + sb_num);
 		saleBoardService.adminDeleteBoard(sb_num, user);
 		List<ReportVO> reportlist = reportService.getreportList(cri);
-		System.out.println(reportlist);
 		model.addAttribute("report", reportlist);
 		return "/admin/report";
 	}

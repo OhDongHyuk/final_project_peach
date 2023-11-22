@@ -231,7 +231,7 @@ public class MemberServiceImp implements MemberService {
 	             + "<table width='100%' bgcolor='#76076' style='margin: 0; padding: 0; font-family: Arial, sans-serif;'>"
 	             + "  <tr>"
 	             + "    <td align='center'>"
-	             + "      <img src='http://localhost:8080/peach/resources/image/피치.png' style='display: block; margin: 0 auto;'>"
+	             + "      <img src='http://localhost:8080/peach/img/피치.png' style='display: block; margin: 0 auto;'>"
 	             + "      <h1 style='text-align: center; color: #ffffff;'>비밀번호 변경</h1>"
 	             + "      <p style='text-align: center; color: #ffffff;'>안녕하세요 " + me_name + " 님,</p>"
 	             + "      <p style='text-align: center; color: #ffffff;'>비밀번호를 재설정하기 위해 아래 링크를 클릭하세요.</p>"
@@ -274,9 +274,11 @@ public class MemberServiceImp implements MemberService {
 	
 	private boolean checkPwRegex(String pw) {
 		
-		// 비번은 영문,숫자,특수문자로 이루어지고 8~20자
-		String regexPw = "^[a-zA-Z0-9!@#$%^&*()_+|~]{8,20}$";
-		if (pw == null) {
+		//비번은 영문,숫자,특수문자로 이루어지고 8~20자 
+
+		String regexPw = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_+|]).{8,20}$";
+
+		if(pw == null) {
 			return false;
 		}
 		return Pattern.matches(regexPw, pw);
@@ -424,6 +426,26 @@ public class MemberServiceImp implements MemberService {
 		
 	}
 
+	//-----------------------삭제
+
+	@Override
+	public boolean deleteMember(MemberVO member) {
+		if(!checkIdRegex(member.getMe_id()) || !checkPwRegex(member.getMe_pw())) {
+			return false;
+		}
+
+		//아이디와 일치하는 회원 정보를 가져옴
+		MemberVO user = memberDao.selectMember(member.getMe_id());
+		//아이디와 일치하는 회원 정보가 있고, 비번이 일치하면 
+		if(user == null || !passwordEncoder.matches(member.getMe_pw(), user.getMe_pw())) {
+			return false;
+		}
+		if(!user.getMe_phone().equals(member.getMe_phone())) {
+			return false;
+		}
+		return memberDao.deleteMember(member);
+
+	}
 	
 	
 

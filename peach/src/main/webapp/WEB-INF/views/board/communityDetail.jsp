@@ -4,290 +4,303 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-.co_de {
-	font-family: 'Arial', sans-serif;
-	margin: 20px auto;
-	width: 750px;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<style>
+			.co_de {
+					font-family: 'Arial', sans-serif;
+					margin: 20px auto;
+					width: 750px;
+			}
+			
+			a {
+				color: #000;
+				
+			}
+			a:hover {
+				text-decoration: none;
+				color: #000;
+				cursor: pointer;
+			}
 
-a {
-	color: #000;
-}
+			.CDdiv {
+					margin-bottom: 10px;
+			}
 
-a:hover {
-	text-decoration: none;
-	color: #000;
-	cursor: pointer;
-}
+			.co_de_title {
+					font-size: 24px;
+					font-weight: bold;
+					color: #000;
+			}
 
-.CDdiv {
-	margin-bottom: 10px;
-}
+			.co_de_info {
+					font-size: 14px;
+					color: #666;
+			}
 
-.co_de_title {
-	font-size: 24px;
-	font-weight: bold;
-	color: #000;
-}
+			.co_de_write {
+					margin-bottom: 20px;
+					max-height: 500px;
+			}
 
-.co_de_info {
-	font-size: 14px;
-	color: #666;
-}
+			.co_de_comment {
+					border: 1px solid black;
+					height: 60px;
+					display: flex;
+			}
 
-.co_de_write {
-	margin-bottom: 20px;
-	max-height: 500px;
-}
-
-.co_de_comment {
-	border: 1px solid black;
-	height: 60px;
-	display: flex;
-}
-
-.CDbtn {
-	width: 80px;
-	height: 40px;
-	/* 필요한 스타일 추가 */
-}
-
-.reply_writer {
-	border-right: 1px solid black;
-	width: 100px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.edit-delete-btns {
-	padding: 5px 10px;
-	font-size: 14px;
-}
-
-.report-button1 {
-	height: 30px;
-	width: 50px;
-}
-
-.report-button2 {
-	height: 30px;
-	width: 50px;
-	margin-left: auto;
-	margin-top: 10px;
-}
-
-.custom-modal {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modify-delete {
-	display: flex;
-}
-
-.btn-primary {
-	margin-right: 10px;
-}
-
-.custom-modal .modal-content {
-	background-color: rgb(247, 247, 247);
-	margin: 15% auto;
-	border: 1px solid #888;
-	width: 420px;
-	padding: 20px;
-	text-align: center;
-	border-radius: 8px;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-}
-
-.custom-modal .modal-header h2 {
-	font-size: 24px;
-	font-weight: bold;
-}
-
-.custom-modal .modal-body {
-	margin-top: 20px;
-}
-
-.custom-modal .report-reason {
-	width: 100%;
-	padding: 10px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	resize: none;
-	height: 200px;
-}
-
-.custom-modal .report-button, .custom-modal .cancel-button {
-	padding: 10px 20px;
-	font-size: 16px;
-	cursor: pointer;
-	border: none;
-	border-radius: 5px;
-	margin-right: 10px;
-}
-
-.custom-modal .report-button {
-	background-color: #ff5733;
-	color: white;
-}
-
-.custom-modal .report-button:hover {
-	background-color: #ff4500;
-}
-
-.custom-modal .cancel-button {
-	background-color: #ccc;
-	color: #333;
-}
-
-.custom-modal .cancel-button:hover {
-	background-color: #999;
-}
-
-.custom-modal .close {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	cursor: pointer;
-	font-size: 24px;
-}
-
-.custom-modal .close:hover, .custom-modal .close:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-.report-text-area {
-	text-align: left;
-	margin-top: 20px;
-}
-
-.maxtext {
-	color: grey;
-	font-size: 13px;
-}
-
-.custom-modal2 {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.4);
-}
-
-.custom-modal2 .modal-content {
-	background-color: rgb(247, 247, 247);
-	margin: 15% auto;
-	border: 1px solid #888;
-	width: 420px;
-	padding: 20px;
-	text-align: center;
-	border-radius: 8px;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-}
-
-.custom-modal2 .modal-header h2 {
-	font-size: 24px;
-	font-weight: bold;
-}
-
-.custom-modal2 .modal-body {
-	margin-top: 20px;
-}
-
-.custom-modal2 .report-reason {
-	width: 100%;
-	padding: 10px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	resize: none;
-	height: 200px;
-}
-
-.custom-modal2 .report-button, .custom-modal2 .cancel-button {
-	padding: 10px 20px;
-	font-size: 16px;
-	cursor: pointer;
-	border: none;
-	border-radius: 5px;
-	margin-right: 10px;
-}
-
-.custom-modal2 .report-button {
-	background-color: #ff5733;
-	color: white;
-}
-
-.custom-modal2 .report-button:hover {
-	background-color: #ff4500;
-}
-
-.custom-modal2 .cancel-button {
-	background-color: #ccc;
-	color: #333;
-}
-
-.custom-modal2 .cancel-button:hover {
-	background-color: #999;
-}
-
-.custom-modal2 .close {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	cursor: pointer;
-	font-size: 24px;
-}
-
-.custom-modal2 .close:hover, .custom-modal2 .close:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-.cImg {
-	width: 300px;
-	height: 300px;
-}
-
-.admindelete {
-	margin-left: 5px;
-	margin-right: 5px;
-	width: 176px;
-	height: 56px;
-	font-weight: 700;
-	background: rgb(255, 164, 37);
-	border: 1px solid rgb(243, 150, 20);
-	color: rgb(255, 255, 255);
-}
-</style>
-<title>커뮤니티 세부 정보</title>
+			.CDbtn {
+					width: 80px;
+					height: 40px;
+					/* 필요한 스타일 추가 */
+			}
+			.reply_writer{
+				border-right: 1px solid black;
+				width: 100px;
+				display: flex;
+		justify-content: center;
+		align-items: center;
+			}
+			.edit-delete-btns{
+					padding: 5px 10px;
+					font-size: 14px;
+			}
+			.report-button1{
+				height: 30px;
+				width: 50px;
+			}
+			 .report-button2{
+				height: 30px;
+				width: 50px;
+				margin-left: auto;
+				margin-top:10px;
+			}
+				.custom-modal {
+		display: none;
+		position: fixed;
+		z-index: 1;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		overflow: auto;
+		background-color: rgba(0, 0, 0, 0.4);
+	}
+	
+	.modify-delete {
+		display: flex;
+	}
+	.btn-primary {
+		margin-right: 10px;
+	}
+	
+	.custom-modal .modal-content {
+		background-color: rgb(247, 247, 247);
+		margin: 15% auto;
+		border: 1px solid #888;
+		width: 420px;
+		padding: 20px;
+		text-align: center;
+		border-radius: 8px;
+		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	}
+	
+	.custom-modal .modal-header h2 {
+		font-size: 24px;
+		font-weight: bold;
+	}
+	
+	.custom-modal .modal-body {
+		margin-top: 20px;
+	}
+	
+	.custom-modal .report-reason {
+		width: 100%;
+		padding: 10px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		resize: none;
+		height: 200px;
+	}
+	
+	.custom-modal .report-button,
+	.custom-modal .cancel-button {
+		padding: 10px 20px;
+		font-size: 16px;
+		cursor: pointer;
+		border: none;
+		border-radius: 5px;
+		margin-right: 10px;
+	}
+	
+	.custom-modal .report-button {
+		background-color: #ff5733;
+		color: white;
+	}
+	
+	.custom-modal .report-button:hover {
+		background-color: #ff4500;
+	}
+	
+	.custom-modal .cancel-button {
+		background-color: #ccc;
+		color: #333;
+	}
+	
+	.custom-modal .cancel-button:hover {
+		background-color: #999;
+	}
+	
+	.custom-modal .close {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		cursor: pointer;
+		font-size: 24px;
+	}
+	
+	.custom-modal .close:hover,
+	.custom-modal .close:focus {
+		color: black;
+		text-decoration: none;
+		cursor: pointer;
+	}
+	.report-text-area {
+		text-align: left;
+		margin-top: 20px;
+	}
+	.maxtext {
+		color: grey;
+		font-size: 13px;
+	}
+	
+		.custom-modal2 {
+		display: none;
+		position: fixed;
+		z-index: 1;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		overflow: auto;
+		background-color: rgba(0, 0, 0, 0.4);
+	}
+	
+	.custom-modal2 .modal-content {
+		background-color: rgb(247, 247, 247);
+		margin: 15% auto;
+		border: 1px solid #888;
+		width: 420px;
+		padding: 20px;
+		text-align: center;
+		border-radius: 8px;
+		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	}
+	
+	.custom-modal2 .modal-header h2 {
+		font-size: 24px;
+		font-weight: bold;
+	}
+	
+	.custom-modal2 .modal-body {
+		margin-top: 20px;
+	}
+	
+	.custom-modal2 .report-reason {
+		width: 100%;
+		padding: 10px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		resize: none;
+		height: 200px;
+	}
+	
+	.custom-modal2 .report-button,
+	.custom-modal2 .cancel-button {
+		padding: 10px 20px;
+		font-size: 16px;
+		cursor: pointer;
+		border: none;
+		border-radius: 5px;
+		margin-right: 10px;
+	}
+	
+	.custom-modal2 .report-button {
+		background-color: #ff5733;
+		color: white;
+	}
+	
+	.custom-modal2 .report-button:hover {
+		background-color: #ff4500;
+	}
+	
+	.custom-modal2 .cancel-button {
+		background-color: #ccc;
+		color: #333;
+	}
+	
+	.custom-modal2 .cancel-button:hover {
+		background-color: #999;
+	}
+	
+	.custom-modal2 .close {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		cursor: pointer;
+		font-size: 24px;
+	}
+	
+	.custom-modal2 .close:hover,
+	.custom-modal2 .close:focus {
+		color: black;
+		text-decoration: none;
+		cursor: pointer;
+	}
+	.cImg{
+		width: 300px;
+		height: 300px;
+	}
+	
+	</style>
+    <title>커뮤니티 세부 정보</title>
 </head>
 <body>
 	<br>
 	<div class="co_de CDdiv">
-		<div class="user-box">
-			<div class="profile-pic"></div>
+		<div class="user-box">	
+			<div class="profile-pic">
+			</div>
 			<div class="nick-and-date">
-				<div class="co_de_info CDdiv">
-					<a href="<c:url value='/board//profile/+${writer.me_num}'/>">${writer.me_nick}</a>
+			    <div class="co_de_info CDdiv"><a href="<c:url value='/board//profile/+${writer.me_num}'/>">${writer.me_nick}</a></div>
+			    <div class="post-date"></div>	
+			</div>
+		</div>
+	    <div class="co_de_title CDdiv">${detail.co_title}</div>
+	    <div class="co_de_write">
+	 	  	<!-- 글 내용 -->
+	 	   <c:if test="${coImage != null}">
+	  		  <img class="cImg" src="<c:url value='/img/${coImage.ci_name}'/>" class="co_img">
+	 	   </c:if>
+	 	   <c:if test="${empty detail.co_info}">
+      		  <p>내용이 없습니다.</p>
+   		   </c:if>
+	   	 		<div class="co_de_content CDdiv">${detail.co_info}</div>
+		</div>
+	
+	    <c:if test="${user.me_num == writer.me_num}">
+	    	<div class="modify-delete">
+		    	<form action="<c:url value='/board/communityEdit/${detail.co_num}'/>" method="get">
+	        		<button class="edit-delete-btns btn btn-primary" type="submit">수정</button>
+	   			 </form>
+	   			 <button class="edit-delete-btns btn btn-danger" onclick="deleteCom(${detail.co_num})">삭제</button>	    	
+	    	</div>
+	    </c:if>
+	    <c:if test="${user != null}">
+	    <c:if test="${user.me_num != writer.me_num}">
+			<div class="profile-right">
+				<div class="profile-right-box">
+					<button type="button" class="report-post" id="openReportModalBtn">게시물 신고하기</button>
 				</div>
 				<div class="post-date"></div>
 			</div>
@@ -376,7 +389,10 @@ a:hover {
 			</c:if>
 		</form>
 	</div>
-
+	<c:if test="${user.me_au == 'admin'  }">
+		<button onclick="deleteComAdmin(${detail.co_num})" class="admindelete">삭제</button>
+		
+	</c:if>
 	<div id="reportPostModal" class="custom-modal">
 		<div class="modal-content">
 			<span class="close">&times;</span>
@@ -420,7 +436,7 @@ a:hover {
 		</div>
 	</div>
 
-	<script>
+    <script>
         
         
         function likeCommunity() {

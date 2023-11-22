@@ -80,5 +80,7 @@ public interface MemberService {
 	void reducePointHistory(int me_num, int pp_point);
 
 	void deleteReducePointHistory(int tq_num);
+	
+	boolean deleteMember(MemberVO member);
 
 }
