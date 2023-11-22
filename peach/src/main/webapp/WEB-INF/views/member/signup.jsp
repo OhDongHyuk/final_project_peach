@@ -5,6 +5,9 @@
 <html>
 <head>
 	<style>
+	dl, ol, ul {
+		margin-bottom: 0;
+	}
 	.messages {
     color: red; /* 실패 메시지의 텍스트 색상을 빨간색으로 설정 */
 }
@@ -20,30 +23,27 @@ label.error {
 	</style>
 	<title>Home</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-  	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
   	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/additional-methods.min.js"></script>
   
 </head>
 <body>
-	<h2>회원가입</h2>
-	<div class="container">
+	<div class="singup-container mt-5 mb-5" style="width: 600px; margin:0 auto;">
 		<form action="<c:url value='/member/signup'/>" method="post" id="form">
 			<div class="form-group">
 				<label>아이디</label>
 				<input type="text" name="me_id" class="form-control" placeholder="아이디">
 			</div>
-			<button class="btn btn-outline-dark col-12" type="button" id="btn-check">아이디 중복체크</button>
+			<button class="btn btn-outline-dark col-12 mb-4" type="button" id="btn-check">아이디 중복체크</button>
 			<div class="form-group">
 				<label>비밀번호</label>
 				<input type="password" name="me_pw" class="form-control" placeholder="비밀번호" id="pw">
 			</div>
 			<div class="form-group">
 				<label>비밀번호 확인</label>
-				<input type="password" name="me_pw2" class="form-control" placeholder="비밀번호 확인">
+				<input type="password" name="me_pw2" class="form-control mb-4" placeholder="비밀번호 확인">
 			</div>
 			<div class="form-group">
 				<label>이름</label>
@@ -57,7 +57,7 @@ label.error {
 				<label>닉네임</label>
 				<input type="text" name="me_nick" class="form-control" placeholder="닉네임">
 			</div>
-			<button class="btn btn-outline-dark col-12" type="button" id="btn-check2">닉네임 중복체크</button>
+			<button class="btn btn-outline-dark col-12 mb-4" type="button" id="btn-check2">닉네임 중복체크</button>
 			<div class="form-group">
 				<label>지역(시/도)</label>
 				<select name="large" class="form-control">
@@ -73,7 +73,7 @@ label.error {
 					<option value="0">시/군/구를 선택하세요.</option>
 				</select>
 			</div>
-			<div class="form-group">
+			<div class="form-group mb-4">
 				<label>지역(읍/면/동)</label>
 				<select name="me_ci_num" class="form-control">
 					<option value="">읍/면/동을 선택하세요.</option>
