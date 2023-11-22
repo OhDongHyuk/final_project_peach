@@ -60,7 +60,7 @@ public interface MemberDAO {
 
 	boolean updateState(@Param("me_num")int me_num, @Param("me_st_num")int me_st_num);
 
-	void deleteMember(@Param("user")MemberVO user);
+	boolean deleteMember(@Param("member")MemberVO member);
 
 	MemberVO selectMemberID(@Param("kakaoname")String kakaoname);
 
@@ -79,5 +79,7 @@ public interface MemberDAO {
 	void deleteCode(@Param("member")MemberVO member);
 
 	List<MemberVO> getMemberLists();
+	
+	
 	
 }

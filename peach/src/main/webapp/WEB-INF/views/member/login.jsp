@@ -41,7 +41,8 @@
 							<img alt="카카오로그인" src="<c:url value='/resources/img/kakao_login.png'/>">
 						</a>
 						<a href="<c:url value='/member/find_id'/>" class="btn">아이디 찾기</a>
-						<a href="<c:url value='/member/pw_find'/>" class="btn">비밀번호 찾기</a>	
+						<a href="<c:url value='/member/pw_find'/>" class="btn">비밀번호 찾기</a>
+						<a href="<c:url value='/member/deleteView'/>" class="btn">회원 탈퇴하기</a>	
 					</form>
 				</div>
 			</div>

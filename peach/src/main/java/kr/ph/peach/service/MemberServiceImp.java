@@ -407,6 +407,26 @@ public class MemberServiceImp implements MemberService {
 	public List<MemberVO> getMemberLists() {
 		return memberDao.getMemberLists();
 	}
+	//-----------------------삭제
+
+	@Override
+	public boolean deleteMember(MemberVO member) {
+		if(!checkIdRegex(member.getMe_id()) || !checkPwRegex(member.getMe_pw())) {
+			return false;
+		}
+		
+		//아이디와 일치하는 회원 정보를 가져옴
+		MemberVO user = memberDao.selectMember(member.getMe_id());
+		//아이디와 일치하는 회원 정보가 있고, 비번이 일치하면 
+		if(user == null || !passwordEncoder.matches(member.getMe_pw(), user.getMe_pw())) {
+			return false;
+		}
+		if(!user.getMe_phone().equals(member.getMe_phone())) {
+			return false;
+		}
+		return memberDao.deleteMember(member);
+		
+	}
 	
 	
 

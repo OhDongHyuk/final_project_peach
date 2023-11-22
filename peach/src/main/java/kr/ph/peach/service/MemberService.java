@@ -74,4 +74,9 @@ public interface MemberService {
 	boolean checkMeIdAndMeName(String me_id, String me_name);
 	
 	List<MemberVO> getMemberLists();
+	//----------------------------------삭제
+
+	boolean deleteMember(MemberVO member);
+
+	
 }

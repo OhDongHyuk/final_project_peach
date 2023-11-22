@@ -320,7 +320,21 @@
 	<script src="resources/js/glightbox.min.js"></script>
 	<script src="resources/js/main.js?version1.3"></script>
 	<script type="text/javascript">
-		
+	//페이지가 로드될 때 서버에서 전달된 메시지 확인
+	var successMessage = "${successMessage}";
+	var errorMessage = "${errorMessage}";
+
+	// 회원 탈퇴 성공 시
+	if (successMessage !== "") {
+	    alert(successMessage);
+	}
+
+	// 회원 탈퇴 실패 시
+	if (errorMessage !== "") {
+	    alert(errorMessage);
+	}
+	
+	
 		$('.wish').click(function(){
 			let data = {
 				wi_me_num : '${user.me_num}',

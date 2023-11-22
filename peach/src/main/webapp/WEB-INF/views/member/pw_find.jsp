@@ -17,6 +17,11 @@
 		background-color: #f76076;
 		width: 100%;
 	}
+	
+	 #my-spinner { width: 100%; height: 100%; top: 0; left: 0; display: none; opacity: .6; background: silver; position: absolute; z-index: 2; }
+        #my-spinner div { width: 100%; height: 100%; display: table; }
+        #my-spinner span { display: table-cell; text-align: center; vertical-align: middle; }
+        #my-spinner img { background: white; padding: 1em; border-radius: .7em; }
 </style>
 </head>
 
@@ -58,6 +63,14 @@
     </div>
   </div>
 </form>
+    <!-- 로딩 스피너 코드 추가 -->
+    <div id='my-spinner'>
+        <div>
+            <span>
+                <img src="<c:url value='/resources/image/loader_spinner.gif'/>">
+            </span>
+        </div>
+    </div>
 <script>
 var path = "${pageContext.request.contextPath }";
 
@@ -95,10 +108,12 @@ function fnSubmit() {
   }
 
   if (confirm("비밀번호를 찾으시겠습니까?")) {
+    $("#my-spinner").show();
     $("#createForm").submit();
     return false;
   }
 }
+	$("#my-spinner").hide();
 </script>
   
 </body>
