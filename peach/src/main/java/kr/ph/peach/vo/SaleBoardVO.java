@@ -19,7 +19,7 @@ public class SaleBoardVO {
 	private List<SaleImageVO> saleImageVOList;
 	private MemberVO memberVO;
 	private CityVO cityVO;
-
+		
 	public SaleBoardVO(String sb_name, int sb_price, String sb_info, int sb_sc_num) {
 		this.sb_name = sb_name;
 		this.sb_price = sb_price;

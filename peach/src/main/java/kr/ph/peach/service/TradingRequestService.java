@@ -42,5 +42,7 @@ public interface TradingRequestService {
 	void changeTradingCuStateCancel(int tq_num);
 
 	TradingRequestVO getTradingRequestThat(int tq_num);
+	
+	List<TradingRequestVO> getTradingRequestsList();
 
 }

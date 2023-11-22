@@ -53,11 +53,6 @@
 			select="selectBankList" />
 	</resultMap>
 
-
-	<!-- <collection property="saleBoardVO" ofType="kr.ph.peach.vo.SaleBoardVO" 
-		column="wi_sb_num" select="selectsaleBoardWishList" /> -->
-
-
 	<insert id="insertMember" useGeneratedKeys="true" keyProperty="member.me_num">
 		insert into
 			member(me_id, me_pw, me_name, me_acc, me_phone, me_nick, me_ci_num, me_bk_name)
@@ -242,10 +237,6 @@
 	<select id="getMemberById" resultType="kr.ph.peach.vo.MemberVO">
 		select * from member where me_num = #{me_num}
 	</select>
-
-	<delete id="deleteMember">
-		DELETE from member WHERE me_id = #{user.me_id};
-	</delete>
 	<select id="selectMemberID" resultMap="MemberVO">
 		select * from member where me_id = #{kakaoname};
 	</select>
@@ -284,4 +275,10 @@
 		    '거래 거절'
 		);
 	</insert>
+	<update id="deleteMember">
+		update member 
+		set me_id = #{member.me_num}, me_name= #{member.me_num},
+		me_phone =#{member.me_num} , me_nick = #{member.me_num}
+		where me_id = #{member.me_id};
+	</update>
 </mapper>

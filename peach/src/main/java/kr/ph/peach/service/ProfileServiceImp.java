@@ -1,6 +1,9 @@
 package kr.ph.peach.service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.vo.SaleImageVO;
 import kr.ph.peach.vo.SugarListVO;
 
 @Service
@@ -100,7 +104,7 @@ public class ProfileServiceImp implements ProfileService{
 
 
 		int pf_num = pf_num2.getPf_num();
-
+		
 		for(MultipartFile file : files) {
 			if(file == null || file.getOriginalFilename().length() == 0) {
 				continue;
@@ -130,7 +134,7 @@ public class ProfileServiceImp implements ProfileService{
 
 	@Override
 	public ProfileVO getPfText(int meNum) {
-
+		
 		return profileDao.selectPfText(meNum);
 	}
 
@@ -272,9 +276,9 @@ public class ProfileServiceImp implements ProfileService{
 		if(sugarContent == null) {
 			return;
 		}
-
+		
 		profileDao.updateSugar(sugarContent, meNum);
-
+		
 	}
 
 	@Override
@@ -283,5 +287,5 @@ public class ProfileServiceImp implements ProfileService{
 		return sellUser;
 	}
 
-
+	
 }

@@ -201,7 +201,7 @@ public class MemberController {
 		Message msg;
 		authService.deleteCodeByAuthNum(me_id);
 		if(memberCheck) {
-			msg = new Message("/", "비밀번호를 이메일로 전송했습니다.");
+			msg = new Message("/member/login", "비밀번호 재설정 링크를 이메일로 전송했습니다.");
 			if(!memberService.sendPw(me_id,me_name)) {
 				msg = new Message("/member/pw_find", "정보를 잘못입력했습니다.");
 			}
@@ -250,6 +250,24 @@ public class MemberController {
 	    	return "redirect:/member/pw_find"; // 변경 실패 메시지를 보여주는 페이지로 리다이렉트
 	    }
 	}
+	//----------------------------------------
+	@RequestMapping(value="/deleteView", method=RequestMethod.GET)
+	public String deleteView() throws Exception{
+		return "/member/deleteView";
+	}
 
+	@RequestMapping(value = "/deleteMe", method = RequestMethod.POST)
+	public String delete( Model model, RedirectAttributes redirectAttributes, MemberVO member) {
 
+	    if (memberService.deleteMember(member)) {
+	    	redirectAttributes.addFlashAttribute("successMessage", "회원 탈퇴가 완료 되었습니다.");
+	    	return "redirect:/"; // 변경 완료 메시지를 보여주는 페이지로 리다이렉트
+	    } else {
+
+	    	redirectAttributes.addFlashAttribute("errorMessage", "입력하신 정보가 틀렸습니다.");
+	    	return "redirect:/member/deleteView"; // 변경 실패 메시지를 보여주는 페이지로 리다이렉트
+	    }
+	}
+	
+	
 }

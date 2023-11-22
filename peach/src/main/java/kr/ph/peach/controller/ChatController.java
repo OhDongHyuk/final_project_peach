@@ -33,10 +33,10 @@ public class ChatController {
 
 	@Autowired
 	ProfileService profileService;
-
+	
 	@Autowired
-	ChatService chatService;
-
+	ChatService chatService;	
+	
 	@GetMapping("/chat")
 	public String chat(Model model, HttpSession session, int sb_num) {
 		MemberVO user = (MemberVO) session.getAttribute("user");
@@ -74,14 +74,14 @@ public class ChatController {
 			if(tmp.getCh_me_num() == user.getMe_num()) {
 				ProfileVO profile = profileService.selectProfile(tmp.getCh_sel_me_num());
 				ProfileImageVO proImg = profileService.selectImg(profile.getPf_num());
-				chatList.get(chatList.indexOf(tmp)).setPi_name(proImg == null ? null : proImg.getPi_name());
+				chatList.get(chatList.indexOf(tmp)).setPi_name(proImg == null ? null : proImg.getPi_name());				
 			} else {
 				ProfileVO profile = profileService.selectProfile(tmp.getCh_me_num());
 				ProfileImageVO proImg = profileService.selectImg(profile.getPf_num());
-				chatList.get(chatList.indexOf(tmp)).setPi_name(proImg == null ? null : proImg.getPi_name());
+				chatList.get(chatList.indexOf(tmp)).setPi_name(proImg == null ? null : proImg.getPi_name());	
 			}
 		}
-
+		
 		System.out.println("chatList " + chatList);
 		//프로파일 넘버로 프로파일 이미지 가져오기
 		model.addAttribute("chatList", chatList);
@@ -116,13 +116,13 @@ public class ChatController {
 				if(tmp.getCh_me_num() == user.getMe_num()) {
 					ProfileVO profile = profileService.selectProfile(tmp.getCh_sel_me_num());
 					ProfileImageVO proImg = profileService.selectImg(profile.getPf_num());
-					chatList.get(chatList.indexOf(tmp)).setPi_name(proImg == null ? null : proImg.getPi_name());
+					chatList.get(chatList.indexOf(tmp)).setPi_name(proImg == null ? null : proImg.getPi_name());				
 				} else {
 					ProfileVO profile = profileService.selectProfile(tmp.getCh_me_num());
 					ProfileImageVO proImg = profileService.selectImg(profile.getPf_num());
-					chatList.get(chatList.indexOf(tmp)).setPi_name(proImg == null ? null : proImg.getPi_name());
+					chatList.get(chatList.indexOf(tmp)).setPi_name(proImg == null ? null : proImg.getPi_name());	
 				}
-			}
+			}		
 			model.addAttribute("chatList", chatList);
 		}
 		model.addAttribute("user", user);

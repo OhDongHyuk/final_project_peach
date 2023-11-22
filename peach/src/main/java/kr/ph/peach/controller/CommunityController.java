@@ -37,18 +37,18 @@ public class CommunityController {
 	public String Community(Model model, HttpSession session, CriteriaCom cri) {
 		MemberVO user = (MemberVO) session.getAttribute("user");
 	    model.addAttribute("user", user);
-
+	    
 	    Message msg;
 	    if(user == null) {
     		msg = new Message("/member/login", "로그인을 필요로 합니다.");
           	model.addAttribute("msg", msg);
       		return "message";
     	}
-
+	    
 	    List<CommunityVO> list = communityService.getBoardList(cri,user);
-
+	    
 	    session.setAttribute("list", list);
-
+	 
 	    model.addAttribute("list", list);
 	    int totalCount = communityService.getTotalCount(cri);
 		//페이지네이션 페이지수
@@ -112,14 +112,14 @@ public class CommunityController {
     public String showProfilePage(@PathVariable("co_num") int co_num, Model model, HttpSession session) {
 	    	MemberVO user = (MemberVO) session.getAttribute("user");
 	    	model.addAttribute("user",user);
-
+	    	
 	    	Message msg;
 		    if(user == null) {
 	    		msg = new Message("/member/login", "로그인을 필요로 합니다.");
 	          	model.addAttribute("msg", msg);
 	      		return "message";
 	    	}
-
+	    	
 	    	communityService.updateCoView(co_num);
 
 	    	CommunityVO detail = communityService.selectDetail(co_num);

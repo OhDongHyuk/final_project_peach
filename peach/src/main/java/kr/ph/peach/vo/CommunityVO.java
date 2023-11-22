@@ -16,7 +16,7 @@ public class CommunityVO {
 	private String co_title, co_info, co_date, me_nick , cc_name;
 	private int ci_num;
 	private String ci_large, ci_medium, ci_small;
-
+	
 	public CommunityVO(int co_num, int co_like, int co_reply, int co_me_num, int co_cc_num, String co_title,
 			String co_info, String co_date, int co_views) {
 		this.co_num = co_num;

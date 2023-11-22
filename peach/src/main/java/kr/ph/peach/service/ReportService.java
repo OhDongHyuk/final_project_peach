@@ -16,6 +16,6 @@ public interface ReportService {
 
 	int getTotalCount(Criteria cri);
 
-
-
+	boolean deleteTradeReport(ReportVO report);
+	
 }

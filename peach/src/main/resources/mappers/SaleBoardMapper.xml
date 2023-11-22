@@ -190,4 +190,17 @@
 	<select id="memberAndCityList" resultType="kr.ph.peach.vo.CityVO">
 		select * from city where ci_num = #{me_ci_num}
 	</select>
+	<update id="updateSaleboardTrade">
+		update sale_board
+		set
+			sb_ss_num = 1
+		where
+			sb_num = #{rp_key}
+	</update>
+	<delete id="sb_num">
+		delete from sale_board where sb_num = #{sb_num}
+	</delete>
+	<delete id="adminDeleteBoard">
+		delete from sale_board where sb_num = #{sb_num}
+	</delete>
 </mapper>

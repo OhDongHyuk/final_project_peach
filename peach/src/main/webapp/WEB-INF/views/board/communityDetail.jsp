@@ -395,7 +395,10 @@
 			</div>
 		</form>
 	</div>
-	
+	<c:if test="${user.me_au == 'admin'  }">
+		<button onclick="deleteComAdmin(${detail.co_num})" class="admindelete">삭제</button>
+		
+	</c:if>
 	<div id="reportPostModal" class="custom-modal">
 	  <div class="modal-content">
 	    <span class="close">&times;</span>
@@ -504,7 +507,7 @@
 				let data = {
 					rp_key : '${co_num}',
 					rp_info : reportReason,
-					rp_table : '3'
+					rp_table : '2'
 				};
 				ajaxJsonToJson(
 						  false,
@@ -648,7 +651,25 @@
 				    menu_box.style.display = "none";
 			}
 		});
-
+		
+		function deleteComAdmin(co_num){
+			var ans = confirm('삭제하시겠습니까?');
+			if (ans) {
+				$.ajax({
+					type: 'POST',
+					url: '<c:url value="/board/comDelete"/>', // 맞게 URL 수정
+					data: { co_num: co_num },
+					success: function (data) {
+						alert('삭제 성공');
+						window.location.href = '<c:url value="/admin/communityreport"/>';
+					},
+					error: function (a) {
+						alert('삭제 실패');
+						console.log(a);
+					}
+				});
+			}
+		}
     </script>
 </body>
 </html>

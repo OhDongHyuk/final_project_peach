@@ -269,8 +269,13 @@ public class SaleBoardServiceImp implements SaleBoardService {
 			return false;
 		}
 
-		saleBoardDao.deleteAllWish(sb_num);
-		saleBoardDao.adminDeleteBoard(sb_num);
+		try {
+			saleBoardDao.deleteAllWish(sb_num);
+			saleBoardDao.adminDeleteBoard(sb_num);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return true;
 	}

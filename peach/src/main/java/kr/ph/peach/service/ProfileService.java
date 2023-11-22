@@ -10,6 +10,7 @@ import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.vo.SaleImageVO;
 import kr.ph.peach.vo.SugarListVO;
 
 public interface ProfileService {
@@ -80,5 +81,5 @@ public interface ProfileService {
 
 	int selectSellUser(SugarListVO sugarList);
 
-
+	
 }

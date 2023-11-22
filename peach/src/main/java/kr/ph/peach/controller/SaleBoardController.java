@@ -64,7 +64,11 @@ public class SaleBoardController {
 		}
 		String categoryName = "전체보기";
 		if(categoryId > 0) {
-			categoryName = categoryList.get(categoryId - 1).getSc_name();
+			for(SaleCategoryVO tmp : categoryList) {
+				if(tmp.getSc_num() == categoryId) {
+					categoryName = tmp.getSc_name();
+				}
+			}
 		}
 		cri.setSc_num(categoryId);
 		//전체 게시글 수

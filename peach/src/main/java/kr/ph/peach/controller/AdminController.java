@@ -18,15 +18,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.pagination.MemberCriteria;
 import kr.ph.peach.pagination.PageMaker;
+import kr.ph.peach.service.CommunityService;
 import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.ReportService;
 import kr.ph.peach.service.SaleBoardService;
 import kr.ph.peach.service.SaleCategoryService;
+import kr.ph.peach.service.TradingRequestService;
+import kr.ph.peach.service.TradingService;
 import kr.ph.peach.vo.CommunityCategoryVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.ReportVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.StatementVO;
+import kr.ph.peach.vo.TradingRequestVO;
+import kr.ph.peach.vo.TradingStateVO;
 
 @Controller
 @RequestMapping("/admin")
@@ -43,11 +48,20 @@ public class AdminController {
 
 	@Autowired
 	ReportService reportService;
+	
+	@Autowired
+	TradingService tradingService;
+	
+	@Autowired
+	TradingRequestService tradingRequestService;
+	
+	@Autowired
+	CommunityService communityService;
 
 	@GetMapping("/home")
 	public String home() {
 
-		return "/admin/home";
+		return "/admin/manager";
 	}
 
 	@GetMapping("/manager")
@@ -187,7 +201,6 @@ public class AdminController {
 		return "/admin/report";
 	}
 
-	/* 삭제 메서드 */
 	@GetMapping("/delete")
 	public String reportDelete(Integer sb_num, HttpSession session, Model model, MemberCriteria cri, ReportVO report) {
 		MemberVO user = (MemberVO) session.getAttribute("user");
@@ -195,7 +208,6 @@ public class AdminController {
 		saleBoardService.adminDeleteBoard(sb_num, user);
 
 		List<ReportVO> reportlist = reportService.getreportList(cri);
-		System.out.println(reportlist);
 		model.addAttribute("report", reportlist);
 
 		return "/admin/report";
@@ -209,10 +221,58 @@ public class AdminController {
 		map.put("res", res);
 		return map;
 	}
+	
+	
+	@GetMapping("/communityreport")
+	public String communityReport(Model model, HttpSession session, Criteria cri) {
 
+		List<ReportVO> report = reportService.getreportList(cri);
+		model.addAttribute("report", report);
+		
+		int totalCount = reportService.getTotalCount(cri);
+
+		int displayPageNum = 8;
+		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
+
+		System.out.println(cri);
+		model.addAttribute("pm", pm);
+		
+		return "/admin/communityreport";
+	}
+	
+	
+	
+	
+	
 	@GetMapping("/tradereport")
-	public String tradeReport() {
+	public String tradeReport(Model model, HttpSession session, Criteria cri) {
 
+		
+		List<TradingRequestVO> trList = tradingRequestService.getTradingRequestsList();
+		model.addAttribute("trList", trList);
+		List<ReportVO> report = reportService.getreportList(cri);
+		model.addAttribute("report", report);
+
+		List<TradingStateVO> StateTypeList = tradingService.getTradeTypeList();
+		model.addAttribute("StateTypeList", StateTypeList);
+		int totalCount = reportService.getTotalCount(cri);
+
+		int displayPageNum = 8;
+		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
+
+		model.addAttribute("pm", pm);
+		
 		return "/admin/tradereport";
+	}
+	
+	@ResponseBody // ajax를 받기위해 필요
+	@PostMapping("/report/tradedelete")
+	public Map<String, Object> reportTradeDelete(@RequestBody ReportVO report){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = reportService.deleteTradeReport(report);
+		
+		map.put("res", res);
+		
+		return map;
 	}
 }

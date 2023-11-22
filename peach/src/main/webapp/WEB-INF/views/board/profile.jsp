@@ -7,6 +7,39 @@
 	<title>프로필</title>
 </head>
 <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
 	.profile-container {
 		margin:0 auto; 
 		padding-bottom: 50px;
@@ -480,7 +513,8 @@
 						<div class="pp-balance">피치페이 잔액</div>
 						<div class="point">${user.me_point } <span style="font-size: 14px;">원</span></div>
 						<div class="pay-buttons">
-							<button class="peachpay-button charging">충전</button>
+							<button id="openModalBtn" class="peachpay-button charging">충전</button>
+
 							<form action="<c:url value='/board/profilePay'/>" method="get">
 								<button class="peachpay-button">출금</button>
 							</form>					
@@ -743,9 +777,23 @@
 	    </div>
 	  </div>
 	</div>
+	<!-- 충전모달 -->
+	<div id="myModal" class="modal">
+	    <div class="modal-content">
+	        <span class="close" onclick="closeModal()">&times;</span>
+	        <!-- 모달 내용 -->
+	        <label for="amount">충전 금액:</label>
+	        <input type="number" id="userInputAmount" placeholder="2000원 이상 충전 가능합니다." />
+	        <button id="peachTrade" data-me-num="${user}">충전</button>
+	    </div>
+	</div>
 <br>
 <br>
-<script>
+<!-- jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<!-- iamport.payment.js -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+<script type="text/javascript">
 
 if(${meNumSel.size() != 0 } || ${meNumBuy.size() != 0 }){
 	
@@ -915,8 +963,82 @@ function sellComSell() {
 	$("#sellComSellBox").show();
 	currentBox = "#sellComSellBox";
 }
+// 충전 버튼 클릭 시 모달 열기
+document.getElementById('openModalBtn').addEventListener('click', function() {
+    openModal();
+});
 
+// 모달 열기
+function openModal() {
+    document.getElementById('myModal').style.display = 'block';
+}
 
+// 모달 닫기
+function closeModal() {
+    document.getElementById('myModal').style.display = 'none';
+}
+
+// 모달 외부 클릭 시 닫기
+window.onclick = function(event) {
+    if (event.target == document.getElementById('myModal')) {
+        closeModal();
+    }
+};
+
+//피치페이 충전
+$(document).ready(function() {
+    $('#peachTrade').on('click', function() {		    	
+        var IMP = window.IMP; 
+        IMP.init("imp41345184"); 
+        var inputAmount = document.getElementById('userInputAmount').value; // 사용자가 입력한 결제할 금액 (임의로 '1111'로 설정)
+        var minimumAmount = '2000'; // 최소 결제 금액 (예시로 5000원으로 설정)
+
+        if (parseInt(inputAmount) < minimumAmount) {
+            // 최소 결제 금액 미만인 경우 최소 금액으로 설정
+            inputAmount = minimumAmount.toString();
+            alert('최소 결제 금액 이하입니다. 최소 금액(' + minimumAmount + '원)으로 결제합니다.');
+        }
+        IMP.request_pay({
+            pg : 'danal_tpay',
+            pay_method : 'card',
+            merchant_uid: 'merchant_' + new Date().getTime(), 
+            name : '${user.me_id}',
+            amount : inputAmount,
+            buyer_email : '${user.me_id}',
+            buyer_name : '${user.me_name}',
+            buyer_tel : '${user.me_phone}',
+        }, function (rsp) { // callback
+            //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+        	if(rsp.success) {
+                console.log("결제가 성공했습니다.");
+                console.log("결제한 금액:", rsp.paid_amount); // 실제 결제된 금액
+                // me_point에 결제된 금액을 추가하는 요청을 서버로 보냄
+                $.ajax({
+                	async: false,//비동기는 이렇게
+                    type: 'POST',
+                    url: '/peach/saleboard/addPoints', // 해당 엔드포인트는 서버에서 처리하고 me_point를 업데이트하는 데 사용
+                    data: { 
+                    	paidAmount: rsp.paid_amount,
+                    	me_num: '${user.me_num}'
+                    },
+                    success: function (data) {
+                        //console.log('서버 응답:', data); // Check the server response in the console
+                        alert('포인트가 충전되었습니다.');
+                        window.location.href = '/peach/board/profile/' + ${user.me_num};
+                    },
+                    error: function () {
+                        console.error('포인트 충전에 실패했습니다.');
+                        // 실패시 처리
+                        window.location.href = '/peach/board/profile/' + ${user.me_num};
+                    }
+                });
+        	} else {
+        		console.log(rsp);
+        	}
+        
+        });		                        
+    })
+})
 </script>
 
 </body>
