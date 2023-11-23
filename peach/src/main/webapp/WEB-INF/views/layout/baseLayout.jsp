@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="<c:url value='/resources/css/bootstrap.min.css'/>" />
     <link rel="stylesheet" href="<c:url value='/resources/css/LineIcons.3.0.css'/>" />
     <link rel="stylesheet" href="<c:url value='/resources/css/glightbox.min.css'/>" />
-    <link rel="stylesheet" href="<c:url value='/resources/css/main.css?version3'/>" />
+    <link rel="stylesheet" href="<c:url value='/resources/css/main.css?versionFinal'/>" />
 </head>
 <body>
     <tiles:insertAttribute name="header"/>

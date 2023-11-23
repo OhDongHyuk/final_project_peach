@@ -76,13 +76,16 @@
 	background-color: #fff;
 	border: none;
 }
+.table_body {
+	min-height: 400px;
+}
 </style>
 </head>
 <body>
 	<section class="hero-area">
 		<div class="container admin">
 			<div class="row">
-
+			<div class="table_body">
 				<table class="table">
 					<thead style="height: 50px">
 						<tr>
@@ -121,7 +124,7 @@
 						</c:if>
 					</c:forEach>
 				</table>
-
+				</div>
 				<div class="admin-search">
 					<form action="" method="get" class="admin-search-bar">
 						<div class="input-group mb-3">

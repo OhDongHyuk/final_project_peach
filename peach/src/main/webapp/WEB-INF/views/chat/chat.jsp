@@ -6,121 +6,121 @@
 <head>
 	<title>스프링</title>
 <style>
-.modal {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content1 {
-	background-color: rgb(247, 247, 247);
-	margin: 15% auto;
-	border: 1px solid #888;
-	width: 420px;
-	height: 506px;
-}
-
-.modal-image {
-	display: block;
-	margin: 30px auto;
-	border-style: none;
-}
-
-.modal-text1 {
-	font-size: 20px;
-	line-height: 1.5;
-	margin-bottom: 15px;
-	text-align: center;
-	font-weight: bold;
-}
-
-.modal-text2 {
-	line-height: 1.5;
-	margin-bottom: 35px;
-	text-align: center;
-}
-
-.button-container {
-	display: flex;
-	flex-direction: column;
-	margin-top: 35px;
-	margin-bottom: 20px;
-}
-
-.rectangle-button {
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.red-button button, .pink-button button {
-	border: none;
-	padding: 10px 0;
-	cursor: pointer;
-	font-size: 16px;
-	color: white;
-	font-weight: bold;
-	width: 280px; /* 버튼 길이 */
-	height: 38px; /* 버튼 높이 */
-	transition: background-color 0.3s;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 8px; /* 버튼의 모서리를 부드럽게 설정 */
-}
-
-.red-button button {
-	background-color: red; /* 빨간색 배경색 */
-	margin-bottom: 10px;
-}
-
-.pink-button button {
-	background-color: pink; /* 분홍색 배경색 */
-}
-
-/* 호버 효과 */
-.red-button button:hover {
-	opacity: 0.8;
-}
-
-.pink-button button:hover {
-	opacity: 0.8;
-}
-
-.customer-center-container {
-	padding: 3.5rem 2rem 1.5rem;
-	font-size: 12px;
-	line-height: 1.5;
-	color: rgb(153, 153, 153);
-}
-
-.customer-center-container p {
-	width: 100%;
-	border-top: 1px solid rgb(229, 229, 229);
-	padding-top: 1rem;
-	font-size: 12px;
-}
-
-.close {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	cursor: pointer;
-	font-size: 24px;
-}
-
-.close:hover, .close:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-}
+	.modal {
+		display: none;
+		position: fixed;
+		z-index: 1;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		overflow: auto;
+		background-color: rgba(0, 0, 0, 0.4);
+	}
+	
+	.modal-content1 {
+		background-color: rgb(247, 247, 247);
+		margin: 15% auto;
+		border: 1px solid #888;
+		width: 420px;
+		height: 506px;
+	}
+	
+	.modal-image {
+		display: block;
+		margin: 30px auto;
+		border-style: none;
+	}
+	
+	.modal-text1 {
+		font-size: 20px;
+		line-height: 1.5;
+		margin-bottom: 15px;
+		text-align: center;
+		font-weight: bold;
+	}
+	
+	.modal-text2 {
+		line-height: 1.5;
+		margin-bottom: 35px;
+		text-align: center;
+	}
+	
+	.button-container {
+		display: flex;
+		flex-direction: column;
+		margin-top: 35px;
+		margin-bottom: 20px;
+	}
+	
+	.rectangle-button {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.red-button button, .pink-button button {
+		border: none;
+		padding: 10px 0;
+		cursor: pointer;
+		font-size: 16px;
+		color: white;
+		font-weight: bold;
+		width: 280px; /* 버튼 길이 */
+		height: 38px; /* 버튼 높이 */
+		transition: background-color 0.3s;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 8px; /* 버튼의 모서리를 부드럽게 설정 */
+	}
+	
+	.red-button button {
+		background-color: red; /* 빨간색 배경색 */
+		margin-bottom: 10px;
+	}
+	
+	.pink-button button {
+		background-color: pink; /* 분홍색 배경색 */
+	}
+	
+	/* 호버 효과 */
+	.red-button button:hover {
+		opacity: 0.8;
+	}
+	
+	.pink-button button:hover {
+		opacity: 0.8;
+	}
+	
+	.customer-center-container {
+		padding: 3.5rem 2rem 1.5rem;
+		font-size: 12px;
+		line-height: 1.5;
+		color: rgb(153, 153, 153);
+	}
+	
+	.customer-center-container p {
+		width: 100%;
+		border-top: 1px solid rgb(229, 229, 229);
+		padding-top: 1rem;
+		font-size: 12px;
+	}
+	
+	.close {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		cursor: pointer;
+		font-size: 24px;
+	}
+	
+	.close:hover, .close:focus {
+		color: black;
+		text-decoration: none;
+		cursor: pointer;
+	}
 
 	body, html {
 	    height: 100%;

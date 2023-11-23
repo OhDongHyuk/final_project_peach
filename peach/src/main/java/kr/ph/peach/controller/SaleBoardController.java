@@ -94,6 +94,14 @@ public class SaleBoardController {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		//유저가 없으면 로그인 필요 메시지 보낸
 		Message msg;
+		
+		 if (user != null) {
+				List<WishVO> wishList = memberService.getWishList(user.getMe_num());
+				model.addAttribute("wishList", wishList);
+			}
+	    List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
+		model.addAttribute("categoryList", categoryList);
+		
 		if(user == null) {
 			msg = new Message("saleboard/" + saleBoard.getSb_sc_num(), "로그인이 필요합니다.");
 			model.addAttribute("msg", msg);
@@ -128,7 +136,6 @@ public class SaleBoardController {
 		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
 		if (user != null) {
 			List<WishVO> wishList = memberService.getWishList(user.getMe_num());
-			System.out.println(wishList);
 			model.addAttribute("wishList", wishList);
 		}
 		model.addAttribute("categoryList", categoryList);
@@ -200,6 +207,12 @@ public class SaleBoardController {
 			model.addAttribute("msg", msg);
 			return "message";
 		}
+		 if (user != null) {
+				List<WishVO> wishList = memberService.getWishList(user.getMe_num());
+				model.addAttribute("wishList", wishList);
+			}
+	    List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
+		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("board", board);
 
 		return "/saleboard/update";

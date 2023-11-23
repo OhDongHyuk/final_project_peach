@@ -41,7 +41,7 @@ public class HomeController {
 	SaleBoardService saleBoardService;
 
 	@Autowired
-	MemberService memberSerivce;
+	MemberService memberService;
 
 	@Autowired
 	TradingRequestService tradingRequestService;
@@ -66,7 +66,7 @@ public class HomeController {
 	public String home(Model model, HttpSession session, SaleBoardCriteria cri) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		if(user != null) {
-			CityVO userCity = memberSerivce.selectCity(user.getMe_ci_num());
+			CityVO userCity = memberService.selectCity(user.getMe_ci_num());
 			user.setMe_city_name(userCity.getCi_large() + " " + userCity.getCi_medium() + " " + userCity.getCi_small());
 			model.addAttribute("user", user);
 		}
@@ -82,7 +82,7 @@ public class HomeController {
 		int totalCount = saleBoardService.getTotalCount(cri);
 
 		if (user != null) {
-			List<WishVO> wishList = memberSerivce.getWishList(user.getMe_num());
+			List<WishVO> wishList = memberService.getWishList(user.getMe_num());
 			System.out.println(wishList);
 			model.addAttribute("wishList", wishList);
 		}
@@ -123,7 +123,7 @@ public class HomeController {
 		TradingRequestVO trv = tradingRequestService.getTradingRequestThat(tq_num);
 		tradeMessageService.rejectMessageToCustomer(trv);
 		tradingRequestService.addPointToCustomer(tq_num);
-		memberSerivce.deleteReducePointHistory(tq_num);
+		memberService.deleteReducePointHistory(tq_num);
 		boolean rejection = tradingRequestService.deleteTradingRequest(tq_num, model, session);
 		if (rejection) {
 	        // 삭제 작업이 성공한 경우의 로직

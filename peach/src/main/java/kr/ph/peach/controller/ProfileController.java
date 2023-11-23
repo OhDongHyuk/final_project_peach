@@ -25,6 +25,7 @@ import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.ProfileService;
 import kr.ph.peach.service.SaleBoardService;
+import kr.ph.peach.service.SaleCategoryService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
@@ -33,11 +34,14 @@ import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
 import kr.ph.peach.vo.SugarListVO;
+import kr.ph.peach.vo.WishVO;
 
 
 @Controller
 public class ProfileController {
 
+	@Autowired
+	SaleCategoryService saleCategoryService;
 	@Autowired
 	SaleBoardService saleBoardService;
 	@Autowired
@@ -65,7 +69,13 @@ public class ProfileController {
             List<SaleBoardVO> tradingProducts = profileService.getProductsById(meNum, 2);
             List<SaleBoardVO> finishedProducts = profileService.getProductsById(meNum, 3);
             model.addAttribute("products",products);
-            
+            if (user != null) {
+    			List<WishVO> wishList = memberService.getWishList(user.getMe_num());
+    			model.addAttribute("wishList", wishList);
+    		}
+    	    List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
+    		model.addAttribute("categoryList", categoryList);
+    		
             model.addAttribute("products",products);
             model.addAttribute("salingProducts",salingProducts);
             model.addAttribute("tradingProducts",tradingProducts);
@@ -74,7 +84,7 @@ public class ProfileController {
             List<SaleBoardVO> salingAndTradingProducts = new ArrayList<>();
             salingAndTradingProducts.addAll(salingProducts);
             salingAndTradingProducts.addAll(tradingProducts);
-
+            
             model.addAttribute("salingAndTradingProducts", salingAndTradingProducts);
 
 
@@ -152,6 +162,13 @@ public class ProfileController {
         model.addAttribute("user", user);
         model.addAttribute("pi_num", pi_num);
         Message msg;
+        
+        if (user != null) {
+			List<WishVO> wishList = memberService.getWishList(user.getMe_num());
+			model.addAttribute("wishList", wishList);
+		}
+	    List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
+		model.addAttribute("categoryList", categoryList);
 
     	  if(user == null) {
           	msg = new Message("/member/login", "잘못된 접근입니다.");
@@ -203,6 +220,13 @@ public class ProfileController {
     	
     	model.addAttribute("userCity", userCity);
     	
+    	if (user != null) {
+ 			List<WishVO> wishList = memberService.getWishList(user.getMe_num());
+ 			model.addAttribute("wishList", wishList);
+ 		}
+ 	    List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
+ 		model.addAttribute("categoryList", categoryList);
+    	
 		Message msg;
 		if(user == null) {
     		msg = new Message("/member/login", "잘못된 접근입니다.");
@@ -222,7 +246,14 @@ public class ProfileController {
 			@RequestParam("me_pw") String me_pw, @RequestParam("me_ci_num")int me_ci_num, @RequestParam("pf_text")String pf_text, @RequestParam("me_pwr") String me_pwr) {
 		Message msg;
 		MemberVO user = (MemberVO)session.getAttribute("user");
-
+		
+		if (user != null) {
+				List<WishVO> wishList = memberService.getWishList(user.getMe_num());
+				model.addAttribute("wishList", wishList);
+			}
+	    List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
+		model.addAttribute("categoryList", categoryList);
+		
 		if(me_ci_num != 0) {
 		profileService.updateCity(user, me_ci_num);
 		}
@@ -288,7 +319,13 @@ public class ProfileController {
 	     MemberVO member = profileService.getAccount(user);
 	     model.addAttribute("member", member);
 
-
+	     if (user != null) {
+				List<WishVO> wishList = memberService.getWishList(user.getMe_num());
+				model.addAttribute("wishList", wishList);
+			}
+	    List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
+		model.addAttribute("categoryList", categoryList);
+	     
 		 if(user == null) {
 				return "/member/login";
 			} else {

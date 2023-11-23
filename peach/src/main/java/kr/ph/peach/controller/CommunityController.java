@@ -19,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.ph.peach.pagination.CriteriaCom;
 import kr.ph.peach.pagination.PageMakerCom;
 import kr.ph.peach.service.CommunityService;
+import kr.ph.peach.service.MemberService;
+import kr.ph.peach.service.SaleCategoryService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.CommunityCategoryVO;
 import kr.ph.peach.vo.CommunityImageVO;
@@ -26,17 +28,32 @@ import kr.ph.peach.vo.CommunityVO;
 import kr.ph.peach.vo.LikesVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.ReplyVO;
+import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.vo.WishVO;
 
 @Controller
 public class CommunityController {
 
 	@Autowired
 	CommunityService communityService;
-
+	
+	@Autowired
+	MemberService memberService;
+	
+	@Autowired
+	SaleCategoryService saleCategoryService;
+	
 	@GetMapping("/board/community")
 	public String Community(Model model, HttpSession session, CriteriaCom cri) {
 		MemberVO user = (MemberVO) session.getAttribute("user");
 	    model.addAttribute("user", user);
+	    
+	    if (user != null) {
+			List<WishVO> wishList = memberService.getWishList(user.getMe_num());
+			model.addAttribute("wishList", wishList);
+		}
+	    List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
+		model.addAttribute("categoryList", categoryList);
 	    
 	    Message msg;
 	    if(user == null) {
@@ -55,7 +72,6 @@ public class CommunityController {
 		//페이지네이션 페이지수
 		final int DISPLAY_PAGE_NUM = 3;
 		PageMakerCom cpm = new PageMakerCom(DISPLAY_PAGE_NUM, cri, totalCount);
-
 		model.addAttribute("title", "게시글 조회");
 		model.addAttribute("cpm", cpm);
 
@@ -67,6 +83,13 @@ public class CommunityController {
 	public String CommunityInsert(Model model, HttpSession session) {
 	    MemberVO user = (MemberVO) session.getAttribute("user");
 	    model.addAttribute("user", user);
+	    
+	    if (user != null) {
+			List<WishVO> wishList = memberService.getWishList(user.getMe_num());
+			model.addAttribute("wishList", wishList);
+		}
+	    List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
+		model.addAttribute("categoryList", categoryList);
 
 	    //커뮤니티 카테고리 select 추가 - 옵션에 넣기 위해
 	    List<CommunityCategoryVO> CCategory = communityService.selectCCategory();
@@ -120,7 +143,13 @@ public class CommunityController {
 	          	model.addAttribute("msg", msg);
 	      		return "message";
 	    	}
-	    	
+		    if (user != null) {
+				List<WishVO> wishList = memberService.getWishList(user.getMe_num());
+				model.addAttribute("wishList", wishList);
+			}
+		    List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
+			model.addAttribute("categoryList", categoryList);
+			
 	    	communityService.updateCoView(co_num);
 
 	    	CommunityVO detail = communityService.selectDetail(co_num);
@@ -179,6 +208,13 @@ public class CommunityController {
 	    if (user == null) {
 	        return "redirect:/member/login";
 	    }
+	    
+	    if (user != null) {
+			List<WishVO> wishList = memberService.getWishList(user.getMe_num());
+			model.addAttribute("wishList", wishList);
+		}
+	    List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
+		model.addAttribute("categoryList", categoryList);
 
 	    CommunityVO detail = communityService.selectDetail(co_num);
     	model.addAttribute("detail",detail);

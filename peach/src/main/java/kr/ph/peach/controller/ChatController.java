@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.ph.peach.service.ChatService;
+import kr.ph.peach.service.MemberService;
 import kr.ph.peach.service.ProfileService;
 import kr.ph.peach.service.SaleBoardService;
+import kr.ph.peach.service.SaleCategoryService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.ChatVO;
 import kr.ph.peach.vo.MemberVO;
@@ -22,6 +24,8 @@ import kr.ph.peach.vo.MessageVO;
 import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
+import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.vo.WishVO;
 
 
 @Controller
@@ -29,8 +33,14 @@ import kr.ph.peach.vo.SaleBoardVO;
 public class ChatController {
 
 	@Autowired
+	SaleCategoryService saleCategoryService;
+	
+	@Autowired
 	SaleBoardService saleBoardService;
 
+	@Autowired
+	MemberService memberService;
+	
 	@Autowired
 	ProfileService profileService;
 	
@@ -64,6 +74,12 @@ public class ChatController {
 				chat = chatService.selectChat(sb_num, user.getMe_num());
 			}
 		}
+		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
+		if (user != null) {
+			List<WishVO> wishList = memberService.getWishList(user.getMe_num());
+			model.addAttribute("wishList", wishList);
+		}
+		model.addAttribute("categoryList", categoryList);
 		List<ChatVO> chatList = chatService.selectAllChat(user.getMe_num());
 		for(ChatVO tmp : chatList) {
 			List<MessageVO> messageVO = chatService.selectAllMessage(tmp.getCh_num());

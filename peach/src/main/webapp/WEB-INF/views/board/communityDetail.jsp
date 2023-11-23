@@ -301,7 +301,7 @@
 			text-align: center;
 			justify-content: space-around;
 			width: 40px;
-			height: 60px;
+			height: 70px;
 			position: absolute;
 			display:none;
 			border: 1px solid #ccc;
@@ -342,7 +342,7 @@
 			    	<form action="<c:url value='/board/communityEdit/${detail.co_num}'/>" method="get">
 		        		<button class="menu-btn" type="submit">수정</button>
 		   			 </form>
-		   			 <button class="menu-btn" onclick="deleteCom(${detail.co_num})">삭제</button>	 
+		   			 <button class="menu-btn" onclick="deleteCom(${detail.co_num})">삭제</button>
 			    </div>
 		    </c:if>
 		    <c:if test="${user != null && user.me_num != writer.me_num}">
@@ -350,6 +350,9 @@
 			    <div id="menu_box" class="menu-box">
 			    	<button type="button" class="menu-btn" id="openReportModalBtn">신고</button>
 		  			<button class="menu-btn" onclick="likeCommunity()">추천</button>
+		  			 <c:if test="${user.me_au == 'admin'  }">
+					 	<button onclick="deleteComAdmin(${detail.co_num})" class="menu-btn">삭제</button>
+					 </c:if> 
 			    </div>
 		    </c:if>
 		</div>
@@ -395,10 +398,6 @@
 			</div>
 		</form>
 	</div>
-	<c:if test="${user.me_au == 'admin'  }">
-		<button onclick="deleteComAdmin(${detail.co_num})" class="admindelete">삭제</button>
-		
-	</c:if>
 	<div id="reportPostModal" class="custom-modal">
 	  <div class="modal-content">
 	    <span class="close">&times;</span>
