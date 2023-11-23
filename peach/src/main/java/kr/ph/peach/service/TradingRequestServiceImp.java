@@ -34,7 +34,6 @@ public class TradingRequestServiceImp implements TradingRequestService{
 	@Override
 	public boolean tradePost(int tq_sb_num, int tq_me_num) {
 	    List<TradingRequestVO> tradingRequestList = getTradingRequestList(); // 가정: 해당 메서드로 데이터를 가져옴
-
 	    // 반복문을 통해 리스트 내의 객체들을 확인
 	    for (TradingRequestVO request : tradingRequestList) {
 	        if (request.getTq_sb_num() == tq_sb_num && request.getTq_me_num() == tq_me_num) {

@@ -70,7 +70,6 @@ public class MemberServiceImp implements MemberService {
 		// 비번 암호화
 		String encPw = passwordEncoder.encode(member.getMe_pw());
 		member.setMe_pw(encPw);
-		System.out.println(member);
 		// 회원가입
 		return memberDao.insertMember(member);
 	}
@@ -246,7 +245,6 @@ public class MemberServiceImp implements MemberService {
 
 	        mailSender.send(message);
 	    } catch (Exception e) {
-	        System.out.println(e.getMessage());
 	        return false;
 	    }
 
@@ -311,9 +309,6 @@ public class MemberServiceImp implements MemberService {
 	public MemberVO kakaologin(String kakaoname) {
 		// 아이디와 일치하는 회원 정보를 가져옴
 		MemberVO user = memberDao.selectMemberID(kakaoname);
-		System.out.println("가져온 유저아이디확인" + kakaoname);
-		System.out.println("닉네임확인" + user);
-
 		return user;
 	}
 
@@ -356,7 +351,6 @@ public class MemberServiceImp implements MemberService {
 		// 비번 암호화
 		String encPw = passwordEncoder.encode(member.getMe_pw());
 		member.setMe_pw(encPw);
-		System.out.println(member);
 		// 회원가입
 		return memberDao.insertMemberForKakao(member);
 	}

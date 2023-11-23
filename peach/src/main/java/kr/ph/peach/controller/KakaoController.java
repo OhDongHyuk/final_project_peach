@@ -93,9 +93,7 @@ public class KakaoController<JSONElement> {
 		if (user != null) {
 			// 유저정보
 			session.setAttribute("user", user);
-			System.out.println("유저정보" + user);
 			// 카카오톡에서 받은 토큰
-
 			session.setAttribute("token", token);
 			session.setAttribute("idnumber", idnumber);
 			return "redirect:/";
@@ -167,8 +165,6 @@ public class KakaoController<JSONElement> {
 
 			// 응답 코드 확인
 			int responseCode = connection.getResponseCode();
-			System.out.println("HTTP 응답 코드: " + responseCode);
-
 			// 응답 데이터 읽기
 			if (responseCode == HttpURLConnection.HTTP_OK) {
 				BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));

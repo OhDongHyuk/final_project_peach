@@ -759,10 +759,6 @@
 		function tradePost() {
 			var tq_sb_num = document.querySelector('#peachTrade2').dataset.sbnum;
 	        var tq_me_num = '${user.me_num}';
-		    console.log({
-	        	tq_sb_num: tq_sb_num,
-	        	tq_me_num: tq_me_num,
-	        })
 		    fetch('/peach/saleboard/detail?sb_num=' + sb_num, {
 		        method: 'POST',
 		        headers: {

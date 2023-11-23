@@ -80,7 +80,6 @@ public class AdminController {
 		int displayPageNum = 8;
 		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
 
-		System.out.println(cri);
 		model.addAttribute("pm", pm);
 		model.addAttribute("mbList", mbList);
 		model.addAttribute("StateTypeList", StateTypeList);
@@ -93,8 +92,6 @@ public class AdminController {
 
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		memberService.updateState(me_num, me_st_num);
-
-		System.out.println(user);
 
 		model.addAttribute("user",user);
 		return "redirect:/admin/manager";
@@ -110,7 +107,6 @@ public class AdminController {
 	public String saleBoardCategory(Model model) {
 
 		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
-		System.out.println(categoryList);
 		model.addAttribute("categoryList", categoryList);
 
 		return "/admin/salecategory";
@@ -151,7 +147,6 @@ public class AdminController {
 	public String communityCategory(Model model) {
 
 		List<CommunityCategoryVO> ccList = saleCategoryService.getCommunityCategoryList();
-		System.out.println(ccList);
 		model.addAttribute("ccList", ccList);
 		return "/admin/communitycategory";
 	}
@@ -194,8 +189,6 @@ public class AdminController {
 
 		int displayPageNum = 8;
 		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
-
-		System.out.println(cri);
 		model.addAttribute("pm", pm);
 
 		return "/admin/report";
@@ -233,8 +226,6 @@ public class AdminController {
 
 		int displayPageNum = 8;
 		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
-
-		System.out.println(cri);
 		model.addAttribute("pm", pm);
 		
 		return "/admin/communityreport";

@@ -51,8 +51,6 @@ public class MemberController {
 
 	@PostMapping("/signup")
 	public String signupPost(MemberVO member,Model model) {
-		System.out.println(member);
-
 		MemberVO dbMemberByPhone = memberService.selectMemberByPhoneNum(member.getMe_phone());
         if (dbMemberByPhone != null) {
             model.addAttribute("msg", "핸드폰 번호가 이미 존재합니다.");
@@ -186,7 +184,6 @@ public class MemberController {
 	    model.addAttribute("member", memberFind);
 
 	} catch (Exception e) {
-	    System.out.println(e.toString());
 	    model.addAttribute("msg", "오류가 발생되었습니다.");
 	}
 

@@ -117,11 +117,7 @@ public class CommunityController {
 			return "redirect:/board/communityInsert";
 		}else {
 			int cc_num = communityService.selectCIname(CICategory);
-			System.out.println(cc_num);
 			boolean res = communityService.insertCommunity(community, user, fileList,cc_num);
-
-
-			System.out.println("CICategory" + CICategory);
 			if(res) {
 				model.addAttribute("msg", "게시글 등록 성공!");
 				model.addAttribute("url", "/board/community");
@@ -280,7 +276,6 @@ public class CommunityController {
 	@ResponseBody
     @PostMapping("/board/comDelete")
 	public String deleteCom(Integer co_num, Model model) {
-		System.out.println(co_num);
 		Message msg;
 		if(communityService.deleteCOM(co_num)) {
 			msg = new Message("/board/community", "게시글을 삭제했습니다.");
@@ -307,7 +302,6 @@ public class CommunityController {
 	@ResponseBody
 	@PostMapping("/board/replyDelete")
 	public String replyDelete(@RequestParam("re_num")int re_num, Model model) {
-	    System.out.println("re_num"+re_num);
 	    Message msg;
 	    if (communityService.replyDelete(re_num)) {
 	        msg = new Message("/board/community", "댓글을 삭제했습니다.");

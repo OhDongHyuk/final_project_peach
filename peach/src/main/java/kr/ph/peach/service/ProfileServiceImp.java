@@ -111,7 +111,6 @@ public class ProfileServiceImp implements ProfileService{
 			}
 			try {
 				String pi_name = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
-				System.out.println("pi_name"+pi_name);
 				ProfileImageVO profileImage = new ProfileImageVO(pi_name,pf_num);
 				profileDao.insertProfileFile(profileImage);
 			} catch (IOException e) {
@@ -214,7 +213,6 @@ public class ProfileServiceImp implements ProfileService{
 	@Override
 	public List<SaleBoardVO> selectBuy(int me_num) {
 		List<SaleBoardVO> meNumBuy = profileDao.selectBuy(me_num);
-		System.out.println("meNumBuy"+meNumBuy);
 		return meNumBuy;
 	}
 

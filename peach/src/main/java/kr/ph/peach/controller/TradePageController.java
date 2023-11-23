@@ -57,7 +57,6 @@ public class TradePageController {
 	public Map<String,Object> underTake(@RequestParam("tq_num") int tq_num) {
 		Map<String, Object> map = new HashMap<>();
 		tradingRequestService.changeTradingCuState(tq_num);
-		System.out.println(tq_num);
 		return map;
 	}
 
@@ -66,7 +65,6 @@ public class TradePageController {
 	public Map<String,Object> underTakeCancel(@RequestParam("tq_num") int tq_num) {
 		Map<String, Object> map = new HashMap<>();
 		tradingRequestService.changeTradingCuStateCancel(tq_num);
-		System.out.println(tq_num);
 		return map;
 	}
 
@@ -75,7 +73,6 @@ public class TradePageController {
 	public Map<String,Object> giveItem(@RequestParam("tq_num") int tq_num) {
 		Map<String, Object> map = new HashMap<>();
 		tradingRequestService.changeTradingSeState(tq_num);
-		System.out.println(tq_num);
 		return map;
 	}
 
@@ -84,7 +81,6 @@ public class TradePageController {
 	public Map<String,Object> giveItemCancel(@RequestParam("tq_num") int tq_num) {
 		Map<String, Object> map = new HashMap<>();
 		tradingRequestService.changeTradingSeStateCancel(tq_num);
-		System.out.println(tq_num);
 		return map;
 	}
 }

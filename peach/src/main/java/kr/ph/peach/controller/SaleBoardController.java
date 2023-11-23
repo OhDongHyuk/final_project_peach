@@ -81,7 +81,6 @@ public class SaleBoardController {
 		model.addAttribute("pm", pm);
 		model.addAttribute("prList",prList);
 		model.addAttribute("categoryList", categoryList);
-		System.out.println(prList);
 		return "/saleboard/saleBoard";
 	}
 
@@ -275,7 +274,6 @@ public class SaleBoardController {
 	public Map<String, Object> tradePost(@RequestBody TradingRequestVO tradingRequest, HttpSession session) {
 	    Map<String, Object> map = new HashMap<>();
         boolean trade = tradingRequestService.tradePost(tradingRequest.getTq_sb_num(), tradingRequest.getTq_me_num());
-        System.out.println(trade);
         if (trade) {
 	        map.put("status", "success");
 	        map.put("message", "거래를 요청하였습니다.");
@@ -283,8 +281,6 @@ public class SaleBoardController {
 	        map.put("status", "error");
 	        map.put("message", "이미 거래를 신청한 물품입니다.");
 	    }
-
-	    System.out.println(map);
 	    return map;
 	}
 
@@ -309,8 +305,6 @@ public class SaleBoardController {
 			map.put("message", "로그인이 필요합니다.");
 		}
 		user = (MemberVO)session.getAttribute("user");
-		System.out.println(user);
-		System.out.println(saleBoard);
 		map.put("saleBoard", saleBoard);
         return map;
 
@@ -322,7 +316,6 @@ public class SaleBoardController {
 		Map<String, Object> map = new HashMap<>();
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		boolean trade = tradingRequestService.getTradingRequestPeach(user, sb_num);
-		System.out.println(trade);
 		map.put("trade", trade);
         return map;
 
@@ -332,8 +325,6 @@ public class SaleBoardController {
 	@PostMapping("/reducePoint")
 	public Map<String, Object> reducePoint(@RequestParam("me_num") int me_num, @RequestParam("me_point") int me_point, @RequestParam("pp_point") int pp_point, HttpSession session) {
 		Map<String, Object> map = new HashMap<>();
-		System.out.println(me_num);
-		System.out.println(pp_point);
 		tradingRequestService.reducePoint(me_num, me_point);
 		memberService.reducePointHistory(me_num, pp_point);
         return map;

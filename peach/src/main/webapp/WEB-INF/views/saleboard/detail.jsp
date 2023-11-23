@@ -888,11 +888,7 @@
 			function tradePost() {
 			    var tq_sb_num = '${board.sb_num}'; // SaleBoardVO의 sb_num 값 가져오기
 			    var tq_me_num = '${user.me_num}';
-			    console.log({
-		        	tq_sb_num: tq_sb_num,
-		        	tq_me_num: tq_me_num,
-		        })
-			    fetch('/peach/saleboard/detail?sb_num=' + ${board.sb_num}, {
+			    fetch('/peach/saleboard/detail?sb_num=' + '${board.sb_num}', {
 			        method: 'POST',
 			        headers: {
 			            'Content-Type': 'application/json'
@@ -906,7 +902,7 @@
 			    	return response.json();	
 			    }).then(json => {
 			    	alert(json.message)
-			    	window.location.href = '/peach/saleboard/detail?sb_num=' + ${board.sb_num};
+			    	window.location.href = '/peach/saleboard/detail?sb_num=' + '${board.sb_num}';
 			    })
 			    .catch(error => {
 			        console.error("로그인이 필요합니다:", error);

@@ -97,8 +97,6 @@ public class ChatController {
 				chatList.get(chatList.indexOf(tmp)).setPi_name(proImg == null ? null : proImg.getPi_name());	
 			}
 		}
-		
-		System.out.println("chatList " + chatList);
 		//프로파일 넘버로 프로파일 이미지 가져오기
 		model.addAttribute("chatList", chatList);
 		model.addAttribute("user", user);

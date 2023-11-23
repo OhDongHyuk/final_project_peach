@@ -56,7 +56,6 @@ public class HomeController {
 	public String message(Model model, HttpSession session, Message msg) {
 		// MemberVO user = (MemberVO)request.getSession().getAttribute("user");
 		Message message = (Message) session.getAttribute("msg");
-		System.out.println(message);
 		model.addAttribute("message", message);
 
 		return "message";
@@ -83,7 +82,6 @@ public class HomeController {
 
 		if (user != null) {
 			List<WishVO> wishList = memberService.getWishList(user.getMe_num());
-			System.out.println(wishList);
 			model.addAttribute("wishList", wishList);
 		}
 
@@ -111,8 +109,6 @@ public class HomeController {
 		List<TradeMessageVO> tmList = tradeMessageService.getTradeMessageList(user);
 		map.put("trList", trList);
 		map.put("tmList", tmList);
-		System.out.println(trList);
-		System.out.println(tmList);
 		return map;
 	}
 
@@ -147,7 +143,6 @@ public class HomeController {
 		tradeMessageService.acceptMessageToCustomer(trv);
 		tradingRequestService.changeTradingState(tq_num);
 		tradingRequestService.makingTrading(tq_num);
-		System.out.println(map);
 		return map;
 	}
 	
