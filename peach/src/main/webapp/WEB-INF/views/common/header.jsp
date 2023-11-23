@@ -223,8 +223,7 @@
 		position: absolute;
 		width: 400px;
 		max-height: 300px;
-		overflow-y: auto;
-		top: 100%;
+		top: 130%;
 		left: calc(50% - 200px);
 		border: 1px solid #ccc;
 		background: #fff;
@@ -236,7 +235,14 @@
 	.notifi-small{
 		width: 100%;
 		display: flex;
-		border-bottom: 1px solid #ccc;
+		padding: 5px;
+		border-bottom: 1px solid #e8e8e8;
+	}
+	.notifi-small:last-child{
+		width: 100%;
+		display: flex;
+		padding: 5px;
+		border-bottom: none;
 	}
 	.notifi-img{
 		width: 50px;
@@ -253,7 +259,18 @@
 	    justify-content: flex-end;
     	align-items: center; 
 	}
-	
+	.notifi-alarm {
+		border-radius: 5px;
+	}
+	.notifi-alarm:after{
+		content:"";
+		position:absolute;
+		top: -7px;
+		left: 232px;
+		border-left: 5px solid transparent; 
+		border-right: 5px solid transparent; 
+		border-bottom: 7px solid #fff;
+	}
 	.notifi-btn.accept{
 		background-color: #4CAF50; /* 자연스러운 초록색 */
 		margin-right: 5px;
