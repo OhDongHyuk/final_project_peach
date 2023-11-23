@@ -243,6 +243,7 @@
 			color: black;
 			width: 900px;
 			margin: auto;
+			margin-top: 30px;
 			
 		}
 		.image-box {
@@ -295,15 +296,14 @@
 			margin-bottom: 12px;
 			display: flex;
 			justify-content: space-between;
-			border-bottom: 1px solid #e9ecef;
 		}
 		.content-box {
 			padding: 20px 0;
 			margin: 0 auto;
+			border-top: 1px solid #e9ecef;
 			border-bottom: 1px solid #e9ecef;
 		}
 		.title {
-			margin-top: 10px;
 			font-size: 20px;
 			font-weight: 600;
 			line-height: 1.5;
@@ -470,18 +470,27 @@
 				<div class="profile-box">
 					<div class="profile-left">
 						<img src="" class="profile-thumnail">
-						<div class="profile-name">${tr.saleBoardVO.sb_me_nickname}</div>
+						<c:if test="${tr.tradingVO.tr_se == 1 }">
+						<div class="profile-name" style="font-size: 14px; text-align: center; color: grey;">인계대기중</div>
+						</c:if>
+						<c:if test="${tr.tradingVO.tr_se == 2 }">
+						<div class="profile-name" style="font-size: 14px; text-align: center;">인계완료</div>
+						</c:if>
+						<div class="profile-name" style="font-size: 18px;">판매자 : ${tr.saleBoardVO.memberVO.me_nick}</div>
 					</div>
 					<div class="profile-right">
 						<div class="profile-right-box">
-							<span class="profile-sweetness-text">당도</span>
-							<span class="profile-sweetness">${tr.saleBoardVO.sb_me_sugar}</span>
+							<c:if test="${tr.tradingVO.tr_cu == 1 }">
+							<div class="profile-name" style="font-size: 14px; text-align: center; color: grey;">인수대기중</div>
+							</c:if>
+							<c:if test="${tr.tradingVO.tr_cu == 2 }">
+							<div class="profile-name" style="font-size: 14px; text-align: center;">인수완료</div>
+							</c:if>
+							<span class="profile-sweetness" style="font-size: 18px;">구매자 : ${tr.memberVO.me_nick}</span>
 						</div>
 					</div>
 				</div>
 				<div class="content-box">
-					<p class="title">판매자: ${tr.saleBoardVO.memberVO.me_name}</p>
-					<p class="title">구매자: ${tr.memberVO.me_name}</p>
 					<p class="title">${tr.saleBoardVO.sb_name}</p>
 					<p class="category-date">${tr.saleCategoryVO.sc_name} | ${tr.saleBoardVO.sb_date}</p>
 					<p class="price">${tr.saleBoardVO.sb_price}</p>
@@ -499,7 +508,7 @@
 								<c:when test="${user.me_num == tr.saleBoardVO.sb_me_num && tr.tradingVO.tr_se == 1}">
 									<button type="button" onClick="location.href='<c:url value='/chat/chat?sb_num=0'/>'" class="chat">피치톡</button>
 									<button id="giveItem" type="button" class="pay" data-tq-num="${tr.tq_num}">인계완료</button>
-									<button type="button" class="report-post" id="openReportModalBtn">거래취소 요청</button>
+									<button type="button" class="cancel" id="openReportModalBtn">거래취소 요청</button>
 								</c:when>
 								<c:otherwise>
 									<c:choose>
