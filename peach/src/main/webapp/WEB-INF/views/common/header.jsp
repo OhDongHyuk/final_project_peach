@@ -107,9 +107,9 @@
 
 								});
 								$.each(notificationListM, function(index, item) {
-								    notificationBoxContent += '<div class="notifi-small">'
+								    notificationBoxContent += '<div class="notifi-small confirmbox">'
 								        + '<a href="<c:url value="/saleboard/detail?sb_num=' + item.tm_sb_num + '"/>">'
-								        + '<div class="productName">'
+								        + '<div class="productName2">'
 								        + item.tm_sb_num + '번' + item.tm_info
 								        + '</div>'
 								        + '</a>'
@@ -253,6 +253,7 @@
 	    justify-content: flex-end;
     	align-items: center; 
 	}
+	
 	.notifi-btn.accept{
 		background-color: #4CAF50; /* 자연스러운 초록색 */
 		margin-right: 5px;
@@ -281,6 +282,21 @@
 	    transition-duration: 0.4s; /* 변경에 애니메이션 효과 추가 */
 	    cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능하게 함 */
 	}
+	.notifi-btn.confirmT{
+		background-color: #0d6efd;
+		margin-right: 5px;
+		margin-left: 30px;
+	    color: white; /* 글자색을 밝게 설정 */
+	    border: none; /* 테두리 제거 */
+	    padding: 5px 10px; /* 내부 여백 설정 */
+	    text-align: center; /* 텍스트 중앙 정렬 */
+	    text-decoration: none; /* 링크의 밑줄 제거 */
+	    display: inline-block; /* 인라인 요소로 표시 */
+	    font-size: 14px; /* 폰트 크기 조정 */
+	    border-radius: 5px; /* 둥근 모서리 설정 */
+	    transition-duration: 0.4s; /* 변경에 애니메이션 효과 추가 */
+	    cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능하게 함 */
+	}
 	.notifi-small > * {
    
 	}
@@ -293,6 +309,16 @@
 		line-height: 50px;
 		margin: 0 5px;
 		text-align: center;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space:nowrap;
+	}
+	.productName2 {
+		width: 300px;
+		height: 50px;
+		line-height: 50px;
+		margin: 0 5px;
+		text-align: left;
 		overflow: hidden;
 		text-overflow:ellipsis;
 		white-space:nowrap;
