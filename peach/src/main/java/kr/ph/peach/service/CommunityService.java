@@ -24,7 +24,7 @@ public interface CommunityService {
 
 	String getMeNick(CommunityVO tmp);
 
-	int getTotalCount(CriteriaCom cri);
+	int getTotalCount(CriteriaCom cri, MemberVO user);
 
 	CommunityVO selectDetail(int co_num);
 
@@ -61,6 +61,8 @@ public interface CommunityService {
 	boolean deleteComImg(int co_num);
 
 	boolean replyDelete(Integer re_num);
+
+	List<CommunityCategoryVO> getCategoryList();
 
 
 

@@ -53,20 +53,24 @@
 	</select>
 	<select id="selectCountBoardList" resultType="int">
 		select count(*) from community
+		left JOIN member ON community.co_me_num = member.me_num
+		join community_category on cc_num = co_cc_num
+		join city on me_ci_num = ci_num
+		where member.me_ci_num = #{user.me_ci_num}
 		<if test='cri.t == "all"'>
-		where 
-			co_title like concat('%', #{cri.s}, '%')
+		and
+			(co_title like concat('%', #{cri.s}, '%')
 			or co_info like concat('%', #{cri.s}, '%')
-			or co_me_num like concat('%', #{cri.s}, '%')
+			or co_me_num like concat('%', #{cri.s}, '%'))
 		</if>
 		<if test='cri.t == "total"'>
-		where 
-			co_title like concat('%', #{cri.s}, '%')
-			or co_info like concat('%', #{cri.s}, '%')
+		and 
+			(co_title like concat('%', #{cri.s}, '%')
+			or co_info like concat('%', #{cri.s}, '%'))
 		</if>
 		<if test='cri.t == "writer"'>
-		where  
-			co_me_num like concat('%', #{cri.s}, '%')
+		and
+			(co_me_num like concat('%', #{cri.s}, '%'))
 		</if>
 	</select>
 	<select id="selectDetail" resultType="kr.ph.peach.vo.CommunityVO">
@@ -139,4 +143,7 @@
 	<delete id="replyDelete">
 		delete From reply where re_num = #{re_num}
 	</delete>
+	<select id="selectCommunityCategotyList" resultType="kr.ph.peach.vo.CommunityCategoryVO">
+		select * from community_category
+	</select>
 </mapper>

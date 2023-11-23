@@ -99,11 +99,11 @@ public class CommunityServiceImp implements CommunityService{
 	}
 
 	@Override
-	public int getTotalCount(CriteriaCom cri) {
+	public int getTotalCount(CriteriaCom cri, MemberVO user) {
 			if(cri == null) {
 			cri = new CriteriaCom();
 		}
-		return communityDao.selectCountBoardList(cri);
+		return communityDao.selectCountBoardList(cri, user);
 	}
 
 	@Override
@@ -276,6 +276,11 @@ public class CommunityServiceImp implements CommunityService{
 		//게시글 삭제
 		communityDao.replyDelete(re_num);}
 		return true;
+	}
+
+	@Override
+	public List<CommunityCategoryVO> getCategoryList() {
+		return communityDao.selectCommunityCategotyList();
 	}
 
 

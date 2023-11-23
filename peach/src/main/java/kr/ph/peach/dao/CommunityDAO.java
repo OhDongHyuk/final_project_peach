@@ -28,7 +28,7 @@ public interface CommunityDAO {
 
 	String selectMeNick(@Param("list")CommunityVO list);
 
-	int selectCountBoardList(@Param("cri")CriteriaCom cri);
+	int selectCountBoardList(@Param("cri")CriteriaCom cri,@Param("user") MemberVO user);
 
 	CommunityVO selectDetail(@Param("co_num")int co_num);
 
@@ -71,6 +71,8 @@ public interface CommunityDAO {
 	boolean deleteComImg(@Param("co_num")int co_num);
 
 	void replyDelete(Integer re_num);
+
+	List<CommunityCategoryVO> selectCommunityCategotyList();
 
 
 }

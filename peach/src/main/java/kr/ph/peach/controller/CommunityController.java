@@ -46,11 +46,12 @@ public class CommunityController {
     	}
 	    
 	    List<CommunityVO> list = communityService.getBoardList(cri,user);
-	    
+	    List<CommunityCategoryVO> communityCategoryList = communityService.getCategoryList();
+	    model.addAttribute("communityCategoryList", communityCategoryList);
 	    session.setAttribute("list", list);
 	 
 	    model.addAttribute("list", list);
-	    int totalCount = communityService.getTotalCount(cri);
+	    int totalCount = communityService.getTotalCount(cri, user);
 		//페이지네이션 페이지수
 		final int DISPLAY_PAGE_NUM = 3;
 		PageMakerCom cpm = new PageMakerCom(DISPLAY_PAGE_NUM, cri, totalCount);
@@ -237,8 +238,6 @@ public class CommunityController {
 			}else {
 				return false;
 			}
-
-			System.out.println("coNum"+coNum);
 			communityService.increaseLikeCount(coNum);
 			return true;
 	}

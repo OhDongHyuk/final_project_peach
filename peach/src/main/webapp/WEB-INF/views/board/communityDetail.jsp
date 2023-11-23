@@ -454,6 +454,7 @@
                 success: function(response) {
                     if (response === true) {
                         alert("추천 성공");
+                        window.location.href = '<c:url value="/board/communityDetail/'+coNum+'"/>';
                     } else {
                         alert("추천은 한 번만 가능합니다.");
                     }
@@ -639,7 +640,6 @@
 		const menu_box = document.querySelector('#menu_box');
 		function menu_popup(){
 			setTimeout(function() {
-				console.log('Works!');
 				menu_box.style.display = 'flex';
 			}, 100);
 		}

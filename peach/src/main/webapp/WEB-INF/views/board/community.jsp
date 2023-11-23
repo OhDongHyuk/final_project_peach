@@ -129,9 +129,9 @@
 			<div class="com-group mb-5 d-flex justify-content-center">
 				<select style="text-align: center;" class="cc-control" name="c">
 					<option value="선택">선택</option>
-					<option value="소모임" <c:if test="${cpm.cri.c == 'small'}">selected</c:if>>소모임</option>
-					<option value="맛집탐방" <c:if test="${cpm.cri.c == 'restaurant'}">selected</c:if>>맛집탐방</option>
-					<option value="무료나눔" <c:if test="${cpm.cri.c == 'share'}">selected</c:if>>무료나눔</option>
+					<c:forEach items="${communityCategoryList }" var="ctList">
+						<option value="${ctList.cc_name }">${ctList.cc_name }</option>
+					</c:forEach>
 				</select>
 				<select style="text-align: center;" class="cc-control" name="t">
 					<option value="all" <c:if test="${cpm.cri.t == 'all'}">selected</c:if>>전체</option>
