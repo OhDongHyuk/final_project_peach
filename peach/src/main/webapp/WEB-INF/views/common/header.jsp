@@ -34,7 +34,12 @@
 							</c:if>
 							<c:if test="${user != NULL }">
 								<li class="inner-item"><a href="#" id="notificationLink">알림</a></li>
-								<div class="notifi-alarm" id="notificationBox"></div>
+								<c:if test="${user.me_au == 'user' }">
+									<div class="notifi-alarm" id="notificationBox"></div>
+								</c:if>
+								<c:if test="${user.me_au == 'admin' }">
+									<div class="notifi-alarm2" id="notificationBox"></div>
+								</c:if>
 								<c:if test="${user.me_social == 'normal' }">
 									<li class="inner-item"><a
 										href="<c:url value='/member/logout'/>">로그아웃</a></li>
@@ -232,6 +237,19 @@
 		align-items: center; /* 수직 가운데 정렬 */
 		justify-content: flex-start;	
 	}
+	.notifi-alarm2 {
+		position: absolute;
+		width: 400px;
+		max-height: 300px;
+		top: 130%;
+		left: calc(50% - 200px);
+		border: 1px solid #ccc;
+		background: #fff;
+		display: none;
+		flex-wrap: nowrap; /* 요소가 넘치는 경우 줄 바꿈 방지 */
+		align-items: center; /* 수직 가운데 정렬 */
+		justify-content: flex-start;	
+	}
 	.notifi-small{
 		width: 100%;
 		display: flex;
@@ -262,11 +280,23 @@
 	.notifi-alarm {
 		border-radius: 5px;
 	}
+	.notifi-alarm2 {
+		border-radius: 5px;
+	}
 	.notifi-alarm:after{
 		content:"";
 		position:absolute;
 		top: -7px;
 		left: 232px;
+		border-left: 5px solid transparent; 
+		border-right: 5px solid transparent; 
+		border-bottom: 7px solid #fff;
+	}
+	.notifi-alarm2:after{
+		content:"";
+		position:absolute;
+		top: -7px;
+		left: 144px;
 		border-left: 5px solid transparent; 
 		border-right: 5px solid transparent; 
 		border-bottom: 7px solid #fff;
