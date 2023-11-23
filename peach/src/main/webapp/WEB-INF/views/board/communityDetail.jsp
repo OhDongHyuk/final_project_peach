@@ -13,15 +13,15 @@
 	width: 750px;
 }
 
-a {
-	color: #000;
-}
-
-a:hover {
-	text-decoration: none;
-	color: #000;
-	cursor: pointer;
-}
+		.nick-and-date {
+			display: flex;
+			margin-bottom: 15px;
+		}
+        .co_de_title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+        }
 
 .CDdiv {
 	margin-bottom: 10px;
@@ -33,335 +33,357 @@ a:hover {
 	color: #000;
 }
 
-.co_de_info {
-	font-size: 14px;
-	color: #666;
-}
+        .co_de_comment {
+            display: flex;
+			margin-top: 10px;
+        }
 
-.co_de_write {
-	margin-bottom: 20px;
-	max-height: 500px;
-}
-
-.co_de_comment {
-	border: 1px solid black;
-	height: 60px;
-	display: flex;
-}
-
-.CDbtn {
-	width: 80px;
-	height: 40px;
-	/* 필요한 스타일 추가 */
-}
-
-.reply_writer {
-	border-right: 1px solid black;
-	width: 100px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.edit-delete-btns {
-	padding: 5px 10px;
-	font-size: 14px;
-}
-
-.report-button1 {
-	height: 30px;
-	width: 50px;
-}
-
-.report-button2 {
-	height: 30px;
-	width: 50px;
-	margin-left: auto;
-	margin-top: 10px;
-}
-
-.custom-modal {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modify-delete {
-	display: flex;
-}
-
-.btn-primary {
-	margin-right: 10px;
-}
-
-.custom-modal .modal-content {
-	background-color: rgb(247, 247, 247);
-	margin: 15% auto;
-	border: 1px solid #888;
-	width: 420px;
-	padding: 20px;
-	text-align: center;
-	border-radius: 8px;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-}
-
-.custom-modal .modal-header h2 {
-	font-size: 24px;
-	font-weight: bold;
-}
-
-.custom-modal .modal-body {
-	margin-top: 20px;
-}
-
-.custom-modal .report-reason {
-	width: 100%;
-	padding: 10px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	resize: none;
-	height: 200px;
-}
-
-.custom-modal .report-button, .custom-modal .cancel-button {
-	padding: 10px 20px;
-	font-size: 16px;
-	cursor: pointer;
-	border: none;
-	border-radius: 5px;
-	margin-right: 10px;
-}
-
-.custom-modal .report-button {
-	background-color: #ff5733;
-	color: white;
-}
-
-.custom-modal .report-button:hover {
-	background-color: #ff4500;
-}
-
-.custom-modal .cancel-button {
-	background-color: #ccc;
-	color: #333;
-}
-
-.custom-modal .cancel-button:hover {
-	background-color: #999;
-}
-
-.custom-modal .close {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	cursor: pointer;
-	font-size: 24px;
-}
-
-.custom-modal .close:hover, .custom-modal .close:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-.report-text-area {
-	text-align: left;
-	margin-top: 20px;
-}
-
-.maxtext {
-	color: grey;
-	font-size: 13px;
-}
-
-.custom-modal2 {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.4);
-}
-
-.custom-modal2 .modal-content {
-	background-color: rgb(247, 247, 247);
-	margin: 15% auto;
-	border: 1px solid #888;
-	width: 420px;
-	padding: 20px;
-	text-align: center;
-	border-radius: 8px;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-}
-
-.custom-modal2 .modal-header h2 {
-	font-size: 24px;
-	font-weight: bold;
-}
-
-.custom-modal2 .modal-body {
-	margin-top: 20px;
-}
-
-.custom-modal2 .report-reason {
-	width: 100%;
-	padding: 10px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	resize: none;
-	height: 200px;
-}
-
-.custom-modal2 .report-button, .custom-modal2 .cancel-button {
-	padding: 10px 20px;
-	font-size: 16px;
-	cursor: pointer;
-	border: none;
-	border-radius: 5px;
-	margin-right: 10px;
-}
-
-.custom-modal2 .report-button {
-	background-color: #ff5733;
-	color: white;
-}
-
-.custom-modal2 .report-button:hover {
-	background-color: #ff4500;
-}
-
-.custom-modal2 .cancel-button {
-	background-color: #ccc;
-	color: #333;
-}
-
-.custom-modal2 .cancel-button:hover {
-	background-color: #999;
-}
-
-.custom-modal2 .close {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	cursor: pointer;
-	font-size: 24px;
-}
-
-.custom-modal2 .close:hover, .custom-modal2 .close:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-.cImg {
-	width: 300px;
-	height: 300px;
-}
-</style>
-<title>커뮤니티 세부 정보</title>
+        .CDbtn {
+            width: 80px;
+            height: 40px;
+            border: none;
+            background: #f76076;
+            color: #fff;
+            /* 필요한 스타일 추가 */
+        }
+        .reply_writer{
+        	width: 100px;
+        	overflow: hidden;
+        	text-overflow: ellipsis;
+        	white-space: nowrap;
+        	
+        }
+        .edit-delete-btns{
+      	    padding: 5px 10px;
+      	    font-size: 14px;
+        }
+        .reply-delete {
+        	color: #f76076;
+        	border: none;
+        	background: none;
+        	margin-left: auto;
+        	margin-right: 15px;
+        }
+        .report-button1{
+        	height: 30px;
+        	width: 50px;
+        }
+         .report-button2{
+        	height: 30px;
+        	width: 50px;
+        	margin-left: auto;
+        }
+        	.custom-modal {
+		  display: none;
+		  position: fixed;
+		  z-index: 1;
+		  left: 0;
+		  top: 0;
+		  width: 100%;
+		  height: 100%;
+		  overflow: auto;
+		  background-color: rgba(0, 0, 0, 0.4);
+		}
+		
+		.reply-input {
+			border: none;
+			width: 700px;
+			padding: 0px 15px;
+			background: inherit;
+		}
+		
+		.reply-input-area {
+			display: flex;
+			border: 1px solid #ccc;
+			border-radius: 15px;
+			overflow: hidden;
+		}
+		
+		
+		.modify-delete {
+			display: flex;
+		}
+		.btn-primary {
+			margin-right: 10px;
+		}
+		
+		.custom-modal .modal-content {
+		  background-color: rgb(247, 247, 247);
+		  margin: 15% auto;
+		  border: 1px solid #888;
+		  width: 420px;
+		  padding: 20px;
+		  text-align: center;
+		  border-radius: 8px;
+		  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+		}
+		
+		.custom-modal .modal-header h2 {
+		  font-size: 24px;
+		  font-weight: bold;
+		}
+		
+		.custom-modal .modal-body {
+		  margin-top: 20px;
+		}
+		
+		.custom-modal .report-reason {
+		  width: 100%;
+		  padding: 10px;
+		  border: 1px solid #ccc;
+		  border-radius: 4px;
+		  resize: none;
+		  height: 200px;
+		}
+		
+		.custom-modal .report-button,
+		.custom-modal .cancel-button {
+		  padding: 10px 20px;
+		  font-size: 16px;
+		  cursor: pointer;
+		  border: none;
+		  border-radius: 5px;
+		  margin-right: 10px;
+		}
+		
+		.custom-modal .report-button {
+		  background-color: #ff5733;
+		  color: white;
+		}
+		
+		.custom-modal .report-button:hover {
+		  background-color: #ff4500;
+		}
+		
+		.custom-modal .cancel-button {
+		  background-color: #ccc;
+		  color: #333;
+		}
+		
+		.custom-modal .cancel-button:hover {
+		  background-color: #999;
+		}
+		
+		.custom-modal .close {
+		  position: absolute;
+		  top: 10px;
+		  right: 10px;
+		  cursor: pointer;
+		  font-size: 24px;
+		}
+		
+		.custom-modal .close:hover,
+		.custom-modal .close:focus {
+		  color: black;
+		  text-decoration: none;
+		  cursor: pointer;
+		}
+		.report-text-area {
+			text-align: left;
+			margin-top: 20px;
+		}
+		.maxtext {
+			color: grey;
+			font-size: 13px;
+		}
+		
+			.custom-modal2 {
+		  display: none;
+		  position: fixed;
+		  z-index: 1;
+		  left: 0;
+		  top: 0;
+		  width: 100%;
+		  height: 100%;
+		  overflow: auto;
+		  background-color: rgba(0, 0, 0, 0.4);
+		}
+		
+		.custom-modal2 .modal-content {
+		  background-color: rgb(247, 247, 247);
+		  margin: 15% auto;
+		  border: 1px solid #888;
+		  width: 420px;
+		  padding: 20px;
+		  text-align: center;
+		  border-radius: 8px;
+		  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+		}
+		
+		.custom-modal2 .modal-header h2 {
+		  font-size: 24px;
+		  font-weight: bold;
+		}
+		
+		.custom-modal2 .modal-body {
+		  margin-top: 20px;
+		}
+		
+		.custom-modal2 .report-reason {
+		  width: 100%;
+		  padding: 10px;
+		  border: 1px solid #ccc;
+		  border-radius: 4px;
+		  resize: none;
+		  height: 200px;
+		}
+		
+		.custom-modal2 .report-button,
+		.custom-modal2 .cancel-button {
+		  padding: 10px 20px;
+		  font-size: 16px;
+		  cursor: pointer;
+		  border: none;
+		  border-radius: 5px;
+		  margin-right: 10px;
+		}
+		
+		.custom-modal2 .report-button {
+		  background-color: #ff5733;
+		  color: white;
+		}
+		
+		.custom-modal2 .report-button:hover {
+		  background-color: #ff4500;
+		}
+		
+		.custom-modal2 .cancel-button {
+		  background-color: #ccc;
+		  color: #333;
+		}
+		
+		.custom-modal2 .cancel-button:hover {
+		  background-color: #999;
+		}
+		
+		.custom-modal2 .close {
+		  position: absolute;
+		  top: 10px;
+		  right: 10px;
+		  cursor: pointer;
+		  font-size: 24px;
+		}
+		
+		.custom-modal2 .close:hover,
+		.custom-modal2 .close:focus {
+		  color: black;
+		  text-decoration: none;
+		  cursor: pointer;
+		}
+		.cImg{
+			width: 300px;
+			height: 300px;
+		}
+		.title-area {
+			position:relative;
+			display: flex;
+		}
+		.title-menu {
+			border: none;
+			width: 36px;
+			height: 36px;
+			background-size: 36px;
+			background-color: inherit;
+			margin-left: auto;
+			background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAE4AAABOCAYAAACOqiAdAAAACXBIWXMAAAsTAAALEwEAmpwYAAABs0lEQVR4nO3bz04TURiG8ad6BwKyEdwLLpQQwgplQ2LUSyBgvAwJknAbCAkpYYl3IuyMuFO8AyHhnzlwGsbmzHSmm5nS55d8SZOeLz150+mcmZ4BSZIkSZIk6V6YB3aAo1jbwFzdk2q6TeA6UVfARt2Ta6qPOaFla7XuSTbNQ+BPieB+x7GKZkqE1qkXnSbBUoXgwlhF0xWCe9ZpErSAHyVC+x7HKuNdXHbkhXYJvMk26M4H4DQR2l9gJTNOCRPAGnAQ6xPwJDVQkiRJjTMKvIoVXquHx8A+cJG5agiv94CxXs3Dahz4WXCtemx4afsl7o60c3qH1mjX4ZlX58BI3ZNtksUKNzLDCUPR6wrBLXSaRKVD9ZGB/W+vRHC7XT3idp12XBBa+E/CxXBBeO2uw/Y8ftMMrYSReBII5W+aJEnSYHgKfAa+xloHJuue1CDsAz5LXG6dxg05SnjfY5tXeO9tqnGYtdxY2J/nFW5kTvX5GffSkpun+/OyQnBu188ID32clAjtF/Ag2yhulhu9gls2qLSNnCXJVVwIq0B4xPILcAh8A7aA2aIGSZIkSZIkicHwD8lpBngbmb5qAAAAAElFTkSuQmCC");
+		}
+		.menu-box {
+			flex-direction: column;
+			text-align: center;
+			justify-content: space-around;
+			width: 40px;
+			height: 60px;
+			position: absolute;
+			display:none;
+			border: 1px solid #ccc;
+			right: 0px;
+			top: 35px;
+		}
+		.menu-btn {
+			border: none;
+			background: none;
+		}
+		.item-category{
+		background: #f76076;
+		padding: 1px 5px;
+		border-radius: 5px;
+		width: max-content;
+		color: #fff;
+		font-size: 13px;
+	}
+    </style>
+    <title>커뮤니티 세부 정보</title>
 </head>
 <body>
 	<br>
 	<div class="co_de CDdiv">
-		<div class="user-box">
-			<div class="profile-pic"></div>
-			<div class="nick-and-date">
-				<div class="co_de_info CDdiv">
-					<a href="<c:url value='/board//profile/+${writer.me_num}'/>">${writer.me_nick}</a>
-				</div>
-				<div class="post-date"></div>
+		<div class="user-box">	
+			<div class="profile-pic">
 			</div>
+			
 		</div>
-		<div class="co_de_title CDdiv">${detail.co_title}</div>
-		<div class="co_de_write">
-			<!-- 글 내용 -->
-			<c:if test="${coImage != null}">
-				<img class="cImg" src="<c:url value='/img/${coImage.ci_name}'/>"
-					class="co_img">
-			</c:if>
-			<c:if test="${empty detail.co_info}">
-				<p>내용이 없습니다.</p>
-			</c:if>
-			<div class="co_de_content CDdiv">${detail.co_info}</div>
+		<div class="item-category">
+					${detail.cc_name}
 		</div>
-
-		<c:if test="${user.me_num == writer.me_num}">
-			<div class="modify-delete">
-				<form
-					action="<c:url value='/board/communityEdit/${detail.co_num}'/>"
-					method="get">
-					<button class="edit-delete-btns btn btn-primary" type="submit">수정</button>
-				</form>
-				<button class="edit-delete-btns btn btn-danger"
-					onclick="deleteCom(${detail.co_num})">삭제</button>
+		<div class="title-area">
+		    <div class="co_de_title CDdiv">${detail.co_title}</div>
+		    <c:if test="${user != null && user.me_num == writer.me_num}">
+			    <button class="title-menu" onclick="menu_popup()" type="button"></button>
+			    <div id="menu_box" class="menu-box">
+			    	<form action="<c:url value='/board/communityEdit/${detail.co_num}'/>" method="get">
+		        		<button class="menu-btn" type="submit">수정</button>
+		   			 </form>
+		   			 <button class="menu-btn" onclick="deleteCom(${detail.co_num})">삭제</button>	 
+			    </div>
+		    </c:if>
+		    <c:if test="${user != null && user.me_num != writer.me_num}">
+			    <button class="title-menu" onclick="menu_popup()" type="button"></button>
+			    <div id="menu_box" class="menu-box">
+			    	<button type="button" class="menu-btn" id="openReportModalBtn">신고</button>
+		  			<button class="menu-btn" onclick="likeCommunity()">추천</button>
+			    </div>
+		    </c:if>
+		</div>
+		<div class="nick-and-date">
+			    <div class="co_de_info CDdiv"><a href="<c:url value='/board//profile/+${writer.me_num}'/>">${writer.me_nick}</a> · ${detail.get_date() }</div>
 			</div>
-		</c:if>
-		<c:if test="${user != null}">
-			<c:if test="${user.me_num != writer.me_num}">
-				<div class="profile-right">
-					<div class="profile-right-box">
-						<button type="button" class="report-post" id="openReportModalBtn">게시물
-							신고하기</button>
-					</div>
-				</div>
-			</c:if>
-		</c:if>
-		<c:if test="${user.me_num != writer.me_num}">
-			<c:if test="${user.me_num != null}">
-				<button class="co_like" onclick="likeCommunity()">추천</button>
-			</c:if>
-		</c:if>
-		<br> <br>
+	    <div class="co_de_write">
+	 	  	<!-- 글 내용 -->
+	 	   <c:if test="${coImage != null}">
+	  		  <img class="cImg" src="<c:url value='/img/${coImage.ci_name}'/>" class="co_img">
+	 	   </c:if>
+	 	   <c:if test="${empty detail.co_info}">
+      		  <p>내용이 없습니다.</p>
+   		   </c:if>
+	   	 	<div class="co_de_content CDdiv">${detail.co_info}</div>
+		</div>
+		<div class="recommend-reply">
+			추천 ${detail.co_like } · 댓글 ${detail.co_reply }
+		</div>
+		<br>
 		<c:if test="${not empty reList}">
-			<div class="co_de_comments">
-				<c:forEach var="reList" items="${reList}">
-					<div class="co_de_comment">
-						<div class="reply_writer">
-							<a href="<c:url value='/board//profile/+${reList.re_me_num}'/>">${reList.replyWriter}</a>
-						</div>
-						${reList.re_info}
-						<div class="report-button2">
-							<c:if test="${reList.replyWriter != user.me_nick}">
-								<div class="profile-right">
-									<!-- 댓글 신고 기능 삭제(파이널 이후 수정?)
-									<div class="profile-right-box">
-										<c:if test= "${user != null}">
-										<button type="button" class="report-post" id="openReportModalBtn2" data-num="${reList.re_num}">신고</button>
-										</c:if>
-									</div>
-									  -->
-								</div>
-							</c:if>
+		    <div class="co_de_comments">
+		        <c:forEach var="reList" items="${reList}">
+		            <div class="co_de_comment">
+		            	<div class="reply_writer">
+		            		<a href="<c:url value='/board//profile/+${reList.re_me_num}'/>">${reList.replyWriter}</a>
+		            	</div>
+		                	${reList.re_info}
+							
 							<c:if test="${reList.replyWriter == user.me_nick}">
-								<button type="button" onclick="delete_reply(${reList.re_num})">삭제</button>
+							    <button type="button" class="reply-delete" onclick="delete_reply(${reList.re_num})">X</button>
 							</c:if>
-						</div>
-					</div>
-				</c:forEach>
-			</div>
+		            </div>
+		        </c:forEach>
+		    </div>
 		</c:if>
 		<br>
-		<form action="<c:url value='/board/communityDetail'/>" method="post"
-			enctype="multipart/form-data">
-			<div class="form-group">
-				<textarea id="summernote" name="re_info" class="form-control"
-					rows="4"></textarea>
+		<form action="<c:url value='/board/communityDetail'/>" method="post" enctype="multipart/form-data">
+		    <div class="form-group reply-input-area">
+				<input id="summernote" class="reply-input" name="re_info" class="form-control" rows="4"></input>
+				<input type="hidden" name="co_num" value="${detail.co_num}">
+				<button class="CDbtn">댓글 등록</button>
 			</div>
-			<input type="hidden" name="co_num" value="${detail.co_num}">
-			<button class="CDbtn">등록</button>
-			<c:if test="${user.me_au == 'admin'  }">
-				<button onclick="deleteComAdmin(${detail.co_num})"
-					class="admindelete">삭제</button>
-			</c:if>
 		</form>
 	</div>
 
@@ -602,7 +624,24 @@ a:hover {
 		            }
 		        });
 		    }
-		}         
+		}    
+		
+		const menu_box = document.querySelector('#menu_box');
+		function menu_popup(){
+			setTimeout(function() {
+				console.log('Works!');
+				menu_box.style.display = 'flex';
+			}, 100);
+		}
+		
+		
+		
+		window.addEventListener("click", function(event) {
+			if (event.target != menu_box && menu_box.style.display == "flex") {
+				    menu_box.style.display = "none";
+			}
+		});
+		
 		function deleteComAdmin(co_num){
 			var ans = confirm('삭제하시겠습니까?');
 			if (ans) {

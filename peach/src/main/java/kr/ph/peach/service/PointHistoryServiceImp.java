@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import kr.ph.peach.dao.PointHistoryDAO;
 import kr.ph.peach.pagination.PointHistoryCriteria;
-import kr.ph.peach.pagination.SaleBoardCriteria;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.PointHistoryVO;
 
@@ -16,7 +15,7 @@ public class PointHistoryServiceImp implements PointHistoryService {
 
 	@Autowired
 	PointHistoryDAO pointHistoryDao;
-	
+
 	@Override
 	public List<PointHistoryVO> getPointHistoryList(PointHistoryCriteria cri, MemberVO user) {
 		if (cri == null) {
@@ -34,5 +33,5 @@ public class PointHistoryServiceImp implements PointHistoryService {
 	}
 
 
-	
+
 }

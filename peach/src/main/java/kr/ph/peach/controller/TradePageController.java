@@ -22,13 +22,13 @@ import kr.ph.peach.vo.TradingRequestVO;
 
 @Controller
 public class TradePageController {
-	
+
 	@Autowired
 	SaleBoardService saleBoardService;
-	
+
 	@Autowired
 	TradingRequestService tradingRequestService;
-	
+
 	@GetMapping("/sale/tradePage")
     public String TradePage(Model model, HttpSession session, Integer tq_num) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
@@ -40,34 +40,34 @@ public class TradePageController {
 	@ResponseBody
 	@PostMapping("/sale/undertake")
 	public Map<String,Object> underTake(@RequestParam("tq_num") int tq_num) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		tradingRequestService.changeTradingCuState(tq_num);
 		System.out.println(tq_num);
 		return map;
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/sale/undertakeCancel")
 	public Map<String,Object> underTakeCancel(@RequestParam("tq_num") int tq_num) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		tradingRequestService.changeTradingCuStateCancel(tq_num);
 		System.out.println(tq_num);
 		return map;
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/sale/giveitem")
 	public Map<String,Object> giveItem(@RequestParam("tq_num") int tq_num) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		tradingRequestService.changeTradingSeState(tq_num);
 		System.out.println(tq_num);
 		return map;
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/sale/giveitemCancel")
 	public Map<String,Object> giveItemCancel(@RequestParam("tq_num") int tq_num) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		tradingRequestService.changeTradingSeStateCancel(tq_num);
 		System.out.println(tq_num);
 		return map;

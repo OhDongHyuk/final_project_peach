@@ -27,6 +27,7 @@ import kr.ph.peach.vo.CityVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.vo.TradeMessageVO;
 import kr.ph.peach.vo.TradingRequestVO;
 import kr.ph.peach.vo.WishVO;
 
@@ -41,10 +42,10 @@ public class HomeController {
 
 	@Autowired
 	MemberService memberSerivce;
-	
+
 	@Autowired
 	TradingRequestService tradingRequestService;
-	
+
 	@Autowired
 	TradeMessageService tradeMessageService;
 
@@ -67,6 +68,7 @@ public class HomeController {
 		if(user != null) {
 			CityVO userCity = memberSerivce.selectCity(user.getMe_ci_num());
 			user.setMe_city_name(userCity.getCi_large() + " " + userCity.getCi_medium() + " " + userCity.getCi_small());
+			model.addAttribute("user", user);
 		}
 		cri.setPerPageNum(20);
 		List<SaleBoardVO> prList = saleBoardService.getSaleBoardList(cri, user);
@@ -78,7 +80,7 @@ public class HomeController {
 		// 현재 페이지에 맞는 게시글을 가져와야함
 		List<SaleBoardVO> list = saleBoardService.getMainSaleBoardList(cri);
 		int totalCount = saleBoardService.getTotalCount(cri);
-	
+
 		if (user != null) {
 			List<WishVO> wishList = memberSerivce.getWishList(user.getMe_num());
 			System.out.println(wishList);
@@ -87,37 +89,44 @@ public class HomeController {
 
 		int displayPageNum = 8;
 		PageMaker pm = new PageMaker(displayPageNum, cri, totalCount);
-
+		List<TradingRequestVO> trList = tradingRequestService.getTradingRequestList(user);
+		List<TradeMessageVO> tmList = tradeMessageService.getTradeMessageList(user);
+		
 		model.addAttribute("pm", pm);
 		model.addAttribute("list", list);
 		model.addAttribute("prList", prList);
 		model.addAttribute("categoryList", categoryList);
-
+		model.addAttribute("trList", trList);
+		model.addAttribute("tmList", tmList);
+		
 		return "/main/home";
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/common/header")
 	public Map<String,Object> updatePost(Model model, HttpSession session) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		List<TradingRequestVO> trList = tradingRequestService.getTradingRequestList(user);
+		List<TradeMessageVO> tmList = tradeMessageService.getTradeMessageList(user);
 		map.put("trList", trList);
+		map.put("tmList", tmList);
 		System.out.println(trList);
+		System.out.println(tmList);
 		return map;
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/common/reject")
 	public Map<String,Object> rejectPost(@RequestParam("tq_num") int tq_num, Model model, HttpSession session) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		TradingRequestVO trv = tradingRequestService.getTradingRequestThat(tq_num);
 		tradeMessageService.rejectMessageToCustomer(trv);
 		tradingRequestService.addPointToCustomer(tq_num);
 		memberSerivce.deleteReducePointHistory(tq_num);
 		boolean rejection = tradingRequestService.deleteTradingRequest(tq_num, model, session);
 		if (rejection) {
-	        // 삭제 작업이 성공한 경우의 로직			
+	        // 삭제 작업이 성공한 경우의 로직
 	        map.put("status", "success");
 	        map.put("message", "거래 요청이 삭제되었습니다.");
 	    } else {
@@ -128,15 +137,25 @@ public class HomeController {
 	    }
 		return map;
 	}
-	
-	
+
+
 	@ResponseBody
 	@PostMapping("/common/accept")
 	public Map<String,Object> accdeptPost(@RequestParam("tq_num") int tq_num) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		TradingRequestVO trv = tradingRequestService.getTradingRequestThat(tq_num);
+		tradeMessageService.acceptMessageToCustomer(trv);
 		tradingRequestService.changeTradingState(tq_num);
 		tradingRequestService.makingTrading(tq_num);
 		System.out.println(map);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("/common/confirmT")
+	public Map<String,Object> confirmPost(@RequestParam("tm_num") int tm_num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		tradeMessageService.confirmPost(tm_num);
 		return map;
 	}
 

@@ -50,7 +50,7 @@
 							    </div>                                                                                  
 							    <hr>                                                                                    
 							    <div class="text-center">                                                               
-							        <a class="small" href="<c:url value='/member/find_id'/>">아이디 찾기</a>                      
+							        <a class="small" href="<c:url value='/member/pw_find'/>">비밀번호 찾기</a>                      
 							    </div>                                                                                  
 							    <div class="text-center">                                                               
 							        <a class="small" href="<c:url value='/member/signup'/>">회원 가입</a>                    

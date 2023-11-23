@@ -27,10 +27,10 @@ import kr.ph.peach.vo.SaleBoardVO;
 @Controller
 @RequestMapping("/chat")
 public class ChatController {
-	
+
 	@Autowired
 	SaleBoardService saleBoardService;
-	
+
 	@Autowired
 	ProfileService profileService;
 	
@@ -58,7 +58,7 @@ public class ChatController {
 			return "message";
 		}
 		ChatVO chat = chatService.selectChat(sb_num, user.getMe_num());
-		if(sb_num != 0 && saleBoard.getSb_ss_num() != 3) {			
+		if(sb_num != 0 && saleBoard.getSb_ss_num() != 3) {
 			if(chat == null && saleBoard.getSb_me_num() != user.getMe_num()){
 				chatService.insertChat(sb_num, user.getMe_num());
 				chat = chatService.selectChat(sb_num, user.getMe_num());
@@ -89,7 +89,7 @@ public class ChatController {
 		model.addAttribute("sb_num", sb_num);
 		return "/chat/chat";
 	}
-	
+
 	@GetMapping("/chat-list")
 	public String chatList(Model model, HttpSession session, Integer sb_num) {
 		MemberVO user = (MemberVO) session.getAttribute("user");
@@ -128,7 +128,7 @@ public class ChatController {
 		model.addAttribute("user", user);
 		return "/chatsub/chat-list";
 	}
-	
+
 	@GetMapping("/message-list")
 	public String messageList(Model model, HttpSession session, int ch_num) {
 		MemberVO user = (MemberVO) session.getAttribute("user");
@@ -151,7 +151,7 @@ public class ChatController {
 		model.addAttribute("board", saleBoard);
 		return "/chatsub/message-list";
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/message-send")
 	public void messageSend(Model model, HttpSession session, int ch_num, String info) {

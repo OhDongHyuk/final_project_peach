@@ -10,18 +10,18 @@ public class AuthServiceImp implements AuthService {
 
 	@Autowired
 	AuthDAO authDao;
-	
+
 	@Override
 	public void deleteCode(String code) {
 		authDao.deleteCode(code);
-		
+
 	}
 
 	@Override
 	public void deleteCodeByAuthNum(String me_id) {
 		authDao.deleteCodeByAuthNum(me_id);
-		
+
 	}
 
-	
+
 }

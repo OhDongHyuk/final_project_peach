@@ -39,17 +39,17 @@ public class ReportServiceImp implements ReportService {
 
 	@Override
 	public List<ReportVO> getreportList(Criteria cri) {
-		
+
 		return reportDao.getreportList(cri);
 	}
 
 	@Override
 	public boolean deleteReport(ReportVO report) {
-		
+
 		if(report == null) {
 			return false;
 		}
-		
+
 		//신고글을 삭제
 		return reportDao.deleteReportNum(report.getRp_num());
 	}

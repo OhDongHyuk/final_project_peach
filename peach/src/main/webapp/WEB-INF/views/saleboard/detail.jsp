@@ -499,6 +499,9 @@ a:hover {
 	text-align: left;
 	margin-top: 20px;
 }
+.modal-body p {
+	font-size: 12px;
+}
 
 .maxtext {
 	color: grey;

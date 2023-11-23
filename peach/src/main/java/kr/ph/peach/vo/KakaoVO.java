@@ -10,5 +10,5 @@ public class KakaoVO {
 	String scope;
 	int expires_in;
 	int refresh_token_expires_in;
-	
+
 }

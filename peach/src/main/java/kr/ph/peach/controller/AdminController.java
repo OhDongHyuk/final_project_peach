@@ -67,9 +67,9 @@ public class AdminController {
 
 	@GetMapping("/manager")
 	public String manager(Model model, HttpSession session, MemberCriteria cri) {
-		
+
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		
+
 		cri.setPerPageNum(8);
 		// 현재 페이지에 맞는 회원정보를 가져와야함
 		List<MemberVO> mbList = memberService.getMemberList(cri);
@@ -88,66 +88,66 @@ public class AdminController {
 
 		return "/admin/manager";
 	}
-	
+
 	@PostMapping("/manager")
 	public String manager(Model model, HttpSession session, int me_st_num, int me_num) {
-		
+
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		memberService.updateState(me_num, me_st_num);
-		
+
 		System.out.println(user);
-		
+
 		model.addAttribute("user",user);
 		return "redirect:/admin/manager";
-		
+
 	}
-	
-	
+
+
 	/*
 	 * 물품 카테고리 관리
 	 * */
-	
+
 	@GetMapping("/salecategory")
 	public String saleBoardCategory(Model model) {
-		
+
 		List<SaleCategoryVO> categoryList = saleCategoryService.getSaleCategoryList();
 		System.out.println(categoryList);
 		model.addAttribute("categoryList", categoryList);
 
 		return "/admin/salecategory";
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/salecategory/type/insert")
 	public Map<String, Object> saleTypeInsert(@RequestBody SaleCategoryVO saleCategory){
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		boolean res = saleCategoryService.insertSaleCategoryType(saleCategory);
 		map.put("res", res);
 		return map;
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/salecategory/type/delete")
 	public Map<String, Object> saleTypeDelete(@RequestBody SaleCategoryVO saleCategory){
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		boolean res = saleCategoryService.deleteSaleCategoryType(saleCategory);
 		map.put("res", res);
 		return map;
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/salecategory/type/update")
 	public Map<String, Object> saleCategoryTypeUpdate(@RequestBody SaleCategoryVO saleCategory){
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		boolean res = saleCategoryService.updateSaleCategoryType(saleCategory);
 		map.put("res", res);
 		return map;
 	}
-		
+
 	/*
 	 * 커뮤니티 카테고리 관리
 	 * */
-	
+
 	@GetMapping("/communitycategory")
 	public String communityCategory(Model model) {
 
@@ -156,29 +156,29 @@ public class AdminController {
 		model.addAttribute("ccList", ccList);
 		return "/admin/communitycategory";
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/communitycategory/type/insert")
 	public Map<String, Object> communityTypeInsert(@RequestBody CommunityCategoryVO communityCategory){
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		boolean res = saleCategoryService.insertCommunityCategoryType(communityCategory);
 		map.put("res", res);
 		return map;
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/communitycategory/type/delete")
 	public Map<String, Object> communityTypeDelete(@RequestBody CommunityCategoryVO communityCategory){
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		boolean res = saleCategoryService.deleteCommunityCategoryType(communityCategory);
 		map.put("res", res);
 		return map;
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/communitycategory/type/update")
 	public Map<String, Object> communityCategoryTypeUpdate(@RequestBody CommunityCategoryVO communityCategory){
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		boolean res = saleCategoryService.updateCommunityCategoryType(communityCategory);
 		map.put("res", res);
 		return map;
@@ -190,7 +190,7 @@ public class AdminController {
 
 		List<ReportVO> report = reportService.getreportList(cri);
 		model.addAttribute("report", report);
-		
+
 		int totalCount = reportService.getTotalCount(cri);
 
 		int displayPageNum = 8;
@@ -198,7 +198,7 @@ public class AdminController {
 
 		System.out.println(cri);
 		model.addAttribute("pm", pm);
-		
+
 		return "/admin/report";
 	}
 
@@ -215,7 +215,7 @@ public class AdminController {
 	@ResponseBody // ajax를 받기위해 필요
 	@PostMapping("/report/delete")
 	public Map<String, Object> reportDeleteNum(@RequestBody ReportVO report){
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		boolean res = reportService.deleteReport(report);
 		map.put("res", res);
 		return map;

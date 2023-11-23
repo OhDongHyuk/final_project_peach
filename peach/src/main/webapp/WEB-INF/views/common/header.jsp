@@ -3,7 +3,7 @@
 	pageEncoding="utf-8"%>
 <header class="header navbar-area">
 	<!-- 헤더 탑-->
-	<div class="topbar">
+	<div class="topbar navbar-area">
 		<div class="container">
 			<div class="row align-items-center">
 				<div class="col-lg-4 col-md-4 col-12">
@@ -69,47 +69,58 @@
 						dataType : 'json',
 						success : function(map) {
 							console.log(map)
-							if (map.trList.length === 0) {
+							if (map.trList.length === 0 && map.tmList.length === 0) {
 								$('#notificationBox').html(
 										'<p>최근 알림이 없습니다.</p>');
 							} else {
 								var notificationList = map.trList;
+								var notificationListM = map.tmList;
 								var notificationBoxContent = '';
+								$.each(notificationList, function(index, item) {
+										console.log(item);
+										console.log(item.saleBoardVO);
+										var imageSrc = item.saleBoardVO.saleImageVOList.length !== 0 ? item.saleBoardVO.saleImageVOList[0].si_name
+												: '';
+										console.log(imageSrc)
+										notificationBoxContent += '<div class="notifi-small">'
+												+ '<img class="notifi-img"  src="/peach/resources/image/' + imageSrc + '">'
+												+ '<a href="<c:url value="/saleboard/detail?sb_num=' + item.saleBoardVO.sb_num + '"/>">'
+												+ '<div class="productName">'
+												+ item.saleBoardVO.sb_name
+												+ '</div>'
+												+ '</a>'
+												+ '</br>'
+												+ '<a href="<c:url value="/board/profile/' + item.memberVO.me_num + '"/>">'
+												+ '<div class="userNick">'
+												+ item.memberVO.me_nick
+												+ '</div>'
+												+ '</a>'
+												+ '<div class="notifi-btnbox">'
+												+ '<button class="notifi-btn accept" onclick="acception('
+												+ item.tq_num
+												+ ')">수락</button>'
+												+ '<button class="notifi-btn reject" onclick="rejection('
+												+ item.tq_num
+												+ ')">거절</button>'
+												+ '</div>'
+												+ '</div>';
 
-								$.each(
-												notificationList,
-												function(index, item) {
-													console.log(item);
-													console
-															.log(item.saleBoardVO);
-													var imageSrc = item.saleBoardVO.saleImageVOList.length !== 0 ? item.saleBoardVO.saleImageVOList[0].si_name
-															: '';
-													console.log(imageSrc)
-													notificationBoxContent += '<div class="notifi-small">'
-															+ '<img class="notifi-img"  src="/peach/resources/image/' + imageSrc + '">'
-															+ '<a href="<c:url value="/saleboard/detail?sb_num=' + item.saleBoardVO.sb_num + '"/>">'
-															+ '<div class="productName">'
-															+ item.saleBoardVO.sb_name
-															+ '</div>'
-															+ '</a>'
-															+ '</br>'
-															+ '<a href="<c:url value="/board/profile/' + item.memberVO.me_num + '"/>">'
-															+ '<div class="userNick">'
-															+ item.memberVO.me_nick
-															+ '</div>'
-															+ '</a>'
-															+ '<div class="notifi-btnbox">'
-															+ '<button class="notifi-btn accept" onclick="acception('
-															+ item.tq_num
-															+ ')">수락</button>'
-															+ '<button class="notifi-btn reject" onclick="rejection('
-															+ item.tq_num
-															+ ')">거절</button>'
-															+ '</div>'
-															+ '</div>';
-
-												});
-
+								});
+								$.each(notificationListM, function(index, item) {
+								    notificationBoxContent += '<div class="notifi-small">'
+								        + '<a href="<c:url value="/saleboard/detail?sb_num=' + item.tm_sb_num + '"/>">'
+								        + '<div class="productName">'
+								        + item.tm_sb_num + '번' + item.tm_info
+								        + '</div>'
+								        + '</a>'
+								        + '</br>'
+								        + '<div class="notifi-btnbox">'
+								        + '<button class="notifi-btn confirmT" onclick="confirmT('
+								        + item.tm_num
+								        + ')">확인</button>'								        
+								        + '</div>'
+								        + '</div>';
+								});
 								$('#notificationBox').html(
 										notificationBoxContent);
 							}
@@ -128,6 +139,29 @@
 			});
 		});
 
+		function confirmT(tm_num) {
+			$.ajax({
+				method : 'post',
+				url : '<c:url value="/common/confirmT"/>', // 수정이 필요한 부분
+				data : {
+					tm_num : tm_num
+				},
+				dataType : 'json',
+				success : function(map) {
+					// 성공 시 수락 처리 후 작업
+					alert('메세지를 확인하였습니다.');
+					var url = `/peach`;
+					window.location.href = url;
+
+				},
+				error : function(xhr, status, error) {
+					console.log('오류 발생:', error);
+					// 오류 처리 로직
+				}
+			});
+		}
+		
+		
 		function acception(tq_num) {
 			// 여기에 '수락' 버튼에 대한 로직을 추가
 			// 예를 들어, '수락' 버튼이 클릭되었을 때 해야 할 일을 작성
@@ -181,6 +215,7 @@
 				}
 			});
 		}
+		
 	</script>
 </header>
 <style>
