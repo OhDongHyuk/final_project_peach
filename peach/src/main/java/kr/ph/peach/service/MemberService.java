@@ -83,4 +83,6 @@ public interface MemberService {
 	
 	boolean deleteMember(MemberVO member);
 
+	void withdrawPointHistory(int me_num, int wMoney);
+
 }

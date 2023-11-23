@@ -346,6 +346,7 @@ public class ProfileController {
 		 int PPoint = userMoney-WMoney;
 		 
 		 if(profileService.updateWithdraw(PPoint, user)) {
+			 memberService.withdrawPointHistory(user.getMe_num(), WMoney);
 				msg = new Message("/board/profile/"+ user.getMe_num(), "출금 성공.");
 			} else {
 				msg = new Message("/board/profilePay", "출금 실패.");

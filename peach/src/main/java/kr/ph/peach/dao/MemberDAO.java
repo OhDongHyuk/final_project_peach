@@ -86,4 +86,6 @@ public interface MemberDAO {
 
 	void deleteReducePointHistory(@Param("tq_num")int tq_num);
 
+	void withdrawPointHistory(@Param("me_num")int me_num, @Param("wMoney")int wMoney);
+
 }
