@@ -254,7 +254,8 @@
 			<div class="row">
 				<div class="col-12 custom-padding-right">
 					<div class="slide slide_wrap">
-				      <div class="slide_item item1"><img style="width: 100%; height: 100%" src="<c:url value='/resources/image/banner1.png'/>"></div>
+				      <div class="slide_item item1"><
+ style="width: 100%; height: 100%" src="<c:url value='/resources/image/banner1.png'/>"></div>
 				      <div class="slide_item item2"><img style="width: 100%; height: 100%" src="<c:url value='/resources/image/banner2.png'/>"></div>
 				      <div class="slide_item item3"><img style="width: 100%; height: 100%" src="<c:url value='/resources/image/banner3.png'/>"></div>
 				      <div class="slide_prev_button slide_button">&lt;</div>
@@ -287,7 +288,7 @@
 						<div class="image-holder">
 							<c:choose>
 								<c:when test="${pr.saleImageVOList.size() != 0 }">
-									<img class="item" src="<c:url value='/resources/image/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_thb_name :\"\" }'/>">
+									<img class="item" src="<c:url value='/img/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_thb_name :\"\" }'/>">
 								</c:when>
 								<c:otherwise>
 									<img class="item" src="<c:url value='/resources/image/NoMainImage.png'/>">
