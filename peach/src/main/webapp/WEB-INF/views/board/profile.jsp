@@ -617,11 +617,11 @@
 				</c:forEach>
 				</c:if>
 				<c:if test="${empty salingProducts}">
-					<div>
-						<p class="empty_product">판매중인 상품이 없습니다.</p>
-					</div>
-				</c:if>	
-				</div>
+			         <div class="empty_product_box">
+			            <p class="empty_product">판매중인 상품이 없습니다.</p>
+			         </div>
+			    </c:if>
+			</div>
 	<div id="sellcbox">
 		<c:if test="${proceeding.size() != 0 }">
 		<c:forEach var="proceeding" items="${proceeding}">
