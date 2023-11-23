@@ -499,6 +499,7 @@
     	content: '원';
     	font-size: 16px;
     	font-weight: 400;
+    	padding-right: 5px;
     	color: rgb(153, 153, 153);
     	position: absolute;
     	top: 0;
