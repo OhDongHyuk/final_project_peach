@@ -27,15 +27,16 @@ import net.coobird.thumbnailator.geometry.Positions;
 @Service
 public class SaleBoardServiceImp implements SaleBoardService {
 
-	String uploadPath = "C:\\Users\\user1\\Documents\\workspace-sts-3.9.1\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\peach\\resources\\image";
+	//String uploadPath = "C:\\Users\\user1\\Documents\\workspace-sts-3.9.1\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\peach\\resources\\image";
 	//String uploadPath = "/Users/hojunlee/Documents/workspace-sts-3.9.18.RELEASE/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/peach/resources/image";
-
+	String uploadPath = "C:\\saleboard\\img";
+	
 	@Autowired
 	SaleBoardDAO saleBoardDao;
 	
 	@Autowired
 	ChatDAO chatDao;
-
+	
 	@Override
 	public List<SaleBoardVO> getSaleBoardList(SaleBoardCriteria cri, MemberVO user) {
 		if (cri == null) {

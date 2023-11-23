@@ -609,8 +609,8 @@ span {
 						<c:when test="${board.saleImageVOList.size() != 0 }">
 							<c:forEach items="${board.saleImageVOList}" var="saleImage">
 								<li><img
-									src="<c:url value='/resources/image/${saleImage.si_thb_name }'/>"
-									data-src="<c:url value='/resources/image/${saleImage.si_name }'/>"></li>
+									src="<c:url value='/sbimg/${saleImage.si_thb_name }'/>"
+									data-src="<c:url value='/sbimg/${saleImage.si_name }'/>"></li>
 							</c:forEach>
 						</c:when>
 						<c:otherwise>

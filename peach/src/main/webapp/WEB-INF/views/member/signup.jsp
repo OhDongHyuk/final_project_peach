@@ -317,7 +317,7 @@
 		$('[name=large]').change(function(){
 			let largeName = $(this).val();
 			//medium태그에 넣을 option태그
-			let str = '<option value="">시/군/구를 선택하세요.</option>';s
+			let str = '<option value="">시/군/구를 선택하세요.</option>';
 			//시도를 선택하세요를 선택하면
 			if(largeName == ""){
 				$('[name=medium]').html(str);
