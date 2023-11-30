@@ -243,6 +243,7 @@
 			color: black;
 			width: 900px;
 			margin: auto;
+			margin-top: 30px;
 			
 		}
 		.image-box {
@@ -295,15 +296,14 @@
 			margin-bottom: 12px;
 			display: flex;
 			justify-content: space-between;
-			border-bottom: 1px solid #e9ecef;
 		}
 		.content-box {
 			padding: 20px 0;
 			margin: 0 auto;
+			border-top: 1px solid #e9ecef;
 			border-bottom: 1px solid #e9ecef;
 		}
 		.title {
-			margin-top: 10px;
 			font-size: 20px;
 			font-weight: 600;
 			line-height: 1.5;
@@ -470,18 +470,27 @@
 				<div class="profile-box">
 					<div class="profile-left">
 						<img src="" class="profile-thumnail">
-						<div class="profile-name">${tr.saleBoardVO.sb_me_nickname}</div>
+						<c:if test="${tr.tradingVO.tr_se == 1 }">
+						<div class="profile-name" style="font-size: 14px; text-align: center; color: grey;">인계대기중</div>
+						</c:if>
+						<c:if test="${tr.tradingVO.tr_se == 2 }">
+						<div class="profile-name" style="font-size: 14px; text-align: center;">인계완료</div>
+						</c:if>
+						<div class="profile-name" style="font-size: 18px;">판매자 : ${tr.saleBoardVO.memberVO.me_nick}</div>
 					</div>
 					<div class="profile-right">
 						<div class="profile-right-box">
-							<span class="profile-sweetness-text">당도</span>
-							<span class="profile-sweetness">${tr.saleBoardVO.sb_me_sugar}</span>
+							<c:if test="${tr.tradingVO.tr_cu == 1 }">
+							<div class="profile-name" style="font-size: 14px; text-align: center; color: grey;">인수대기중</div>
+							</c:if>
+							<c:if test="${tr.tradingVO.tr_cu == 2 }">
+							<div class="profile-name" style="font-size: 14px; text-align: center;">인수완료</div>
+							</c:if>
+							<span class="profile-sweetness" style="font-size: 18px;">구매자 : ${tr.memberVO.me_nick}</span>
 						</div>
 					</div>
 				</div>
 				<div class="content-box">
-					<p class="title">판매자: ${tr.saleBoardVO.memberVO.me_name}</p>
-					<p class="title">구매자: ${tr.memberVO.me_name}</p>
 					<p class="title">${tr.saleBoardVO.sb_name}</p>
 					<p class="category-date">${tr.saleCategoryVO.sc_name} | ${tr.saleBoardVO.sb_date}</p>
 					<p class="price">${tr.saleBoardVO.sb_price}</p>
@@ -499,7 +508,7 @@
 								<c:when test="${user.me_num == tr.saleBoardVO.sb_me_num && tr.tradingVO.tr_se == 1}">
 									<button type="button" onClick="location.href='<c:url value='/chat/chat?sb_num=0'/>'" class="chat">피치톡</button>
 									<button id="giveItem" type="button" class="pay" data-tq-num="${tr.tq_num}">인계완료</button>
-									<button type="button" class="report-post" id="openReportModalBtn">거래취소 요청</button>
+									<button type="button" class="cancel" id="openReportModalBtn">거래취소 요청</button>
 								</c:when>
 								<c:otherwise>
 									<c:choose>
@@ -509,10 +518,10 @@
 										<c:otherwise>																						
 											<c:choose>
 												<c:when test="${user.me_num == tr.tq_me_num && tr.tradingVO.tr_cu == 2}">
-													<button id="underTakeCancel" type="button" class="pay" data-tq-num="${tr.tq_num}">인수취소</button>
+													<p>인수가 완료되었습니다. 상대방이 인계를 완료하면 거래가 종료됩니다.</p>
 												</c:when>
 												<c:otherwise>
-													<button id="giveItemCancel" type="button" class="pay" data-tq-num="${tr.tq_num}">인계취소</button>
+													<p>인계가 완료되었습니다. 상대방이 인수를 완료하면 거래가 종료됩니다.</p>
 												</c:otherwise>
 											</c:choose>
 										</c:otherwise>
@@ -569,9 +578,9 @@
 	                    alert("제품 인수를 완료하였습니다");
 	                    location.reload();
 	                },
-	                error: function(xhr, status, error) {
+	                error: function(xhr, status, error1) {
 	                    // 오류 발생 시 실행될 코드
-	                    console.log("요청 오류", error);
+	                    console.log(xhr);
 	                    // 여기서 오류 시 할 작업을 수행
 	                }
 	            });
@@ -709,11 +718,6 @@
 
 	function reportPost() {
 		
-		if('${user.me_num}' == '${board.sb_me_num}'){
-			alert("본인의 게시물은 신고가 불가합니다.");
-			return;
-		}
-		
 		const reportReason = document.getElementById("reportReason").value;
 	
 	  	if (reportReason.trim() === "") {
@@ -722,9 +726,9 @@
 		}
 	  	
 		let data = {
-				rp_key : '${board.sb_num}',
-				rp_info : reportReason,
-				rp_table : 'sale_board'
+			rp_key : '${trList.get(0).tq_sb_num}',
+			rp_info : reportReason,
+			rp_table : '3'
 		};
 		ajaxJsonToJson(
 				  false,

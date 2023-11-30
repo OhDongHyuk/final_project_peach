@@ -4,9 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.pagination.CriteriaCom;
-import kr.ph.peach.pagination.CriteriaProfile;
 import kr.ph.peach.vo.CommunityCategoryVO;
 import kr.ph.peach.vo.CommunityImageVO;
 import kr.ph.peach.vo.CommunityVO;
@@ -21,7 +19,7 @@ public interface CommunityDAO {
 	List<CommunityCategoryVO> selectCCategory();
 
 	boolean insertCCnames(@Param("CCNames")String CCNames,@Param("user") MemberVO user);
-	
+
 	int selectCICategory(@Param("CICategory")String CICategory);
 
 	void insertCommunityImage(@Param("communityImage")CommunityImageVO communityImageVo);
@@ -30,7 +28,7 @@ public interface CommunityDAO {
 
 	String selectMeNick(@Param("list")CommunityVO list);
 
-	int selectCountBoardList(@Param("cri")CriteriaCom cri);
+	int selectCountBoardList(@Param("cri")CriteriaCom cri,@Param("user") MemberVO user);
 
 	CommunityVO selectDetail(@Param("co_num")int co_num);
 
@@ -73,6 +71,8 @@ public interface CommunityDAO {
 	boolean deleteComImg(@Param("co_num")int co_num);
 
 	void replyDelete(Integer re_num);
+
+	List<CommunityCategoryVO> selectCommunityCategotyList();
 
 
 }

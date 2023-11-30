@@ -23,12 +23,12 @@ import kr.ph.peach.vo.SugarListVO;
 
 @Service
 public class ProfileServiceImp implements ProfileService{
-	
+
 	@Autowired
 	private ProfileDAO profileDao;
-	
+
 	String uploadPath = "C:\\finalImg\\img";
-	
+
 	@Override
 	public List<SaleBoardVO> getProductsById(int me_num, int state) {
 		 List<SaleBoardVO> products = profileDao.getProductsById(me_num, state);
@@ -41,7 +41,7 @@ public class ProfileServiceImp implements ProfileService{
 		 List<SaleCategoryVO> category = profileDao.getCategoriesByScNum(sb_sc_num);
 		    return category;
 	}
-	
+
 	@Override
 	public void dateUp(Integer sb_num) {
 		profileDao.dateUp(sb_num);
@@ -52,8 +52,8 @@ public class ProfileServiceImp implements ProfileService{
 		if(sb_num == null) {
 			return false;
 		}else {
-		
-		//게시글 삭제 
+
+		//게시글 삭제
 		profileDao.deleteBoard(sb_num);}
 		return true;
 	}
@@ -80,16 +80,16 @@ public class ProfileServiceImp implements ProfileService{
 		}
 		profileDao.updateUserId(user);
 		profileDao.updateUserPw(user);
-		
+
 		if(files == null || files.length == 0) {
 			return true;
 		}
-		
+
 		uploadFileAndInsert(files, user.getMe_num(), Original);
-		
+
 		return true;
 	}
-	
+
 	private void uploadFileAndInsert(MultipartFile[] files, int me_num, MultipartFile Original) {
 		if(files == null || files.length == 0) {
 			return;
@@ -101,8 +101,8 @@ public class ProfileServiceImp implements ProfileService{
 		if(pfIMG != null && Original == null) {
 			profileDao.deleteIMG(pfIMG.getPi_pf_num());
 		}
-		
-		
+
+
 		int pf_num = pf_num2.getPf_num();
 		
 		for(MultipartFile file : files) {
@@ -111,16 +111,15 @@ public class ProfileServiceImp implements ProfileService{
 			}
 			try {
 				String pi_name = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
-				System.out.println("pi_name"+pi_name);
 				ProfileImageVO profileImage = new ProfileImageVO(pi_name,pf_num);
 				profileDao.insertProfileFile(profileImage);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
-	
+
 
 	@Override
 	public void updateCity(MemberVO user, int me_ci_num) {
@@ -172,7 +171,7 @@ public class ProfileServiceImp implements ProfileService{
 	@Override
 	public void addProfileNum(int me_num) {
 		profileDao.addProfileNum(me_num);
-		
+
 	}
 
 	@Override
@@ -214,7 +213,6 @@ public class ProfileServiceImp implements ProfileService{
 	@Override
 	public List<SaleBoardVO> selectBuy(int me_num) {
 		List<SaleBoardVO> meNumBuy = profileDao.selectBuy(me_num);
-		System.out.println("meNumBuy"+meNumBuy);
 		return meNumBuy;
 	}
 

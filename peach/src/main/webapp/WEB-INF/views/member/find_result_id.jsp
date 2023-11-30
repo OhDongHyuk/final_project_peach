@@ -33,7 +33,7 @@
 	<div class="card-body p-0">                                                                             
 	<!-- Nested Row within Card Body -->                                                                
 	<div class="row">                                                                                   
-	<div class="col-lg-6 d-none d-lg-block bg-password-image"><img style="width: 100%; margin-top: 100px" src="<c:url value='/img/피치.png'/>"></div>                                
+	<div class="col-lg-6 d-none d-lg-block bg-password-image"><img style="width: 100%; margin-top: 100px" src="<c:url value='/img/피치.png'/>"></div>                                  
 	<div class="col-lg-6">                                                                          
 				<div class="p-5">                                                                           
 							    <div class="text-center">                                                               
@@ -50,7 +50,7 @@
 							    </div>                                                                                  
 							    <hr>                                                                                    
 							    <div class="text-center">                                                               
-							        <a class="small" href="<c:url value='/member/find_id'/>">아이디 찾기</a>                      
+							        <a class="small" href="<c:url value='/member/pw_find'/>">비밀번호 찾기</a>                      
 							    </div>                                                                                  
 							    <div class="text-center">                                                               
 							        <a class="small" href="<c:url value='/member/signup'/>">회원 가입</a>                    

@@ -8,5 +8,6 @@ public class TradingRequestVO {
 	private SaleBoardVO saleBoardVO;
 	private MemberVO memberVO;
 	private SaleCategoryVO saleCategoryVO;
-	private TradingVO TradingVO;
+	private TradingVO tradingVO;
+	private TradeMessageVO tradeMessageVO;
 }

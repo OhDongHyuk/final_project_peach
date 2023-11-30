@@ -27,10 +27,9 @@ public class MemberServiceImp implements MemberService {
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	private JavaMailSender mailSender;
-
 
 	@Override
 	public boolean signup(MemberVO member) {
@@ -59,40 +58,36 @@ public class MemberServiceImp implements MemberService {
 		// 아이디, 비번 null 체크 + 유효성 검사
 		// 아이디는 이메일 형식
 		String idRegex = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([\\-.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$";
-		//비번은 영문,숫자,특수문자로 이루어지고 8~20자 
+		//비번은 영문,숫자,특수문자로 이루어지고 8~20자
 		String pwRegex = "^[a-zA-Z0-9!@#$%^&*()_+|~]{8,20}$";
 
 		// 아이디가 유효성에 맞지 않으면
-		if (!Pattern.matches(idRegex, member.getMe_id())) {
-			return false;
-		}
 		// 비번이 유효성에 맞지 않으면
-		if (!Pattern.matches(pwRegex, member.getMe_pw())) {
+		if (!Pattern.matches(idRegex, member.getMe_id()) || !Pattern.matches(pwRegex, member.getMe_pw())) {
 			return false;
 		}
 
 		// 비번 암호화
 		String encPw = passwordEncoder.encode(member.getMe_pw());
 		member.setMe_pw(encPw);
-		System.out.println(member);
 		// 회원가입
 		return memberDao.insertMember(member);
 	}
 
 	@Override
 	public MemberVO login(MemberVO member) {
-		
+
 		if(!checkIdRegex(member.getMe_id()) || !checkPwRegex(member.getMe_pw())) {
 			return null;
 		}
-		
+
 		//아이디와 일치하는 회원 정보를 가져옴
 		MemberVO user = memberDao.selectMember(member.getMe_id());
-		//아이디와 일치하는 회원 정보가 있고, 비번이 일치하면 
+		//아이디와 일치하는 회원 정보가 있고, 비번이 일치하면
 		if(user != null && passwordEncoder.matches(member.getMe_pw(), user.getMe_pw())) {
 			return user;
 		}
-		
+
 		return null;
 	}
 
@@ -112,10 +107,10 @@ public class MemberServiceImp implements MemberService {
 
 		return memberDao.selectMemberBySession(session_id);
 	}
-	
+
 	@Override
 	public List<WishVO> getWishList(int me_num) {
-		
+
 		return memberDao.getsaleBoardWishList(me_num);
 	}
 
@@ -137,7 +132,7 @@ public class MemberServiceImp implements MemberService {
 
 	@Override
 	public boolean updateState(int me_num, int me_st_num) {
-		
+
 		return memberDao.updateState(me_num, me_st_num);
 	}
 
@@ -149,7 +144,7 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public boolean checkNick(String nick) {
 		return memberDao.selectMemberByNickName(nick) == null;
-		
+
 	}
 
 	@Override
@@ -173,7 +168,7 @@ public class MemberServiceImp implements MemberService {
 	public List<CityVO> getSmall(String medium) {
 		return memberDao.selectSmallCity(medium);
 	}
-	
+
 	@Override
 	public List<BankVO> getBank() {
 		return  memberDao.selectBank();
@@ -198,7 +193,7 @@ public class MemberServiceImp implements MemberService {
 		return memberDao.selectMemberByAcc(acc);
 
 	}
-	
+
 	//-------------아이디 찾기------------
 	@Override
 	public MemberVO memberIdFind(MemberVO member) {
@@ -210,12 +205,8 @@ public class MemberServiceImp implements MemberService {
 	    MemberVO member = memberDao.selectMember(me_id);
 
 	    // 아이디(email)를 잘못 입력
-	    if (member == null) {
-	        return false;
-	    }
-
 	    // 이름 잘못 입력
-	    if (!member.getMe_name().equals(me_name)) {
+	    if ((member == null) || !member.getMe_name().equals(me_name)) {
 	        return false;
 	    }
 
@@ -232,7 +223,7 @@ public class MemberServiceImp implements MemberService {
 	             + "<table width='100%' bgcolor='#76076' style='margin: 0; padding: 0; font-family: Arial, sans-serif;'>"
 	             + "  <tr>"
 	             + "    <td align='center'>"
-	             + "      <img src='http://localhost:8080/peach/resources/image/피치.png' style='display: block; margin: 0 auto;'>"
+	             + "      <img src='http://localhost:8080/peach/img/피치.png' style='display: block; margin: 0 auto;'>"
 	             + "      <h1 style='text-align: center; color: #ffffff;'>비밀번호 변경</h1>"
 	             + "      <p style='text-align: center; color: #ffffff;'>안녕하세요 " + me_name + " 님,</p>"
 	             + "      <p style='text-align: center; color: #ffffff;'>비밀번호를 재설정하기 위해 아래 링크를 클릭하세요.</p>"
@@ -254,7 +245,6 @@ public class MemberServiceImp implements MemberService {
 
 	        mailSender.send(message);
 	    } catch (Exception e) {
-	        System.out.println(e.getMessage());
 	        return false;
 	    }
 
@@ -264,20 +254,22 @@ public class MemberServiceImp implements MemberService {
 	}
 
 	private boolean checkIdRegex(String id) {
-		//아이디는 영문,숫자,@._-로 이루어지고 8~20자 
+		//아이디는 영문,숫자,@._-로 이루어지고 8~20자
 		String regexId = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([\\-.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$";
-		
+
 		if(id == null) {
 			return false;
 		}
 		return Pattern.matches(regexId, id);
 	}
-	
+
 	private boolean checkPwRegex(String pw) {
 		
-		// 비번은 영문,숫자,특수문자로 이루어지고 8~20자
-		String regexPw = "^[a-zA-Z0-9!@#$%^&*()_+|~]{8,20}$";
-		if (pw == null) {
+		//비번은 영문,숫자,특수문자로 이루어지고 8~20자 
+
+		String regexPw = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_+|]).{8,20}$";
+
+		if(pw == null) {
 			return false;
 		}
 		return Pattern.matches(regexPw, pw);
@@ -286,7 +278,7 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public void addPoints(int me_num, int paidAmount) {
 		memberDao.addPoints(me_num, paidAmount);
-		
+
 	}
 
 	@Override
@@ -301,7 +293,7 @@ public class MemberServiceImp implements MemberService {
 		}
 		return memberDao.selectCity(me_ci_num);
 	}
-	
+
 
 	@Override
 	public void withdrawMember(MemberVO user) {
@@ -317,9 +309,6 @@ public class MemberServiceImp implements MemberService {
 	public MemberVO kakaologin(String kakaoname) {
 		// 아이디와 일치하는 회원 정보를 가져옴
 		MemberVO user = memberDao.selectMemberID(kakaoname);
-		System.out.println("가져온 유저아이디확인" + kakaoname);
-		System.out.println("닉네임확인" + user);
-
 		return user;
 	}
 
@@ -354,25 +343,21 @@ public class MemberServiceImp implements MemberService {
 		String pwRegex = "^[a-zA-Z0-9!@#$%^&*()_+|~]{8,20}$";
 
 		// 아이디가 유효성에 맞지 않으면
-		if (!Pattern.matches(idRegex, member.getMe_id())) {
-			return false;
-		}
 		// 비번이 유효성에 맞지 않으면
-		if (!Pattern.matches(pwRegex, member.getMe_pw())) {
+		if (!Pattern.matches(idRegex, member.getMe_id()) || !Pattern.matches(pwRegex, member.getMe_pw())) {
 			return false;
 		}
 
 		// 비번 암호화
 		String encPw = passwordEncoder.encode(member.getMe_pw());
 		member.setMe_pw(encPw);
-		System.out.println(member);
 		// 회원가입
 		return memberDao.insertMemberForKakao(member);
 	}
 
 	@Override
 	public boolean checkcode(String code, int num) {
-		
+
 		return memberDao.checkcode(code,num) != 0;
 	}
 
@@ -394,10 +379,10 @@ public class MemberServiceImp implements MemberService {
 	    // 반복문을 통해 리스트 내의 객체들을 확인
 	    for (MemberVO request : MemberList) {
 	        if (request.getMe_id().equals(me_id) && request.getMe_name().equals(me_name)) {
-	            
+
 	            return true;
 	        }
-	    }	   
+	    }
 	    // 리스트를 모두 확인했지만 해당 데이터가 없는 경우 true 반환
 	    return false;
 	}
@@ -405,6 +390,45 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public List<MemberVO> getMemberLists() {
 		return memberDao.getMemberLists();
+	}
+
+	@Override
+	public void addPointHistory(int me_num, int paidAmount) {
+		memberDao.addPointHistory(me_num, paidAmount);
+
+	}
+
+	@Override
+	public void reducePointHistory(int me_num, int pp_point) {
+		memberDao.reducePointHistory(me_num, pp_point);
+
+	}
+
+	@Override
+	public void deleteReducePointHistory(int tq_num) {
+		memberDao.deleteReducePointHistory(tq_num);
+
+	}
+
+	//-----------------------삭제
+
+	@Override
+	public boolean deleteMember(MemberVO member) {
+		if(!checkIdRegex(member.getMe_id()) || !checkPwRegex(member.getMe_pw())) {
+			return false;
+		}
+
+		//아이디와 일치하는 회원 정보를 가져옴
+		MemberVO user = memberDao.selectMember(member.getMe_id());
+		//아이디와 일치하는 회원 정보가 있고, 비번이 일치하면 
+		if(user == null || !passwordEncoder.matches(member.getMe_pw(), user.getMe_pw())) {
+			return false;
+		}
+		if(!user.getMe_phone().equals(member.getMe_phone())) {
+			return false;
+		}
+		return memberDao.deleteMember(member);
+
 	}
 	
 	

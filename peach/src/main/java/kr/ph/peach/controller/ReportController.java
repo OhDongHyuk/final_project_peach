@@ -14,23 +14,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.ph.peach.service.ReportService;
 import kr.ph.peach.service.SaleBoardService;
-import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.ReportVO;
 
 @Controller
 public class ReportController {
-	
+
 	@Autowired
 	SaleBoardService saleBoardService;
-	
+
 	@Autowired
 	ReportService reportService;
-	
+
 	@ResponseBody
 	@PostMapping("/report")
 	public Map<String, Object> report(@RequestBody ReportVO reportVo, Model model, HttpSession session) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		MemberVO user = (MemberVO) session.getAttribute("user");
 		String msg = "";
 		if(reportVo == null || user == null) {
@@ -42,7 +41,7 @@ public class ReportController {
 		if(reportService.insertReport(reportVo)) {
 			msg = "성공";
 			map.put("msg", msg);
-			return map;			
+			return map;
 		}
 		msg = "실패";
 		map.put("msg", msg);
