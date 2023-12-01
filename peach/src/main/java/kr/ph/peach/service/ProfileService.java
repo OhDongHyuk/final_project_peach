@@ -10,19 +10,21 @@ import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.vo.SaleImageVO;
+import kr.ph.peach.vo.SugarListVO;
 
 public interface ProfileService {
 
 	List<SaleBoardVO> getProductsById(int me_num, int state);
 
 	List<SaleCategoryVO> getProductsByCTNum(int sb_sc_num);
-	
+
 	void dateUp(Integer sb_num);
 
 	boolean deletePD(Integer sb_num);
 
 	List<CityVO> getLargeCity();
-	
+
 	List<CityVO> getMediumCity(String large);
 
 	List<CityVO> getSmall(String medium);
@@ -33,7 +35,7 @@ public interface ProfileService {
 
 	void updateText(MemberVO user, String pf_text);
 
-	ProfileVO getPfText(MemberVO user);
+	ProfileVO getPfText(int meNum);
 
 	List<ProfileVO> getPF(MemberVO user);
 
@@ -57,11 +59,27 @@ public interface ProfileService {
 
 	int selectPoint(int me_num);
 
-	List<String> selectBuy(int me_num);
+	List<SaleBoardVO> selectBuy(int me_num);
 
-	List<String> selectSel(int me_num);
+	List<SaleBoardVO> selectSel(int me_num);
 
+	List<SaleBoardVO> selectProceeding(int me_num);
 
+	MemberVO getUserById(String me_id);
+
+	CityVO selectUserCity(MemberVO user);
+
+	boolean insertSugar(SugarListVO sugarList, MemberVO user);
+
+	SugarListVO selectSugar(SugarListVO sugarList, MemberVO user);
+
+	int selectTrTqNum(int sb_num);
+
+	Integer selectSugarContent(int meNum);
+
+	void updateSugar(Integer sugarContent, int meNum);
+
+	int selectSellUser(SugarListVO sugarList);
 
 	
 }

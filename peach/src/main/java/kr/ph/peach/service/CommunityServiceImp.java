@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.ph.peach.dao.CommunityDAO;
-import kr.ph.peach.pagination.Criteria;
 import kr.ph.peach.pagination.CriteriaCom;
-import kr.ph.peach.pagination.CriteriaProfile;
-import kr.ph.peach.pagination.PageMakerCom;
 import kr.ph.peach.util.UploadFileUtils;
 import kr.ph.peach.vo.CommunityCategoryVO;
 import kr.ph.peach.vo.CommunityImageVO;
@@ -21,15 +18,15 @@ import kr.ph.peach.vo.ReplyVO;
 
 @Service
 public class CommunityServiceImp implements CommunityService{
-	
+
 	@Autowired
 	private CommunityDAO communityDao;
-	
+
 	String uploadPath = "C:\\finalImg\\img";
-	
+
 	@Override
 	public boolean insertCommunity(CommunityVO community, MemberVO user, MultipartFile[] fileList, int cc_num) {
-		if(community == null || 
+		if(community == null ||
 			community.getCo_title() == null || community.getCo_title().trim().length() == 0 ||
 			community.getCo_info() == null) {
 			return false;
@@ -38,7 +35,7 @@ public class CommunityServiceImp implements CommunityService{
 		if(user == null) {
 			return false;
 		}
-		
+
 		//게시글을 DB에 저장
 		boolean res = communityDao.insertCommunity(community,user , cc_num);
 		if(!res) {
@@ -49,12 +46,12 @@ public class CommunityServiceImp implements CommunityService{
 		if(fileList == null || fileList.length == 0) {
 			return true;
 		}
-		
+
 		for(MultipartFile file : fileList) {
 			if(file == null || file.getOriginalFilename().length() == 0) {
 				continue;
 			}
-			
+
 			try {
 				//원래 파일명
 				String ci_ori_name = file.getOriginalFilename();
@@ -62,36 +59,38 @@ public class CommunityServiceImp implements CommunityService{
 				String fi_name = UploadFileUtils.uploadFile(uploadPath, ci_ori_name, file.getBytes());
 				//파일 객체
 				CommunityImageVO CommunityImageVo = new CommunityImageVO(community.getCo_num(), fi_name, ci_ori_name);
+				System.out.println(community);
+				System.out.println(CommunityImageVo);
 				communityDao.insertCommunityImage(CommunityImageVo);
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
-			
+
 		}
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public List<CommunityCategoryVO> selectCCategory() {
 	    List<CommunityCategoryVO> CCategory = communityDao.selectCCategory();
 	    return CCategory;
 	}
-	
+
 	@Override
 	public int selectCIname(String CICategory) {
-	
+
 		int cc_num = communityDao.selectCICategory(CICategory);
 		return cc_num;
 	}
 
 	@Override
-	public List<CommunityVO> getBoardList(CriteriaCom cri) {
+	public List<CommunityVO> getBoardList(CriteriaCom cri,MemberVO user) {
 		if(cri == null) {
 			cri = new CriteriaCom();
 		}
-	
-		return communityDao.selectBoardList(cri);
+
+		return communityDao.selectBoardList(cri,user);
 	}
 
 	@Override
@@ -124,9 +123,10 @@ public class CommunityServiceImp implements CommunityService{
 		communityDao.insertReply(re_info,co_num, user);
 	}
 
+	@Override
 	public List<ReplyVO> selectReply(int co_num) {
 	    return communityDao.selectReply(co_num);
-	    
+
 	}
 
 	@Override
@@ -147,7 +147,7 @@ public class CommunityServiceImp implements CommunityService{
 
 	@Override
 	public boolean updateCommunity(CommunityVO community, int co_num, MultipartFile[] fileList, int cc_num, MemberVO user, String editImg) {
-		if(community == null || 
+		if(community == null ||
 				community.getCo_title() == null || community.getCo_title().trim().length() == 0 ||
 				community.getCo_info() == null) {
 				return false;
@@ -174,7 +174,7 @@ public class CommunityServiceImp implements CommunityService{
 					if(file == null || file.getOriginalFilename().length() == 0) {
 						continue;
 					}
-					
+
 					try {
 						//원래 파일명
 						String ci_ori_name = file.getOriginalFilename();
@@ -192,7 +192,7 @@ public class CommunityServiceImp implements CommunityService{
 					if(file == null || file.getOriginalFilename().length() == 0) {
 						continue;
 					}
-					
+
 					try {
 						//원래 파일명
 						String ci_ori_name = file.getOriginalFilename();
@@ -207,8 +207,8 @@ public class CommunityServiceImp implements CommunityService{
 				}
 			}
 			return true;
-			
-			 
+
+
 
 		}
 
@@ -225,7 +225,7 @@ public class CommunityServiceImp implements CommunityService{
 	@Override
 	public void increaseLikeCount(int coNum) {
 		communityDao.increaseLikeCount(coNum);
-		
+
 	}
 
 	@Override
@@ -249,8 +249,8 @@ public class CommunityServiceImp implements CommunityService{
 		if(co_num == null) {
 			return false;
 		}else {
-		
-		//게시글 삭제 
+
+		//게시글 삭제
 		communityDao.deleteCom(co_num);}
 		return true;
 	}
@@ -263,7 +263,7 @@ public class CommunityServiceImp implements CommunityService{
 
 	@Override
 	public boolean deleteComImg(int co_num) {
-		
+
 		return communityDao.deleteComImg(co_num);
 	}
 
@@ -272,12 +272,12 @@ public class CommunityServiceImp implements CommunityService{
 		if(re_num == null) {
 			return false;
 		}else {
-		
-		//게시글 삭제 
+
+		//게시글 삭제
 		communityDao.replyDelete(re_num);}
 		return true;
 	}
-	
+
 
 
 

@@ -66,82 +66,82 @@
 	display: flex;
 	margin-top: -5px;
 }
+
+.table_body {
+	min-height: 400px;
+}
 </style>
 </head>
 <body>
 	<section class="hero-area">
 		<div class="container admin">
 			<div class="row">
-				<h2>회원관리</h2>
-				<table class="table">
-					<thead style="height: 50px">
-						<tr>
-							<th>회원 번호</th>
-							<th>ID</th>
-							<th>이름</th>
-							<th>전화번호</th>
-							<th>닉네임</th>
-							<th>포인트</th>
-							<th>권한</th>
-							<th>가입날짜</th>
-							<th>당도</th>
-							<th>계정상태</th>
-							<th>지역(대분류)</th>
-							<th>은행</th>
-							<th>수정</th>
-
-						</tr>
-					</thead>
-					<c:forEach items="${mbList}" var="mbList">
-						<tbody>
+				<div class="table_body">
+					<h2>회원관리</h2>
+					<table class="table">
+						<thead style="height: 50px">
 							<tr>
-								<td>${mbList.me_num}</td>
-								<td>${mbList.me_id}</td>
-								<td>${mbList.me_name}</td>
-								<td>${mbList.me_phone}</td>
-								<td>${mbList.me_nick}</td>
-								<td>${mbList.me_point}</td>
-								<td>${mbList.me_au}</td>
-								<td>${mbList.me_date}</td>
-								<td>${mbList.me_sugar}</td>
-								<td>${mbList.statementVO.st_name}</td>
-								<td>${mbList.cityVO.ci_large}</td>
-								<td>${mbList.bankVO.bk_name}</td>
-								<td><div class="btnWrap">
-										<button type="button" class="popupBtn">수정하기</button>
-									</div>
-									<div class="modalWrap">
-										<div class="modalBody">
-											<span class="closeBtn"></span>
-											<form action="<c:url value='/admin/manager'/>" method="post">
-												<input type="hidden" name="me_num" value="${mbList.me_num}">
-												<select class="form-control" name="me_st_num">
-													<c:forEach items="${StateTypeList}" var="List">
-														<option value="${List.st_num }">${List.st_name }</option>
-													</c:forEach>
-												</select>
-												<button>완료</button>
-											</form>
-										</div>
-									</div></td>
-							</tr>
-						</tbody>
-					</c:forEach>
-				</table>
+								<th>회원 번호</th>
+								<th>ID</th>
 
+								<th>닉네임</th>
+								<th>포인트</th>
+								<th>권한</th>
+								<th>가입날짜</th>
+								<th>당도</th>
+								<th>계정상태</th>
+								<th>지역(대분류)</th>
+								<th>은행</th>
+								<th>수정</th>
+
+							</tr>
+						</thead>
+						<c:forEach items="${mbList}" var="mbList">
+							<tbody>
+								<tr>
+									<td>${mbList.me_num}</td>
+									<td>${mbList.me_id}</td>
+
+									<td>${mbList.me_nick}</td>
+									<td>${mbList.me_point}</td>
+									<td>${mbList.me_au}</td>
+									<td>${mbList.me_date}</td>
+									<td>${mbList.me_sugar}</td>
+									<td>${mbList.statementVO.st_name}</td>
+									<td>${mbList.cityVO.ci_large}</td>
+									<td>${mbList.bankVO.bk_name}</td>
+									<td><div class="btnWrap">
+											<button type="button" class="popupBtn">수정하기</button>
+										</div>
+										<div class="modalWrap">
+											<div class="modalBody">
+												<span class="closeBtn"></span>
+												<form action="<c:url value='/admin/manager'/>" method="post">
+													<input type="hidden" name="me_num" value="${mbList.me_num}">
+													<select class="form-control" name="me_st_num">
+														<c:forEach items="${StateTypeList}" var="List">
+															<option value="${List.st_num }">${List.st_name }</option>
+														</c:forEach>
+													</select>
+													<button>완료</button>
+												</form>
+											</div>
+										</div></td>
+								</tr>
+							</tbody>
+						</c:forEach>
+					</table>
+				</div>
 				<div class="admin-search">
 					<form action="" method="get" class="admin-search-bar">
 						<div class="form-group">
 							<select class="form-control" name="authority">
 								<option value="0"
-									<c:if test="${pm.cri.authority == '0' }">selected</c:if>
-									>전체</option>
+									<c:if test="${pm.cri.authority == '0' }">selected</c:if>>전체</option>
 								<option value="admin"
-									<c:if test="${pm.cri.authority == 'admin' }">selected</c:if>
-									>관리자</option>
+									<c:if test="${pm.cri.authority == 'admin' }">selected</c:if>>관리자</option>
 								<option value="user"
-									<c:if test="${pm.cri.authority == 'user' }">selected</c:if>
-									>회원</option>
+									<c:if test="${pm.cri.authority == 'user' }">selected</c:if>>회원</option>
 							</select>
 						</div>
 						<div class="input-group mb-3">
@@ -151,8 +151,6 @@
 										<c:if test="${pm.cri.type == '0' }">selected</c:if>>전체</option>
 									<option value="me_num"
 										<c:if test="${pm.cri.type == 'me_num' }">selected</c:if>>회원번호</option>
-									<option value="me_name"
-										<c:if test="${pm.cri.type == 'me_name' }">selected</c:if>>이름</option>
 									<option value="me_nick"
 										<c:if test="${pm.cri.type == 'me_nick' }">selected</c:if>>닉네임</option>
 									<option value="me_au"
@@ -207,8 +205,6 @@
 				$(this).hide()
 			}
 		})
-
-	
 	</script>
 
 </body>

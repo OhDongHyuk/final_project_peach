@@ -22,43 +22,46 @@
 	            <c:otherwise>
 					<%-- forEach를 통해 판매상품 리스트를 컨트롤러에서 가져와서 출력 --%>
 					<c:forEach items="${prList}" var="pr">
-						<div class="item">
-							<%-- a태그를 통해 해당 상품 번호의 상세정보로 경로 전달 --%>
-							<a href="<c:url value='/saleboard/detail?sb_num=${pr.sb_num}' />" class="item-holder">
-								<div class="image-holder">
-									<c:choose>
-										<c:when test="${pr.saleImageVOList.size() != 0 }">
-											<img class="item" width="100%" height="194" src="<c:url value='/resources/image/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_name :\"\" }'/>">
-										</c:when>
-										<c:otherwise>
-											<img class="item" width="100%" height="194" src="<c:url value='/resources/image/NoMainImage.png'/>">
-										</c:otherwise>
-									</c:choose>
+					<div class="item-main-holder">
+					<%-- a태그를 통해 해당 상품 번호의 상세정보로 경로 전달 --%>
+					<a href="<c:url value='/saleboard/detail?sb_num=${pr.sb_num}' />" class="item-holder">
+						<div class="image-holder">
+							<c:choose>
+								<c:when test="${pr.saleImageVOList.size() != 0 }">
+									<img class="item" src="<c:url value='/resources/image/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_thb_name :\"\" }'/>">
+								</c:when>
+								<c:otherwise>
+									<img class="item" src="<c:url value='/resources/image/NoMainImage.png'/>">
+								</c:otherwise>
+							</c:choose>
+						</div>
+						<div class="text-holder">
+							<div class="title">
+								${pr.sb_name}
+							</div>	
+							<div class="wish-name">
+								<div class="price-holder">
+									${pr.get_sb_price()}
+								</div>				
+								<div class="wish">
+									<img src="<c:url value="/resources/image/wish-small.png"/>"> <span style="font-size:14px;">${pr.sb_wish}</span>
 								</div>
-								<div class="text-holder">
-									<div class="wish-name">
-										<div class="wish">
-											&#9825; <span style="font-size:14px;">${pr.sb_wish}</span>
-										</div>
-										<div class="title">
-											${pr.sb_name}
-										</div>				
-									</div>
-									<div class="price-holder">
-										${pr.get_sb_price()}
-									</div>
-								</div>
-								<div class="profile-date">
-									<div class="profile">
-										${pr.sb_me_nickname}
-									</div>	
-									<div class="date">
-										${pr.sb_date}
-									</div>
-								</div>
-							</a>
-						</div>			
-					</c:forEach>
+							</div>
+						</div>
+						<div class="profile-date">
+							<div class="profile">
+								${pr.sb_me_nickname}
+							</div>	
+							<div class="date">
+								${pr.get_date()}
+							</div>
+						</div>
+						<div class="city-text">
+									${pr.memberVO.cityVO.ci_small}
+						</div>	
+					</a>
+				</div>			
+				</c:forEach>
 				</c:otherwise>
 			</c:choose>
 		</div>
@@ -126,10 +129,9 @@
 			margin-left: 12px;
 		}
 		.containerboard {
-			width: 100%;
-			height: 800px;
 			display: flex;
 			flex-wrap: wrap;
+			justify-content: flex-start; /* 왼쪽 정렬 */
 			align-items: stretch;
 		}
 		.item-main-holder{
@@ -258,6 +260,16 @@
 			text-align: center;
 			margin-top: 20px;
 			margin-left: 12px;
+		}
+		.city-text {
+			text-align: center;
+			font-size: 14px;
+			font-weight: 400;
+			color: #888888;
+			padding-bottom: 10px;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
 		}
 	</style>
 </html>

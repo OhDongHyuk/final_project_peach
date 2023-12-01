@@ -10,6 +10,8 @@ import kr.ph.peach.vo.ProfileImageVO;
 import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 import kr.ph.peach.vo.SaleCategoryVO;
+import kr.ph.peach.vo.SaleImageVO;
+import kr.ph.peach.vo.SugarListVO;
 
 public interface ProfileDAO {
 
@@ -39,7 +41,7 @@ public interface ProfileDAO {
 
 	void updateText(@Param("user")MemberVO user,@Param("pf_text") String pf_text);
 
-	ProfileVO selectPfText(MemberVO user);
+	ProfileVO selectPfText(int meNum);
 
 	List<ProfileVO> getPF(MemberVO user);
 
@@ -67,9 +69,26 @@ public interface ProfileDAO {
 
 	int selectPoint(@Param("me_num")int me_num);
 
-	List<String> selectBuy(@Param("me_num")int me_num);
+	List<SaleBoardVO> selectBuy(@Param("me_num")int me_num);
 
-	List<String> selectSel(@Param("me_num")int me_num);
+	List<SaleBoardVO> selectSel(@Param("me_num")int me_num);
 
+	List<SaleBoardVO> selectProceeding(@Param("me_num")int me_num);
+
+	MemberVO getUserById(String me_id);
+
+	CityVO selectUserCity(MemberVO user);
+
+	void insertReport(@Param("sugarList") SugarListVO sugarList,@Param("user") MemberVO user);
+
+	SugarListVO selectSugar(@Param("sugarList") SugarListVO sugarList,@Param("user") MemberVO user);
+
+	int selectTrTqNum(int sb_num);
+
+	Integer selectSugarContent(int meNum);
+
+	void updateSugar(@Param("sugarContent")Integer sugarContent,@Param("meNum") int meNum);
+
+	int selectSellUser(@Param("sugarList")SugarListVO sugarList);
 	
 }

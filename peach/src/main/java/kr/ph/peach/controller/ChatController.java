@@ -11,21 +11,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import kr.ph.peach.service.ChatService;
+import kr.ph.peach.service.ProfileService;
 import kr.ph.peach.service.SaleBoardService;
 import kr.ph.peach.util.Message;
 import kr.ph.peach.vo.ChatVO;
 import kr.ph.peach.vo.MemberVO;
 import kr.ph.peach.vo.MessageVO;
+import kr.ph.peach.vo.ProfileImageVO;
+import kr.ph.peach.vo.ProfileVO;
 import kr.ph.peach.vo.SaleBoardVO;
 
 
 @Controller
 @RequestMapping("/chat")
 public class ChatController {
-	
+
 	@Autowired
 	SaleBoardService saleBoardService;
+
+	@Autowired
+	ProfileService profileService;
 	
 	@Autowired
 	ChatService chatService;	
@@ -51,7 +58,7 @@ public class ChatController {
 			return "message";
 		}
 		ChatVO chat = chatService.selectChat(sb_num, user.getMe_num());
-		if(sb_num != 0 && saleBoard.getSb_ss_num() != 3) {			
+		if(sb_num != 0 && saleBoard.getSb_ss_num() != 3) {
 			if(chat == null && saleBoard.getSb_me_num() != user.getMe_num()){
 				chatService.insertChat(sb_num, user.getMe_num());
 				chat = chatService.selectChat(sb_num, user.getMe_num());
@@ -64,13 +71,25 @@ public class ChatController {
 			chatList.get(chatList.indexOf(tmp)).setCh_buyer_nickname(chatService.selectbuyerNickName(tmp.getCh_me_num()));
 			chatList.get(chatList.indexOf(tmp)).setCh_sb_name(chatService.selectSbName(tmp.getCh_sb_num()));
 			chatList.get(chatList.indexOf(tmp)).setMessageVO(messageVO);
+			if(tmp.getCh_me_num() == user.getMe_num()) {
+				ProfileVO profile = profileService.selectProfile(tmp.getCh_sel_me_num());
+				ProfileImageVO proImg = profileService.selectImg(profile.getPf_num());
+				chatList.get(chatList.indexOf(tmp)).setPi_name(proImg == null ? null : proImg.getPi_name());				
+			} else {
+				ProfileVO profile = profileService.selectProfile(tmp.getCh_me_num());
+				ProfileImageVO proImg = profileService.selectImg(profile.getPf_num());
+				chatList.get(chatList.indexOf(tmp)).setPi_name(proImg == null ? null : proImg.getPi_name());	
+			}
 		}
+		
+		System.out.println("chatList " + chatList);
+		//프로파일 넘버로 프로파일 이미지 가져오기
 		model.addAttribute("chatList", chatList);
 		model.addAttribute("user", user);
 		model.addAttribute("sb_num", sb_num);
 		return "/chat/chat";
 	}
-	
+
 	@GetMapping("/chat-list")
 	public String chatList(Model model, HttpSession session, Integer sb_num) {
 		MemberVO user = (MemberVO) session.getAttribute("user");
@@ -94,13 +113,22 @@ public class ChatController {
 				chatList.get(chatList.indexOf(tmp)).setCh_buyer_nickname(chatService.selectbuyerNickName(tmp.getCh_me_num()));
 				chatList.get(chatList.indexOf(tmp)).setCh_sb_name(chatService.selectSbName(tmp.getCh_sb_num()));
 				chatList.get(chatList.indexOf(tmp)).setMessageVO(messageVO);
+				if(tmp.getCh_me_num() == user.getMe_num()) {
+					ProfileVO profile = profileService.selectProfile(tmp.getCh_sel_me_num());
+					ProfileImageVO proImg = profileService.selectImg(profile.getPf_num());
+					chatList.get(chatList.indexOf(tmp)).setPi_name(proImg == null ? null : proImg.getPi_name());				
+				} else {
+					ProfileVO profile = profileService.selectProfile(tmp.getCh_me_num());
+					ProfileImageVO proImg = profileService.selectImg(profile.getPf_num());
+					chatList.get(chatList.indexOf(tmp)).setPi_name(proImg == null ? null : proImg.getPi_name());	
+				}
 			}		
 			model.addAttribute("chatList", chatList);
 		}
 		model.addAttribute("user", user);
 		return "/chatsub/chat-list";
 	}
-	
+
 	@GetMapping("/message-list")
 	public String messageList(Model model, HttpSession session, int ch_num) {
 		MemberVO user = (MemberVO) session.getAttribute("user");
@@ -123,7 +151,7 @@ public class ChatController {
 		model.addAttribute("board", saleBoard);
 		return "/chatsub/message-list";
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/message-send")
 	public void messageSend(Model model, HttpSession session, int ch_num, String info) {

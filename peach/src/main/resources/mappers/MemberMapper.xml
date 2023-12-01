@@ -53,11 +53,6 @@
 			select="selectBankList" />
 	</resultMap>
 
-
-	<!-- <collection property="saleBoardVO" ofType="kr.ph.peach.vo.SaleBoardVO" 
-		column="wi_sb_num" select="selectsaleBoardWishList" /> -->
-
-
 	<insert id="insertMember" useGeneratedKeys="true" keyProperty="member.me_num">
 		insert into
 			member(me_id, me_pw, me_name, me_acc, me_phone, me_nick, me_ci_num, me_bk_name)
@@ -235,13 +230,13 @@
 	<update id="addPoints">
 		update member set me_point = me_point + #{paidAmount} where me_num = #{me_num}
 	</update>
+	<insert id="addPointHistory">
+		insert into point_history(ph_me_num, ph_point, ph_date, ph_info)
+		values(#{me_num}, #{paidAmount}, NOW(), "피치페이 충전")		
+	</insert>
 	<select id="getMemberById" resultType="kr.ph.peach.vo.MemberVO">
 		select * from member where me_num = #{me_num}
 	</select>
-
-	<delete id="deleteMember">
-		DELETE from member WHERE me_id = #{user.me_id};
-	</delete>
 	<select id="selectMemberID" resultMap="MemberVO">
 		select * from member where me_id = #{kakaoname};
 	</select>
@@ -266,5 +261,24 @@
 	
 	<select id="getMemberLists" resultType="MemberVO">
 		select * from member
-	</select>
+	</select>	
+	<insert id="reducePointHistory">
+		insert into point_history(ph_me_num, ph_point, ph_date, ph_info)
+		values(#{me_num}, -#{pp_point}, NOW(), "구매 신청")	
+	</insert>
+	<insert id="deleteReducePointHistory">
+		INSERT INTO point_history (ph_me_num, ph_point, ph_date, ph_info)
+		VALUES (
+		    (SELECT tq_me_num FROM trading_request WHERE tq_num = #{tq_num}),
+		    (SELECT sb_price FROM sale_board WHERE sb_num = (SELECT tq_sb_num FROM trading_request WHERE tq_num = #{tq_num})),
+		    NOW(),
+		    '거래 거절'
+		);
+	</insert>
+	<update id="deleteMember">
+		update member 
+		set me_id = #{member.me_num}, me_name= #{member.me_num},
+		me_phone =#{member.me_num} , me_nick = #{member.me_num}
+		where me_id = #{member.me_id};
+	</update>
 </mapper>

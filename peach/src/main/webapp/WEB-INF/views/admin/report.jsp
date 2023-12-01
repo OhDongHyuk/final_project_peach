@@ -76,53 +76,54 @@
 	background-color: #fff;
 	border: none;
 }
+.table_body {
+	min-height: 400px;
+}
 </style>
 </head>
 <body>
 	<section class="hero-area">
 		<div class="container admin">
 			<div class="row">
-				<h2>신고관리</h2>
-				<table class="table">
-					<thead style="height: 50px">
-						<tr>
-							<th>신고 번호</th>
-							<th>신고 날짜</th>
-							<th>신고자 닉네임</th>
-							<th>신고된 테이블</th>
-							<th>신고 게시글번호</th>
-							<th>신고 사유 보기</th>
-							<th>신고 삭제</th>
-						</tr>
-					</thead>
+				<div class="table_body">
+					<table class="table">
+						<thead style="height: 50px">
+							<tr>
+								<th>신고 번호</th>
+								<th>신고 날짜</th>
+								<th>신고자 닉네임</th>
+								<th>신고 게시글번호</th>
+								<th>신고 사유 보기</th>
+								<th>신고 삭제</th>
+							</tr>
+						</thead>
 						<c:forEach items="${report}" var="report">
-						<c:if test="${report.rp_table == 'sale_board'}">
-							<tbody>
-								<tr>
-									<td>${report.rp_num}</td>
-									<td>${report.rp_date}</td>
-									<td>${report.memberVO.me_nick}</td>
-									<td>sale_board</td>
-									<td><a
-										href="<c:url value='/saleboard/detail?sb_num=${report.rp_key}' />">${report.rp_key}</a></td>
-									<td>
-										<div class="btnWrap">
-											<button type="button" class="popupBtn">신고내용보기</button>
-										</div>
-										<div class="modalWrap">
-											<div class="modalBody">
-												<span class="closeBtn"></span> ${report.rp_info }
+							<c:if test="${report.rp_table == '1'}">
+								<tbody>
+									<tr>
+										<td>${report.rp_num}</td>
+										<td>${report.rp_date}</td>
+										<td>${report.memberVO.me_nick}</td>
+										<td><a
+											href="<c:url value='/saleboard/detail?sb_num=${report.rp_key}' />">${report.rp_key}</a></td>
+										<td>
+											<div class="btnWrap">
+												<button type="button" class="popupBtn">신고내용보기</button>
 											</div>
-										</div>
-									</td>
-									<td><button onclick="deleteReport(${report.rp_num})"
-											class="btn-white-delete">신고 삭제</button></td>
-								</tr>
-							</tbody>
-						</c:if>
-					</c:forEach>
-				</table>
-
+											<div class="modalWrap">
+												<div class="modalBody">
+													<span class="closeBtn"></span> ${report.rp_info }
+												</div>
+											</div>
+										</td>
+										<td><button onclick="deleteReport(${report.rp_num})"
+												class="btn-white-delete">신고 삭제</button></td>
+									</tr>
+								</tbody>
+							</c:if>
+						</c:forEach>
+					</table>
+				</div>
 				<div class="admin-search">
 					<form action="" method="get" class="admin-search-bar">
 						<div class="input-group mb-3">

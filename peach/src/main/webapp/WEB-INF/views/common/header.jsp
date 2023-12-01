@@ -3,7 +3,7 @@
 	pageEncoding="utf-8"%>
 <header class="header navbar-area">
 	<!-- 헤더 탑-->
-	<div class="topbar">
+	<div class="topbar navbar-area">
 		<div class="container">
 			<div class="row align-items-center">
 				<div class="col-lg-4 col-md-4 col-12">
@@ -18,8 +18,8 @@
 				<div class="col-lg-4 col-md-4 col-12">
 					<div class="top-middle">
 						<ul class="useful-links">
-							<li><a href="<c:url value='/'/>">중고 거래</a></li>
-							<li><a href="<c:url value='/board/community'/>">피치 게시판</a></li>
+							<li><a href="<c:url value='/'/>">피치 마켓</a></li>
+							<li><a href="<c:url value='/board/community'/>">우리동네 생활</a></li>
 						</ul>
 					</div>
 				</div>				<div class="col-lg-4 col-md-4 col-12">
@@ -41,7 +41,7 @@
 								</c:if>
 								<c:if test="${user.me_social != 'normal' }">
 									<li class="inner-item"><a
-										href="<c:url value='/kakao/logout'/>"> 소셜로그아웃하기</a></li>
+										href="<c:url value='/kakao/logout'/>"> 로그아웃</a></li>
 									<li class="inner-item"><a
 										href="<c:url value='/kakao/withdraw'/>" onclick="return confirm('회원탈퇴시 계정정보가 전부 없어집니다.');">회원탈퇴</a></li>
 								</c:if>
@@ -51,7 +51,7 @@
 								</c:if>
 							<c:if test="${user != null && user.me_au == 'admin' }">
 								<li class="inner-item"><a
-									href="<c:url value='/admin/home'/>">관리자 메뉴</a></li>
+									href="<c:url value='/admin/manager'/>">관리자 메뉴</a></li>
 							</c:if>
 						</ul>
 					</div>
@@ -62,52 +62,65 @@
 
 	<script type="text/javascript">
 		function reloadNotifications() {
-			$
-					.ajax({
+			$.ajax({
 						method : 'post',
 						url : '<c:url value="/common/header"/>',
 						contentType : 'application/json; charset=utf-8',
 						dataType : 'json',
 						success : function(map) {
 							console.log(map)
-							if (map.trList.length === 0) {
+							if (map.trList.length === 0 && map.tmList.length === 0) {
 								$('#notificationBox').html(
 										'<p>최근 알림이 없습니다.</p>');
 							} else {
 								var notificationList = map.trList;
+								var notificationListM = map.tmList;
 								var notificationBoxContent = '';
+								$.each(notificationList, function(index, item) {
+										console.log(item);
+										console.log(item.saleBoardVO);
+										var imageSrc = item.saleBoardVO.saleImageVOList.length !== 0 ? item.saleBoardVO.saleImageVOList[0].si_name
+												: '';
+										console.log(imageSrc)
+										notificationBoxContent += '<div class="notifi-small">'
+												+ '<img class="notifi-img"  src="/peach/resources/image/' + imageSrc + '">'
+												+ '<a href="<c:url value="/saleboard/detail?sb_num=' + item.saleBoardVO.sb_num + '"/>">'
+												+ '<div class="productName">'
+												+ item.saleBoardVO.sb_name
+												+ '</div>'
+												+ '</a>'
+												+ '</br>'
+												+ '<a href="<c:url value="/board/profile/' + item.memberVO.me_num + '"/>">'
+												+ '<div class="userNick">'
+												+ item.memberVO.me_nick
+												+ '</div>'
+												+ '</a>'
+												+ '<div class="notifi-btnbox">'
+												+ '<button class="notifi-btn accept" onclick="acception('
+												+ item.tq_num
+												+ ')">수락</button>'
+												+ '<button class="notifi-btn reject" onclick="rejection('
+												+ item.tq_num
+												+ ')">거절</button>'
+												+ '</div>'
+												+ '</div>';
 
-								$
-										.each(
-												notificationList,
-												function(index, item) {
-													console.log(item);
-													console
-															.log(item.saleBoardVO);
-													var imageSrc = item.saleBoardVO.saleImageVOList.length !== 0 ? item.saleBoardVO.saleImageVOList[0].si_name
-															: '';
-													console.log(imageSrc)
-													notificationBoxContent += '<div class="notifi-small">'
-															+ '<img class="notifi-img"  src="/peach/resources/image/' + imageSrc + '">'
-															+ '<h3>'
-															+ item.saleBoardVO.sb_name
-															+ '</h3>'
-															+ '</br>'
-															+ '<h3 a>'
-															+ item.memberVO.me_id
-															+ '</h3>'
-															+ '<div class="notifi-btnbox">'
-															+ '<button class="notifi-btn accept" onclick="acception('
-															+ item.tq_num
-															+ ')">수락</button>'
-															+ '<button class="notifi-btn reject" onclick="rejection('
-															+ item.tq_num
-															+ ')">거절</button>'
-															+ '</div>'
-															+ '</div>';
-
-												});
-
+								});
+								$.each(notificationListM, function(index, item) {
+								    notificationBoxContent += '<div class="notifi-small">'
+								        + '<a href="<c:url value="/saleboard/detail?sb_num=' + item.tm_sb_num + '"/>">'
+								        + '<div class="productName">'
+								        + item.tm_sb_num + '번' + item.tm_info
+								        + '</div>'
+								        + '</a>'
+								        + '</br>'
+								        + '<div class="notifi-btnbox">'
+								        + '<button class="notifi-btn confirmT" onclick="confirmT('
+								        + item.tm_num
+								        + ')">확인</button>'								        
+								        + '</div>'
+								        + '</div>';
+								});
 								$('#notificationBox').html(
 										notificationBoxContent);
 							}
@@ -126,6 +139,29 @@
 			});
 		});
 
+		function confirmT(tm_num) {
+			$.ajax({
+				method : 'post',
+				url : '<c:url value="/common/confirmT"/>', // 수정이 필요한 부분
+				data : {
+					tm_num : tm_num
+				},
+				dataType : 'json',
+				success : function(map) {
+					// 성공 시 수락 처리 후 작업
+					alert('메세지를 확인하였습니다.');
+					var url = `/peach`;
+					window.location.href = url;
+
+				},
+				error : function(xhr, status, error) {
+					console.log('오류 발생:', error);
+					// 오류 처리 로직
+				}
+			});
+		}
+		
+		
 		function acception(tq_num) {
 			// 여기에 '수락' 버튼에 대한 로직을 추가
 			// 예를 들어, '수락' 버튼이 클릭되었을 때 해야 할 일을 작성
@@ -179,32 +215,32 @@
 				}
 			});
 		}
+		
 	</script>
 </header>
 <style>
 	.notifi-alarm {
-	   position: absolute;
-	   width: 400px;
-	   height: 300px;
-	   overflow-y: auto;
-	   top: 100%;
-	   left: calc(50% - 200px);
-	   border: 1px solid black;
-	   background: rgb(249, 249, 249);
-	   display: none;
+		position: absolute;
+		width: 400px;
+		max-height: 300px;
+		overflow-y: auto;
+		top: 100%;
+		left: calc(50% - 200px);
+		border: 1px solid #ccc;
+		background: #fff;
+		display: none;
 		flex-wrap: nowrap; /* 요소가 넘치는 경우 줄 바꿈 방지 */
 		align-items: center; /* 수직 가운데 정렬 */
-		justify-content: flex-start; /		
+		justify-content: flex-start;	
 	}
 	.notifi-small{
 		width: 100%;
-		height: 100px;
 		display: flex;
-		border-bottom: 1px solid #000;
+		border-bottom: 1px solid #ccc;
 	}
 	.notifi-img{
-		width: 25%;
-		height: 99px;
+		width: 50px;
+		height: 50px;
 		flex: 0 0 auto; /* Flex 아이템의 크기를 유지 */ 		
 	}
 	header.a{z-index: 99}
@@ -213,42 +249,62 @@
 	    text-align: center;
 	}
 	.notifi-btnbox {
-	    height: calc((100% - 10px) / 3);
-	    margin-top: 5px;
 	    display: flex;
-	    flex-direction: column; /* 요소를 세로(위아래)로 배치합니다 */
+	    justify-content: flex-end;
     	align-items: center; 
 	}
 	.notifi-btn.accept{
 		background-color: #4CAF50; /* 자연스러운 초록색 */
+		margin-right: 5px;
 	    color: white; /* 글자색을 밝게 설정 */
 	    border: none; /* 테두리 제거 */
-	    padding: 10px 20px; /* 내부 여백 설정 */
+	    padding: 5px 10px; /* 내부 여백 설정 */
 	    text-align: center; /* 텍스트 중앙 정렬 */
 	    text-decoration: none; /* 링크의 밑줄 제거 */
 	    display: inline-block; /* 인라인 요소로 표시 */
-	    font-size: 16px; /* 폰트 크기 조정 */
+	    font-size: 14px; /* 폰트 크기 조정 */
 	    border-radius: 5px; /* 둥근 모서리 설정 */
 	    transition-duration: 0.4s; /* 변경에 애니메이션 효과 추가 */
 	    cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능하게 함 */
 	}
 	.notifi-btn.reject{
 		background-color: #b30000;
+		margin-right: 5px;
 	    color: white; /* 글자색을 밝게 설정 */
 	    border: none; /* 테두리 제거 */
-	    padding: 10px 20px; /* 내부 여백 설정 */
+	    padding: 5px 10px; /* 내부 여백 설정 */
 	    text-align: center; /* 텍스트 중앙 정렬 */
 	    text-decoration: none; /* 링크의 밑줄 제거 */
 	    display: inline-block; /* 인라인 요소로 표시 */
-	    font-size: 16px; /* 폰트 크기 조정 */
+	    font-size: 14px; /* 폰트 크기 조정 */
 	    border-radius: 5px; /* 둥근 모서리 설정 */
 	    transition-duration: 0.4s; /* 변경에 애니메이션 효과 추가 */
 	    cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능하게 함 */
 	}
 	.notifi-small > * {
-    border-right: 1px solid black; /* 각 자식 요소 사이에 오른쪽에 1px 두께의 검은색 선 추가 */
+   
 	}
 	.menu-top-link {
 		color: #fff;
+	}
+	.productName {
+		width: 140px;
+		height: 50px;
+		line-height: 50px;
+		margin: 0 5px;
+		text-align: center;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space:nowrap;
+	}
+	.userNick {
+		width: 90px;
+		height: 50px;
+		line-height: 50px;
+		padding: 0 5px;
+		text-align: center;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space:nowrap;
 	}
 </style>
