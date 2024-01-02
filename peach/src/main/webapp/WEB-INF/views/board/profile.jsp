@@ -24,7 +24,7 @@
             margin: 15% auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 80%;
+            width: 300px;
         }
 
         .close {
@@ -486,6 +486,25 @@
 		margin-left: auto;
 		margin-right: auto;
 	}
+	.price-holder2 {
+		position:relative;
+		margin-left: 5px;
+    	border: 1px solid #ced4da;
+    	border-radius: 0.25rem; 
+    	width: 150px; 
+    	height: 30px;
+    }
+    .price-holder2::after {
+    	line-height: 30px;
+    	content: '원';
+    	font-size: 16px;
+    	font-weight: 400;
+    	padding-right: 5px;
+    	color: rgb(153, 153, 153);
+    	position: absolute;
+    	top: 0;
+    	right:0;
+    }
 </style>
 <body>
 <div class="all-profile">
@@ -597,7 +616,12 @@
 				</div>			
 				</c:forEach>
 				</c:if>
-				</div>
+				<c:if test="${empty salingProducts}">
+			         <div class="empty_product_box">
+			            <p class="empty_product">판매중인 상품이 없습니다.</p>
+			         </div>
+			    </c:if>
+			</div>
 	<div id="sellcbox">
 		<c:if test="${proceeding.size() != 0 }">
 		<c:forEach var="proceeding" items="${proceeding}">
@@ -782,9 +806,14 @@
 	    <div class="modal-content">
 	        <span class="close" onclick="closeModal()">&times;</span>
 	        <!-- 모달 내용 -->
-	        <label for="amount">충전 금액:</label>
-	        <input type="number" id="userInputAmount" placeholder="2000원 이상 충전 가능합니다." />
-	        <button id="peachTrade" data-me-num="${user}">충전</button>
+	        <div style="margin: 0 auto; margin-top:20px; display:flex;">	        
+		        <span style="font-size: 16px; line-height:30px;">충전금액 : </span>
+		        <div class="price-holder2">
+			        <input style="font-size: 16px; width: 130px; height: 100%; padding-right: 5px; text-align: right; border:none;" type="text" id="userInputAmount" maxlength="13" />		        
+		        </div>
+	        </div>
+	        	<span style="margin: 0 auto; font-size: 14px; color: red;">* 최소 충전금액은 2,000원 입니다.</span>
+	        <button style="margin: 0 auto; margin-top: 20px; width: 170px; height:50px; background-color: #f76076; color: #fff; border: none; border-radius: 5px;" id="peachTrade" data-me-num="${user}">충전하기</button>
 	    </div>
 	</div>
 <br>
@@ -985,14 +1014,35 @@ window.onclick = function(event) {
     }
 };
 
+var replaceNotInt = /[^0-9]/gi;
+
+$(document).ready(function() {
+	$("#userInputAmount").on("input", function() {
+	    var x = $(this).val();
+	    if (x.length > 0) {
+	        if (x.match(replaceNotInt)) {
+	           x = x.replace(replaceNotInt, "");
+	        }
+	        x = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            $(this).val(x);
+	    }
+	});
+});
+
 //피치페이 충전
 $(document).ready(function() {
-    $('#peachTrade').on('click', function() {		    	
+    $('#peachTrade').on('click', function() {
+    	
+    	var comma = /,/g;
+        
+    	let x = $("#userInputAmount").val(); 
+	    x = x.replace(comma, "");
+    	
         var IMP = window.IMP; 
         IMP.init("imp41345184"); 
-        var inputAmount = document.getElementById('userInputAmount').value; // 사용자가 입력한 결제할 금액 (임의로 '1111'로 설정)
+        var inputAmount = x; // 사용자가 입력한 결제할 금액 (임의로 '1111'로 설정)
         var minimumAmount = '2000'; // 최소 결제 금액 (예시로 5000원으로 설정)
-
+        
         if (parseInt(inputAmount) < minimumAmount) {
             // 최소 결제 금액 미만인 경우 최소 금액으로 설정
             inputAmount = minimumAmount.toString();

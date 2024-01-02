@@ -430,6 +430,12 @@ public class MemberServiceImp implements MemberService {
 		return memberDao.deleteMember(member);
 
 	}
+
+	@Override
+	public void withdrawPointHistory(int me_num, int wMoney) {
+		memberDao.withdrawPointHistory(me_num, wMoney);
+		
+	}
 	
 	
 

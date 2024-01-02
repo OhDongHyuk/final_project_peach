@@ -287,7 +287,7 @@
 						<div class="image-holder">
 							<c:choose>
 								<c:when test="${pr.saleImageVOList.size() != 0 }">
-									<img class="item" src="<c:url value='/resources/image/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_thb_name :\"\" }'/>">
+									<img class="item" src="<c:url value='/img/${pr.saleImageVOList.size() != 0 ? pr.saleImageVOList.get(0).si_thb_name :\"\" }'/>">
 								</c:when>
 								<c:otherwise>
 									<img class="item" src="<c:url value='/resources/image/NoMainImage.png'/>">

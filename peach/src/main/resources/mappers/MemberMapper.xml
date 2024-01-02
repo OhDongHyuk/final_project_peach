@@ -281,4 +281,8 @@
 		me_phone =#{member.me_num} , me_nick = #{member.me_num}
 		where me_id = #{member.me_id};
 	</update>
+	<insert id="withdrawPointHistory">
+		insert into point_history(ph_me_num, ph_point, ph_date, ph_info)
+		values(#{me_num}, -#{wMoney}, NOW(), "출금")	
+	</insert>
 </mapper>

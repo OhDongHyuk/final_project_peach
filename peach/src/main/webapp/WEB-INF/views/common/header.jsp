@@ -34,7 +34,12 @@
 							</c:if>
 							<c:if test="${user != NULL }">
 								<li class="inner-item"><a href="#" id="notificationLink">알림</a></li>
-								<div class="notifi-alarm" id="notificationBox"></div>
+								<c:if test="${user.me_au == 'user' }">
+									<div class="notifi-alarm" id="notificationBox"></div>
+								</c:if>
+								<c:if test="${user.me_au == 'admin' }">
+									<div class="notifi-alarm2" id="notificationBox"></div>
+								</c:if>
 								<c:if test="${user.me_social == 'normal' }">
 									<li class="inner-item"><a
 										href="<c:url value='/member/logout'/>">로그아웃</a></li>
@@ -107,9 +112,9 @@
 
 								});
 								$.each(notificationListM, function(index, item) {
-								    notificationBoxContent += '<div class="notifi-small">'
+								    notificationBoxContent += '<div class="notifi-small confirmbox">'
 								        + '<a href="<c:url value="/saleboard/detail?sb_num=' + item.tm_sb_num + '"/>">'
-								        + '<div class="productName">'
+								        + '<div class="productName2">'
 								        + item.tm_sb_num + '번' + item.tm_info
 								        + '</div>'
 								        + '</a>'
@@ -223,8 +228,20 @@
 		position: absolute;
 		width: 400px;
 		max-height: 300px;
-		overflow-y: auto;
-		top: 100%;
+		top: 130%;
+		left: calc(50% - 200px);
+		border: 1px solid #ccc;
+		background: #fff;
+		display: none;
+		flex-wrap: nowrap; /* 요소가 넘치는 경우 줄 바꿈 방지 */
+		align-items: center; /* 수직 가운데 정렬 */
+		justify-content: flex-start;	
+	}
+	.notifi-alarm2 {
+		position: absolute;
+		width: 400px;
+		max-height: 300px;
+		top: 130%;
 		left: calc(50% - 200px);
 		border: 1px solid #ccc;
 		background: #fff;
@@ -236,7 +253,14 @@
 	.notifi-small{
 		width: 100%;
 		display: flex;
-		border-bottom: 1px solid #ccc;
+		padding: 5px;
+		border-bottom: 1px solid #e8e8e8;
+	}
+	.notifi-small:last-child{
+		width: 100%;
+		display: flex;
+		padding: 5px;
+		border-bottom: none;
 	}
 	.notifi-img{
 		width: 50px;
@@ -252,6 +276,30 @@
 	    display: flex;
 	    justify-content: flex-end;
     	align-items: center; 
+	}
+	.notifi-alarm {
+		border-radius: 5px;
+	}
+	.notifi-alarm2 {
+		border-radius: 5px;
+	}
+	.notifi-alarm:after{
+		content:"";
+		position:absolute;
+		top: -7px;
+		left: 232px;
+		border-left: 5px solid transparent; 
+		border-right: 5px solid transparent; 
+		border-bottom: 7px solid #fff;
+	}
+	.notifi-alarm2:after{
+		content:"";
+		position:absolute;
+		top: -7px;
+		left: 144px;
+		border-left: 5px solid transparent; 
+		border-right: 5px solid transparent; 
+		border-bottom: 7px solid #fff;
 	}
 	.notifi-btn.accept{
 		background-color: #4CAF50; /* 자연스러운 초록색 */
@@ -281,6 +329,21 @@
 	    transition-duration: 0.4s; /* 변경에 애니메이션 효과 추가 */
 	    cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능하게 함 */
 	}
+	.notifi-btn.confirmT{
+		background-color: #0d6efd;
+		margin-right: 5px;
+		margin-left: 30px;
+	    color: white; /* 글자색을 밝게 설정 */
+	    border: none; /* 테두리 제거 */
+	    padding: 5px 10px; /* 내부 여백 설정 */
+	    text-align: center; /* 텍스트 중앙 정렬 */
+	    text-decoration: none; /* 링크의 밑줄 제거 */
+	    display: inline-block; /* 인라인 요소로 표시 */
+	    font-size: 14px; /* 폰트 크기 조정 */
+	    border-radius: 5px; /* 둥근 모서리 설정 */
+	    transition-duration: 0.4s; /* 변경에 애니메이션 효과 추가 */
+	    cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능하게 함 */
+	}
 	.notifi-small > * {
    
 	}
@@ -293,6 +356,16 @@
 		line-height: 50px;
 		margin: 0 5px;
 		text-align: center;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space:nowrap;
+	}
+	.productName2 {
+		width: 300px;
+		height: 50px;
+		line-height: 50px;
+		margin: 0 5px;
+		text-align: left;
 		overflow: hidden;
 		text-overflow:ellipsis;
 		white-space:nowrap;
